@@ -63,6 +63,7 @@ services:
             OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
             OBJECTSTORE_S3_PORT: 9000
             OBJECTSTORE_S3_SSL: 'false'
+            OBJECTSTORE_S3_USEPATH_STYLE: 'true'
         volumes:
             -   type: bind
                 source: /opt/astra50/nextcloud/data
