@@ -35,12 +35,12 @@ services:
                 delay: 5s
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-keycloak.rule=Host(`auth.astra50.ru`)"
-                - "traefik.http.routers.automagistre-keycloak.entrypoints=websecure"
-                - "traefik.http.routers.automagistre-keycloak.tls=true"
-                - "traefik.http.routers.automagistre-keycloak.tls.certresolver=leresolver"
-                - "traefik.http.services.automagistre-keycloak-service.loadbalancer.server.port=8080"
-                - "traefik.http.services.automagistre-keycloak-service.loadbalancer.server.scheme=http"
+                - "traefik.http.routers.astra50-keycloak.rule=Host(`auth.astra50.ru`)"
+                - "traefik.http.routers.astra50-keycloak.entrypoints=websecure"
+                - "traefik.http.routers.astra50-keycloak.tls=true"
+                - "traefik.http.routers.astra50-keycloak.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
+                - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
 
 networks:
     default:
