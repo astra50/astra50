@@ -12,7 +12,7 @@ services:
 
     keycloak:
         image: jboss/keycloak:15.0.1
-        command: ["-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled"]
+        command: [ "-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled" ]
         environment:
             DB_VENDOR: POSTGRES
             DB_ADDR: postgres
@@ -41,6 +41,81 @@ services:
                 - "traefik.http.routers.astra50-keycloak.tls.certresolver=leresolver"
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
+
+    nextcloud:
+        image: nextcloud:22.1.0-apache
+        environment:
+            POSTGRES_DB: nextcloud
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_HOST: postgres
+            REDIS_HOST: redis
+            NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
+            NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
+            SMTP_HOST: ${SMTP_HOST}
+            SMTP_SECURE: ssl
+            SMTP_NAME: ${SMTP_USERNAME}
+            SMTP_PASSWORD: ${SMTP_PASSWORD}
+            MAIL_FROM_ADDRESS: cloud@astra50.ru
+            OBJECTSTORE_S3_HOST: minio
+            OBJECTSTORE_S3_BUCKET: nextcloud
+            OBJECTSTORE_S3_KEY: ${MINIO_ACCESS_KEY}
+            OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
+            OBJECTSTORE_S3_PORT: 9000
+            OBJECTSTORE_S3_SSL: false
+        volumes:
+            -   type: bind
+                source: /opt/astra50/nextcloud/data
+                target: /var/www/html
+        networks:
+            - default
+            - traefik
+        deploy:
+            mode: global
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-nextcloud.rule=Host(`cloud.astra50.ru`)"
+                - "traefik.http.routers.astra50-nextcloud.entrypoints=websecure"
+                - "traefik.http.routers.astra50-nextcloud.tls=true"
+                - "traefik.http.routers.astra50-nextcloud.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.port=80"
+                - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.scheme=http"
+
+    redis:
+        image: redis:6.2.5-alpine
+        volumes:
+            -   type: bind
+                source: /opt/astra50/redis/data
+                target: /data
+        deploy:
+            update_config:
+                order: stop-first
+
+    minio:
+        image: minio/minio:RELEASE.2021-08-25T00-41-18Z
+        command: minio server /data
+        environment:
+            MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+            MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+        volumes:
+            -   type: bind
+                source: /opt/astra50/minio/data
+                target: /data
+        deploy:
+            update_config:
+                order: stop-first
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+            interval: 30s
+            timeout: 20s
+            retries: 3
 
 networks:
     default:
