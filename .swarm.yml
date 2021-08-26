@@ -124,7 +124,7 @@ services:
                 - "traefik.http.routers.astra50-minio.entrypoints=websecure"
                 - "traefik.http.routers.astra50-minio.tls=true"
                 - "traefik.http.routers.astra50-minio.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-minio-service.loadbalancer.server.port=9000"
+                - "traefik.http.services.astra50-minio-service.loadbalancer.server.port=9001"
                 - "traefik.http.services.astra50-minio-service.loadbalancer.server.scheme=http"
         healthcheck:
             test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
