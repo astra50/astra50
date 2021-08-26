@@ -27,7 +27,6 @@ services:
             - default
             - traefik
         deploy:
-            mode: global
             update_config:
                 order: stop-first
                 failure_action: rollback
@@ -72,7 +71,6 @@ services:
             - default
             - traefik
         deploy:
-            mode: global
             update_config:
                 order: start-first
                 failure_action: rollback
