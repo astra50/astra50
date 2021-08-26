@@ -112,6 +112,9 @@ services:
             -   type: bind
                 source: /opt/astra50/minio/data
                 target: /data
+        networks:
+            - default
+            - traefik
         deploy:
             update_config:
                 order: stop-first
