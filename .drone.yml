@@ -1,0 +1,30 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+clone:
+    depth: 1
+
+steps:
+    -   name: deploy
+        image: automagistre/docker-compose:stable
+        volumes:
+            -   name: env
+                path: /drone/src/.env
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
+        when:
+            branch:
+                - master
+                - rc
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+    -   name: env
+        host:
+            path: /opt/secrets/astra50

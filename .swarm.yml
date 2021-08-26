@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+    postgres:
+        image: postgres:13.3
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - /opt/astra50/postgres/data:/var/lib/postgresql/data
+
+    keycloak:
+        image: jboss/keycloak:15.0.1
+        command: ["-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled"]
+        environment:
+            DB_VENDOR: POSTGRES
+            DB_ADDR: postgres
+            DB_DATABASE: db
+            DB_USER: db
+            DB_SCHEMA: public
+            DB_PASSWORD: ${POSTGRES_PASSWORD}
+            KEYCLOAK_USER: ${KEYCLOAK_USER}
+            KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+            PROXY_ADDRESS_FORWARDING: 'true'
+        networks:
+            - default
+            - traefik
+        deploy:
+            mode: global
+            update_config:
+                order: stop-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.automagistre-keycloak.rule=Host(`auth.astra50.ru`)"
+                - "traefik.http.routers.automagistre-keycloak.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-keycloak.tls=true"
+                - "traefik.http.routers.automagistre-keycloak.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-keycloak-service.loadbalancer.server.port=8080"
+                - "traefik.http.services.automagistre-keycloak-service.loadbalancer.server.scheme=http"
+
+networks:
+    default:
+        driver: overlay
+        name: astra50
+    traefik:
+        external: true
+        name: traefik
