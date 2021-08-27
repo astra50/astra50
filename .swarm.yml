@@ -123,8 +123,10 @@ services:
                 - "traefik.http.routers.astra50-onlyoffice.entrypoints=websecure"
                 - "traefik.http.routers.astra50-onlyoffice.tls=true"
                 - "traefik.http.routers.astra50-onlyoffice.tls.certresolver=leresolver"
+                - "traefik.http.routers.astra50-nextcloud.middlewares=astra50-onlyoffice-headers"
                 - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.port=80"
                 - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.scheme=http"
+                - "traefik.http.middlewares.astra50-onlyoffice-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
 
     redis:
         image: redis:6.2.5-alpine
