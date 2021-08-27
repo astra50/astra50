@@ -106,6 +106,26 @@ services:
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.X-Robots-Tag=none"
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
 
+    onlyoffice:
+        image: onlyoffice/documentserver:6.4.0.121
+        networks:
+            - default
+            - traefik
+        deploy:
+            update_config:
+                order: stop-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-onlyoffice.rule=Host(`office.astra50.ru`)"
+                - "traefik.http.routers.onlyoffice.entrypoints=websecure"
+                - "traefik.http.routers.onlyoffice.tls=true"
+                - "traefik.http.routers.onlyoffice.tls.certresolver=leresolver"
+                - "traefik.http.services.onlyoffice-service.loadbalancer.server.port=80"
+                - "traefik.http.services.onlyoffice-service.loadbalancer.server.scheme=http"
+
     redis:
         image: redis:6.2.5-alpine
         volumes:
