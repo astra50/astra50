@@ -43,6 +43,8 @@ services:
 
     nextcloud:
         image: nextcloud:22.1.0-apache
+        entrypoint: /bin/sh
+        command: -c "apt-get update && apt-get install -y imagemagick && rm -rf /var/lib/apt/lists/*; /entrypoint.sh apache2-foreground"
         environment:
             POSTGRES_DB: nextcloud
             POSTGRES_USER: db
