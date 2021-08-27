@@ -84,8 +84,12 @@ services:
                 - "traefik.http.routers.astra50-nextcloud.entrypoints=websecure"
                 - "traefik.http.routers.astra50-nextcloud.tls=true"
                 - "traefik.http.routers.astra50-nextcloud.tls.certresolver=leresolver"
+                - "traefik.http.routers.astra50-nextcloud.middlewares=nextcloud-redirect-dav"
                 - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.port=80"
                 - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.scheme=http"
+                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.replacement=https://${1}/remote.php/dav/"
+                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.permanent=true"
 
     redis:
         image: redis:6.2.5-alpine
