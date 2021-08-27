@@ -88,7 +88,7 @@ services:
                 - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.port=80"
                 - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.scheme=http"
                 - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
-                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.replacement=https://${1}/remote.php/dav/"
+                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.replacement=https://$${1}/remote.php/dav/"
                 - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.permanent=true"
 
     redis:
