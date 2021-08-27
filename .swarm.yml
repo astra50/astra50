@@ -108,8 +108,6 @@ services:
 
     onlyoffice:
         image: onlyoffice/documentserver:6.4.0.121
-        environment:
-            ONLYOFFICE_HTTPS_HSTS_ENABLED: 'false'
         networks:
             - default
             - traefik
