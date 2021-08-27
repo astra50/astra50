@@ -65,6 +65,7 @@ services:
             OBJECTSTORE_S3_SSL: 'false'
             OBJECTSTORE_S3_USEPATH_STYLE: 'true'
             APACHE_DISABLE_REWRITE_IP: 1
+            TRUSTED_PROXIES: 0.0.0.0/0
         volumes:
             -   type: bind
                 source: /opt/astra50/nextcloud/data
