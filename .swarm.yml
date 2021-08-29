@@ -62,7 +62,7 @@ services:
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
 
-    nextcloud:
+    nextcloud: &nextcloud
         image: nextcloud:22.1.0-apache
         entrypoint: /bin/sh
         command: -c "apt-get update && apt-get install -y imagemagick && rm -rf /var/lib/apt/lists/*; /entrypoint.sh apache2-foreground"
@@ -126,6 +126,29 @@ services:
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.featurePolicy=camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';"
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.X-Robots-Tag=none"
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
+
+    nextcloud_cron:
+        <<: *nextcloud
+        command:
+            - -c
+            - |
+                apt-get update \
+                && apt-get install -y imagemagick cron tini \
+                && rm -rf /var/lib/apt/lists/* \
+                && echo $$'
+                */5 * * * * php cron.php
+                ' | crontab - \
+                && exec tini -- cron -l 0 -f
+        networks:
+            - default
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=false"
 
     onlyoffice:
         image: onlyoffice/documentserver:6.4.0.121
