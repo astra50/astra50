@@ -137,7 +137,7 @@ services:
                 && rm -rf /var/lib/apt/lists/* \
                 && su -l www-data -s /bin/bash \
                 && echo $$'
-                */5 * * * * cd /var/www/html && php cron.php
+                */5 * * * * cd /var/www/html && /usr/local/bin/php cron.php
                 ' | tail -n +2 | head -n -1 | crontab - \
                 && exec tini -- cron -l 0 -f
         networks:
