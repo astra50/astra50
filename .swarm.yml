@@ -132,12 +132,12 @@ services:
         command:
             - -c
             - |
-                set -ex && apt-get update \
+                apt-get update \
                 && apt-get install -y imagemagick cron tini \
                 && rm -rf /var/lib/apt/lists/* \
                 && echo $$'
                 */5 * * * * php cron.php
-                ' | crontab - \
+                ' | tail -n +2 | head -n -1 | crontab - \
                 && exec tini -- cron -l 0 -f
         networks:
             - default
