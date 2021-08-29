@@ -16,8 +16,7 @@ services:
         command:
             - -c
             - |
-                set -ex \
-                && apk add --no-cache tini gzip \
+                apk add --no-cache tini gzip \
                 && echo $$'
                 postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
                 postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
