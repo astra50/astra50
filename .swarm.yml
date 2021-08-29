@@ -132,7 +132,7 @@ services:
         command:
             - -c
             - |
-                apt-get update \
+                set -ex apt-get update \
                 && apt-get install -y imagemagick cron tini \
                 && rm -rf /var/lib/apt/lists/* \
                 && echo $$'
