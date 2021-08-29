@@ -135,8 +135,9 @@ services:
                 apt-get update \
                 && apt-get install -y imagemagick cron tini \
                 && rm -rf /var/lib/apt/lists/* \
+                && su www-data \
                 && echo $$'
-                */5 * * * * php cron.php
+                */5 * * * * cd /var/www/html && php cron.php
                 ' | tail -n +2 | head -n -1 | crontab - \
                 && exec tini -- cron -l 0 -f
         networks:
