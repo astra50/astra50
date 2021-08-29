@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-    postgres:
+    postgres: &postgres
         image: postgres:13.4-alpine
         environment:
             POSTGRES_DB: keycloak
@@ -9,6 +9,28 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         volumes:
             - /opt/astra50/postgres/data:/var/lib/postgresql/data
+
+    postgres_backup:
+        <<: *postgres
+        entrypoint: /bin/sh
+        command:
+            - -c
+            - |
+                set -ex \
+                && apk add --no-cache tini gzip \
+                && echo $$'
+                postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
+                postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
+                ' > ~/.pgpass \
+                && chmod 600 ~/.pgpass \
+                && echo $$'
+                0 3 * * * pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
+                5 3 * * * pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
+                ' | crontab - \
+                && exec tini -- crond -l 0 -f
+        volumes:
+            - /opt/astra50/postgres/data:/var/lib/postgresql/data
+            - /opt/astra50/backups/postgres:/backups
 
     keycloak:
         image: jboss/keycloak:15.0.1
