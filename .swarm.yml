@@ -129,17 +129,18 @@ services:
 
     nextcloud_cron:
         <<: *nextcloud
-        command:
-            - -c
-            - |
-                apt-get update \
-                && apt-get install -y imagemagick cron tini \
-                && rm -rf /var/lib/apt/lists/* \
-                && su -l www-data -s /bin/bash \
-                && echo $$'
-                */5 * * * * cd /var/www/html && /usr/local/bin/php cron.php
-                ' | tail -n +2 | head -n -1 | crontab - \
-                && exec tini -- cron -l 0 -f
+        entrypoint: |
+            bash -c 'bash -s <<EOF
+                trap "break;exit" SIGHUP SIGINT SIGTERM
+                while [ ! -f /var/www/html/config/config.php ]; do
+                    sleep 1
+                done
+                while true; do
+                    php -f /var/www/html/cron.php
+                    sleep 5m
+                done
+            EOF'
+        user: www-data:root
         networks:
             - default
         deploy:
