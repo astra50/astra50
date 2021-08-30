@@ -9,6 +9,12 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         volumes:
             - /opt/astra50/postgres/data:/var/lib/postgresql/data
+        healthcheck:
+            test: pg_isready
+            interval: 5s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
 
     postgres_backup:
         <<: *postgres
@@ -29,6 +35,8 @@ services:
                 && exec tini -- crond -l 0 -f
         volumes:
             - /opt/astra50/backups/postgres:/backups
+        healthcheck:
+            disable: true
 
     keycloak:
         image: jboss/keycloak:15.0.1
