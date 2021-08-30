@@ -28,7 +28,6 @@ services:
                 ' | crontab - \
                 && exec tini -- crond -l 0 -f
         volumes:
-            - /opt/astra50/postgres/data:/var/lib/postgresql/data
             - /opt/astra50/backups/postgres:/backups
 
     keycloak:
