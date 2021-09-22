@@ -70,7 +70,7 @@ services:
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
 
     nextcloud: &nextcloud
-        image: nextcloud:22.1.0-apache
+        image: nextcloud:22.1.1-apache
         entrypoint: /bin/sh
         command: -c "apt-get update && apt-get install -y imagemagick && rm -rf /var/lib/apt/lists/*; /entrypoint.sh apache2-foreground"
         environment:
