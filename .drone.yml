@@ -14,8 +14,15 @@ steps:
                 path: /drone/src/.env
             -   name: docker.sock
                 path: /var/run/docker.sock
+            -   name: astra50
+                path: /opt/astra50
         commands:
-            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
+            - cp -r etc/* /opt/astra50/etc/
+            - >-
+                NEXTCLOUD_NGINX_CONF_HASH=$$(md5sum etc/nextcloud/nginx.conf | tr ' ' '\n' | head -1)
+                NEXTCLOUD_PHP_FPM_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.conf | tr ' ' '\n' | head -1)
+                NEXTCLOUD_PHP_FPM_WWW_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.www.conf | tr ' ' '\n' | head -1)
+                docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
         when:
             branch:
                 - master
@@ -28,3 +35,6 @@ volumes:
     -   name: env
         host:
             path: /opt/secrets/astra50
+    -   name: astra50
+        host:
+            path: /opt/astra50

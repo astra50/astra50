@@ -7,10 +7,13 @@ services:
             POSTGRES_DB: keycloak
             POSTGRES_USER: db
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_CONF_HASH: ${POSTGRES_CONF_HASH}
         volumes:
-            - /opt/astra50/postgres/data:/var/lib/postgresql/data
+            -   type: bind
+                source: /opt/astra50/postgres/data
+                target: /var/lib/postgresql/data
         healthcheck:
-            test: pg_isready
+            test: pg_isready -U db
             interval: 5s
             timeout: 5s
             retries: 3
@@ -69,42 +72,23 @@ services:
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
                 - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
 
-    nextcloud: &nextcloud
-        image: nextcloud:22.1.1-apache
-        entrypoint: /bin/sh
-        command: -c "apt-get update && apt-get install -y imagemagick && rm -rf /var/lib/apt/lists/*; /entrypoint.sh apache2-foreground"
+    nextcloud_nginx:
+        image: automagistre/tenant-nginx:base
         environment:
-            POSTGRES_DB: nextcloud
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            POSTGRES_HOST: postgres
-            REDIS_HOST: redis
-            NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
-            NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
-            NEXTCLOUD_TRUSTED_DOMAINS: cloud.astra50.ru
-            SMTP_HOST: ${SMTP_HOST}
-            SMTP_SECURE: ssl
-            SMTP_NAME: ${SMTP_USERNAME}
-            SMTP_PASSWORD: ${SMTP_PASSWORD}
-            MAIL_FROM_ADDRESS: cloud@astra50.ru
-            OBJECTSTORE_S3_HOST: minio
-            OBJECTSTORE_S3_BUCKET: nextcloud
-            OBJECTSTORE_S3_KEY: ${MINIO_ACCESS_KEY}
-            OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
-            OBJECTSTORE_S3_PORT: 9000
-            OBJECTSTORE_S3_SSL: 'false'
-            OBJECTSTORE_S3_USEPATH_STYLE: 'true'
-            OVERWRITEPROTOCOL: https
+            NGINX_CONFIG_HASH: ${NEXTCLOUD_NGINX_CONF_HASH}
         volumes:
             -   type: bind
                 source: /opt/astra50/nextcloud/data
                 target: /var/www/html
+            -   type: bind
+                source: /opt/astra50/etc/nextcloud/nginx.conf
+                target: /etc/nginx/nginx.conf
         networks:
             - default
             - traefik
         deploy:
             update_config:
-                order: start-first
+                order: stop-first
                 failure_action: rollback
                 parallelism: 1
                 delay: 5s
@@ -134,10 +118,57 @@ services:
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.X-Robots-Tag=none"
                 - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
 
+    nextcloud: &nextcloud
+        image: nextcloud:22.1.1-fpm-alpine
+        command: /bin/sh -c "apk add --no-cache imagemagick && exec /entrypoint.sh php-fpm"
+        environment:
+            PHP_FPM_HASH: ${NEXTCLOUD_PHP_FPM_CONF_HASH}
+            PHP_FPM_WWW_HASH: ${NEXTCLOUD_PHP_FPM_WWW_CONF_HASH}
+            POSTGRES_DB: nextcloud
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_HOST: postgres
+            REDIS_HOST: redis
+            NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
+            NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
+            NEXTCLOUD_TRUSTED_DOMAINS: cloud.astra50.ru
+            SMTP_HOST: ${SMTP_HOST}
+            SMTP_SECURE: ssl
+            SMTP_NAME: ${SMTP_USERNAME}
+            SMTP_PASSWORD: ${SMTP_PASSWORD}
+            MAIL_FROM_ADDRESS: cloud@astra50.ru
+            OBJECTSTORE_S3_HOST: minio
+            OBJECTSTORE_S3_BUCKET: nextcloud
+            OBJECTSTORE_S3_KEY: ${MINIO_ACCESS_KEY}
+            OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
+            OBJECTSTORE_S3_PORT: 9000
+            OBJECTSTORE_S3_SSL: 'false'
+            OBJECTSTORE_S3_USEPATH_STYLE: 'true'
+            OVERWRITEPROTOCOL: https
+            PHP_MEMORY_LIMIT: 2G
+        volumes:
+            -   type: bind
+                source: /opt/astra50/nextcloud/data
+                target: /var/www/html
+            -   type: bind
+                source: /opt/astra50/etc/nextcloud/php-fpm.conf
+                target: /usr/local/etc/php-fpm.conf
+                read_only: true
+            -   type: bind
+                source: /opt/astra50/etc/nextcloud/php-fpm.www.conf
+                target: /usr/local/etc/php-fpm.d/www.conf
+                read_only: true
+        deploy:
+            update_config:
+                order: stop-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+
     nextcloud_cron:
         <<: *nextcloud
         entrypoint: |
-            bash -c 'bash -s <<EOF
+            sh -c 'sh -s <<EOF
                 trap "break;exit" SIGHUP SIGINT SIGTERM
                 while [ ! -f /var/www/html/config/config.php ]; do
                     sleep 1
