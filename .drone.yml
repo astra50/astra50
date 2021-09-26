@@ -23,6 +23,7 @@ steps:
                 NEXTCLOUD_PHP_FPM_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.conf | tr ' ' '\n' | head -1)
                 NEXTCLOUD_PHP_FPM_WWW_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.www.conf | tr ' ' '\n' | head -1)
                 NEXTCLOUD_PHP_INI_HASH=$$(md5sum etc/nextcloud/php.ini | tr ' ' '\n' | head -1)
+                PROMETHEUS_HASH=$$(md5sum etc/prometheus.yml | tr ' ' '\n' | head -1)
                 docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
         when:
             branch:
