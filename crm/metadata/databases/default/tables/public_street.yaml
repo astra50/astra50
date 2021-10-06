@@ -1,0 +1,45 @@
+table:
+  name: street
+  schema: public
+array_relationships:
+- name: lands
+  using:
+    foreign_key_constraint_on:
+      column: street_id
+      table:
+        name: land
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - name
+  role: government
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - name
+    - created_at
+    filter: {}
+  role: anonymous
+- permission:
+    columns:
+    - name
+    - created_at
+    - id
+    filter: {}
+  role: government
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - name
+    filter: {}
+  role: government
+delete_permissions:
+- permission:
+    filter: {}
+  role: government

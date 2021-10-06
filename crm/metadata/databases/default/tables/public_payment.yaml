@@ -1,0 +1,32 @@
+table:
+  name: payment
+  schema: public
+object_relationships:
+- name: land_ownership
+  using:
+    foreign_key_constraint_on: ownership_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - amount
+    - comment
+    - ownership_id
+    - payment_at
+  role: government
+select_permissions:
+- permission:
+    columns:
+    - amount
+    - payment_at
+    - comment
+    - created_at
+    - id
+    - ownership_id
+    filter: {}
+  role: government
+delete_permissions:
+- permission:
+    filter: {}
+  role: government

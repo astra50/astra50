@@ -1,7 +1,12 @@
 ---
 kind: pipeline
 type: docker
-name: default
+name: deploy
+
+trigger:
+    branch:
+        - master
+        - rc
 
 clone:
     depth: 1
@@ -25,10 +30,6 @@ steps:
                 NEXTCLOUD_PHP_INI_HASH=$$(md5sum etc/nextcloud/php.ini | tr ' ' '\n' | head -1)
                 PROMETHEUS_HASH=$$(md5sum etc/prometheus.yml | tr ' ' '\n' | head -1)
                 docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
-        when:
-            branch:
-                - master
-                - rc
 
 volumes:
     -   name: docker.sock
@@ -40,3 +41,41 @@ volumes:
     -   name: astra50
         host:
             path: /opt/astra50
+
+---
+kind: pipeline
+type: docker
+name: crm migrate
+
+trigger:
+    branch:
+        - master
+        - rc
+
+clone:
+    depth: 1
+
+depends_on:
+    - deploy
+
+steps:
+    -   name: wait
+        image: automagistre/wait-for-it:stable
+        commands:
+            - /wait-for-it.sh crm.astra50.ru:80
+
+    -   name: hasura migrate
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        commands:
+            - cd crm
+            - hasura-cli metadata apply
+            - hasura-cli migrate apply --all-databases
+            - hasura-cli metadata reload
+            - hasura-cli migrate status --database-name default
+        environment:
+            HASURA_GRAPHQL_ENDPOINT: https://crm.astra50.ru
+            HASURA_GRAPHQL_ADMIN_SECRET:
+                from_secret: crm_hasura_admin_secret
+            HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
+        depends_on:
+            - wait

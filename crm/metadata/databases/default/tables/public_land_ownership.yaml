@@ -1,0 +1,41 @@
+table:
+  name: land_ownership
+  schema: public
+object_relationships:
+- name: land
+  using:
+    foreign_key_constraint_on: land_id
+array_relationships:
+- name: land_owners
+  using:
+    foreign_key_constraint_on:
+      column: ownership_id
+      table:
+        name: land_owner
+        schema: public
+- name: payments
+  using:
+    foreign_key_constraint_on:
+      column: ownership_id
+      table:
+        name: payment
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - land_id
+    - since
+    - until
+  role: government
+select_permissions:
+- permission:
+    columns:
+    - since
+    - until
+    - created_at
+    - id
+    - land_id
+    filter: {}
+  role: government

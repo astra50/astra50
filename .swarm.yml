@@ -29,11 +29,15 @@ services:
                 && echo $$'
                 postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
                 postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
+                postgres:5432:crm-hasura:db:${POSTGRES_PASSWORD}
+                postgres:5432:crm:db:${POSTGRES_PASSWORD}
                 ' > ~/.pgpass \
                 && chmod 600 ~/.pgpass \
                 && echo $$'
                 0 3 * * * pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
                 5 3 * * * pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
+                10 3 * * * pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
+                15 3 * * * pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
                 ' | crontab - \
                 && exec tini -- crond -l 0 -f
         volumes:
@@ -261,6 +265,39 @@ services:
             interval: 30s
             timeout: 20s
             retries: 3
+
+    crm-hasura:
+        image: hasura/graphql-engine:v2.0.9
+        command:
+            - graphql-engine
+            - serve
+            - --server-port=80
+            - --unauthorized-role=anonymous
+            - --cors-domain=*
+            - --admin-internal-errors=true
+            - --admin-secret=${CRM_HASURA_ADMIN_SECRET}
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm-hasura
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+        networks:
+            - default
+            - traefik
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: start-first
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-crm-hasura.rule=Host(`crm.astra50.ru`)"
+                - "traefik.http.routers.astra50-crm-hasura.entrypoints=websecure"
+                - "traefik.http.routers.astra50-crm-hasura.tls=true"
+                - "traefik.http.routers.astra50-crm-hasura.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-crm-hasura-service.loadbalancer.server.port=80"
 
     # sudo chown nobody:nogroup /var/lib/prometheus
     prometheus:

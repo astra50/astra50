@@ -1,0 +1,49 @@
+table:
+  name: person
+  schema: public
+array_relationships:
+- name: land_owners
+  using:
+    foreign_key_constraint_on:
+      column: owner_id
+      table:
+        name: land_owner
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - birth_date
+    - firstname
+    - lastname
+    - middlename
+    - phone
+  role: government
+select_permissions:
+- permission:
+    columns:
+    - birth_date
+    - firstname
+    - lastname
+    - middlename
+    - phone
+    - created_at
+    - id
+    filter: {}
+  role: government
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - birth_date
+    - firstname
+    - lastname
+    - middlename
+    - phone
+    filter: {}
+  role: government
+delete_permissions:
+- permission:
+    filter: {}
+  role: government
