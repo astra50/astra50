@@ -6,10 +6,11 @@ import russianMessages from 'ra-language-russian';
 import Dashboard from './Dashboard';
 import {StreetCreate, StreetEdit, StreetList} from './streets';
 import {LandCreate, LandEdit, LandList} from "./lands";
-import {ApolloClient, InMemoryCache} from '@apollo/client';
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
 import Keycloak from "keycloak-js";
 import useAuthProvider from "./authProvider";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
+import {setContext} from "@apollo/client/link/context";
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -35,13 +36,23 @@ const AdminWithKeycloak = () => {
 
     const [dataProvider, setDataProvider] = useState(null);
 
+    const httpLink = createHttpLink({
+        uri: 'https://crm.astra50.ru/v1/graphql',
+    });
+
+    const authLink = setContext((_, {headers}) => {
+        return {
+            headers: {
+                ...headers,
+                authorization: `Bearer ${keycloak.token}`,
+                'X-Hasura-Role': 'government',
+            }
+        }
+    });
+
     const clientWithAuth = new ApolloClient({
-        uri: 'http://crm.astra50.local/v1/graphql',
+        link: authLink.concat(httpLink),
         cache: new InMemoryCache(),
-        headers: {
-            'Authorization': `Bearer ${keycloak.token}`,
-            'X-Hasura-Role': 'government',
-        },
     });
 
     useEffect(() => {
