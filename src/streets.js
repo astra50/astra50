@@ -1,11 +1,11 @@
 import * as React from "react";
-import {Datagrid, DateField, List, TextField} from 'react-admin';
+import {Datagrid, EditButton, List, TextField} from 'react-admin';
 
 export const StreetList = props => (
     <List {...props}>
-        <Datagrid rowClick="edit">
+        <Datagrid>
             <TextField source="name"/>
-            <DateField source="created_at"/>
+            <EditButton/>
         </Datagrid>
     </List>
 );
