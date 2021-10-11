@@ -11,11 +11,17 @@ import {
     ReferenceInput,
     SelectInput,
     SimpleForm,
-    TextField
+    TextField,
 } from 'react-admin';
 
+const landFilters = [
+    <ReferenceInput source="street_id" label="Улица" reference="street" allowEmpty alwaysOn>
+        <SelectInput optionText="name"/>
+    </ReferenceInput>,
+];
+
 export const LandList = props => (
-    <List {...props}>
+    <List {...props} filters={landFilters}>
         <Datagrid>
             <ReferenceField source="street_id" reference="street" label="Улица">
                 <TextField source="name"/>
