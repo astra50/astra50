@@ -2,7 +2,7 @@ import * as React from "react";
 import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
 
 export const StreetList = props => (
-    <List {...props}>
+    <List {...props} title={"Улицы"}>
         <Datagrid>
             <TextField source="name"/>
             <EditButton/>

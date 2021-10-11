@@ -21,7 +21,7 @@ const landFilters = [
 ];
 
 export const LandList = props => (
-    <List {...props} filters={landFilters}>
+    <List {...props} filters={landFilters} title={"Участки"}>
         <Datagrid>
             <ReferenceField source="street_id" reference="street" label="Улица">
                 <TextField source="name"/>
