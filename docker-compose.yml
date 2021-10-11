@@ -41,6 +41,8 @@ services:
 
     hasura-console:
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        extra_hosts:
+            - crm-console.astra50.local:0.0.0.0
         labels:
             ru.grachevko.dhu: 'crm-console.astra50.local'
         entrypoint: hasura-cli
