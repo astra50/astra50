@@ -27,8 +27,12 @@ export const LandList = props => (
     </List>
 );
 
+const LandTitle = ({record}) => {
+    return <span>Участок {record ? `"${record.number}"` : ''}</span>;
+};
+
 export const LandEdit = props => (
-    <Edit {...props}>
+    <Edit {...props} title={<LandTitle/>}>
         <SimpleForm>
             <NumberInput source="number"/>
             <NumberInput source="square"/>

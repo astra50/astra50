@@ -10,8 +10,12 @@ export const StreetList = props => (
     </List>
 );
 
+const StreetTitle = ({record}) => {
+    return <span>Улица {record ? `"${record.name}"` : ''}</span>;
+};
+
 export const StreetEdit = props => (
-    <Edit {...props}>
+    <Edit {...props} title={<StreetTitle/>}>
         <SimpleForm>
             <TextInput source="name"/>
         </SimpleForm>
