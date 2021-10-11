@@ -31,6 +31,7 @@ insert_permissions:
   role: government
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - since
     - until

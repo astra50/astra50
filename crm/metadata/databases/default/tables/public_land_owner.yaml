@@ -18,6 +18,7 @@ insert_permissions:
   role: government
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - created_at
     - id

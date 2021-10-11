@@ -26,6 +26,7 @@ select_permissions:
     filter: {}
   role: anonymous
 - permission:
+    allow_aggregations: true
     columns:
     - name
     - created_at
