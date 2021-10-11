@@ -11,6 +11,7 @@ import Keycloak from "keycloak-js";
 import useAuthProvider from "./authProvider";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import {setContext} from "@apollo/client/link/context";
+import Layout from './Layout';
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -75,6 +76,7 @@ const AdminWithKeycloak = () => {
             dataProvider={dataProvider}
             authProvider={keycloakAuthProvider}
             i18nProvider={i18nProvider}
+            layout={Layout}
         >
             <Resource
                 name="street"
