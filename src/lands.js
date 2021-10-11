@@ -1,5 +1,17 @@
 import * as React from "react";
-import {Datagrid, EditButton, List, NumberField, ReferenceField, TextField} from 'react-admin';
+import {
+    Datagrid,
+    Edit,
+    EditButton,
+    List,
+    NumberField,
+    NumberInput,
+    ReferenceField,
+    ReferenceInput,
+    SelectInput,
+    SimpleForm,
+    TextField
+} from 'react-admin';
 
 export const LandList = props => (
     <List {...props}>
@@ -12,4 +24,16 @@ export const LandList = props => (
             <EditButton/>
         </Datagrid>
     </List>
+);
+
+export const LandEdit = props => (
+    <Edit {...props}>
+        <SimpleForm>
+            <NumberInput source="number"/>
+            <NumberInput source="square"/>
+            <ReferenceInput source="street_id" reference="street">
+                <SelectInput optionText="name"/>
+            </ReferenceInput>
+        </SimpleForm>
+    </Edit>
 );

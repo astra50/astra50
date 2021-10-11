@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Datagrid, EditButton, List, TextField} from 'react-admin';
+import {Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
 
 export const StreetList = props => (
     <List {...props}>
@@ -8,4 +8,12 @@ export const StreetList = props => (
             <EditButton/>
         </Datagrid>
     </List>
+);
+
+export const StreetEdit = props => (
+    <Edit {...props}>
+        <SimpleForm>
+            <TextInput source="name"/>
+        </SimpleForm>
+    </Edit>
 );
