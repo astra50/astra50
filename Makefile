@@ -4,7 +4,10 @@ down:
 pull:
 	docker-compose pull
 
-up: pull
+install:
+	docker-compose run --rm --user $(shell id -u):$(shell id -g) react-admin npm install
+
+up: pull install
 	docker-compose up -d --force-recreate react-admin
 
 cli:
