@@ -69,6 +69,7 @@ const AdminWithKeycloak = () => {
 
     return (
         <Admin
+            disableTelemetry
             dashboard={Dashboard}
             title="СНТ Астра - CRM"
             dataProvider={dataProvider}
