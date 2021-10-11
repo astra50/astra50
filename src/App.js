@@ -3,6 +3,7 @@ import buildHasuraProvider from 'ra-data-hasura';
 import {Admin, Resource} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from 'ra-language-russian';
+import Dashboard from './Dashboard';
 import {StreetCreate, StreetEdit, StreetList} from './streets';
 import {LandCreate, LandEdit, LandList} from "./lands";
 
@@ -24,7 +25,12 @@ const App = () => {
     if (!dataProvider) return <p>Загрузка...</p>;
 
     return (
-        <Admin dataProvider={dataProvider} i18nProvider={i18nProvider}>
+        <Admin
+            dashboard={Dashboard}
+            title="СНТ Астра - CRM"
+            dataProvider={dataProvider}
+            i18nProvider={i18nProvider}
+        >
             <Resource
                 name="street"
                 list={StreetList}
