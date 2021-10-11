@@ -4,6 +4,7 @@ import {Admin, Resource} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from 'ra-language-russian';
 import {StreetList} from './streets';
+import {LandList} from "./lands";
 
 const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
 
@@ -27,6 +28,10 @@ const App = () => {
             <Resource
                 name="street"
                 list={StreetList}
+            />
+            <Resource
+                name="land"
+                list={LandList}
             />
         </Admin>
     );
