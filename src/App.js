@@ -3,8 +3,8 @@ import buildHasuraProvider from 'ra-data-hasura';
 import {Admin, Resource} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from 'ra-language-russian';
-import {StreetEdit, StreetList} from './streets';
-import {LandEdit, LandList} from "./lands";
+import {StreetCreate, StreetEdit, StreetList} from './streets';
+import {LandCreate, LandEdit, LandList} from "./lands";
 
 const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
 
@@ -29,11 +29,13 @@ const App = () => {
                 name="street"
                 list={StreetList}
                 edit={StreetEdit}
+                create={StreetCreate}
             />
             <Resource
                 name="land"
                 list={LandList}
                 edit={LandEdit}
+                create={LandCreate}
             />
         </Admin>
     );

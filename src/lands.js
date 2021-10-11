@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+    Create,
     Datagrid,
     Edit,
     EditButton,
@@ -36,4 +37,16 @@ export const LandEdit = props => (
             </ReferenceInput>
         </SimpleForm>
     </Edit>
+);
+
+export const LandCreate = props => (
+    <Create {...props}>
+        <SimpleForm>
+            <NumberInput source="number"/>
+            <NumberInput source="square"/>
+            <ReferenceInput source="street_id" reference="street">
+                <SelectInput optionText="name"/>
+            </ReferenceInput>
+        </SimpleForm>
+    </Create>
 );
