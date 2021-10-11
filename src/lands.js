@@ -26,8 +26,8 @@ export const LandList = props => (
             <ReferenceField source="street_id" reference="street" label="Улица">
                 <TextField source="name"/>
             </ReferenceField>
-            <NumberField source="number"/>
-            <NumberField source="square"/>
+            <NumberField source="number" label="Номер"/>
+            <NumberField source="square" label="Площадь"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -40,23 +40,23 @@ const LandTitle = ({record}) => {
 export const LandEdit = props => (
     <Edit {...props} title={<LandTitle/>}>
         <SimpleForm>
-            <NumberInput source="number"/>
-            <NumberInput source="square"/>
-            <ReferenceInput source="street_id" reference="street">
+            <ReferenceInput source="street_id" reference="street" label="Улица">
                 <SelectInput optionText="name"/>
             </ReferenceInput>
+            <NumberInput source="number" label="Номер"/>
+            <NumberInput source="square" label="Площадь"/>
         </SimpleForm>
     </Edit>
 );
 
 export const LandCreate = props => (
-    <Create {...props}>
+    <Create {...props} title={"Создать участок"}>
         <SimpleForm>
-            <NumberInput source="number"/>
-            <NumberInput source="square"/>
-            <ReferenceInput source="street_id" reference="street">
+            <ReferenceInput source="street_id" reference="street" label="Улица">
                 <SelectInput optionText="name"/>
             </ReferenceInput>
+            <NumberInput source="number" label="Номер"/>
+            <NumberInput source="square" label="Площадь"/>
         </SimpleForm>
     </Create>
 );

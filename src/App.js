@@ -12,6 +12,9 @@ import useAuthProvider from "./authProvider";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import {setContext} from "@apollo/client/link/context";
 import Layout from './Layout';
+import {PersonCreate, PersonEdit, PersonList} from "./person";
+import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./landOwnership";
+import {PaymentCreate, PaymentEdit, PaymentList} from "./payment";
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -89,6 +92,27 @@ const AdminWithKeycloak = () => {
                 list={LandList}
                 edit={LandEdit}
                 create={LandCreate}
+            />
+            <Resource
+                name="person"
+                list={PersonList}
+                edit={PersonEdit}
+                create={PersonCreate}
+            />
+            <Resource
+                name="land_owner"
+            />
+            <Resource
+                name="land_ownership"
+                list={LandOwnershipList}
+                edit={LandOwnershipEdit}
+                create={LandOwnershipCreate}
+            />
+            <Resource
+                name="payment"
+                list={PaymentList}
+                edit={PaymentEdit}
+                create={PaymentCreate}
             />
         </Admin>
     );

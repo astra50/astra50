@@ -23,7 +23,7 @@ export const StreetEdit = props => (
 );
 
 export const StreetCreate = props => (
-    <Create {...props}>
+    <Create {...props} title={"Создать улицу"}>
         <SimpleForm>
             <TextInput source="name"/>
         </SimpleForm>
