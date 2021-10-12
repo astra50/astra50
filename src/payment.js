@@ -52,7 +52,7 @@ export const PaymentEdit = props => (
 
 export const PaymentCreate = props => (
     <Create {...props} title={"Создать платёж"}>
-        <SimpleForm>
+        <SimpleForm redirect="list">
             <ReferenceInput source="ownership_id" reference="land_ownership" label="Участок">
                 <SelectInput optionText="id"/>
             </ReferenceInput>

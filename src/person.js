@@ -30,7 +30,7 @@ export const PersonEdit = props => (
 
 export const PersonCreate = props => (
     <Create {...props} title={"Создать садовода"}>
-        <SimpleForm>
+        <SimpleForm redirect="list">
             <TextInput source="lastname" label="Фамилия"/>
             <TextInput source="firstname" label="Имя"/>
             <TextInput source="middlename" label="Отчество"/>

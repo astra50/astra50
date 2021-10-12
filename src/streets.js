@@ -24,7 +24,7 @@ export const StreetEdit = props => (
 
 export const StreetCreate = props => (
     <Create {...props} title={"Создать улицу"}>
-        <SimpleForm>
+        <SimpleForm redirect="list">
             <TextInput source="name" label="Название"/>
         </SimpleForm>
     </Create>

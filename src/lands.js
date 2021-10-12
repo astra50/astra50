@@ -51,7 +51,7 @@ export const LandEdit = props => (
 
 export const LandCreate = props => (
     <Create {...props} title={"Создать участок"}>
-        <SimpleForm>
+        <SimpleForm redirect="list">
             <ReferenceInput source="street_id" reference="street" label="Улица">
                 <SelectInput optionText="name"/>
             </ReferenceInput>
