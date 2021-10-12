@@ -23,16 +23,16 @@ const useAuthProvider = () => {
             return Promise.reject("Failed to get identity");
         },
         getPermissions: () => {
+            let isGrantAccess = false;
+
             if (keycloak.token) {
                 const decoded = jwt_decode(keycloak.token);
                 const roles = decoded.realm_access.roles;
 
-                if (roles.includes('admin') || roles.includes('government')) {
-                    return Promise.resolve(true);
-                }
+                isGrantAccess = roles.includes('admin') || roles.includes('government');
             }
 
-            return Promise.resolve(false);
+            return Promise.resolve(isGrantAccess);
         },
     });
 };
