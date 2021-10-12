@@ -19,7 +19,7 @@ services:
     hasura:
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
         labels:
-            ru.grachevko.dhu: 'crm.astra50.local'
+            ru.grachevko.dhu: 'api.astra50.local'
         command:
             - graphql-engine
             - serve
@@ -37,24 +37,24 @@ services:
         networks:
             default:
                 aliases:
-                    - crm.astra50.local
+                    - api.astra50.local
 
     hasura-console:
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
         extra_hosts:
-            - crm-console.astra50.local:0.0.0.0
+            - api-console.astra50.local:0.0.0.0
         labels:
-            ru.grachevko.dhu: 'crm-console.astra50.local'
+            ru.grachevko.dhu: 'api-console.astra50.local'
         entrypoint: hasura-cli
         command:
             - console
-            - --address=crm-console.astra50.local
+            - --address=api-console.astra50.local
             - --console-port=80
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
             HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
             HASURA_GRAPHQL_ADMIN_SECRET: admin
-            HASURA_GRAPHQL_ENDPOINT: http://crm.astra50.local
+            HASURA_GRAPHQL_ENDPOINT: http://api.astra50.local
         working_dir: /app
         volumes:
             - ./crm:/app
