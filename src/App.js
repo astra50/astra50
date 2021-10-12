@@ -41,7 +41,10 @@ const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState(null);
 
     const httpLink = createHttpLink({
-        uri: 'https://crm.astra50.ru/v1/graphql',
+        uri: window.location.protocol
+            + '//api.'
+            + window.location.hostname.split('.').splice(-2).join('.')
+            + '/v1/graphql',
     });
 
     const authLink = setContext((_, {headers}) => {
