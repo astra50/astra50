@@ -19,7 +19,7 @@ import {PaymentCreate, PaymentEdit, PaymentList} from "./payment";
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
     realm: 'astra50',
-    clientId: 'crm-oauth',
+    clientId: 'hasura-oauth',
     onLoad: "login-required",
 };
 
