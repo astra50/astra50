@@ -4,7 +4,7 @@ import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInp
 export const StreetList = props => (
     <List {...props} title={"Улицы"}>
         <Datagrid>
-            <TextField source="name"/>
+            <TextField source="name" label={"Название"}/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -25,7 +25,7 @@ export const StreetEdit = props => (
 export const StreetCreate = props => (
     <Create {...props} title={"Создать улицу"}>
         <SimpleForm>
-            <TextInput source="name"/>
+            <TextInput source="name" label="Название"/>
         </SimpleForm>
     </Create>
 );
