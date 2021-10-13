@@ -7,11 +7,13 @@ import {
     List,
     NumberField,
     NumberInput,
+    Pagination,
     ReferenceField,
     ReferenceInput,
     SelectInput,
     SimpleForm,
     TextField,
+    TextInput,
 } from 'react-admin';
 
 const landFilters = [
@@ -20,14 +22,23 @@ const landFilters = [
     </ReferenceInput>,
 ];
 
+const LandPagination = props => <Pagination rowsPerPageOptions={[50, 100, 150, 200]} {...props} />;
+
 export const LandList = props => (
-    <List {...props} filters={landFilters} title={"Участки"}>
+    <List {...props}
+          title={"Участки"}
+          filters={landFilters}
+          sort={{field: 'number', order: 'ASC'}}
+          pagination={<LandPagination/>}
+          perPage={200}
+    >
         <Datagrid>
             <ReferenceField source="street_id" reference="street" label="Улица">
                 <TextField source="name"/>
             </ReferenceField>
             <NumberField source="number" label="Номер"/>
             <NumberField source="square" label="Площадь"/>
+            <TextField source="cadastral_number" label="Кадастровый номер"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -45,6 +56,7 @@ export const LandEdit = props => (
             </ReferenceInput>
             <NumberInput source="number" label="Номер"/>
             <NumberInput source="square" label="Площадь"/>
+            <TextInput source="cadastral_number" label="Кадастровый номер"/>
         </SimpleForm>
     </Edit>
 );
@@ -57,6 +69,7 @@ export const LandCreate = props => (
             </ReferenceInput>
             <NumberInput source="number" label="Номер"/>
             <NumberInput source="square" label="Площадь"/>
+            <TextInput source="cadastral_number" label="Кадастровый номер"/>
         </SimpleForm>
     </Create>
 );
