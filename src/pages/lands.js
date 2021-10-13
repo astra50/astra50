@@ -17,7 +17,7 @@ import {
 } from 'react-admin';
 
 const landFilters = [
-    <ReferenceInput source="street_id" label="Улица" reference="street" allowEmpty alwaysOn>
+    <ReferenceInput source="street_id" label="Улица" reference="street" allowEmpty>
         <SelectInput optionText="name"/>
     </ReferenceInput>,
 ];
@@ -30,7 +30,7 @@ export const LandList = props => (
           filters={landFilters}
           sort={{field: 'number', order: 'ASC'}}
           pagination={<LandPagination/>}
-          perPage={200}
+          perPage={50}
           empty={false}
     >
         <Datagrid>
