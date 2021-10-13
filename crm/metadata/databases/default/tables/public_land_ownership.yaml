@@ -5,14 +5,16 @@ object_relationships:
 - name: land
   using:
     foreign_key_constraint_on: land_id
-array_relationships:
-- name: land_owners
+- name: owner
   using:
-    foreign_key_constraint_on:
-      column: ownership_id
-      table:
-        name: land_owner
+    manual_configuration:
+      column_mapping:
+        owner_id: id
+      insertion_order: null
+      remote_table:
+        name: person
         schema: public
+array_relationships:
 - name: payments
   using:
     foreign_key_constraint_on:

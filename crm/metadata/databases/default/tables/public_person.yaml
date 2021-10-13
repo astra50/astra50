@@ -1,14 +1,6 @@
 table:
   name: person
   schema: public
-array_relationships:
-- name: land_owners
-  using:
-    foreign_key_constraint_on:
-      column: owner_id
-      table:
-        name: land_owner
-        schema: public
 insert_permissions:
 - permission:
     backend_only: false
