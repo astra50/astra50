@@ -2,12 +2,12 @@ version: '3.7'
 
 services:
     react-admin:
-        image: node:14.18.0-alpine3.12
+        image: astra50/crm:node-base
         extra_hosts:
             - crm.astra50.local:0.0.0.0
         labels:
             ru.grachevko.dhu: 'crm.astra50.local'
-        command: yarn start
+        command: npm run start
         environment:
             HOST: crm.astra50.local
             PORT: 80

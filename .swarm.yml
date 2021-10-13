@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+    nginx:
+        image: ${IMAGE}
+        networks:
+            - traefik
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-crm.rule=Host(`crm.astra50.ru`)"
+                - "traefik.http.routers.astra50-crm.entrypoints=websecure"
+                - "traefik.http.routers.astra50-crm.tls=true"
+                - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
+
+networks:
+    traefik:
+        external: true
+        name: traefik
