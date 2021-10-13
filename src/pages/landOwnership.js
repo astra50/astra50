@@ -9,11 +9,25 @@ import {
     List,
     ReferenceField,
     ReferenceInput,
-    ReferenceManyField,
     SelectInput,
     SimpleForm,
     TextField,
+    useRecordContext,
 } from 'react-admin';
+
+const FullNameField = (props) => {
+    const record = useRecordContext(props);
+
+    let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim();
+
+    if (!result) {
+        result = record.phone;
+    } else if (props.withPhone && record.phone) {
+        result += ` (${record.phone})`;
+    }
+
+    return <span>{result}</span>;
+}
 
 export const LandOwnershipList = props => (
     <List {...props}
@@ -24,12 +38,11 @@ export const LandOwnershipList = props => (
             <ReferenceField source="land_id" reference="land" label="Участок">
                 <TextField source="number"/>
             </ReferenceField>
-            <ReferenceManyField target="ownership_id" reference="land_owner" label="Владелец">
-                <ReferenceField source="owner_id" reference="person">
-                    <TextField source="firstname"/>
-                </ReferenceField>
-            </ReferenceManyField>
-            <DateField source="since"/>
+            <ReferenceField source="owner_id" reference="person" label="Владелец">
+                <FullNameField source="lastname"/>
+            </ReferenceField>
+            <DateField source="since" label="С даты"/>
+            <DateField source="until" label="По дату"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -38,8 +51,23 @@ export const LandOwnershipList = props => (
 export const LandOwnershipEdit = props => (
     <Edit {...props}>
         <SimpleForm>
-            <ReferenceInput source="land_id" reference="land" label="Участок">
+            <ReferenceInput
+                source="land_id"
+                reference="land"
+                label="Участок"
+                perPage={500}
+                sort={{field: 'number', order: 'ASC'}}
+            >
                 <SelectInput optionText="number"/>
+            </ReferenceInput>
+            <ReferenceInput
+                source="owner_id"
+                reference="person"
+                label="Владелец"
+                perPage={500}
+                sort={{field: 'lastname', order: 'ASC'}}
+            >
+                <SelectInput optionText={<FullNameField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>
