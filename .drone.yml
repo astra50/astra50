@@ -23,6 +23,9 @@ steps:
     - &docker
         name: node-base
         image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
         commands:
             - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
 
