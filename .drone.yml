@@ -27,12 +27,12 @@ steps:
             -   name: docker.sock
                 path: /var/run/docker.sock
         commands:
-            - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+            - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base .
 
     -   <<: *docker
         name: nginx base
         commands:
-            - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+            - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base .
 
     -   <<: *docker
         name: nginx
