@@ -13,7 +13,10 @@ import {
 } from 'react-admin';
 
 export const PersonList = props => (
-    <List {...props} title={"Садоводы"}>
+    <List {...props}
+          title={"Садоводы"}
+          empty={false}
+    >
         <Datagrid>
             <TextField source="lastname" label="Фамилия"/>
             <TextField source="firstname" label="Имя"/>

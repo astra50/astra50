@@ -18,7 +18,10 @@ import {
 } from 'react-admin';
 
 export const PaymentList = props => (
-    <List {...props} title={"Платежи"}>
+    <List {...props}
+          title={"Платежи"}
+          empty={false}
+    >
         <Datagrid>
             <ReferenceField source="ownership_id" reference="land_ownership" label="Участок">
                 <ReferenceField source="land_id" reference="land" label="Участок">

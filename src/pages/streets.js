@@ -2,7 +2,10 @@ import * as React from "react";
 import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
 
 export const StreetList = props => (
-    <List {...props} title={"Улицы"}>
+    <List {...props}
+          title={"Улицы"}
+          empty={false}
+    >
         <Datagrid>
             <TextField source="name" label={"Название"}/>
             <EditButton/>

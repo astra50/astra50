@@ -31,6 +31,7 @@ export const LandList = props => (
           sort={{field: 'number', order: 'ASC'}}
           pagination={<LandPagination/>}
           perPage={200}
+          empty={false}
     >
         <Datagrid>
             <ReferenceField source="street_id" reference="street" label="Улица">

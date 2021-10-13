@@ -16,7 +16,10 @@ import {
 } from 'react-admin';
 
 export const LandOwnershipList = props => (
-    <List {...props} title={"Владение"}>
+    <List {...props}
+          title={"Владение"}
+          empty={false}
+    >
         <Datagrid>
             <ReferenceField source="land_id" reference="land" label="Участок">
                 <TextField source="number"/>
