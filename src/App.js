@@ -3,18 +3,18 @@ import buildHasuraProvider from 'ra-data-hasura';
 import {Admin, Resource} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from 'ra-language-russian';
-import Dashboard from './Dashboard';
-import {StreetCreate, StreetEdit, StreetList} from './streets';
-import {LandCreate, LandEdit, LandList} from "./lands";
+import Dashboard from './pages/Dashboard';
+import {StreetCreate, StreetEdit, StreetList} from './pages/streets';
+import {LandCreate, LandEdit, LandList} from "./pages/lands";
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
 import Keycloak from "keycloak-js";
 import useAuthProvider from "./authProvider";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import {setContext} from "@apollo/client/link/context";
 import Layout from './Layout';
-import {PersonCreate, PersonEdit, PersonList} from "./person";
-import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./landOwnership";
-import {PaymentCreate, PaymentEdit, PaymentList} from "./payment";
+import {PersonCreate, PersonEdit, PersonList} from "./pages/person";
+import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./pages/landOwnership";
+import {PaymentCreate, PaymentEdit, PaymentList} from "./pages/payment";
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -53,7 +53,7 @@ const AdminWithKeycloak = () => {
                 ...headers,
                 authorization: `Bearer ${keycloak.token}`,
                 'X-Hasura-Role': 'government',
-            }
+            },
         }
     });
 
@@ -65,7 +65,7 @@ const AdminWithKeycloak = () => {
     useEffect(() => {
         const buildDataProvider = async () => {
             const dataProvider = await buildHasuraProvider({
-                client: clientWithAuth
+                client: clientWithAuth,
             });
             setDataProvider(() => dataProvider);
         };

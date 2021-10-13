@@ -12,7 +12,7 @@ import {
     ReferenceManyField,
     SelectInput,
     SimpleForm,
-    TextField
+    TextField,
 } from 'react-admin';
 
 export const LandOwnershipList = props => (
