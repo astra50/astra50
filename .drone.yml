@@ -21,7 +21,7 @@ environment:
 
 steps:
     - &docker
-        name: node-base
+        name: node base
         image: automagistre/docker:stable
         volumes:
             -   name: docker.sock
@@ -29,15 +29,18 @@ steps:
         commands:
             - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
 
-    -   name: nginx-base
-        <<: *docker
+    -   <<: *docker
+        name: nginx base
         commands:
             - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
 
-    -   name: nginx
-        <<: *docker
+    -   <<: *docker
+        name: nginx
         commands:
             - docker build -t ${DRONE_REPO}:${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+        depends_on:
+            - node base
+            - nginx base
 
 ---
 kind: pipeline
