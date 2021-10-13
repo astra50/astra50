@@ -1,5 +1,16 @@
 import * as React from "react";
-import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
+import {
+    Create,
+    Datagrid,
+    DateField,
+    DateInput,
+    Edit,
+    EditButton,
+    List,
+    SimpleForm,
+    TextField,
+    TextInput,
+} from 'react-admin';
 
 export const PersonList = props => (
     <List {...props} title={"Садоводы"}>
@@ -8,6 +19,7 @@ export const PersonList = props => (
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
+            <DateField source="birth_date" label="День рождения"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -24,6 +36,7 @@ export const PersonEdit = props => (
             <TextInput source="firstname" label="Имя"/>
             <TextInput source="middlename" label="Отчество"/>
             <TextInput source="phone" label="Телефон"/>
+            <DateInput source="birth_date" label="День рождения"/>
         </SimpleForm>
     </Edit>
 );
@@ -35,6 +48,7 @@ export const PersonCreate = props => (
             <TextInput source="firstname" label="Имя"/>
             <TextInput source="middlename" label="Отчество"/>
             <TextInput source="phone" label="Телефон"/>
+            <DateInput source="birth_date" label="День рождения"/>
         </SimpleForm>
     </Create>
 );
