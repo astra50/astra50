@@ -35,10 +35,11 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - since
-    - until
     - created_at
     - id
     - land_id
+    - owner_id
+    - since
+    - until
     filter: {}
   role: government
