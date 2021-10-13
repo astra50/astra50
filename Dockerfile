@@ -67,7 +67,7 @@ FROM nginx-base AS nginx
 
 ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
 
-COPY --from=node /data/build/* .
+COPY --from=node /data/build .
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 
 RUN find . \
