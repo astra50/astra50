@@ -73,7 +73,7 @@ steps:
             - hasura-cli metadata reload
             - hasura-cli migrate status --database-name default
         environment:
-            HASURA_GRAPHQL_ENDPOINT: https://crm.astra50.ru
+            HASURA_GRAPHQL_ENDPOINT: https://api.astra50.ru
             HASURA_GRAPHQL_ADMIN_SECRET:
                 from_secret: crm_hasura_admin_secret
             HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
