@@ -78,8 +78,23 @@ export const LandOwnershipEdit = props => (
 export const LandOwnershipCreate = props => (
     <Create {...props} title={"Создать владение"}>
         <SimpleForm redirect="list">
-            <ReferenceInput source="land_id" reference="land" label="Участок">
+            <ReferenceInput
+                source="land_id"
+                reference="land"
+                label="Участок"
+                perPage={500}
+                sort={{field: 'number', order: 'ASC'}}
+            >
                 <SelectInput optionText="number"/>
+            </ReferenceInput>
+            <ReferenceInput
+                source="owner_id"
+                reference="person"
+                label="Владелец"
+                perPage={500}
+                sort={{field: 'lastname', order: 'ASC'}}
+            >
+                <SelectInput optionText={<FullNameField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>
