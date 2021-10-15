@@ -12,22 +12,9 @@ import {
     SelectInput,
     SimpleForm,
     TextField,
-    useRecordContext,
 } from 'react-admin';
+import {PersonReferenceField} from "./person";
 
-const FullNameField = (props) => {
-    const record = useRecordContext(props);
-
-    let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim();
-
-    if (!result) {
-        result = record.phone;
-    } else if (props.withPhone && record.phone) {
-        result += ` (${record.phone})`;
-    }
-
-    return <span>{result}</span>;
-}
 
 export const LandOwnershipList = props => (
     <List {...props}
@@ -39,7 +26,7 @@ export const LandOwnershipList = props => (
                 <TextField source="number"/>
             </ReferenceField>
             <ReferenceField source="owner_id" reference="person" label="Владелец">
-                <FullNameField source="lastname"/>
+                <PersonReferenceField source="lastname"/>
             </ReferenceField>
             <DateField source="since" label="С даты"/>
             <DateField source="until" label="По дату"/>
@@ -67,7 +54,7 @@ export const LandOwnershipEdit = props => (
                 perPage={500}
                 sort={{field: 'lastname', order: 'ASC'}}
             >
-                <SelectInput optionText={<FullNameField withPhone={true}/>}/>
+                <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>
@@ -94,7 +81,7 @@ export const LandOwnershipCreate = props => (
                 perPage={500}
                 sort={{field: 'lastname', order: 'ASC'}}
             >
-                <SelectInput optionText={<FullNameField withPhone={true}/>}/>
+                <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>

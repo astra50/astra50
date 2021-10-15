@@ -10,7 +10,22 @@ import {
     SimpleForm,
     TextField,
     TextInput,
+    useRecordContext,
 } from 'react-admin';
+
+export const PersonReferenceField = (props) => {
+    const record = useRecordContext(props);
+
+    let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim();
+
+    if (!result) {
+        result = record.phone;
+    } else if (props.withPhone && record.phone) {
+        result += ` (${record.phone})`;
+    }
+
+    return <span>{result}</span>;
+}
 
 export const PersonList = props => (
     <List {...props}
@@ -28,7 +43,7 @@ export const PersonList = props => (
     </List>
 );
 
-const PersonTitle = ({record}) => {
+export const PersonTitle = ({record}) => {
     return <span>Садовод {record ? `"${record.lastname} ${record.firstname}"` : ''}</span>;
 };
 

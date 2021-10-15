@@ -14,7 +14,10 @@ import {setContext} from "@apollo/client/link/context";
 import Layout from './Layout';
 import {PersonCreate, PersonEdit, PersonList} from "./pages/person";
 import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./pages/landOwnership";
-import {PaymentCreate, PaymentEdit, PaymentList} from "./pages/payment";
+import {MemberRateCreate, MemberRateEdit, MemberRateList} from "./pages/memberRate";
+import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from "./pages/memberPayment";
+import {TargetCreate, TargetEdit, TargetList} from "./pages/targets";
+import {TargetPaymentCreate, TargetPaymentEdit, TargetPaymentList} from "./pages/targetPayments";
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -112,10 +115,28 @@ const AdminWithKeycloak = () => {
                 create={LandOwnershipCreate}
             />
             <Resource
-                name="payment"
-                list={PaymentList}
-                edit={PaymentEdit}
-                create={PaymentCreate}
+                name="member_rate"
+                list={MemberRateList}
+                edit={MemberRateEdit}
+                create={MemberRateCreate}
+            />
+            <Resource
+                name="member_payment"
+                list={MemberPaymentList}
+                edit={MemberPaymentEdit}
+                create={MemberPaymentCreate}
+            />
+            <Resource
+                name="target"
+                list={TargetList}
+                edit={TargetEdit}
+                create={TargetCreate}
+            />
+            <Resource
+                name="target_payment"
+                list={TargetPaymentList}
+                edit={TargetPaymentEdit}
+                create={TargetPaymentCreate}
             />
         </Admin>
     );
