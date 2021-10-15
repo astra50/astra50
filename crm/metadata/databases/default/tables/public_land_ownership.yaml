@@ -14,14 +14,6 @@ object_relationships:
       remote_table:
         name: person
         schema: public
-array_relationships:
-- name: payments
-  using:
-    foreign_key_constraint_on:
-      column: ownership_id
-      table:
-        name: payment
-        schema: public
 insert_permissions:
 - permission:
     backend_only: false
