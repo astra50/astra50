@@ -43,29 +43,30 @@ const AdminWithKeycloak = () => {
 
     const [dataProvider, setDataProvider] = useState(null);
 
-    const httpLink = createHttpLink({
-        uri: window.location.protocol
-            + '//api.'
-            + window.location.hostname.split('.').splice(-2).join('.')
-            + '/v1/graphql',
-    });
-
-    const authLink = setContext((_, {headers}) => {
-        return {
-            headers: {
-                ...headers,
-                authorization: `Bearer ${keycloak.token}`,
-                'X-Hasura-Role': 'government',
-            },
-        }
-    });
-
-    const clientWithAuth = new ApolloClient({
-        link: authLink.concat(httpLink),
-        cache: new InMemoryCache(),
-    });
 
     useEffect(() => {
+        const httpLink = createHttpLink({
+            uri: window.location.protocol
+                + '//api.'
+                + window.location.hostname.split('.').splice(-2).join('.')
+                + '/v1/graphql',
+        });
+
+        const authLink = setContext((_, {headers}) => {
+            return {
+                headers: {
+                    ...headers,
+                    authorization: `Bearer ${keycloak.token}`,
+                    'X-Hasura-Role': 'government',
+                },
+            }
+        });
+
+        const clientWithAuth = new ApolloClient({
+            link: authLink.concat(httpLink),
+            cache: new InMemoryCache(),
+        });
+
         const buildDataProvider = async () => {
             const dataProvider = await buildHasuraProvider({
                 client: clientWithAuth,
