@@ -3,7 +3,7 @@ import buildHasuraProvider from 'ra-data-hasura';
 import {Admin, Resource} from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import russianMessages from 'ra-language-russian';
-import Dashboard from './pages/Dashboard';
+import {Dashboard} from './pages/Dashboard';
 import {StreetCreate, StreetEdit, StreetList} from './pages/streets';
 import {LandCreate, LandEdit, LandList} from "./pages/lands";
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
