@@ -18,6 +18,7 @@ export const MemberRateList = props => (
     <List {...props}
           title="Ставки"
           empty={false}
+          sort={{field: 'since', order: 'DESC'}}
     >
         <Datagrid>
             <NumberField source="amount" label="Ставка"/>
@@ -48,7 +49,7 @@ const MemberRateForm = props => (
         <DateInput
             source="until"
             label="По дату"
-            helperText="Дата завершения действия ставки"
+            helperText="Дата завершения действия ставки НЕ включительно"
         />
         <TextInput source="comment" label="Комментарий"/>
     </SimpleForm>

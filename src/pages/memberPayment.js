@@ -22,6 +22,7 @@ export const MemberPaymentList = props => (
     <List {...props}
           title="Членские взносы"
           empty={false}
+          sort={{field: 'paid_at', order: 'DESC'}}
     >
         <Datagrid>
             <ReferenceField source="person_id" reference="person" label="Плательщик">
@@ -32,7 +33,7 @@ export const MemberPaymentList = props => (
                 label="Сумма"
                 options={{style: 'currency', currency: 'RUB'}}
             />
-            <DateField source="paid_at" label="Дата платежа"/>
+            <DateField source="paid_at" label="Дата"/>
             <TextField source="comment" label="Комментарий"/>
             <EditButton/>
         </Datagrid>
