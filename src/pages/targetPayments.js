@@ -19,10 +19,24 @@ import {
 } from 'react-admin';
 import {PersonReferenceField} from "./person";
 
+const TargetPaymentFilters = [
+    <ReferenceInput
+        source="person_id"
+        reference="person"
+        label="Плательщик"
+        perPage={500}
+        sort={{field: 'lastname', order: 'ASC'}}
+        allowEmpty
+    >
+        <SelectInput optionText={<PersonReferenceField/>}/>
+    </ReferenceInput>,
+];
+
 export const TargetPaymentList = props => (
     <List {...props}
           title="Цели"
           empty={false}
+          filters={TargetPaymentFilters}
     >
         <Datagrid>
             <ReferenceField source="target_id" reference="target" label="Цель">
