@@ -12,7 +12,7 @@ import useAuthProvider from "./authProvider";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import {setContext} from "@apollo/client/link/context";
 import Layout from './Layout';
-import {PersonCreate, PersonEdit, PersonList} from "./pages/person";
+import {PersonCreate, PersonEdit, PersonList, PersonShow} from "./pages/person";
 import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./pages/landOwnership";
 import {MemberRateCreate, MemberRateEdit, MemberRateList} from "./pages/memberRate";
 import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from "./pages/memberPayment";
@@ -105,6 +105,7 @@ const AdminWithKeycloak = () => {
                 list={PersonList}
                 edit={PersonEdit}
                 create={PersonCreate}
+                show={PersonShow}
             />
             <Resource
                 name="land_owner"

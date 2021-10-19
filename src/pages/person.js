@@ -7,7 +7,9 @@ import {
     Edit,
     EditButton,
     List,
+    Show,
     SimpleForm,
+    SimpleShowLayout,
     TextField,
     TextInput,
     useRecordContext,
@@ -32,7 +34,9 @@ export const PersonList = props => (
           title={"Садоводы"}
           empty={false}
     >
-        <Datagrid>
+        <Datagrid
+            rowClick="show"
+        >
             <TextField source="lastname" label="Фамилия"/>
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
@@ -70,3 +74,17 @@ export const PersonCreate = props => (
         </SimpleForm>
     </Create>
 );
+
+export const PersonShow = props => (
+    <Show {...props}
+          title={"Садовод"}
+    >
+        <SimpleShowLayout>
+            <TextField source="lastname" label="Фамилия"/>
+            <TextField source="firstname" label="Имя"/>
+            <TextField source="middlename" label="Отчество"/>
+            <TextField source="phone" label="Телефон"/>
+            <DateField source="birth_date" label="День рождения"/>
+        </SimpleShowLayout>
+    </Show>
+)
