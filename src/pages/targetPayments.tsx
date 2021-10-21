@@ -1,11 +1,12 @@
-import * as React from "react";
 import {
     Create,
+    CreateProps,
     Datagrid,
     DateField,
     DateInput,
     Edit,
     EditButton,
+    EditProps,
     List,
     NumberField,
     NumberInput,
@@ -17,7 +18,8 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-import {PersonReferenceField} from "./person";
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {PersonField} from "./person";
 
 const TargetPaymentFilters = [
     <ReferenceInput
@@ -28,11 +30,11 @@ const TargetPaymentFilters = [
         sort={{field: 'lastname', order: 'ASC'}}
         allowEmpty
     >
-        <SelectInput optionText={<PersonReferenceField/>}/>
+        <SelectInput optionText={<PersonField/>}/>
     </ReferenceInput>,
 ];
 
-export const TargetPaymentList = props => (
+export const TargetPaymentList = (props: ListProps) => (
     <List {...props}
           title="Цели"
           empty={false}
@@ -43,7 +45,7 @@ export const TargetPaymentList = props => (
                 <TextField source="name"/>
             </ReferenceField>
             <ReferenceField source="person_id" reference="person" label="Плательщик">
-                <PersonReferenceField/>
+                <PersonField/>
             </ReferenceField>
             <NumberField
                 source="amount"
@@ -57,7 +59,8 @@ export const TargetPaymentList = props => (
     </List>
 );
 
-const TargetForm = props => (<SimpleForm {...props}>
+const TargetForm = () => (
+    <>
         <ReferenceInput
             source="target_id"
             reference="target"
@@ -77,7 +80,7 @@ const TargetForm = props => (<SimpleForm {...props}>
             sort={{field: 'lastname', order: 'ASC'}}
             validate={required()}
         >
-            <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
+            <SelectInput optionText={<PersonField withPhone={true}/>}/>
         </ReferenceInput>
 
         <NumberInput
@@ -93,17 +96,21 @@ const TargetForm = props => (<SimpleForm {...props}>
         />
 
         <TextInput source="comment" label="Комментарий"/>
-    </SimpleForm>
+    </>
 );
 
-export const TargetPaymentEdit = props => (
+export const TargetPaymentEdit = (props: EditProps) => (
     <Edit {...props} title="Целевой взнос">
-        <TargetForm/>
+        <SimpleForm>
+            <TargetForm/>
+        </SimpleForm>
     </Edit>
 );
 
-export const TargetPaymentCreate = props => (
+export const TargetPaymentCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать целевой взнос"}>
-        <TargetForm redirect="list"/>
+        <SimpleForm redirect="list">
+            <TargetForm/>
+        </SimpleForm>
     </Create>
 );

@@ -1,35 +1,45 @@
-import * as React from "react";
 import {
     Create,
+    CreateProps,
     Datagrid,
     DateField,
     DateInput,
     Edit,
     EditButton,
+    EditProps,
+    FieldProps,
     List,
     Show,
+    ShowProps,
     SimpleForm,
     SimpleShowLayout,
     TextField,
     TextInput,
-    useRecordContext,
 } from 'react-admin';
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {Person} from "../types";
 
-export const PersonReferenceField = (props) => {
-    const record = useRecordContext(props);
+interface PersonFieldProps extends FieldProps<Person> {
+    withPhone?: boolean,
+}
+
+export const PersonField = ({record, withPhone = false}: PersonFieldProps) => {
+    if (!record) {
+        return null
+    }
 
     let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim();
 
     if (!result) {
         result = record.phone;
-    } else if (props.withPhone && record.phone) {
+    } else if (withPhone && record.phone) {
         result += ` (${record.phone})`;
     }
 
     return <span>{result}</span>;
-}
+};
 
-export const PersonList = props => (
+export const PersonList = (props: ListProps) => (
     <List {...props}
           title={"Садоводы"}
           empty={false}
@@ -47,11 +57,13 @@ export const PersonList = props => (
     </List>
 );
 
-export const PersonTitle = ({record}) => {
+export const PersonTitle = (props: FieldProps<Person>) => {
+    const {record} = props
+
     return <span>Садовод {record ? `"${record.lastname} ${record.firstname}"` : ''}</span>;
 };
 
-export const PersonEdit = props => (
+export const PersonEdit = (props: EditProps) => (
     <Edit {...props} title={<PersonTitle/>}>
         <SimpleForm>
             <TextInput source="lastname" label="Фамилия"/>
@@ -63,7 +75,7 @@ export const PersonEdit = props => (
     </Edit>
 );
 
-export const PersonCreate = props => (
+export const PersonCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать садовода"}>
         <SimpleForm redirect="list">
             <TextInput source="lastname" label="Фамилия"/>
@@ -75,7 +87,7 @@ export const PersonCreate = props => (
     </Create>
 );
 
-export const PersonShow = props => (
+export const PersonShow = (props: ShowProps) => (
     <Show {...props}
           title={"Садовод"}
     >

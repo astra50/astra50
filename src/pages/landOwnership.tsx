@@ -1,11 +1,12 @@
-import * as React from "react";
 import {
     Create,
+    CreateProps,
     Datagrid,
     DateField,
     DateInput,
     Edit,
     EditButton,
+    EditProps,
     List,
     ReferenceField,
     ReferenceInput,
@@ -13,29 +14,31 @@ import {
     SimpleForm,
     TextField,
 } from 'react-admin';
-import {PersonReferenceField} from "./person";
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {PersonField} from "./person";
 
+export const LandOwnershipList = (props: ListProps) => {
+    return (
+        <List {...props}
+              title={"Владение"}
+              empty={false}
+        >
+            <Datagrid>
+                <ReferenceField source="land_id" reference="land" label="Участок">
+                    <TextField source="number"/>
+                </ReferenceField>
+                <ReferenceField source="owner_id" reference="person" label="Владелец">
+                    <PersonField/>
+                </ReferenceField>
+                <DateField source="since" label="С даты"/>
+                <DateField source="until" label="По дату"/>
+                <EditButton/>
+            </Datagrid>
+        </List>
+    );
+};
 
-export const LandOwnershipList = props => (
-    <List {...props}
-          title={"Владение"}
-          empty={false}
-    >
-        <Datagrid>
-            <ReferenceField source="land_id" reference="land" label="Участок">
-                <TextField source="number"/>
-            </ReferenceField>
-            <ReferenceField source="owner_id" reference="person" label="Владелец">
-                <PersonReferenceField source="lastname"/>
-            </ReferenceField>
-            <DateField source="since" label="С даты"/>
-            <DateField source="until" label="По дату"/>
-            <EditButton/>
-        </Datagrid>
-    </List>
-);
-
-export const LandOwnershipEdit = props => (
+export const LandOwnershipEdit = (props: EditProps) => (
     <Edit {...props}>
         <SimpleForm>
             <ReferenceInput
@@ -54,7 +57,7 @@ export const LandOwnershipEdit = props => (
                 perPage={500}
                 sort={{field: 'lastname', order: 'ASC'}}
             >
-                <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
+                <SelectInput optionText={<PersonField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>
@@ -62,7 +65,7 @@ export const LandOwnershipEdit = props => (
     </Edit>
 );
 
-export const LandOwnershipCreate = props => (
+export const LandOwnershipCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать владение"}>
         <SimpleForm redirect="list">
             <ReferenceInput
@@ -81,7 +84,7 @@ export const LandOwnershipCreate = props => (
                 perPage={500}
                 sort={{field: 'lastname', order: 'ASC'}}
             >
-                <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
+                <SelectInput optionText={<PersonField withPhone={true}/>}/>
             </ReferenceInput>
             <DateInput source="since" label="С даты"/>
             <DateInput source="until" label="По дату"/>

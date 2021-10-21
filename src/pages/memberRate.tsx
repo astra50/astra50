@@ -1,11 +1,13 @@
-import * as React from "react";
 import {
     Create,
+    CreateProps,
     Datagrid,
     DateField,
     DateInput,
     Edit,
     EditButton,
+    EditProps,
+    FieldProps,
     List,
     NumberField,
     NumberInput,
@@ -13,8 +15,10 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {MemberRate} from "../types";
 
-export const MemberRateList = props => (
+export const MemberRateList = (props: ListProps) => (
     <List {...props}
           title="Ставки"
           empty={false}
@@ -30,12 +34,14 @@ export const MemberRateList = props => (
     </List>
 );
 
-const MemberRateTitle = ({record}) => {
+const MemberRateTitle = (props: FieldProps<MemberRate>) => {
+    const {record} = props
+
     return <span>Ставка с {record ? `"${record.since}" по "${record.until}"` : ''}</span>;
 };
 
-const MemberRateForm = props => (
-    <SimpleForm {...props}>
+const MemberRateForm = () => (
+    <span>
         <NumberInput
             source="amount"
             label="Ставка"
@@ -52,17 +58,21 @@ const MemberRateForm = props => (
             helperText="Дата завершения действия ставки НЕ включительно"
         />
         <TextInput source="comment" label="Комментарий"/>
-    </SimpleForm>
+    </span>
 );
 
-export const MemberRateEdit = props => (
+export const MemberRateEdit = (props: EditProps) => (
     <Edit {...props} title={<MemberRateTitle/>}>
-        <MemberRateForm/>
+        <SimpleForm>
+            <MemberRateForm/>
+        </SimpleForm>
     </Edit>
 );
 
-export const MemberRateCreate = props => (
+export const MemberRateCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать Ставку"}>
-        <MemberRateForm redirect="list"/>
+        <SimpleForm redirect="list">
+            <MemberRateForm/>
+        </SimpleForm>
     </Create>
 );

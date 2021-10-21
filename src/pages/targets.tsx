@@ -1,7 +1,20 @@
-import * as React from "react";
-import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
+import {
+    Create,
+    CreateProps,
+    Datagrid,
+    Edit,
+    EditButton,
+    EditProps,
+    FieldProps,
+    List,
+    SimpleForm,
+    TextField,
+    TextInput,
+} from 'react-admin';
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {Target} from "../types";
 
-export const TargetList = props => (
+export const TargetList = (props: ListProps) => (
     <List {...props}
           title="Цели"
           empty={false}
@@ -14,11 +27,13 @@ export const TargetList = props => (
     </List>
 );
 
-const TargetTitle = ({record}) => {
+const TargetTitle = (props: FieldProps<Target>) => {
+    const {record} = props
+
     return <span>Цель {record ? `"${record.name}"` : ''}</span>;
 };
 
-export const TargetEdit = props => (
+export const TargetEdit = (props: EditProps) => (
     <Edit {...props} title={<TargetTitle/>}>
         <SimpleForm>
             <TextInput source="name" label="Цель"/>
@@ -27,7 +42,7 @@ export const TargetEdit = props => (
     </Edit>
 );
 
-export const TargetCreate = props => (
+export const TargetCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать Ставку"}>
         <SimpleForm redirect="list">
             <TextInput source="name" label="Цель"/>

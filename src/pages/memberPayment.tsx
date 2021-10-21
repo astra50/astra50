@@ -1,11 +1,12 @@
-import * as React from "react";
 import {
     Create,
+    CreateProps,
     Datagrid,
     DateField,
     DateInput,
     Edit,
     EditButton,
+    EditProps,
     List,
     NumberField,
     NumberInput,
@@ -16,7 +17,8 @@ import {
     TextField,
     TextInput,
 } from 'react-admin';
-import {PersonReferenceField} from "./person";
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {PersonField} from "./person";
 
 const MemberPaymentFilters = [
     <ReferenceInput
@@ -27,11 +29,11 @@ const MemberPaymentFilters = [
         sort={{field: 'lastname', order: 'ASC'}}
         allowEmpty
     >
-        <SelectInput optionText={<PersonReferenceField/>}/>
+        <SelectInput optionText={<PersonField/>}/>
     </ReferenceInput>,
 ];
 
-export const MemberPaymentList = props => (
+export const MemberPaymentList = (props: ListProps) => (
     <List {...props}
           title="Членские взносы"
           empty={false}
@@ -40,7 +42,7 @@ export const MemberPaymentList = props => (
     >
         <Datagrid>
             <ReferenceField source="person_id" reference="person" label="Плательщик">
-                <PersonReferenceField/>
+                <PersonField/>
             </ReferenceField>
             <NumberField
                 source="amount"
@@ -54,8 +56,8 @@ export const MemberPaymentList = props => (
     </List>
 )
 
-const MemberPaymentForm = props => (
-    <SimpleForm {...props}>
+const MemberPaymentForm = () => (
+    <>
         <ReferenceInput
             source="person_id"
             reference="person"
@@ -63,7 +65,7 @@ const MemberPaymentForm = props => (
             perPage={500}
             sort={{field: 'lastname', order: 'ASC'}}
         >
-            <SelectInput optionText={<PersonReferenceField withPhone={true}/>}/>
+            <SelectInput optionText={<PersonField withPhone={true}/>}/>
         </ReferenceInput>
 
         <NumberInput
@@ -82,17 +84,21 @@ const MemberPaymentForm = props => (
         </ReferenceInput>
         <DateInput source="paid_at" label="Дата платежа"/>
         <TextInput source="comment" label="Комментарий"/>
-    </SimpleForm>
+    </>
 )
 
-export const MemberPaymentEdit = props => (
+export const MemberPaymentEdit = (props: EditProps) => (
     <Edit {...props} title="Членский Взнос">
-        <MemberPaymentForm/>
+        <SimpleForm>
+            <MemberPaymentForm/>
+        </SimpleForm>
     </Edit>
 )
 
-export const MemberPaymentCreate = props => (
+export const MemberPaymentCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать платёж"}>
-        <MemberPaymentForm redirect="list"/>
+        <SimpleForm redirect="list">
+            <MemberPaymentForm/>
+        </SimpleForm>
     </Create>
 )

@@ -1,7 +1,20 @@
-import * as React from "react";
-import {Create, Datagrid, Edit, EditButton, List, SimpleForm, TextField, TextInput} from 'react-admin';
+import {
+    Create,
+    CreateProps,
+    Datagrid,
+    Edit,
+    EditButton,
+    EditProps,
+    FieldProps,
+    List,
+    SimpleForm,
+    TextField,
+    TextInput,
+} from 'react-admin';
+import {ListProps} from "ra-ui-materialui/lib/types";
+import {Street} from "../types";
 
-export const StreetList = props => (
+export const StreetList = (props: ListProps) => (
     <List {...props}
           title={"Улицы"}
           empty={false}
@@ -13,11 +26,13 @@ export const StreetList = props => (
     </List>
 );
 
-const StreetTitle = ({record}) => {
+const StreetTitle = (props: FieldProps<Street>) => {
+    const {record} = props
+
     return <span>Улица {record ? `"${record.name}"` : ''}</span>;
 };
 
-export const StreetEdit = props => (
+export const StreetEdit = (props: EditProps) => (
     <Edit {...props} title={<StreetTitle/>}>
         <SimpleForm>
             <TextInput source="name"/>
@@ -25,7 +40,7 @@ export const StreetEdit = props => (
     </Edit>
 );
 
-export const StreetCreate = props => (
+export const StreetCreate = (props: CreateProps) => (
     <Create {...props} title={"Создать улицу"}>
         <SimpleForm redirect="list">
             <TextInput source="name" label="Название"/>
