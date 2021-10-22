@@ -18,6 +18,7 @@ import {
 } from 'react-admin';
 import {ListProps} from "ra-ui-materialui/lib/types";
 import {Person} from "../types";
+import {MoneyField} from "../money";
 
 interface PersonFieldProps extends FieldProps<Person> {
     withPhone?: boolean,
@@ -51,7 +52,7 @@ export const PersonList = (props: ListProps) => (
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
-            <DateField source="birth_date" label="День рождения"/>
+            <MoneyField source="balance" label="Баланс"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -97,6 +98,8 @@ export const PersonShow = (props: ShowProps) => (
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
             <DateField source="birth_date" label="День рождения"/>
+            <MoneyField source="balance" label="Баланс" addLabel={true}/>
+            <DateField source="balance_at" label="Дата обновления баланса" showTime/>
         </SimpleShowLayout>
     </Show>
 )
