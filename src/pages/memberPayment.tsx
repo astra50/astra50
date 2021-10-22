@@ -95,6 +95,7 @@ const MemberPaymentForm = () => (
             source="paid_at"
             label="Дата платежа"
             validate={required()}
+            initialValue={new Date()}
         />
 
         <TextInput

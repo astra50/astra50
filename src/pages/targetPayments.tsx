@@ -97,6 +97,7 @@ const TargetForm = () => (
             source="paid_at"
             label="Дата платежа"
             validate={required()}
+            initialValue={new Date()}
         />
 
         <div>
