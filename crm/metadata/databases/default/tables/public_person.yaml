@@ -16,13 +16,15 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
+    - balance
+    - balance_at
     - birth_date
+    - created_at
     - firstname
+    - id
     - lastname
     - middlename
     - phone
-    - created_at
-    - id
     filter: {}
   role: government
 update_permissions:
