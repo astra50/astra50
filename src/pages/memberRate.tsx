@@ -11,6 +11,7 @@ import {
     List,
     NumberField,
     NumberInput,
+    required,
     SimpleForm,
     TextField,
     TextInput,
@@ -41,24 +42,34 @@ const MemberRateTitle = (props: FieldProps<MemberRate>) => {
 };
 
 const MemberRateForm = () => (
-    <span>
+    <div>
         <NumberInput
             source="amount"
             label="Ставка"
             helperText="Ставка за сотку"
+            validate={required()}
         />
-        <DateInput
-            source="since"
-            label="С даты"
-            helperText="Дата начала действия ставки"
+        <div>
+            <DateInput
+                source="since"
+                label="С даты"
+                helperText="Дата начала действия ставки"
+                validate={required()}
+            />
+            <DateInput
+                source="until"
+                label="По дату"
+                helperText="Дата завершения действия ставки НЕ включительно"
+                validate={required()}
+            />
+        </div>
+
+        <TextInput
+            source="comment"
+            label="Комментарий"
+            fullWidth={true}
         />
-        <DateInput
-            source="until"
-            label="По дату"
-            helperText="Дата завершения действия ставки НЕ включительно"
-        />
-        <TextInput source="comment" label="Комментарий"/>
-    </span>
+    </div>
 );
 
 export const MemberRateEdit = (props: EditProps) => (

@@ -61,33 +61,39 @@ export const TargetPaymentList = (props: ListProps) => (
 
 const TargetForm = () => (
     <>
-        <ReferenceInput
-            source="target_id"
-            reference="target"
-            label="Цель"
-            perPage={500}
-            sort={{field: 'name', order: 'ASC'}}
-            validate={required()}
-        >
-            <SelectInput optionText="name"/>
-        </ReferenceInput>
-
-        <ReferenceInput
-            source="person_id"
-            reference="person"
-            label="Плательщик"
-            perPage={500}
-            sort={{field: 'lastname', order: 'ASC'}}
-            validate={required()}
-        >
-            <SelectInput optionText={<PersonField withPhone={true}/>}/>
-        </ReferenceInput>
-
-        <NumberInput
-            source="amount"
-            label="Сумма"
-            validate={required()}
-        />
+        <div>
+            <ReferenceInput
+                source="target_id"
+                reference="target"
+                label="Цель"
+                perPage={500}
+                sort={{field: 'name', order: 'ASC'}}
+                validate={required()}
+            >
+                <SelectInput optionText="name"/>
+            </ReferenceInput>
+        </div>
+        <div>
+            <NumberInput
+                source="amount"
+                label="Сумма"
+                validate={required()}
+            />
+        </div>
+        <div>
+            <ReferenceInput
+                source="person_id"
+                reference="person"
+                label="Плательщик"
+                perPage={500}
+                sort={{field: 'lastname', order: 'ASC'}}
+                validate={required()}
+            >
+                <SelectInput
+                    optionText={<PersonField withPhone={true}/>}
+                />
+            </ReferenceInput>
+        </div>
 
         <DateInput
             source="paid_at"
@@ -95,7 +101,13 @@ const TargetForm = () => (
             validate={required()}
         />
 
-        <TextInput source="comment" label="Комментарий"/>
+        <div>
+            <TextInput
+                source="comment"
+                label="Комментарий"
+                fullWidth
+            />
+        </div>
     </>
 );
 

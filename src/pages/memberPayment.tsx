@@ -12,6 +12,7 @@ import {
     NumberInput,
     ReferenceField,
     ReferenceInput,
+    required,
     SelectInput,
     SimpleForm,
     TextField,
@@ -58,32 +59,49 @@ export const MemberPaymentList = (props: ListProps) => (
 
 const MemberPaymentForm = () => (
     <>
-        <ReferenceInput
-            source="person_id"
-            reference="person"
-            label="Плательщик"
-            perPage={500}
-            sort={{field: 'lastname', order: 'ASC'}}
-        >
-            <SelectInput optionText={<PersonField withPhone={true}/>}/>
-        </ReferenceInput>
+        <div>
+            <ReferenceInput
+                source="person_id"
+                reference="person"
+                label="Плательщик"
+                perPage={500}
+                sort={{field: 'lastname', order: 'ASC'}}
+                validate={required()}
+            >
+                <SelectInput optionText={<PersonField withPhone={true}/>}/>
+            </ReferenceInput>
+        </div>
+        <div>
+            <NumberInput
+                source="amount"
+                label="Сумма"
+                validate={required()}
+            />
+        </div>
 
-        <NumberInput
-            source="amount"
-            label="Сумма"
+        <div>
+            <ReferenceInput
+                source="land_id"
+                reference="land"
+                label="Участок"
+                perPage={500}
+                sort={{field: 'number', order: 'ASC'}}
+            >
+                <SelectInput optionText="number"/>
+            </ReferenceInput>
+        </div>
+
+        <DateInput
+            source="paid_at"
+            label="Дата платежа"
+            validate={required()}
         />
 
-        <ReferenceInput
-            source="land_id"
-            reference="land"
-            label="Участок"
-            perPage={500}
-            sort={{field: 'number', order: 'ASC'}}
-        >
-            <SelectInput optionText="number"/>
-        </ReferenceInput>
-        <DateInput source="paid_at" label="Дата платежа"/>
-        <TextInput source="comment" label="Комментарий"/>
+        <TextInput
+            source="comment"
+            label="Комментарий"
+            fullWidth
+        />
     </>
 )
 
