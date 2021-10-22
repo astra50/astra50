@@ -42,7 +42,7 @@ export const MemberPaymentList = (props: ListProps) => (
           sort={{field: 'paid_at', order: 'DESC'}}
     >
         <Datagrid>
-            <ReferenceField source="person_id" reference="person" label="Плательщик">
+            <ReferenceField source="person_id" reference="person" label="Плательщик" link={'show'}>
                 <PersonField/>
             </ReferenceField>
             <NumberField

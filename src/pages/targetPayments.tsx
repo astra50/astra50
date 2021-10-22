@@ -43,7 +43,7 @@ export const TargetPaymentList = (props: ListProps) => (
             <ReferenceField source="target_id" reference="target" label="Цель">
                 <TextField source="name"/>
             </ReferenceField>
-            <ReferenceField source="person_id" reference="person" label="Плательщик">
+            <ReferenceField source="person_id" reference="person" label="Плательщик" link={'show'}>
                 <PersonField/>
             </ReferenceField>
             <MoneyField
