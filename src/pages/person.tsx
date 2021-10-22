@@ -61,7 +61,7 @@ export const PersonList = (props: ListProps) => (
 export const PersonTitle = (props: FieldProps<Person>) => {
     const {record} = props
 
-    return <span>Садовод {record ? `"${record.lastname} ${record.firstname}"` : ''}</span>;
+    return <PersonField record={record}/>;
 };
 
 export const PersonEdit = (props: EditProps) => (
@@ -90,7 +90,7 @@ export const PersonCreate = (props: CreateProps) => (
 
 export const PersonShow = (props: ShowProps) => (
     <Show {...props}
-          title={"Садовод"}
+          title={<PersonTitle/>}
     >
         <SimpleShowLayout>
             <TextField source="lastname" label="Фамилия"/>
