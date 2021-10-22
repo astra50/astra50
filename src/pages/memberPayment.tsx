@@ -9,7 +9,6 @@ import {
     EditProps,
     List,
     NumberField,
-    NumberInput,
     ReferenceField,
     ReferenceInput,
     required,
@@ -20,6 +19,7 @@ import {
 } from 'react-admin';
 import {ListProps} from "ra-ui-materialui/lib/types";
 import {PersonField} from "./person";
+import {MoneyInput} from "../money";
 
 const MemberPaymentFilters = [
     <ReferenceInput
@@ -72,7 +72,7 @@ const MemberPaymentForm = () => (
             </ReferenceInput>
         </div>
         <div>
-            <NumberInput
+            <MoneyInput
                 source="amount"
                 label="Сумма"
                 validate={required()}

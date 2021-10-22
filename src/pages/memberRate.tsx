@@ -9,8 +9,6 @@ import {
     EditProps,
     FieldProps,
     List,
-    NumberField,
-    NumberInput,
     required,
     SimpleForm,
     TextField,
@@ -18,6 +16,7 @@ import {
 } from 'react-admin';
 import {ListProps} from "ra-ui-materialui/lib/types";
 import {MemberRate} from "../types";
+import {MoneyField, MoneyInput} from "../money";
 
 export const MemberRateList = (props: ListProps) => (
     <List {...props}
@@ -26,7 +25,7 @@ export const MemberRateList = (props: ListProps) => (
           sort={{field: 'since', order: 'DESC'}}
     >
         <Datagrid>
-            <NumberField source="amount" label="Ставка"/>
+            <MoneyField source="amount" label="Ставка"/>
             <TextField source="comment" label="Комментарий"/>
             <DateField source="since" label="С даты"/>
             <DateField source="until" label="По дату"/>
@@ -43,7 +42,7 @@ const MemberRateTitle = (props: FieldProps<MemberRate>) => {
 
 const MemberRateForm = () => (
     <div>
-        <NumberInput
+        <MoneyInput
             source="amount"
             label="Ставка"
             helperText="Ставка за сотку"

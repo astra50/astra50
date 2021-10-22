@@ -8,8 +8,6 @@ import {
     EditButton,
     EditProps,
     List,
-    NumberField,
-    NumberInput,
     ReferenceField,
     ReferenceInput,
     required,
@@ -20,6 +18,7 @@ import {
 } from 'react-admin';
 import {ListProps} from "ra-ui-materialui/lib/types";
 import {PersonField} from "./person";
+import {MoneyField, MoneyInput} from "../money";
 
 const TargetPaymentFilters = [
     <ReferenceInput
@@ -47,10 +46,9 @@ export const TargetPaymentList = (props: ListProps) => (
             <ReferenceField source="person_id" reference="person" label="Плательщик">
                 <PersonField/>
             </ReferenceField>
-            <NumberField
+            <MoneyField
                 source="amount"
                 label="Сумма"
-                options={{style: 'currency', currency: 'RUB'}}
             />
             <DateField source="paid_at" label="Дата"/>
             <TextField source="comment" label="Комментарий"/>
@@ -74,7 +72,7 @@ const TargetForm = () => (
             </ReferenceInput>
         </div>
         <div>
-            <NumberInput
+            <MoneyInput
                 source="amount"
                 label="Сумма"
                 validate={required()}
