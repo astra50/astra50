@@ -9,16 +9,21 @@ import {
     EditProps,
     FieldProps,
     List,
+    ListButton,
     Show,
+    ShowActionsProps,
     ShowProps,
     SimpleForm,
     SimpleShowLayout,
     TextField,
     TextInput,
+    TopToolbar,
 } from 'react-admin';
 import {ListProps} from "ra-ui-materialui/lib/types";
 import {Person} from "../types";
 import {MoneyField} from "../money";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faRubleSign} from "@fortawesome/free-solid-svg-icons";
 
 interface PersonFieldProps extends FieldProps<Person> {
     withPhone?: boolean,
@@ -88,9 +93,27 @@ export const PersonCreate = (props: CreateProps) => (
     </Create>
 );
 
+const PersonShowActions = ({basePath, data}: ShowActionsProps) => {
+    if (!data) {
+        return <TopToolbar/>
+    }
+
+    return (
+        <TopToolbar>
+            <ListButton
+                basePath={"/member_payment?" + new URLSearchParams({filter: JSON.stringify({person_id: data!.id})})}
+                label="Членские взносы"
+                icon={<FontAwesomeIcon icon={faRubleSign}/>}
+            />
+            <EditButton basePath={basePath} record={data}/>
+        </TopToolbar>
+    );
+};
+
 export const PersonShow = (props: ShowProps) => (
     <Show {...props}
           title={<PersonTitle/>}
+          actions={<PersonShowActions/>}
     >
         <SimpleShowLayout>
             <TextField source="lastname" label="Фамилия"/>
