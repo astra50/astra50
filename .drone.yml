@@ -62,7 +62,7 @@ steps:
     -   name: wait
         image: automagistre/wait-for-it:stable
         commands:
-            - /wait-for-it.sh crm.astra50.ru:80
+            - /wait-for-it.sh api.astra50.ru:80
 
     -   name: hasura migrate
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
