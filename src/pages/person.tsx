@@ -3,7 +3,6 @@ import {
     CreateProps,
     Datagrid,
     DateField,
-    DateInput,
     Edit,
     EditButton,
     EditProps,
@@ -41,7 +40,6 @@ export const PersonField = ({record, withPhone = false}: PersonFieldProps) => {
     } else if (withPhone && record.phone) {
         result += ` (${record.phone})`;
     }
-
     return <span>{result}</span>;
 };
 
@@ -57,6 +55,8 @@ export const PersonList = (props: ListProps) => (
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
+            <TextField source="phone_second" label="Телефон2"/>
+            <TextField source="email" label="E-mail"/>
             <MoneyField source="balance" label="Баланс"/>
             <EditButton/>
         </Datagrid>
@@ -65,7 +65,6 @@ export const PersonList = (props: ListProps) => (
 
 export const PersonTitle = (props: FieldProps<Person>) => {
     const {record} = props
-
     return <PersonField record={record}/>;
 };
 
@@ -76,7 +75,8 @@ export const PersonEdit = (props: EditProps) => (
             <TextInput source="firstname" label="Имя"/>
             <TextInput source="middlename" label="Отчество"/>
             <TextInput source="phone" label="Телефон"/>
-            <DateInput source="birth_date" label="День рождения"/>
+            <TextInput source="phone_second" label="Телефон2"/>
+            <TextInput source="email" label="E-mail"/>
         </SimpleForm>
     </Edit>
 );
@@ -88,7 +88,8 @@ export const PersonCreate = (props: CreateProps) => (
             <TextInput source="firstname" label="Имя"/>
             <TextInput source="middlename" label="Отчество"/>
             <TextInput source="phone" label="Телефон"/>
-            <DateInput source="birth_date" label="День рождения"/>
+            <TextInput source="phone_second" label="Телефон2"/>
+            <TextInput source="email" label="E-mail"/>
         </SimpleForm>
     </Create>
 );
@@ -120,7 +121,8 @@ export const PersonShow = (props: ShowProps) => (
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
-            <DateField source="birth_date" label="День рождения"/>
+            <TextField source="phone_second" label="Телефон2"/>
+            <TextField source="email" label="E-mail"/>
             <MoneyField source="balance" label="Баланс" addLabel={true}/>
             <DateField source="balance_at" label="Дата обновления баланса" showTime/>
         </SimpleShowLayout>

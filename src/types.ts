@@ -14,6 +14,8 @@ export interface Person extends Record {
     firstname: string,
     middlename: string,
     phone: string,
+    phone_second: string,
+    email: string,
     balance: number,
     balance_at: string,
 }
