@@ -8,6 +8,7 @@ import {
     EditButton,
     EditProps,
     List,
+    NumberField,
     ReferenceField,
     ReferenceInput,
     SelectInput,
@@ -22,13 +23,22 @@ export const LandOwnershipList = (props: ListProps) => {
         <List {...props}
               title={"Владение"}
               empty={false}
+              sort={{field: "land.number", order: 'ASC'}}
+              perPage={125}
         >
             <Datagrid>
-                <ReferenceField source="land_id" reference="land" label="Участок">
+                <ReferenceField source="land_id" reference="land" label="Участок" sortBy="land.number">
                     <TextField source="number"/>
                 </ReferenceField>
                 <ReferenceField source="owner_id" reference="person" label="Владелец">
                     <PersonField/>
+                </ReferenceField>
+                <ReferenceField source="owner_id" reference="person" label="Баланс">
+                    <NumberField
+                      source="balance"
+                      label="Сумма"
+                      options={{style: 'currency', currency: 'RUB'}}
+                    />
                 </ReferenceField>
                 <DateField source="since" label="С даты"/>
                 <DateField source="until" label="По дату"/>
