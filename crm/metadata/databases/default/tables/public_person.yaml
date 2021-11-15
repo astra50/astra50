@@ -7,10 +7,12 @@ insert_permissions:
     check: {}
     columns:
     - birth_date
+    - email
     - firstname
     - lastname
     - middlename
     - phone
+    - phone_second
   role: government
 select_permissions:
 - permission:
@@ -20,11 +22,13 @@ select_permissions:
     - balance_at
     - birth_date
     - created_at
+    - email
     - firstname
     - id
     - lastname
     - middlename
     - phone
+    - phone_second
     filter: {}
   role: government
 update_permissions:
@@ -32,10 +36,12 @@ update_permissions:
     check: null
     columns:
     - birth_date
+    - email
     - firstname
     - lastname
     - middlename
     - phone
+    - phone_second
     filter: {}
   role: government
 delete_permissions:
