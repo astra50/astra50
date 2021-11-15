@@ -18,6 +18,7 @@ insert_permissions:
     columns:
     - amount
     - comment
+    - is_regular
     - land_id
     - paid_at
     - person_id
@@ -32,6 +33,7 @@ select_permissions:
     - comment
     - created_at
     - id
+    - is_regular
     - land_id
     - paid_at
     - person_id
