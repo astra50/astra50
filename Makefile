@@ -1,10 +1,15 @@
+.PHONY: contrib
+
+contrib:
+	@cp -n -r contrib/* ./ || true
+
 down:
 	docker-compose down --volumes --remove-orphans
 
 pull:
 	docker-compose pull
 
-up: pull up-postgres up-hasura
+up: contrib pull up-postgres up-hasura
 
 up-postgres:
 	docker-compose up -d --force-recreate postgres
