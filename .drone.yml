@@ -67,7 +67,6 @@ steps:
     -   name: hasura migrate
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
         commands:
-            - cd crm
             - hasura-cli metadata apply
             - hasura-cli migrate apply --all-databases
             - hasura-cli metadata reload

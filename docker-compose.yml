@@ -51,13 +51,10 @@ services:
             - --address=api-console.astra50.local
             - --console-port=80
         environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
             HASURA_GRAPHQL_ADMIN_SECRET: admin
-            HASURA_GRAPHQL_ENDPOINT: http://api.astra50.local
         working_dir: /app
         volumes:
-            - ./crm:/app
+            - ./:/app
             - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
 
