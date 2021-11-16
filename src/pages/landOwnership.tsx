@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -8,15 +9,14 @@ import {
     EditButton,
     EditProps,
     List,
-    NumberField,
     ReferenceField,
     ReferenceInput,
     SelectInput,
     SimpleForm,
     TextField,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {PersonField} from "./person";
+} from 'react-admin'
+import {MoneyField} from '../money'
+import {PersonField} from './person'
 
 export const LandOwnershipList = (props: ListProps) => {
     return (
@@ -34,11 +34,7 @@ export const LandOwnershipList = (props: ListProps) => {
                     <PersonField/>
                 </ReferenceField>
                 <ReferenceField source="owner_id" reference="person" label="Баланс">
-                    <NumberField
-                      source="balance"
-                      label="Сумма"
-                      options={{style: 'currency', currency: 'RUB'}}
-                    />
+                    <MoneyField source="balance"/>
                 </ReferenceField>
                 <DateField source="since" label="С даты"/>
                 <DateField source="until" label="По дату"/>
