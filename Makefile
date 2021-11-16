@@ -21,3 +21,9 @@ up-hasura:
 		&& hasura-cli metadata reload \
 		&& hasura-cli migrate status --database-name default \
 		"
+
+permissions:
+	sudo chown -R $(shell id -u):$(shell id -g) .
+
+console:
+	docker-compose exec hasura-console bash
