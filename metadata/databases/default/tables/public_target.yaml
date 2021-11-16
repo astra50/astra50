@@ -1,0 +1,41 @@
+table:
+  name: target
+  schema: public
+array_relationships:
+- name: target_payments
+  using:
+    foreign_key_constraint_on:
+      column: target_id
+      table:
+        name: target_payment
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - comment
+    - name
+  role: government
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - id
+    - created_at
+    - name
+    - comment
+    filter: {}
+  role: government
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - comment
+    - name
+    filter: {}
+  role: government
+delete_permissions:
+- permission:
+    filter: {}
+  role: government

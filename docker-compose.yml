@@ -14,8 +14,66 @@ services:
         volumes:
             - ./crm:/app
         working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+
+    postgres:
+        image: postgres:13.4-alpine
+        labels:
+            ru.grachevko.dhu: 'postgres.astra50.local'
+        volumes:
+            -   type: tmpfs
+                target: /var/lib/postgresql/data
+                tmpfs:
+                    size: 2G
+            - ./:/app
+        environment:
+            POSTGRES_DB: db
+            POSTGRES_USER: db
+            POSTGRES_PASSWORD: db
+
+    hasura:
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        labels:
+            ru.grachevko.dhu: 'api.astra50.local'
+        command:
+            - graphql-engine
+            - serve
+            - --server-port=80
+            - --unauthorized-role=anonymous
+            - --cors-domain=*
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
+            HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+            HASURA_GRAPHQL_DEV_MODE: 'true'
+            HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+        networks:
+            default:
+                aliases:
+                    - api.astra50.local
+
+    hasura-console:
+        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        extra_hosts:
+            - api-console.astra50.local:0.0.0.0
+        labels:
+            ru.grachevko.dhu: 'api-console.astra50.local'
+        entrypoint: hasura-cli
+        command:
+            - console
+            - --address=api-console.astra50.local
+            - --console-port=80
+        environment:
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+            HASURA_GRAPHQL_ENDPOINT: http://api.astra50.local
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./var/hasura:/.hasura
+        user: ${UID:-1000}:${GID:-1000}
 
 networks:
     default:
         name: astra50
-        external: true

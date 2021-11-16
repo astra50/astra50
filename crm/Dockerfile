@@ -4,12 +4,12 @@ WORKDIR /data
 
 FROM node-base AS node
 
-COPY crm/package.json package-lock.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY crm/public public
-COPY crm/src src
+COPY public public
+COPY src src
 
 RUN set -ex \
     && ls  \
