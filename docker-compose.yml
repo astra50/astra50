@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+    react-admin:
+        image: astra50/crm:node-base
+        extra_hosts:
+            - crm.astra50.local:0.0.0.0
+        labels:
+            ru.grachevko.dhu: 'crm.astra50.local'
+        command: npm run start
+        environment:
+            HOST: crm.astra50.local
+            PORT: 80
+        volumes:
+            - ./:/app
+        working_dir: /app
+
+networks:
+    default:
+        name: astra50
+        external: true

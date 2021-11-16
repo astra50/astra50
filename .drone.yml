@@ -1,0 +1,157 @@
+---
+kind: pipeline
+type: docker
+name: build
+
+trigger:
+    event:
+        exclude:
+            - pull_request
+
+clone:
+    depth: 0
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    - &docker
+        name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base .
+
+    -   <<: *docker
+        name: nginx base
+        commands:
+            - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base .
+
+    -   <<: *docker
+        name: nginx
+        commands:
+            - docker build -t ${DRONE_REPO}:${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+        depends_on:
+            - node base
+            - nginx base
+
+---
+kind: pipeline
+type: docker
+name: push
+
+trigger:
+    branch:
+        - master
+    event:
+        - push
+
+clone:
+    depth: 0
+
+depends_on:
+    - build
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    -   name: docker login
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        environment:
+            DOCKER_USERNAME:
+                from_secret: docker_username
+            DOCKER_PASSWORD:
+                from_secret: docker_password
+
+    -   name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:node-base
+            - docker push ${DRONE_REPO}:node-base
+            - docker rmi ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+    -   name: nginx base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:nginx-base
+            - docker push ${DRONE_REPO}:nginx-base
+            - docker rmi ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+---
+kind: pipeline
+type: docker
+name: deploy
+
+trigger:
+    branch:
+        - master
+        - rc
+    event:
+        - push
+
+clone:
+    depth: 0
+
+depends_on:
+    - push
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+steps:
+    -   name: check deploy
+        image: automagistre/git:stable
+        commands:
+            - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
+
+    -   name: deploy
+        image: automagistre/docker-compose:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --resolve-image never --compose-file - astra50-crm
+        environment:
+            IMAGE: ${DRONE_REPO}:${DRONE_BUILD_NUMBER}
+        depends_on:
+            - check deploy
+
+    -   name: clean
+        image: automagistre/docker-compose:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker rmi `docker images --format "{{.Repository}}:{{.Tag}}" --filter reference=${DRONE_REPO}:* --filter before=${DRONE_REPO}:${DRONE_BUILD_NUMBER}` || true
+        depends_on:
+            - deploy
