@@ -12,7 +12,7 @@ services:
             HOST: crm.astra50.local
             PORT: 80
         volumes:
-            - ./:/app
+            - ./crm:/app
         working_dir: /app
 
 networks:
