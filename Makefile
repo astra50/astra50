@@ -32,3 +32,6 @@ permissions:
 
 console:
 	docker-compose exec hasura-console bash
+
+cli-postgres:
+	docker-compose exec -w /var/lib/postgresql/data postgres bash
