@@ -58,6 +58,7 @@ services:
         working_dir: /app
         volumes:
             - ./crm:/app
+        user: ${UID:-1000}:${GID:-1000}
 
 networks:
     default:
