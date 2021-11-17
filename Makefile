@@ -45,3 +45,16 @@ cli:
 
 cli-postgres:
 	docker-compose exec -w /var/lib/postgresql/data postgres bash
+
+BACKUP_SERVER=s3.automagistre.ru
+BACKUP_FILE=var/backup.sql.gz
+backup-download:
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/astra50/backups/postgres/*crm.sql.gz | head -1) $(BACKUP_FILE)
+
+backup-restore:
+	@docker-compose exec postgres sh -c " \
+		psql -U db postgres -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db' AND pid <> pg_backend_pid()\"; \
+		psql -U db postgres -c \"DROP DATABASE db\"; \
+		psql -U db postgres -c \"CREATE DATABASE db\" \
+		&& gunzip < $(BACKUP_FILE) | psql -U db \
+		"

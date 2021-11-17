@@ -26,6 +26,7 @@ services:
                 tmpfs:
                     size: 2G
             - ./:/app
+        working_dir: /app
         environment:
             POSTGRES_DB: db
             POSTGRES_USER: db

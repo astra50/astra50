@@ -31,6 +31,7 @@ services:
                 postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
                 postgres:5432:crm-hasura:db:${POSTGRES_PASSWORD}
                 postgres:5432:crm:db:${POSTGRES_PASSWORD}
+                postgres:5432:n8n:db:${POSTGRES_PASSWORD}
                 ' > ~/.pgpass \
                 && chmod 600 ~/.pgpass \
                 && echo $$'
@@ -410,6 +411,83 @@ services:
                 - "traefik.http.routers.astra50-crm.tls=true"
                 - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
                 - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
+
+    n8n:
+        image: n8nio/n8n:0.149.0
+        environment:
+            DB_TYPE: postgresdb
+            DB_POSTGRESDB_DATABASE: n8n
+            DB_POSTGRESDB_HOST: postgres
+            DB_POSTGRESDB_PORT: 5432
+            DB_POSTGRESDB_USER: db
+            DB_POSTGRESDB_SCHEMA: public
+            DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+            N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+            GENERIC_TIMEZONE: Europe/Moscow
+            TZ: Europe/Moscow
+            WEBHOOK_URL: https://workflow.astra50.ru
+            NODE_ENV: production
+            EXECUTIONS_DATA_PRUNE: 'true'
+            EXECUTIONS_DATA_MAX_AGE: 8760
+            N8N_DIAGNOSTICS_ENABLED: 'false'
+            NODE_FUNCTION_ALLOW_BUILTIN: '*'
+            NODE_FUNCTION_ALLOW_EXTERNAL: '*'
+        networks:
+            - traefik
+            - default
+        volumes:
+            - /opt/astra50/n8n/data:/home/node/.n8n
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-n8n-webhook.rule=Host(`workflow.astra50.ru`) && (PathPrefix(`/webhook`) || PathPrefix(`/webhook-test`))"
+                - "traefik.http.routers.astra50-n8n-webhook.entrypoints=websecure"
+                - "traefik.http.routers.astra50-n8n-webhook.tls=true"
+                - "traefik.http.routers.astra50-n8n-webhook.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-n8n-webhook-service.loadbalancer.server.port=5678"
+        healthcheck:
+            test: nc -z 127.0.0.1 5678
+            start_period: 5s
+            interval: 5s
+
+    n8n-proxy:
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+        command:
+            - --http-address=:80
+            - --reverse-proxy=true
+            - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
+            - --session-store-type=redis
+            - --redis-connection-url=redis://redis:6379/2
+            - --email-domain=*
+            - --allowed-group=admin
+            - --provider=keycloak
+            - --skip-provider-button=true
+            - --scope=openid
+            - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
+            - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
+            - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
+            - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
+            - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+            - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+        environment:
+            OAUTH2_PROXY_UPSTREAMS: http://n8n.astra50:5678
+            OAUTH2_PROXY_REDIRECT_URL: https://workflow.astra50.ru/oauth2/callback
+        networks:
+            - default
+            - traefik
+        deploy:
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-n8n.rule=Host(`workflow.astra50.ru`) && !PathPrefix(`/webhook`) && !PathPrefix(`/webhook-test`)"
+                - "traefik.http.routers.astra50-n8n.entrypoints=websecure"
+                - "traefik.http.routers.astra50-n8n.tls=true"
+                - "traefik.http.routers.astra50-n8n.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-n8n-service.loadbalancer.server.port=80"
 
 networks:
     default:
