@@ -1,51 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import buildHasuraProvider from 'ra-data-hasura';
-import {Admin, Resource} from 'react-admin';
-import polyglotI18nProvider from 'ra-i18n-polyglot';
-import russianMessages from 'ra-language-russian';
-import {Dashboard} from './pages/Dashboard';
-import {StreetCreate, StreetEdit, StreetList} from './pages/streets';
-import {LandCreate, LandEdit, LandList} from "./pages/lands";
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
-import Keycloak from "keycloak-js";
-import useAuthProvider from "./authProvider";
-import {ReactKeycloakProvider} from "@react-keycloak/web";
-import {setContext} from "@apollo/client/link/context";
-import Layout from './Layout';
-import {PersonCreate, PersonEdit, PersonList, PersonShow} from "./pages/person";
-import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from "./pages/landOwnership";
-import {MemberRateCreate, MemberRateEdit, MemberRateList} from "./pages/memberRate";
-import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from "./pages/memberPayment";
-import {TargetCreate, TargetEdit, TargetList} from "./pages/targets";
-import {TargetPaymentCreate, TargetPaymentEdit, TargetPaymentList} from "./pages/targetPayments";
-import gates from './gate';
-import gateOpenReason from "./gate_open_reason";
-import gateOpen from "./gate_open";
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
+import {setContext} from '@apollo/client/link/context'
+import {ReactKeycloakProvider} from '@react-keycloak/web'
+import Keycloak from 'keycloak-js'
+// @ts-ignore
+import buildHasuraProvider from 'ra-data-hasura'
+import polyglotI18nProvider from 'ra-i18n-polyglot'
+// @ts-ignore
+import russianMessages from 'ra-language-russian'
+import React, {useEffect, useState} from 'react'
+import {Admin, Loading, Resource, TranslationProvider} from 'react-admin'
+import useAuthProvider from './authProvider'
+import gates from './gate'
+import gateOpen from './gate_open'
+import gateOpenReason from './gate_open_reason'
+import Layout from './Layout'
+import {Dashboard} from './pages/Dashboard'
+import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from './pages/landOwnership'
+import {LandCreate, LandEdit, LandList} from './pages/lands'
+import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from './pages/memberPayment'
+import {MemberRateCreate, MemberRateEdit, MemberRateList} from './pages/memberRate'
+import {PersonCreate, PersonEdit, PersonList, PersonShow} from './pages/person'
+import {StreetCreate, StreetEdit, StreetList} from './pages/streets'
+import {TargetPaymentCreate, TargetPaymentEdit, TargetPaymentList} from './pages/targetPayments'
+import {TargetCreate, TargetEdit, TargetList} from './pages/targets'
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
     realm: 'astra50',
     clientId: 'hasura-oauth',
-    onLoad: "login-required",
-};
+    onLoad: 'login-required',
+}
 
-const keycloak = Keycloak(keycloakConfig);
+const keycloak = Keycloak(keycloakConfig)
 
-const onTokenExpired = () => {
-    keycloak
-        .updateToken(30)
-        .catch(() => {
-            console.error("failed to refresh token");
-        });
-};
-
-const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
+const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru')
 
 const AdminWithKeycloak = () => {
-    const keycloakAuthProvider = useAuthProvider();
+    const keycloakAuthProvider = useAuthProvider()
 
-    const [dataProvider, setDataProvider] = useState(null);
-
+    const [dataProvider, setDataProvider] = useState(null)
 
     useEffect(() => {
         const httpLink = createHttpLink({
@@ -53,7 +46,7 @@ const AdminWithKeycloak = () => {
                 + '//api.'
                 + window.location.hostname.split('.').splice(-2).join('.')
                 + '/v1/graphql',
-        });
+        })
 
         const authLink = setContext((_, {headers}) => {
             return {
@@ -63,23 +56,27 @@ const AdminWithKeycloak = () => {
                     'X-Hasura-Role': 'government',
                 },
             }
-        });
+        })
 
         const clientWithAuth = new ApolloClient({
             link: authLink.concat(httpLink),
             cache: new InMemoryCache(),
-        });
+        })
 
         const buildDataProvider = async () => {
             const dataProvider = await buildHasuraProvider({
                 client: clientWithAuth,
-            });
-            setDataProvider(() => dataProvider);
-        };
-        buildDataProvider();
-    }, []);
+            })
+            setDataProvider(() => dataProvider)
+        }
+        buildDataProvider()
+    }, [])
 
-    if (!dataProvider) return <p>Загрузка...</p>;
+    if (!dataProvider) return (
+        <TranslationProvider i18nProvider={i18nProvider}>
+            <Loading/>
+        </TranslationProvider>
+    )
 
     return (
         <Admin
@@ -147,22 +144,21 @@ const AdminWithKeycloak = () => {
             <Resource {...gateOpenReason}/>
             <Resource {...gateOpen}/>
         </Admin>
-    );
-};
+    )
+}
 
 const App = () => {
     return (
         <ReactKeycloakProvider
             authClient={keycloak}
-            LoadingComponent={<div></div>}
+            LoadingComponent={<div/>}
             initOptions={keycloakConfig}
-            onTokenExpired={onTokenExpired}
         >
             <React.Fragment>
                 <AdminWithKeycloak/>
             </React.Fragment>
         </ReactKeycloakProvider>
-    );
-};
+    )
+}
 
-export default App;
+export default App
