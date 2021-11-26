@@ -414,7 +414,7 @@ services:
                 - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
 
     n8n:
-        image: n8nio/n8n:0.149.0
+        image: n8nio/n8n:0.151.0
         environment:
             DB_TYPE: postgresdb
             DB_POSTGRESDB_DATABASE: n8n
