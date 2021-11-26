@@ -1,5 +1,5 @@
 version: 3
-endpoint: https://crm.astra50.ru
+endpoint: http://api.astra50.local
 metadata_directory: metadata
 actions:
   kind: synchronous

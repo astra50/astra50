@@ -58,17 +58,16 @@ services:
     hasura-console:
         image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
         extra_hosts:
-            - api-console.astra50.local:0.0.0.0
+            - hasura-console.astra50.local:0.0.0.0
         labels:
-            ru.grachevko.dhu: 'api-console.astra50.local'
+            ru.grachevko.dhu: 'hasura-console.astra50.local'
         entrypoint: hasura-cli
         command:
             - console
-            - --address=api-console.astra50.local
+            - --address=hasura-console.astra50.local
             - --console-port=80
         environment:
             HASURA_GRAPHQL_ADMIN_SECRET: admin
-            HASURA_GRAPHQL_ENDPOINT: http://api.astra50.local
         working_dir: /app
         volumes:
             - ./:/app
