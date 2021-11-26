@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: build
+name: build crm
 
 trigger:
     event:
@@ -37,7 +37,7 @@ steps:
     -   <<: *docker
         name: nginx
         commands:
-            - docker build -t ${DRONE_REPO}:${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
+            - docker build -t ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
         depends_on:
             - node base
             - nginx base
@@ -57,7 +57,7 @@ clone:
     depth: 0
 
 depends_on:
-    - build
+    - build crm
 
 volumes:
     -   name: docker.sock
@@ -119,7 +119,7 @@ clone:
     depth: 1
 
 depends_on:
-    - build
+    - build crm
 
 steps:
     -   name: check deploy
@@ -146,7 +146,7 @@ steps:
                 PROMETHEUS_HASH=$$(md5sum etc/prometheus.yml | tr ' ' '\n' | head -1)
                 docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
         environment:
-            IMAGE: ${DRONE_REPO}:${DRONE_BUILD_NUMBER}
+            CRM_IMAGE: ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER}
         depends_on:
             - check deploy
 

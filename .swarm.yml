@@ -395,8 +395,8 @@ services:
                 - "traefik.http.routers.astra50-grafana.tls.certresolver=leresolver"
                 - "traefik.http.services.astra50-grafana-service.loadbalancer.server.port=3000"
 
-    nginx:
-        image: ${IMAGE}
+    crm:
+        image: ${CRM_IMAGE}
         networks:
             - traefik
         deploy:
