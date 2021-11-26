@@ -18,6 +18,9 @@ import {MemberRateCreate, MemberRateEdit, MemberRateList} from "./pages/memberRa
 import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from "./pages/memberPayment";
 import {TargetCreate, TargetEdit, TargetList} from "./pages/targets";
 import {TargetPaymentCreate, TargetPaymentEdit, TargetPaymentList} from "./pages/targetPayments";
+import gates from './gate';
+import gateOpenReason from "./gate_open_reason";
+import gateOpen from "./gate_open";
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -140,6 +143,9 @@ const AdminWithKeycloak = () => {
                 edit={TargetPaymentEdit}
                 create={TargetPaymentCreate}
             />
+            <Resource {...gates}/>
+            <Resource {...gateOpenReason}/>
+            <Resource {...gateOpen}/>
         </Admin>
     );
 };

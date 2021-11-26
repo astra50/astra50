@@ -1,0 +1,15 @@
+table:
+    name: gate_open
+    schema: public
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - id
+                - gate_id
+                - reason_id
+                - source
+                - comment
+                - created_at
+            filter: { }
+        role: government

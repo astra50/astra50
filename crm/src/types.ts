@@ -1,4 +1,4 @@
-import {Identifier, Record} from 'react-admin';
+import {Identifier, Record} from 'react-admin'
 
 export interface Street extends Record {
     name: string,
@@ -28,4 +28,9 @@ export interface MemberRate extends Record {
 
 export interface Target extends Record {
     name: string,
+}
+
+export interface Gate extends Record {
+    name: string,
+    phone?: string,
 }

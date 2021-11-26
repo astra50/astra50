@@ -1,3 +1,6 @@
+- "!include public_gate.yaml"
+- "!include public_gate_open.yaml"
+- "!include public_gate_open_reason.yaml"
 - "!include public_land.yaml"
 - "!include public_land_ownership.yaml"
 - "!include public_member_payment.yaml"

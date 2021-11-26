@@ -5,10 +5,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faBullseye,
     faHome,
+    faJournalWhills,
     faLandmark,
     faPercentage,
     faRoad,
     faRubleSign,
+    faToriiGate,
     faUserFriends,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -46,6 +48,10 @@ const MyMenu = (props) => (
         <MenuItemLink to="/target" primaryText="Цели" leftIcon={<FontAwesomeIcon icon={faBullseye}/>}/>
         <MenuItemLink to="/target_payment" primaryText="Целевые Взносы"
                       leftIcon={<FontAwesomeIcon icon={faRubleSign}/>}/>
+        <MenuItemLink to="/gate" primaryText="Ворота"
+                      leftIcon={<FontAwesomeIcon icon={faToriiGate}/>}/>
+        <MenuItemLink to="/gate_open" primaryText="Журнал ворот"
+                      leftIcon={<FontAwesomeIcon icon={faJournalWhills}/>}/>
     </Menu>
 );
 
