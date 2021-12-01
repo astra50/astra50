@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -13,10 +14,9 @@ import {
     SimpleForm,
     TextField,
     TextInput,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {MemberRate} from "../types";
-import {MoneyField, MoneyInput} from "../money";
+} from 'react-admin'
+import {MoneyField, MoneyInput} from '../money'
+import {MemberRate} from '../types'
 
 export const MemberRateList = (props: ListProps) => (
     <List {...props}
@@ -32,13 +32,13 @@ export const MemberRateList = (props: ListProps) => (
             <EditButton/>
         </Datagrid>
     </List>
-);
+)
 
 const MemberRateTitle = (props: FieldProps<MemberRate>) => {
     const {record} = props
 
-    return <span>Ставка с {record ? `"${record.since}" по "${record.until}"` : ''}</span>;
-};
+    return <span>Ставка с {record ? `"${record.since}" по "${record.until}"` : ''}</span>
+}
 
 const MemberRateForm = () => (
     <div>
@@ -69,7 +69,7 @@ const MemberRateForm = () => (
             fullWidth={true}
         />
     </div>
-);
+)
 
 export const MemberRateEdit = (props: EditProps) => (
     <Edit {...props} title={<MemberRateTitle/>}>
@@ -77,12 +77,12 @@ export const MemberRateEdit = (props: EditProps) => (
             <MemberRateForm/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const MemberRateCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать Ставку"}>
+    <Create {...props} title={'Создать Ставку'}>
         <SimpleForm redirect="list">
             <MemberRateForm/>
         </SimpleForm>
     </Create>
-);
+)

@@ -1,3 +1,6 @@
+import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -17,12 +20,9 @@ import {
     TextField,
     TextInput,
     TopToolbar,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {Person} from "../types";
-import {MoneyField} from "../money";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faRubleSign} from "@fortawesome/free-solid-svg-icons";
+} from 'react-admin'
+import {MoneyField} from '../money'
+import {Person} from '../types'
 
 interface PersonFieldProps extends FieldProps<Person> {
     withPhone?: boolean,
@@ -33,19 +33,19 @@ export const PersonField = ({record, withPhone = false}: PersonFieldProps) => {
         return null
     }
 
-    let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim();
+    let result = `${record.lastname ?? ''} ${record.firstname ?? ''} ${record.middlename ?? ''}`.trim()
 
     if (!result) {
-        result = record.phone;
+        result = record.phone
     } else if (withPhone && record.phone) {
-        result += ` (${record.phone})`;
+        result += ` (${record.phone})`
     }
-    return <span>{result}</span>;
-};
+    return <span>{result}</span>
+}
 
 export const PersonList = (props: ListProps) => (
     <List {...props}
-          title={"Садоводы"}
+          title={'Садоводы'}
           empty={false}
     >
         <Datagrid
@@ -61,12 +61,12 @@ export const PersonList = (props: ListProps) => (
             <EditButton/>
         </Datagrid>
     </List>
-);
+)
 
 export const PersonTitle = (props: FieldProps<Person>) => {
     const {record} = props
-    return <PersonField record={record}/>;
-};
+    return <PersonField record={record}/>
+}
 
 export const PersonEdit = (props: EditProps) => (
     <Edit {...props} title={<PersonTitle/>}>
@@ -79,10 +79,10 @@ export const PersonEdit = (props: EditProps) => (
             <TextInput source="email" label="E-mail"/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const PersonCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать садовода"}>
+    <Create {...props} title={'Создать садовода'}>
         <SimpleForm redirect="list">
             <TextInput source="lastname" label="Фамилия"/>
             <TextInput source="firstname" label="Имя"/>
@@ -92,7 +92,7 @@ export const PersonCreate = (props: CreateProps) => (
             <TextInput source="email" label="E-mail"/>
         </SimpleForm>
     </Create>
-);
+)
 
 const PersonShowActions = ({basePath, data}: ShowActionsProps) => {
     if (!data) {
@@ -102,14 +102,14 @@ const PersonShowActions = ({basePath, data}: ShowActionsProps) => {
     return (
         <TopToolbar>
             <ListButton
-                basePath={"/member_payment?" + new URLSearchParams({filter: JSON.stringify({person_id: data!.id})})}
+                basePath={'/member_payment?' + new URLSearchParams({filter: JSON.stringify({person_id: data!.id})})}
                 label="Членские взносы"
                 icon={<FontAwesomeIcon icon={faRubleSign}/>}
             />
             <EditButton basePath={basePath} record={data}/>
         </TopToolbar>
-    );
-};
+    )
+}
 
 export const PersonShow = (props: ShowProps) => (
     <Show {...props}

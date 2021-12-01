@@ -21,9 +21,9 @@ import {PersonField} from './person'
 export const LandOwnershipList = (props: ListProps) => {
     return (
         <List {...props}
-              title={"Владение"}
+              title={'Владение'}
               empty={false}
-              sort={{field: "land.number", order: 'ASC'}}
+              sort={{field: 'land.number', order: 'ASC'}}
               perPage={125}
         >
             <Datagrid>
@@ -41,8 +41,8 @@ export const LandOwnershipList = (props: ListProps) => {
                 <EditButton/>
             </Datagrid>
         </List>
-    );
-};
+    )
+}
 
 export const LandOwnershipEdit = (props: EditProps) => (
     <Edit {...props}>
@@ -69,10 +69,10 @@ export const LandOwnershipEdit = (props: EditProps) => (
             <DateInput source="until" label="По дату"/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const LandOwnershipCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать владение"}>
+    <Create {...props} title={'Создать владение'}>
         <SimpleForm redirect="list">
             <ReferenceInput
                 source="land_id"
@@ -96,4 +96,4 @@ export const LandOwnershipCreate = (props: CreateProps) => (
             <DateInput source="until" label="По дату"/>
         </SimpleForm>
     </Create>
-);
+)

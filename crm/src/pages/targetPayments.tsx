@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -15,10 +16,9 @@ import {
     SimpleForm,
     TextField,
     TextInput,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {PersonField} from "./person";
-import {MoneyField, MoneyInput} from "../money";
+} from 'react-admin'
+import {MoneyField, MoneyInput} from '../money'
+import {PersonField} from './person'
 
 const TargetPaymentFilters = [
     <ReferenceInput
@@ -31,7 +31,7 @@ const TargetPaymentFilters = [
     >
         <SelectInput optionText={<PersonField/>}/>
     </ReferenceInput>,
-];
+]
 
 export const TargetPaymentList = (props: ListProps) => (
     <List {...props}
@@ -55,7 +55,7 @@ export const TargetPaymentList = (props: ListProps) => (
             <EditButton/>
         </Datagrid>
     </List>
-);
+)
 
 const TargetForm = () => (
     <>
@@ -108,7 +108,7 @@ const TargetForm = () => (
             />
         </div>
     </>
-);
+)
 
 export const TargetPaymentEdit = (props: EditProps) => (
     <Edit {...props} title="Целевой взнос">
@@ -116,12 +116,12 @@ export const TargetPaymentEdit = (props: EditProps) => (
             <TargetForm/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const TargetPaymentCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать целевой взнос"}>
+    <Create {...props} title={'Создать целевой взнос'}>
         <SimpleForm redirect="list">
             <TargetForm/>
         </SimpleForm>
     </Create>
-);
+)

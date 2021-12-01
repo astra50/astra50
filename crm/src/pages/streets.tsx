@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -10,27 +11,26 @@ import {
     SimpleForm,
     TextField,
     TextInput,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {Street} from "../types";
+} from 'react-admin'
+import {Street} from '../types'
 
 export const StreetList = (props: ListProps) => (
     <List {...props}
-          title={"Улицы"}
+          title={'Улицы'}
           empty={false}
     >
         <Datagrid>
-            <TextField source="name" label={"Название"}/>
+            <TextField source="name" label={'Название'}/>
             <EditButton/>
         </Datagrid>
     </List>
-);
+)
 
 const StreetTitle = (props: FieldProps<Street>) => {
     const {record} = props
 
-    return <span>Улица {record ? `"${record.name}"` : ''}</span>;
-};
+    return <span>Улица {record ? `"${record.name}"` : ''}</span>
+}
 
 export const StreetEdit = (props: EditProps) => (
     <Edit {...props} title={<StreetTitle/>}>
@@ -38,12 +38,12 @@ export const StreetEdit = (props: EditProps) => (
             <TextInput source="name"/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const StreetCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать улицу"}>
+    <Create {...props} title={'Создать улицу'}>
         <SimpleForm redirect="list">
             <TextInput source="name" label="Название"/>
         </SimpleForm>
     </Create>
-);
+)

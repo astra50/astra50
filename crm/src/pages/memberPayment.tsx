@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -16,10 +17,9 @@ import {
     SimpleForm,
     TextField,
     TextInput,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {PersonField} from "./person";
-import {MoneyInput} from "../money";
+} from 'react-admin'
+import {MoneyInput} from '../money'
+import {PersonField} from './person'
 
 const MemberPaymentFilters = [
     <ReferenceInput
@@ -32,7 +32,7 @@ const MemberPaymentFilters = [
     >
         <SelectInput optionText={<PersonField/>}/>
     </ReferenceInput>,
-];
+]
 
 export const MemberPaymentList = (props: ListProps) => (
     <List {...props}
@@ -115,7 +115,7 @@ export const MemberPaymentEdit = (props: EditProps) => (
 )
 
 export const MemberPaymentCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать платёж"}>
+    <Create {...props} title={'Создать платёж'}>
         <SimpleForm redirect="list">
             <MemberPaymentForm/>
         </SimpleForm>

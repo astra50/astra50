@@ -1,3 +1,4 @@
+import {ListProps} from 'ra-ui-materialui/lib/types'
 import {
     Create,
     CreateProps,
@@ -10,9 +11,8 @@ import {
     SimpleForm,
     TextField,
     TextInput,
-} from 'react-admin';
-import {ListProps} from "ra-ui-materialui/lib/types";
-import {Target} from "../types";
+} from 'react-admin'
+import {Target} from '../types'
 
 export const TargetList = (props: ListProps) => (
     <List {...props}
@@ -25,13 +25,13 @@ export const TargetList = (props: ListProps) => (
             <EditButton/>
         </Datagrid>
     </List>
-);
+)
 
 const TargetTitle = (props: FieldProps<Target>) => {
     const {record} = props
 
-    return <span>Цель {record ? `"${record.name}"` : ''}</span>;
-};
+    return <span>Цель {record ? `"${record.name}"` : ''}</span>
+}
 
 export const TargetEdit = (props: EditProps) => (
     <Edit {...props} title={<TargetTitle/>}>
@@ -40,13 +40,13 @@ export const TargetEdit = (props: EditProps) => (
             <TextInput source="comment" label="Комментарий"/>
         </SimpleForm>
     </Edit>
-);
+)
 
 export const TargetCreate = (props: CreateProps) => (
-    <Create {...props} title={"Создать Ставку"}>
+    <Create {...props} title={'Создать Ставку'}>
         <SimpleForm redirect="list">
             <TextInput source="name" label="Цель"/>
             <TextInput source="comment" label="Комментарий"/>
         </SimpleForm>
     </Create>
-);
+)
