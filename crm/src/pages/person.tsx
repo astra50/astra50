@@ -43,10 +43,15 @@ export const PersonField = ({record, withPhone = false}: PersonFieldProps) => {
     return <span>{result}</span>
 }
 
+const filters = [
+    <TextInput source="firstname,lastname,middlename,phone,email,telegram_id" label="Поиск" alwaysOn/>,
+]
+
 export const PersonList = (props: ListProps) => (
     <List {...props}
           title={'Садоводы'}
           empty={false}
+          filters={filters}
     >
         <Datagrid
             rowClick="show"
