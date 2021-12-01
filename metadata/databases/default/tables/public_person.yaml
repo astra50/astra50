@@ -13,6 +13,7 @@ insert_permissions:
                 - middlename
                 - phone
                 - phone_second
+                - telegram_id
         role: government
 select_permissions:
     -   permission:
@@ -29,6 +30,7 @@ select_permissions:
                 - middlename
                 - phone
                 - phone_second
+                - telegram_id
             filter: { }
         role: government
 update_permissions:
@@ -42,6 +44,7 @@ update_permissions:
                 - middlename
                 - phone
                 - phone_second
+                - telegram_id
             filter: { }
         role: government
 delete_permissions:

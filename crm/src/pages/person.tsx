@@ -82,6 +82,7 @@ export const PersonEdit = (props: EditProps) => (
             <TextInput source="phone" label="Телефон"/>
             <TextInput source="phone_second" label="Телефон2"/>
             <TextInput source="email" label="E-mail"/>
+            <TextInput source="telegram_id" label="Телеграм ID"/>
         </SimpleForm>
     </Edit>
 )
@@ -95,6 +96,7 @@ export const PersonCreate = (props: CreateProps) => (
             <TextInput source="phone" label="Телефон"/>
             <TextInput source="phone_second" label="Телефон2"/>
             <TextInput source="email" label="E-mail"/>
+            <TextInput source="telegram_id" label="Телеграм ID"/>
         </SimpleForm>
     </Create>
 )
@@ -130,6 +132,7 @@ export const PersonShow = (props: ShowProps) => (
             <TextField source="email" label="E-mail"/>
             <MoneyField source="balance" label="Баланс" addLabel={true}/>
             <DateField source="balance_at" label="Дата обновления баланса" showTime/>
+            <TextField source="telegram_id" label="Телеграм ID"/>
         </SimpleShowLayout>
     </Show>
 )
