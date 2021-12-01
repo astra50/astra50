@@ -283,6 +283,7 @@ services:
             HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm-hasura
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+            HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
         networks:
             - default
             - traefik
