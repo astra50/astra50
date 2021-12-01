@@ -1,6 +1,14 @@
 table:
     name: person
     schema: public
+array_relationships:
+    -   name: member_payments
+        using:
+            foreign_key_constraint_on:
+                column: person_id
+                table:
+                    name: member_payment
+                    schema: public
 insert_permissions:
     -   permission:
             backend_only: false
