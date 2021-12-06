@@ -58,3 +58,5 @@ backup-restore:
 		psql -U db postgres -c \"CREATE DATABASE db\" \
 		&& gunzip < $(BACKUP_FILE) | psql -U db \
 		"
+
+backup: backup-download backup-restore
