@@ -14,6 +14,15 @@ object_relationships:
                 remote_table:
                     name: person
                     schema: public
+    -   name: person_by_email
+        using:
+            manual_configuration:
+                column_mapping:
+                    source: email
+                insertion_order: null
+                remote_table:
+                    name: person
+                    schema: public
     -   name: person_by_telegram
         using:
             manual_configuration:
