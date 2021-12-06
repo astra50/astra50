@@ -429,6 +429,7 @@ services:
             TZ: Europe/Moscow
             WEBHOOK_URL: https://workflow.astra50.ru
             NODE_ENV: production
+            EXECUTIONS_PROCESS: main
             EXECUTIONS_DATA_PRUNE: 'true'
             EXECUTIONS_DATA_MAX_AGE: 8760
             N8N_DIAGNOSTICS_ENABLED: 'false'
