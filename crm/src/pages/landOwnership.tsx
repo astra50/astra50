@@ -33,7 +33,7 @@ export const LandOwnershipList = (props: ListProps) => {
                 <ReferenceField source="owner_id" reference="person" label="Владелец">
                     <PersonField/>
                 </ReferenceField>
-                <ReferenceField source="owner_id" reference="person" label="Баланс">
+                <ReferenceField source="owner_id" reference="person" label="Баланс" link={false}>
                     <MoneyField source="balance"/>
                 </ReferenceField>
                 <DateField source="since" label="С даты"/>
