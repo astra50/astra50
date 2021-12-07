@@ -36,7 +36,7 @@ services:
             POSTGRES_PASSWORD: db
 
     hasura:
-        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        image: hasura/graphql-engine:v2.0.10
         labels:
             ru.grachevko.dhu: 'api.astra50.local'
         command:
@@ -60,7 +60,7 @@ services:
                     - api.astra50.local
 
     hasura-console:
-        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        image: hasura/graphql-engine:v2.0.10.cli-migrations-v3
         extra_hosts:
             - hasura-console.astra50.local:0.0.0.0
         labels:
