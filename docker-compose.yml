@@ -81,3 +81,6 @@ services:
 networks:
     default:
         name: astra50
+        ipam:
+            config:
+                -   subnet: 192.168.64.0/24
