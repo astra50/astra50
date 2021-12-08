@@ -12,6 +12,7 @@ import {
     TextField,
     TextInput,
 } from 'react-admin'
+import {MoneyField, MoneyInput} from '../money'
 import {Target} from '../types'
 
 export const TargetList = (props: ListProps) => (
@@ -22,6 +23,8 @@ export const TargetList = (props: ListProps) => (
         <Datagrid>
             <TextField source="name" label="Цель"/>
             <TextField source="comment" label="Комментарий"/>
+            <MoneyField source="total_amount" label="Целевая сумма"/>
+            <MoneyField source="current_amount" label="Собрано"/>
             <EditButton/>
         </Datagrid>
     </List>
@@ -38,6 +41,9 @@ export const TargetEdit = (props: EditProps) => (
         <SimpleForm>
             <TextInput source="name" label="Цель"/>
             <TextInput source="comment" label="Комментарий"/>
+            <MoneyInput source="initial_amount" label="Начальная сумма"/>
+            <MoneyInput source="total_amount" label="Целевая сумма"/>
+            <MoneyInput source="payer_amount" label="Сумма с человека"/>
         </SimpleForm>
     </Edit>
 )
@@ -47,6 +53,9 @@ export const TargetCreate = (props: CreateProps) => (
         <SimpleForm redirect="list">
             <TextInput source="name" label="Цель"/>
             <TextInput source="comment" label="Комментарий"/>
+            <MoneyInput source="initial_amount" label="Начальная сумма"/>
+            <MoneyInput source="total_amount" label="Целевая сумма"/>
+            <MoneyInput source="payer_amount" label="Сумма с человека"/>
         </SimpleForm>
     </Create>
 )

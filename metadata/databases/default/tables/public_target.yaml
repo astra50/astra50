@@ -15,16 +15,24 @@ insert_permissions:
             check: { }
             columns:
                 - comment
+                - current_amount
+                - initial_amount
                 - name
+                - payer_amount
+                - total_amount
         role: government
 select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - id
-                - created_at
-                - name
                 - comment
+                - created_at
+                - current_amount
+                - id
+                - initial_amount
+                - name
+                - payer_amount
+                - total_amount
             filter: { }
         role: government
 update_permissions:
@@ -32,7 +40,11 @@ update_permissions:
             check: null
             columns:
                 - comment
+                - current_amount
+                - initial_amount
                 - name
+                - payer_amount
+                - total_amount
             filter: { }
         role: government
 delete_permissions:
