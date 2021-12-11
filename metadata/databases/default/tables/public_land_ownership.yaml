@@ -20,6 +20,7 @@ insert_permissions:
             check: { }
             columns:
                 - land_id
+                - owner_id
                 - since
                 - until
         role: government
@@ -33,5 +34,19 @@ select_permissions:
                 - owner_id
                 - since
                 - until
+            filter: { }
+        role: government
+update_permissions:
+    -   permission:
+            check: null
+            columns:
+                - land_id
+                - owner_id
+                - since
+                - until
+            filter: { }
+        role: government
+delete_permissions:
+    -   permission:
             filter: { }
         role: government
