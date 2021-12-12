@@ -60,3 +60,5 @@ backup-restore:
 		"
 
 backup: backup-download backup-restore
+
+latest: up backup
