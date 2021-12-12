@@ -1,8 +1,8 @@
 import GateOpenList from './GateOpenList'
 
-const gateOpen = {
+const gate_open = {
     name: 'gate_open',
     list: GateOpenList,
 }
 
-export default gateOpen
+export default gate_open

@@ -10,19 +10,19 @@ import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
 import {Admin, Loading, Resource, TranslationProvider} from 'react-admin'
 import useAuthProvider from './authProvider'
-import gates from './gate'
-import gateOpen from './gate_open'
-import gateOpenReason from './gate_open_reason'
+import {Dashboard} from './dashboard/Dashboard'
+import gate from './gate'
+import gate_open from './gate_open'
+import gate_open_reason from './gate_open_reason'
+import land from './land'
+import land_ownership from './land_ownership'
 import Layout from './Layout'
-import {Dashboard} from './pages/Dashboard'
-import {LandOwnershipCreate, LandOwnershipEdit, LandOwnershipList} from './pages/landOwnership'
-import {LandCreate, LandEdit, LandList} from './pages/lands'
-import {MemberPaymentCreate, MemberPaymentEdit, MemberPaymentList} from './pages/memberPayment'
-import {MemberRateCreate, MemberRateEdit, MemberRateList} from './pages/memberRate'
-import {PersonCreate, PersonEdit, PersonList, PersonShow} from './pages/person'
-import {StreetCreate, StreetEdit, StreetList} from './pages/streets'
-import {TargetPaymentCreate, TargetPaymentEdit, TargetPaymentList} from './pages/targetPayments'
-import {TargetCreate, TargetEdit, TargetList} from './pages/targets'
+import member_payment from './member_payment'
+import member_rate from './member_rate'
+import person from './person'
+import street from './street'
+import target from './target'
+import target_payment from './target_payment'
 
 let keycloakConfig = {
     url: 'https://auth.astra50.ru/auth',
@@ -88,61 +88,18 @@ const AdminWithKeycloak = () => {
             i18nProvider={i18nProvider}
             layout={Layout}
         >
-            <Resource
-                name="street"
-                list={StreetList}
-                edit={StreetEdit}
-                create={StreetCreate}
-            />
-            <Resource
-                name="land"
-                list={LandList}
-                edit={LandEdit}
-                create={LandCreate}
-            />
-            <Resource
-                name="person"
-                list={PersonList}
-                edit={PersonEdit}
-                create={PersonCreate}
-                show={PersonShow}
-            />
-            <Resource
-                name="land_owner"
-            />
-            <Resource
-                name="land_ownership"
-                list={LandOwnershipList}
-                edit={LandOwnershipEdit}
-                create={LandOwnershipCreate}
-            />
-            <Resource
-                name="member_rate"
-                list={MemberRateList}
-                edit={MemberRateEdit}
-                create={MemberRateCreate}
-            />
-            <Resource
-                name="member_payment"
-                list={MemberPaymentList}
-                edit={MemberPaymentEdit}
-                create={MemberPaymentCreate}
-            />
-            <Resource
-                name="target"
-                list={TargetList}
-                edit={TargetEdit}
-                create={TargetCreate}
-            />
-            <Resource
-                name="target_payment"
-                list={TargetPaymentList}
-                edit={TargetPaymentEdit}
-                create={TargetPaymentCreate}
-            />
-            <Resource {...gates}/>
-            <Resource {...gateOpenReason}/>
-            <Resource {...gateOpen}/>
+            <Resource {...street}/>
+            <Resource {...land}/>
+            <Resource {...person}/>
+            <Resource name="land_owner"/>
+            <Resource {...land_ownership}/>
+            <Resource {...member_rate}/>
+            <Resource {...member_payment}/>
+            <Resource {...target}/>
+            <Resource {...target_payment}/>
+            <Resource {...gate}/>
+            <Resource {...gate_open_reason}/>
+            <Resource {...gate_open}/>
         </Admin>
     )
 }

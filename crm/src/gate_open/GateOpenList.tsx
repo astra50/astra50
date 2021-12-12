@@ -9,7 +9,7 @@ const GateOpenList = (props: ListProps) => {
             sort={{field: 'created_at', order: 'DESC'}}
             {...props}
         >
-            <Datagrid rowClick="edit">
+            <Datagrid>
                 <GateReferenceField label="Ворота"/>
                 <GateOpenReasonReferenceField label="Тип источника" link={false}/>
                 <TextField
