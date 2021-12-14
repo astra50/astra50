@@ -1,6 +1,6 @@
 import {Create, CreateProps, DateInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
-import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
+import {PersonReferenceInput} from '../person/PersonReference'
 import {TargetReferenceInput} from '../target/TargetReference'
 
 const TargetPaymentCreate = (props: CreateProps) => {
@@ -14,7 +14,6 @@ const TargetPaymentCreate = (props: CreateProps) => {
                     label="Сумма"
                     validate={required()}
                 />
-                <PersonReferenceField label="Плательщик"/>
                 <DateInput
                     source="paid_at"
                     label="Дата платежа"
