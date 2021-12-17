@@ -22,7 +22,8 @@ export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source
     <ReferenceInput
         source="land_id"
         reference={land.name}
-        filterToQuery={searchText => ({'street#name,number,cadastral_number': searchText})}
+        sort={{field: 'number', order: 'ASC'}}
+        perPage={500}
         {...props}
     >
         <SelectInput optionText="number"/>
