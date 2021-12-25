@@ -95,7 +95,7 @@ const App = () => {
         clientId: 'hasura-oauth',
     })
 
-    keycloak.onAuthRefreshError = () => console.error('Refreshing token failed')
+    keycloak.onAuthRefreshError = () => setTimeout(keycloak.updateToken, 0, [-1])
 
     return (
         <TranslationProvider i18nProvider={polyglotI18nProvider(() => russianMessages, 'ru')}>
