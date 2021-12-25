@@ -1,6 +1,6 @@
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
-import {ReactKeycloakProvider} from '@react-keycloak/web'
+import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
 // @ts-ignore
 import buildHasuraProvider from 'ra-data-hasura'
@@ -24,21 +24,10 @@ import street from './street'
 import target from './target'
 import target_payment from './target_payment'
 
-let keycloakConfig = {
-    url: 'https://auth.astra50.ru/auth',
-    realm: 'astra50',
-    clientId: 'hasura-oauth',
-    onLoad: 'login-required',
-}
-
-const keycloak = Keycloak(keycloakConfig)
-
-const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru')
-
 const AdminWithKeycloak = () => {
-    const keycloakAuthProvider = useAuthProvider()
-
     const [dataProvider, setDataProvider] = useState(null)
+    const authProvider = useAuthProvider()
+    const keycloak = useKeycloak().keycloak
 
     useEffect(() => {
         const httpLink = createHttpLink({
@@ -70,13 +59,9 @@ const AdminWithKeycloak = () => {
             setDataProvider(() => dataProvider)
         }
         buildDataProvider()
-    }, [])
+    }, [keycloak])
 
-    if (!dataProvider) return (
-        <TranslationProvider i18nProvider={i18nProvider}>
-            <Loading/>
-        </TranslationProvider>
-    )
+    if (!dataProvider) return <Loading/>
 
     return (
         <Admin
@@ -84,8 +69,7 @@ const AdminWithKeycloak = () => {
             dashboard={Dashboard}
             title="СНТ Астра - CRM"
             dataProvider={dataProvider}
-            authProvider={keycloakAuthProvider}
-            i18nProvider={i18nProvider}
+            authProvider={authProvider}
             layout={Layout}
         >
             <Resource {...street}/>
@@ -105,16 +89,29 @@ const AdminWithKeycloak = () => {
 }
 
 const App = () => {
+    const keycloak = Keycloak({
+        url: 'https://auth.astra50.ru/auth',
+        realm: 'astra50',
+        clientId: 'hasura-oauth',
+    })
+
+    keycloak.onAuthRefreshError = () => console.error('Refreshing token failed')
+
     return (
-        <ReactKeycloakProvider
-            authClient={keycloak}
-            LoadingComponent={<div/>}
-            initOptions={keycloakConfig}
-        >
-            <React.Fragment>
-                <AdminWithKeycloak/>
-            </React.Fragment>
-        </ReactKeycloakProvider>
+        <TranslationProvider i18nProvider={polyglotI18nProvider(() => russianMessages, 'ru')}>
+            <ReactKeycloakProvider
+                authClient={keycloak}
+                LoadingComponent={<div/>}
+                initOptions={{
+                    onLoad: 'login-required',
+                }}
+            >
+                <React.Fragment>
+                    <AdminWithKeycloak/>
+                </React.Fragment>
+            </ReactKeycloakProvider>
+        </TranslationProvider>
+
     )
 }
 
