@@ -269,7 +269,7 @@ services:
             retries: 3
 
     hasura:
-        image: hasura/graphql-engine:v2.0.10
+        image: hasura/graphql-engine:v2.1.1
         command:
             - graphql-engine
             - serve
