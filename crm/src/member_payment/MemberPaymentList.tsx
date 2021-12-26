@@ -1,8 +1,11 @@
-import {Datagrid, DateField, List, ListProps, NumberField, TextField} from 'react-admin'
-import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
+import {Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
+import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
+import {PersonReferenceField} from '../person/PersonReference'
 
 const filters = [
-    <PersonReferenceInput source="person_id"/>,
+    <TextInput source="account#number@_ilike,comment,account#persons#person#full_name@_ilike" label="Поиск"
+               alwaysOn/>,
+    <AccountReferenceInput source="account_id"/>,
 ]
 
 const MemberPaymentList = (props: ListProps) => {
@@ -15,7 +18,8 @@ const MemberPaymentList = (props: ListProps) => {
             {...props}
         >
             <Datagrid rowClick="edit">
-                <PersonReferenceField/>
+                <AccountReferenceField/>
+                <PersonReferenceField label="Плательщик"/>
                 <NumberField
                     source="amount"
                     label="Сумма"

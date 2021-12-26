@@ -11,7 +11,7 @@ const LandList = (props: ListProps) =>
           title="Участки"
           empty={false}
           filters={filters}
-          sort={{field: 'number', order: 'ASC'}}
+          sort={{field: 'number_integer', order: 'ASC'}}
           perPage={150}
     >
         <Datagrid

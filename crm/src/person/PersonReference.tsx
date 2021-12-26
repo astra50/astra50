@@ -30,7 +30,9 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
 
 PersonReferenceField.defaultProps = {
     label: 'Садовод',
+    link: 'show',
 }
 PersonReferenceInput.defaultProps = {
     label: 'Садовод',
+    fullWidth: true,
 }

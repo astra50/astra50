@@ -6,12 +6,12 @@ import {
     faBullseye,
     faHome,
     faJournalWhills,
-    faLandmark,
     faPercentage,
     faRoad,
     faRubleSign,
     faToriiGate,
     faUserFriends,
+    faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ConfigurationMenu = forwardRef(({onClick}, ref) => (
@@ -41,7 +41,7 @@ const MyMenu = (props) => (
         <MenuItemLink to="/street" primaryText="Улицы" leftIcon={<FontAwesomeIcon icon={faRoad}/>}/>
         <MenuItemLink to="/land" primaryText="Участки" leftIcon={<FontAwesomeIcon icon={faHome}/>}/>
         <MenuItemLink to="/person" primaryText="Садоводы" leftIcon={<FontAwesomeIcon icon={faUserFriends}/>}/>
-        <MenuItemLink to="/land_ownership" primaryText="Владение" leftIcon={<FontAwesomeIcon icon={faLandmark}/>}/>
+        <MenuItemLink to="/account" primaryText="Лицевые счета" leftIcon={<FontAwesomeIcon icon={faWallet}/>}/>
         <MenuItemLink to="/member_rate" primaryText="Ставки" leftIcon={<FontAwesomeIcon icon={faPercentage}/>}/>
         <MenuItemLink to="/member_payment" primaryText="Членские Взносы"
                       leftIcon={<FontAwesomeIcon icon={faRubleSign}/>}/>

@@ -8,6 +8,7 @@ import {
     SimpleForm,
     TextInput,
 } from 'react-admin'
+import {AccountReferenceInput} from '../account/AccountReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -15,7 +16,8 @@ const MemberPaymentCreate = (props: CreateProps) => {
     return (
         <Create {...props} title="Создать платёж">
             <SimpleForm redirect="list">
-                <PersonReferenceInput fullWidth/>
+                <AccountReferenceInput/>
+                <PersonReferenceInput label="Плательщик" fullWidth/>
                 <div>
                     <MoneyInput
                         source="amount"

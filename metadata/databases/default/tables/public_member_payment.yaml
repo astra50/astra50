@@ -2,20 +2,21 @@ table:
     name: member_payment
     schema: public
 object_relationships:
+    -   name: account
+        using:
+            foreign_key_constraint_on: account_id
     -   name: land
         using:
             foreign_key_constraint_on: land_id
     -   name: member_rate
         using:
             foreign_key_constraint_on: rate_id
-    -   name: person
-        using:
-            foreign_key_constraint_on: person_id
 insert_permissions:
     -   permission:
             backend_only: false
             check: { }
             columns:
+                - account_id
                 - amount
                 - comment
                 - is_regular
@@ -29,6 +30,7 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
+                - account_id
                 - amount
                 - comment
                 - created_at
@@ -39,14 +41,17 @@ select_permissions:
                 - person_id
                 - rate
                 - rate_id
+                - updated_at
             filter: { }
         role: government
 update_permissions:
     -   permission:
             check: null
             columns:
+                - account_id
                 - amount
                 - comment
+                - is_regular
                 - land_id
                 - paid_at
                 - person_id

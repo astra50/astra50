@@ -1,4 +1,5 @@
 import {DateInput, Edit, EditProps, ReferenceInput, required, SelectInput, SimpleForm, TextInput} from 'react-admin'
+import {AccountReferenceInput} from '../account/AccountReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -6,7 +7,8 @@ const MemberPaymentEdit = (props: EditProps) => {
     return (
         <Edit {...props} title="Членский Взнос">
             <SimpleForm>
-                <PersonReferenceInput fullWidth/>
+                <AccountReferenceInput/>
+                <PersonReferenceInput label="Плательщик" fullWidth/>
                 <MoneyInput
                     source="amount"
                     label="Сумма"

@@ -1,41 +1,38 @@
 table:
-    name: land
+    name: account_person
     schema: public
 object_relationships:
-    -   name: street
+    -   name: account
         using:
-            foreign_key_constraint_on: street_id
+            foreign_key_constraint_on: account_id
+    -   name: person
+        using:
+            foreign_key_constraint_on: person_id
 insert_permissions:
     -   permission:
             backend_only: false
             check: { }
             columns:
-                - cadastral_number
-                - number
-                - square
-                - street_id
+                - account_id
+                - person_id
         role: government
 select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - cadastral_number
-                - created_at
                 - id
-                - number
-                - number_integer
-                - square
-                - street_id
+                - person_id
+                - account_id
+                - created_at
+                - updated_at
             filter: { }
         role: government
 update_permissions:
     -   permission:
             check: null
             columns:
-                - cadastral_number
-                - number
-                - square
-                - street_id
+                - account_id
+                - person_id
             filter: { }
         role: government
 delete_permissions:

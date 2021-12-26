@@ -22,7 +22,7 @@ export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source
     <ReferenceInput
         source="land_id"
         reference={land.name}
-        sort={{field: 'number', order: 'ASC'}}
+        sort={{field: 'number_integer', order: 'ASC'}}
         perPage={500}
         {...props}
     >
