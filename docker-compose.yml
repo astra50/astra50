@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     react-admin:
-        image: astra50/crm:node-base
+        image: astra50/astra50:node-base
         build:
             target: node-base
             context: crm/
