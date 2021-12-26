@@ -78,6 +78,8 @@ services:
             - ./:/app
             - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
+        depends_on:
+            - hasura
 
 networks:
     default:
