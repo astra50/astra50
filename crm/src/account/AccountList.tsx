@@ -33,7 +33,7 @@ const AccountList = (props: ListProps) =>
             <TextField source="number" label="Номер"/>
             <PersonReferenceField/>
             <ReferenceManyField label="Участки" reference="account_land" target="account_id" sortable={false}>
-                <SingleFieldList>
+                <SingleFieldList linkType={false}>
                     <ReferenceField reference="land" source="land_id" link={false}>
                         <ChipField source="number"/>
                     </ReferenceField>
