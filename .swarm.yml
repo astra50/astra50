@@ -375,7 +375,7 @@ services:
             GF_SMTP_FROM_ADDRESS: grafana@astra50.ru
             GF_SMTP_FROM_NAME: Grafana
             GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
-            GF_SMTP_USER: ${SMTP_LOGIN}
+            GF_SMTP_USER: ${SMTP_USERNAME}
             GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
         volumes:
             - /opt/astra50/grafana:/var/lib/grafana
