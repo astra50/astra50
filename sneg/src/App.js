@@ -1,5 +1,5 @@
 import "./App.css";
-import { YMaps, Map } from "react-yandex-maps";
+import { YMaps, Map, FullscreenControl, ZoomControl } from "react-yandex-maps";
 import { useRef } from "react";
 import { areasByUsage as areas } from "./areas";
 import paidForSnow from "./paid";
@@ -67,7 +67,7 @@ function App() {
 
   const getLands = async (ymap) => {
     await ymap.ready(["polylabel.create"]);
-    const objectManager = new ymap.ObjectManager();
+    const objectManager = new ymap.ObjectManager({clusterize: false});
     const areaOjects = [];
 
     for (const area of areas) {
@@ -91,7 +91,7 @@ function App() {
           labelTextSize: { "18_20": 18, "20_21": 40 },
           cursor: "grab",
           labelPermissibleInaccuracyOfVisibility: 2,
-          labelForceVisible: { "0_18": "dot", "18_21": "label" },
+          labelForceVisible: { "0_16": "dot", "17_21": "label" },
         },
       });
     }
@@ -103,7 +103,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <h1>Сборы средст на уборку снега</h1>
+        <p className='App-title'>Снег</p>
       </header>
       <main className='App-main'>
         <YMaps
@@ -115,7 +115,16 @@ function App() {
             {...mapState}
             onLoad={(ymap) => getLabels(ymap)}
             instanceRef={mapRef}
-          ></Map>
+          >
+            <FullscreenControl />
+            <ZoomControl options={{ size: 'small', position: {
+              bottom: 'auto',
+              right: 10,
+              left: 'auto',
+              top: 150
+            } }} />
+          </Map>
+
         </YMaps>
       </main>
     </div>
