@@ -29,10 +29,16 @@ up-hasura:
 
 
 crm-install:
-	docker-compose run --rm --user $(shell id -u):$(shell id -g) react-admin npm install
+	docker-compose run --rm --user $(shell id -u):$(shell id -g) crm npm install
+
+sneg-install:
+	docker-compose run --rm --user $(shell id -u):$(shell id -g) sneg npm install
 
 up-crm: crm-install
-	docker-compose up -d --force-recreate react-admin
+	docker-compose up -d --force-recreate crm
+
+up-sneg: sneg-install
+	docker-compose up -d --force-recreate sneg
 
 permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .
@@ -41,7 +47,7 @@ console:
 	docker-compose exec hasura-console bash
 
 cli:
-	docker-compose run --rm --user $(shell id -u):$(shell id -g) --label ru.grachevko.dhu="" react-admin sh
+	docker-compose run --rm --user $(shell id -u):$(shell id -g) --label ru.grachevko.dhu="" crm sh
 
 cli-postgres:
 	docker-compose exec -w /var/lib/postgresql/data postgres bash
