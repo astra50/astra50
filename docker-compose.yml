@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-    react-admin:
+    crm:
         image: astra50/astra50:node-base
         build:
             target: node-base
@@ -16,6 +16,24 @@ services:
             PORT: 80
         volumes:
             - ./crm:/app
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+
+    sneg:
+        image: astra50/astra50:sneg-node-base
+        build:
+            target: node-base
+            context: sneg/
+        extra_hosts:
+            - sneg.astra50.local:0.0.0.0
+        labels:
+            ru.grachevko.dhu: 'sneg.astra50.local'
+        command: npm run start
+        environment:
+            HOST: sneg.astra50.local
+            PORT: 80
+        volumes:
+            - ./sneg:/app
         working_dir: /app
         user: ${UID:-1000}:${GID:-1000}
 

@@ -414,6 +414,24 @@ services:
                 - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
                 - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
 
+    sneg:
+        image: ${SNEG_IMAGE}
+        networks:
+            - traefik
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.astra50-sneg.rule=Host(`sneg.astra50.ru`)"
+                - "traefik.http.routers.astra50-sneg.entrypoints=websecure"
+                - "traefik.http.routers.astra50-sneg.tls=true"
+                - "traefik.http.routers.astra50-sneg.tls.certresolver=leresolver"
+                - "traefik.http.services.astra50-sneg-service.loadbalancer.server.port=80"
+
     n8n:
         image: n8nio/n8n:0.152.0
         environment:

@@ -41,11 +41,54 @@ steps:
         depends_on:
             - node base
             - nginx base
+---
+kind: pipeline
+type: docker
+name: build sneg
+
+trigger:
+    event:
+        exclude:
+            - pull_request
+
+clone:
+    depth: 0
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    - &docker
+        name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker build -t ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base sneg/
+
+    -   <<: *docker
+        name: nginx base
+        commands:
+            - docker build -t ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base sneg/
+
+    -   <<: *docker
+        name: nginx
+        commands:
+            - docker build -t ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER} --progress=plain --target nginx sneg/
+        depends_on:
+            - node base
+            - nginx base
 
 ---
 kind: pipeline
 type: docker
-name: push
+name: push crm
 
 trigger:
     branch:
@@ -108,6 +151,69 @@ steps:
 ---
 kind: pipeline
 type: docker
+name: push sneg
+
+trigger:
+    branch:
+        - master
+    event:
+        - push
+
+clone:
+    depth: 0
+
+depends_on:
+    - build sneg
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+
+environment:
+    DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+    -   name: docker login
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        environment:
+            DOCKER_USERNAME:
+                from_secret: docker_username
+            DOCKER_PASSWORD:
+                from_secret: docker_password
+
+    -   name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-node-base
+            - docker push ${DRONE_REPO}:sneg-node-base
+            - docker rmi ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+    -   name: nginx base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-nginx-base
+            - docker push ${DRONE_REPO}:sneg-nginx-base
+            - docker rmi ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
+---
+kind: pipeline
+type: docker
 name: deploy
 
 trigger:
@@ -120,6 +226,7 @@ clone:
 
 depends_on:
     - build crm
+    - build sneg
 
 steps:
     -   name: check deploy
@@ -147,6 +254,7 @@ steps:
                 docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
         environment:
             CRM_IMAGE: ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER}
+            SNEG_IMAGE: ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER}
         depends_on:
             - check deploy
 
