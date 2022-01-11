@@ -282,7 +282,7 @@ volumes:
 ---
 kind: pipeline
 type: docker
-name: crm migrate
+name: hasura migrate
 
 trigger:
     branch:
