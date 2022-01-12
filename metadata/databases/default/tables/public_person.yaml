@@ -7,6 +7,7 @@ insert_permissions:
             check: { }
             columns:
                 - birth_date
+                - comment
                 - email
                 - firstname
                 - lastname
@@ -22,6 +23,7 @@ select_permissions:
                 - balance
                 - balance_at
                 - birth_date
+				- comment
                 - created_at
                 - email
                 - firstname
@@ -41,6 +43,7 @@ update_permissions:
             check: null
             columns:
                 - birth_date
+				- comment
                 - email
                 - firstname
                 - lastname

@@ -49,6 +49,7 @@ const PersonShow = (props: EditProps) => {
                 <TextField source="phone" label="Телефон"/>
                 <TextField source="phone_second" label="Телефон2"/>
                 <TextField source="email" label="E-mail"/>
+                <TextField source="comment" label="Комментарий"/>
                 <MoneyField source="balance" label="Баланс" addLabel={true}/>
                 <DateField source="balance_at" label="Дата обновления баланса" showTime/>
                 <MoneyField source="last_paid_amount" label="Сумма последнего платежа" addLabel={true}/>
