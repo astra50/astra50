@@ -23,7 +23,7 @@ select_permissions:
                 - balance
                 - balance_at
                 - birth_date
-				- comment
+                - comment
                 - created_at
                 - email
                 - firstname
@@ -43,7 +43,7 @@ update_permissions:
             check: null
             columns:
                 - birth_date
-				- comment
+                - comment
                 - email
                 - firstname
                 - lastname
