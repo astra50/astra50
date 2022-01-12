@@ -9,7 +9,7 @@ down:
 pull:
 	docker-compose pull
 
-up: contrib pull up-postgres up-hasura up-crm
+up: contrib pull up-postgres up-hasura up-crm up-sneg
 
 up-postgres:
 	docker-compose up -d --force-recreate postgres
