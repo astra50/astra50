@@ -13,6 +13,7 @@ const PersonCreate = (props: CreateProps) => {
                 <TextInput source="phone_second" label="Телефон2"/>
                 <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
+                <TextInput source="comment" label="Комментарий"/>
             </SimpleForm>
         </Create>
     )

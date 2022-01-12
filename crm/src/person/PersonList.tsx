@@ -21,6 +21,7 @@ const PersonList = (props: ListProps) =>
             <TextField source="phone_second" label="Телефон2"/>
             <TextField source="email" label="E-mail"/>
             <MoneyField source="balance" label="Баланс"/>
+            <TextField source="comment" label="Комментарий"/>
         </Datagrid>
     </List>
 
