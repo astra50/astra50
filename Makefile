@@ -19,8 +19,7 @@ up-hasura:
 	docker-compose exec postgres psql -U db -c "create database hasura"
 	docker-compose up -d --force-recreate hasura
 	docker-compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.1; done"
-	docker-compose up -d --force-recreate hasura-console
-	docker-compose exec hasura-console sh -c " \
+	docker-compose exec hasura sh -c " \
 		hasura-cli metadata apply \
 		&& hasura-cli migrate apply --all-databases \
 		&& hasura-cli metadata reload \
