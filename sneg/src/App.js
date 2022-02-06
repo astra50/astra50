@@ -50,7 +50,7 @@ const loadJS = (id, url, location, onLoad) => {
 
 function App() {
   const mapRef = useRef(null);
-
+  const totalPaymends = paidForSnow.reduce((summ, b) => summ + b.paid, 0)
   const getLabels = (ymaps) => {
     loadJS(
       "calculateArea",
@@ -103,7 +103,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <p className='App-title'>Снег</p>
+        <p className='App-title'>Снег всего { totalPaymends } рублей</p>
       </header>
       <main className='App-main'>
         <YMaps
