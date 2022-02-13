@@ -66,20 +66,36 @@ services:
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
             HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
-            HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+            HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ADMIN_SECRET: admin
             HASURA_EVENT_SECRET: admin
-        volumes:
-            - ./:/app
-            - ./var/hasura:/.hasura
-        working_dir: /app
         networks:
             default:
                 aliases:
                     - api.astra50.local
+
+    hasura-console:
+        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+        extra_hosts:
+            - hasura-console.astra50.local:0.0.0.0
+        labels:
+            ru.grachevko.dhu: 'hasura-console.astra50.local'
+        entrypoint: hasura-cli
+        command:
+            - console
+            - --address=hasura-console.astra50.local
+            - --console-port=80
+            - --api-host=http://hasura-console.astra50.local
+            - --no-browser
+        environment:
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
 
 networks:
