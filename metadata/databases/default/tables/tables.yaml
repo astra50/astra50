@@ -8,6 +8,7 @@
 - "!include public_member_payment.yaml"
 - "!include public_member_rate.yaml"
 - "!include public_person.yaml"
+- "!include public_personal_access_token.yaml"
 - "!include public_street.yaml"
 - "!include public_target.yaml"
 - "!include public_target_payment.yaml"

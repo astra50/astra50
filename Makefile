@@ -9,24 +9,28 @@ down:
 pull:
 	docker-compose pull
 
-up: contrib pull up-postgres up-hasura up-crm up-sneg
+up: do-up up-hasura migration
+latest: do-up backup up-hasura migration
+
+do-up: contrib pull up-postgres up-crm up-sneg
 
 up-postgres:
 	docker-compose up -d --force-recreate postgres
 	docker-compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
+	docker-compose exec postgres psql -U db -c "create database hasura"
 
 up-hasura:
-	docker-compose exec postgres psql -U db -c "create database hasura"
 	docker-compose up -d --force-recreate hasura
 	docker-compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
 	docker-compose up -d --force-recreate hasura-console
+
+migration:
 	docker-compose exec hasura-console sh -c " \
 		hasura-cli metadata apply \
 		&& hasura-cli migrate apply --all-databases \
 		&& hasura-cli metadata reload \
 		&& hasura-cli migrate status --database-name default \
 		"
-
 
 crm-install:
 	docker-compose run --rm --user $(shell id -u):$(shell id -g) crm npm install
@@ -54,8 +58,10 @@ cli-postgres:
 
 BACKUP_SERVER=s3.automagistre.ru
 BACKUP_FILE=var/backup.sql.gz
+HASURA_BACKUP_FILE=var/hasura_backup.sql.gz
 backup-download:
 	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/astra50/backups/postgres/*crm.sql.gz | head -1) $(BACKUP_FILE)
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/astra50/backups/postgres/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
 
 backup-restore:
 	@docker-compose exec postgres sh -c " \
@@ -63,8 +69,7 @@ backup-restore:
 		psql -U db postgres -c \"DROP DATABASE db\"; \
 		psql -U db postgres -c \"CREATE DATABASE db\" \
 		&& gunzip < $(BACKUP_FILE) | psql -U db \
+		&& gunzip < $(HASURA_BACKUP_FILE) | psql -U db hasura \
 		"
 
 backup: backup-download backup-restore
-
-latest: up backup

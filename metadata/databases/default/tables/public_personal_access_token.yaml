@@ -1,0 +1,3 @@
+table:
+    name: personal_access_token
+    schema: public

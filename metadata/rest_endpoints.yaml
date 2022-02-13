@@ -1,1 +1,9 @@
-[ ]
+-   definition:
+        query:
+            collection_name: allowed-queries
+            query_name: Gate open
+    url: gate-open/:token/:gate
+    methods:
+        - POST
+    name: Gate open
+    comment: null
