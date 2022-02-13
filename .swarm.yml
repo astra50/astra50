@@ -284,6 +284,7 @@ services:
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
             HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
+            HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
         networks:
             - default
             - traefik
