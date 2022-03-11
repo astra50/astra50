@@ -26,6 +26,7 @@ insert_permissions:
             check: { }
             columns:
                 - comment
+                - end_at
                 - number
                 - person_id
         role: government
@@ -33,13 +34,14 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - id
-                - number
-                - comment
-                - person_id
                 - balance
                 - balance_at
+                - comment
                 - created_at
+                - end_at
+                - id
+                - number
+                - person_id
                 - updated_at
             filter: { }
         role: government
@@ -48,6 +50,7 @@ update_permissions:
             check: null
             columns:
                 - comment
+                - end_at
                 - number
                 - person_id
             filter: { }

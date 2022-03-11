@@ -1,4 +1,4 @@
-import {Create, CreateProps, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, CreateProps, DateInput, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -11,6 +11,11 @@ const AccountCreate = (props: CreateProps) => {
                 <TextInput source="number" label="Номер"/>
                 <CommentInput/>
                 <PersonReferenceInput validate={required()}/>
+                <DateInput
+                    source="end_at"
+                    label="Закрыт"
+                    helperText="Дата завершения действия лицевого счёта"
+                />
             </SimpleForm>
         </Create>
     )

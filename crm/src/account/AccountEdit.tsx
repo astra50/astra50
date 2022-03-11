@@ -1,4 +1,4 @@
-import {Edit, EditProps, FieldProps, NumberInput, required, SimpleForm} from 'react-admin'
+import {DateInput, Edit, EditProps, FieldProps, NumberInput, required, SimpleForm} from 'react-admin'
 import {CommentInput} from '../comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {Account} from '../types'
@@ -18,6 +18,11 @@ const AccountEdit = (props: EditProps) => {
                 <NumberInput source="number" label="Номер"/>
                 <CommentInput/>
                 <PersonReferenceInput validate={required()}/>
+                <DateInput
+                    source="end_at"
+                    label="Закрыт"
+                    helperText="Дата завершения действия лицевого счёта"
+                />
             </SimpleForm>
         </Edit>
     )

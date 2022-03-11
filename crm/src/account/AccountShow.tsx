@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import {
     ChipField,
     Datagrid,
+    DateField,
     EditButton,
     EditProps,
     FieldProps,
@@ -96,6 +97,10 @@ const AccountShow = (props: EditProps) => {
                     </Datagrid>
                 </ReferenceManyField>
                 <MoneyField source="balance" label="Баланс" addLabel={true}/>
+                <DateField
+                    source="end_at"
+                    label="Закрыт"
+                />
             </SimpleShowLayout>
         </Show>
     )

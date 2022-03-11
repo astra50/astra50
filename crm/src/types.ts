@@ -50,6 +50,7 @@ export interface Account extends Record, HasBalance {
     number: string,
     comment?: string,
     owner_id: string,
+    end_at: string,
 }
 
 export interface AccountLand extends Record, HasBalance {
