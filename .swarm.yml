@@ -34,12 +34,16 @@ services:
         postgres:5432:n8n:db:${POSTGRES_PASSWORD}
         ' > ~/.pgpass \
         && chmod 600 ~/.pgpass \
+        && echo $$'#!/bin/bash
+        pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
+        pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
+        pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
+        pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
+        pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        ' > /backup.sh \
+        && chmod +x /backup.sh \
         && echo $$'
-        0 3 * * * pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
-        5 3 * * * pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
-        10 3 * * * pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
-        15 3 * * * pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
-        20 3 * * * pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        10 3 * * * /backup.sh
         ' | crontab - \
         && exec tini -- crond -l 0 -f
     volumes:
