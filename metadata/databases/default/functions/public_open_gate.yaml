@@ -1,8 +1,8 @@
 function:
-    name: open_gate
-    schema: public
+  name: open_gate
+  schema: public
 configuration:
-    custom_root_fields: { }
-    exposed_as: mutation
+  custom_root_fields: { }
+  exposed_as: mutation
 permissions:
-    -   role: anonymous
+  - role: anonymous

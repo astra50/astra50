@@ -1,107 +1,107 @@
 version: '3.7'
 
 services:
-    crm:
-        image: astra50/astra50:node-base
-        build:
-            target: node-base
-            context: crm/
-        extra_hosts:
-            - crm.astra50.local:0.0.0.0
-        labels:
-            ru.grachevko.dhu: 'crm.astra50.local'
-        command: npm run start
-        environment:
-            HOST: crm.astra50.local
-            PORT: 80
-        volumes:
-            - ./crm:/app
-        working_dir: /app
-        user: ${UID:-1000}:${GID:-1000}
+  crm:
+    image: astra50/astra50:node-base
+    build:
+      target: node-base
+      context: crm/
+    extra_hosts:
+      - crm.astra50.local:0.0.0.0
+    labels:
+      ru.grachevko.dhu: 'crm.astra50.local'
+    command: npm run start
+    environment:
+      HOST: crm.astra50.local
+      PORT: 80
+    volumes:
+      - ./crm:/app
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
 
-    sneg:
-        image: astra50/astra50:sneg-node-base
-        build:
-            target: node-base
-            context: sneg/
-        extra_hosts:
-            - sneg.astra50.local:0.0.0.0
-        labels:
-            ru.grachevko.dhu: 'sneg.astra50.local'
-        command: npm run start
-        environment:
-            HOST: sneg.astra50.local
-            PORT: 80
-        volumes:
-            - ./sneg:/app
-        working_dir: /app
-        user: ${UID:-1000}:${GID:-1000}
+  sneg:
+    image: astra50/astra50:sneg-node-base
+    build:
+      target: node-base
+      context: sneg/
+    extra_hosts:
+      - sneg.astra50.local:0.0.0.0
+    labels:
+      ru.grachevko.dhu: 'sneg.astra50.local'
+    command: npm run start
+    environment:
+      HOST: sneg.astra50.local
+      PORT: 80
+    volumes:
+      - ./sneg:/app
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
 
-    postgres:
-        image: postgres:13.4-alpine
-        labels:
-            ru.grachevko.dhu: 'postgres.astra50.local'
-        volumes:
-            -   type: tmpfs
-                target: /var/lib/postgresql/data
-                tmpfs:
-                    size: 2G
-            - ./:/app
-        working_dir: /app
-        environment:
-            POSTGRES_DB: db
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: db
+  postgres:
+    image: postgres:13.4-alpine
+    labels:
+      ru.grachevko.dhu: 'postgres.astra50.local'
+    volumes:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+        tmpfs:
+          size: 2G
+      - ./:/app
+    working_dir: /app
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
 
-    hasura:
-        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
-        labels:
-            ru.grachevko.dhu: 'api.astra50.local'
-        command:
-            - graphql-engine
-            - serve
-            - --server-port=80
-            - --unauthorized-role=anonymous
-            - --cors-domain=*
-        environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
-            HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
-            HASURA_GRAPHQL_DEV_MODE: 'true'
-            HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
-            HASURA_GRAPHQL_ADMIN_SECRET: admin
-            HASURA_EVENT_SECRET: admin
-            HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
-        networks:
-            default:
-                aliases:
-                    - api.astra50.local
+  hasura:
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    labels:
+      ru.grachevko.dhu: 'api.astra50.local'
+    command:
+      - graphql-engine
+      - serve
+      - --server-port=80
+      - --unauthorized-role=anonymous
+      - --cors-domain=*
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+      HASURA_EVENT_SECRET: admin
+      HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
+    networks:
+      default:
+        aliases:
+          - api.astra50.local
 
-    hasura-console:
-        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
-        extra_hosts:
-            - hasura-console.astra50.local:0.0.0.0
-        labels:
-            ru.grachevko.dhu: 'hasura-console.astra50.local'
-        entrypoint: hasura-cli
-        command:
-            - console
-            - --address=hasura-console.astra50.local
-            - --console-port=80
-            - --api-host=http://hasura-console.astra50.local
-            - --no-browser
-        environment:
-            HASURA_GRAPHQL_ADMIN_SECRET: admin
-        working_dir: /app
-        volumes:
-            - ./:/app
-            - ./var/hasura:/.hasura
-        user: ${UID:-1000}:${GID:-1000}
+  hasura-console:
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    extra_hosts:
+      - hasura-console.astra50.local:0.0.0.0
+    labels:
+      ru.grachevko.dhu: 'hasura-console.astra50.local'
+    entrypoint: hasura-cli
+    command:
+      - console
+      - --address=hasura-console.astra50.local
+      - --console-port=80
+      - --api-host=http://hasura-console.astra50.local
+      - --no-browser
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./var/hasura:/.hasura
+    user: ${UID:-1000}:${GID:-1000}
 
 networks:
-    default:
-        name: astra50
-        ipam:
-            config:
-                -   subnet: 192.168.64.0/24
+  default:
+    name: astra50
+    ipam:
+      config:
+        - subnet: 192.168.64.0/24

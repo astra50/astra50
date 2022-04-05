@@ -4,86 +4,86 @@ type: docker
 name: build crm
 
 trigger:
-    event:
-        exclude:
-            - pull_request
+  event:
+    exclude:
+      - pull_request
 
 clone:
-    depth: 0
+  depth: 0
 
 volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
 
 environment:
-    DOCKER_CONFIG: /drone/src/.docker
+  DOCKER_CONFIG: /drone/src/.docker
 
 steps:
-    - &docker
-        name: node base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base crm/
+  - &docker
+    name: node base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base crm/
 
-    -   <<: *docker
-        name: nginx base
-        commands:
-            - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base crm/
+  - <<: *docker
+    name: nginx base
+    commands:
+      - docker build -t ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base crm/
 
-    -   <<: *docker
-        name: nginx
-        commands:
-            - docker build -t ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
-        depends_on:
-            - node base
-            - nginx base
+  - <<: *docker
+    name: nginx
+    commands:
+      - docker build -t ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
+    depends_on:
+      - node base
+      - nginx base
 ---
 kind: pipeline
 type: docker
 name: build sneg
 
 trigger:
-    event:
-        exclude:
-            - pull_request
+  event:
+    exclude:
+      - pull_request
 
 clone:
-    depth: 0
+  depth: 0
 
 volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
 
 environment:
-    DOCKER_CONFIG: /drone/src/.docker
+  DOCKER_CONFIG: /drone/src/.docker
 
 steps:
-    - &docker
-        name: node base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker build -t ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base sneg/
+  - &docker
+    name: node base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base sneg/
 
-    -   <<: *docker
-        name: nginx base
-        commands:
-            - docker build -t ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base sneg/
+  - <<: *docker
+    name: nginx base
+    commands:
+      - docker build -t ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base sneg/
 
-    -   <<: *docker
-        name: nginx
-        commands:
-            - docker build -t ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER} --progress=plain --target nginx sneg/
-        depends_on:
-            - node base
-            - nginx base
+  - <<: *docker
+    name: nginx
+    commands:
+      - docker build -t ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER} --progress=plain --target nginx sneg/
+    depends_on:
+      - node base
+      - nginx base
 
 ---
 kind: pipeline
@@ -91,62 +91,62 @@ type: docker
 name: push crm
 
 trigger:
-    branch:
-        - master
-    event:
-        - push
+  branch:
+    - master
+  event:
+    - push
 
 clone:
-    depth: 0
+  depth: 0
 
 depends_on:
-    - build crm
+  - build crm
 
 volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
 
 environment:
-    DOCKER_CONFIG: /drone/src/.docker
+  DOCKER_CONFIG: /drone/src/.docker
 
 steps:
-    -   name: docker login
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        environment:
-            DOCKER_USERNAME:
-                from_secret: docker_username
-            DOCKER_PASSWORD:
-                from_secret: docker_password
+  - name: docker login
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    environment:
+      DOCKER_USERNAME:
+        from_secret: docker_username
+      DOCKER_PASSWORD:
+        from_secret: docker_password
 
-    -   name: node base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker tag ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:node-base
-            - docker push ${DRONE_REPO}:node-base
-            - docker rmi ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER}
-        depends_on:
-            - docker login
+  - name: node base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:node-base
+      - docker push ${DRONE_REPO}:node-base
+      - docker rmi ${DRONE_REPO}:node-base-${DRONE_BUILD_NUMBER}
+    depends_on:
+      - docker login
 
-    -   name: nginx base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker tag ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:nginx-base
-            - docker push ${DRONE_REPO}:nginx-base
-            - docker rmi ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER}
-        depends_on:
-            - docker login
+  - name: nginx base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:nginx-base
+      - docker push ${DRONE_REPO}:nginx-base
+      - docker rmi ${DRONE_REPO}:nginx-base-${DRONE_BUILD_NUMBER}
+    depends_on:
+      - docker login
 
 ---
 kind: pipeline
@@ -154,62 +154,62 @@ type: docker
 name: push sneg
 
 trigger:
-    branch:
-        - master
-    event:
-        - push
+  branch:
+    - master
+  event:
+    - push
 
 clone:
-    depth: 0
+  depth: 0
 
 depends_on:
-    - build sneg
+  - build sneg
 
 volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
 
 environment:
-    DOCKER_CONFIG: /drone/src/.docker
+  DOCKER_CONFIG: /drone/src/.docker
 
 steps:
-    -   name: docker login
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        environment:
-            DOCKER_USERNAME:
-                from_secret: docker_username
-            DOCKER_PASSWORD:
-                from_secret: docker_password
+  - name: docker login
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    environment:
+      DOCKER_USERNAME:
+        from_secret: docker_username
+      DOCKER_PASSWORD:
+        from_secret: docker_password
 
-    -   name: node base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker tag ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-node-base
-            - docker push ${DRONE_REPO}:sneg-node-base
-            - docker rmi ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER}
-        depends_on:
-            - docker login
+  - name: node base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-node-base
+      - docker push ${DRONE_REPO}:sneg-node-base
+      - docker rmi ${DRONE_REPO}:sneg-node-base-${DRONE_BUILD_NUMBER}
+    depends_on:
+      - docker login
 
-    -   name: nginx base
-        image: automagistre/docker:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker tag ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-nginx-base
-            - docker push ${DRONE_REPO}:sneg-nginx-base
-            - docker rmi ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER}
-        depends_on:
-            - docker login
+  - name: nginx base
+    image: automagistre/docker:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:sneg-nginx-base
+      - docker push ${DRONE_REPO}:sneg-nginx-base
+      - docker rmi ${DRONE_REPO}:sneg-nginx-base-${DRONE_BUILD_NUMBER}
+    depends_on:
+      - docker login
 
 ---
 kind: pipeline
@@ -217,67 +217,67 @@ type: docker
 name: deploy
 
 trigger:
-    branch:
-        - master
-        - rc
+  branch:
+    - master
+    - rc
 
 clone:
-    depth: 1
+  depth: 1
 
 depends_on:
-    - build crm
-    - build sneg
+  - build crm
+  - build sneg
 
 steps:
-    -   name: check deploy
-        image: automagistre/git:stable
-        commands:
-            - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
+  - name: check deploy
+    image: automagistre/git:stable
+    commands:
+      - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
 
-    -   name: deploy
-        image: automagistre/docker-compose:stable
-        volumes:
-            -   name: env
-                path: /drone/src/.env
-            -   name: docker.sock
-                path: /var/run/docker.sock
-            -   name: astra50
-                path: /opt/astra50
-        commands:
-            - cp -r etc/* /opt/astra50/etc/
-            - >-
-                NEXTCLOUD_NGINX_CONF_HASH=$$(md5sum etc/nextcloud/nginx.conf | tr ' ' '\n' | head -1)
-                NEXTCLOUD_PHP_FPM_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.conf | tr ' ' '\n' | head -1)
-                NEXTCLOUD_PHP_FPM_WWW_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.www.conf | tr ' ' '\n' | head -1)
-                NEXTCLOUD_PHP_INI_HASH=$$(md5sum etc/nextcloud/php.ini | tr ' ' '\n' | head -1)
-                PROMETHEUS_HASH=$$(md5sum etc/prometheus.yml | tr ' ' '\n' | head -1)
-                docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
-        environment:
-            CRM_IMAGE: ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER}
-            SNEG_IMAGE: ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER}
-        depends_on:
-            - check deploy
+  - name: deploy
+    image: automagistre/docker-compose:stable
+    volumes:
+      - name: env
+        path: /drone/src/.env
+      - name: docker.sock
+        path: /var/run/docker.sock
+      - name: astra50
+        path: /opt/astra50
+    commands:
+      - cp -r etc/* /opt/astra50/etc/
+      - >-
+        NEXTCLOUD_NGINX_CONF_HASH=$$(md5sum etc/nextcloud/nginx.conf | tr ' ' '\n' | head -1)
+        NEXTCLOUD_PHP_FPM_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.conf | tr ' ' '\n' | head -1)
+        NEXTCLOUD_PHP_FPM_WWW_CONF_HASH=$$(md5sum etc/nextcloud/php-fpm.www.conf | tr ' ' '\n' | head -1)
+        NEXTCLOUD_PHP_INI_HASH=$$(md5sum etc/nextcloud/php.ini | tr ' ' '\n' | head -1)
+        PROMETHEUS_HASH=$$(md5sum etc/prometheus.yml | tr ' ' '\n' | head -1)
+        docker-compose --file .swarm.yml config | docker stack deploy --prune --with-registry-auth --compose-file - astra50
+    environment:
+      CRM_IMAGE: ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER}
+      SNEG_IMAGE: ${DRONE_REPO}:sneg-${DRONE_BUILD_NUMBER}
+    depends_on:
+      - check deploy
 
-    -   name: clean
-        image: automagistre/docker-compose:stable
-        volumes:
-            -   name: docker.sock
-                path: /var/run/docker.sock
-        commands:
-            - docker rmi `docker images --format "{{.Repository}}:{{.Tag}}" --filter reference=${DRONE_REPO}:* --filter before=${DRONE_REPO}:${DRONE_BUILD_NUMBER}` || true
-        depends_on:
-            - deploy
+  - name: clean
+    image: automagistre/docker-compose:stable
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker rmi `docker images --format "{{.Repository}}:{{.Tag}}" --filter reference=${DRONE_REPO}:* --filter before=${DRONE_REPO}:${DRONE_BUILD_NUMBER}` || true
+    depends_on:
+      - deploy
 
 volumes:
-    -   name: docker.sock
-        host:
-            path: /var/run/docker.sock
-    -   name: env
-        host:
-            path: /opt/secrets/astra50
-    -   name: astra50
-        host:
-            path: /opt/astra50
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+  - name: env
+    host:
+      path: /opt/secrets/astra50
+  - name: astra50
+    host:
+      path: /opt/astra50
 
 ---
 kind: pipeline
@@ -285,33 +285,33 @@ type: docker
 name: hasura migrate
 
 trigger:
-    branch:
-        - master
-        - rc
+  branch:
+    - master
+    - rc
 
 clone:
-    depth: 1
+  depth: 1
 
 depends_on:
-    - deploy
+  - deploy
 
 steps:
-    -   name: wait
-        image: automagistre/wait-for-it:stable
-        commands:
-            - /wait-for-it.sh api.astra50.ru:80
+  - name: wait
+    image: automagistre/wait-for-it:stable
+    commands:
+      - /wait-for-it.sh api.astra50.ru:80
 
-    -   name: hasura migrate
-        image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
-        commands:
-            - hasura-cli metadata apply
-            - hasura-cli migrate apply --all-databases
-            - hasura-cli metadata reload
-            - hasura-cli migrate status --database-name default
-        environment:
-            HASURA_GRAPHQL_ENDPOINT: https://api.astra50.ru
-            HASURA_GRAPHQL_ADMIN_SECRET:
-                from_secret: crm_hasura_admin_secret
-            HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
-        depends_on:
-            - wait
+  - name: hasura migrate
+    image: hasura/graphql-engine:v2.1.1.cli-migrations-v3
+    commands:
+      - hasura-cli metadata apply
+      - hasura-cli migrate apply --all-databases
+      - hasura-cli metadata reload
+      - hasura-cli migrate status --database-name default
+    environment:
+      HASURA_GRAPHQL_ENDPOINT: https://api.astra50.ru
+      HASURA_GRAPHQL_ADMIN_SECRET:
+        from_secret: crm_hasura_admin_secret
+      HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
+    depends_on:
+      - wait

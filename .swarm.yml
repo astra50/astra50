@@ -1,520 +1,520 @@
 version: '3.7'
 
 services:
-    postgres: &postgres
-        image: postgres:13.4-alpine
-        environment:
-            POSTGRES_DB: keycloak
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            POSTGRES_CONF_HASH: ${POSTGRES_CONF_HASH}
-        volumes:
-            -   type: bind
-                source: /opt/astra50/postgres/data
-                target: /var/lib/postgresql/data
-        healthcheck:
-            test: pg_isready -U db
-            interval: 5s
-            timeout: 5s
-            retries: 3
-            start_period: 10s
+  postgres: &postgres
+    image: postgres:13.4-alpine
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_CONF_HASH: ${POSTGRES_CONF_HASH}
+    volumes:
+      - type: bind
+        source: /opt/astra50/postgres/data
+        target: /var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U db
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
-    postgres_backup:
-        <<: *postgres
-        entrypoint: /bin/sh
-        command:
-            - -c
-            - |
-                apk add --no-cache tini gzip \
-                && echo $$'
-                postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
-                postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
-                postgres:5432:crm-hasura:db:${POSTGRES_PASSWORD}
-                postgres:5432:crm:db:${POSTGRES_PASSWORD}
-                postgres:5432:n8n:db:${POSTGRES_PASSWORD}
-                ' > ~/.pgpass \
-                && chmod 600 ~/.pgpass \
-                && echo $$'
-                0 3 * * * pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
-                5 3 * * * pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
-                10 3 * * * pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
-                15 3 * * * pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
-                20 3 * * * pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
-                ' | crontab - \
-                && exec tini -- crond -l 0 -f
-        volumes:
-            - /opt/astra50/backups/postgres:/backups
-        healthcheck:
-            disable: true
+  postgres_backup:
+    <<: *postgres
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        apk add --no-cache tini gzip \
+        && echo $$'
+        postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
+        postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
+        postgres:5432:crm-hasura:db:${POSTGRES_PASSWORD}
+        postgres:5432:crm:db:${POSTGRES_PASSWORD}
+        postgres:5432:n8n:db:${POSTGRES_PASSWORD}
+        ' > ~/.pgpass \
+        && chmod 600 ~/.pgpass \
+        && echo $$'
+        0 3 * * * pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
+        5 3 * * * pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
+        10 3 * * * pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
+        15 3 * * * pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
+        20 3 * * * pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        ' | crontab - \
+        && exec tini -- crond -l 0 -f
+    volumes:
+      - /opt/astra50/backups/postgres:/backups
+    healthcheck:
+      disable: true
 
-    keycloak:
-        image: jboss/keycloak:15.0.1
-        command: [ "-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled" ]
-        environment:
-            DB_VENDOR: POSTGRES
-            DB_ADDR: postgres
-            DB_DATABASE: keycloak
-            DB_USER: db
-            DB_SCHEMA: public
-            DB_PASSWORD: ${POSTGRES_PASSWORD}
-            KEYCLOAK_USER: ${KEYCLOAK_USER}
-            KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-            PROXY_ADDRESS_FORWARDING: 'true'
-        networks:
-            - default
-            - traefik
-        deploy:
-            update_config:
-                order: stop-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-keycloak.rule=Host(`auth.astra50.ru`)"
-                - "traefik.http.routers.astra50-keycloak.entrypoints=websecure"
-                - "traefik.http.routers.astra50-keycloak.tls=true"
-                - "traefik.http.routers.astra50-keycloak.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
-                - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
+  keycloak:
+    image: jboss/keycloak:15.0.1
+    command: [ "-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled" ]
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: db
+      DB_SCHEMA: public
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      PROXY_ADDRESS_FORWARDING: 'true'
+    networks:
+      - default
+      - traefik
+    deploy:
+      update_config:
+        order: stop-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-keycloak.rule=Host(`auth.astra50.ru`)"
+        - "traefik.http.routers.astra50-keycloak.entrypoints=websecure"
+        - "traefik.http.routers.astra50-keycloak.tls=true"
+        - "traefik.http.routers.astra50-keycloak.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.port=8080"
+        - "traefik.http.services.astra50-keycloak-service.loadbalancer.server.scheme=http"
 
-    nextcloud_nginx:
-        image: automagistre/tenant-nginx:base
-        environment:
-            NGINX_CONFIG_HASH: ${NEXTCLOUD_NGINX_CONF_HASH}
-        volumes:
-            -   type: bind
-                source: /opt/astra50/nextcloud/data
-                target: /var/www/html
-            -   type: bind
-                source: /opt/astra50/etc/nextcloud/nginx.conf
-                target: /etc/nginx/nginx.conf
-        networks:
-            - default
-            - traefik
-        deploy:
-            update_config:
-                order: stop-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-nextcloud.rule=Host(`cloud.astra50.ru`)"
-                - "traefik.http.routers.astra50-nextcloud.entrypoints=websecure"
-                - "traefik.http.routers.astra50-nextcloud.tls=true"
-                - "traefik.http.routers.astra50-nextcloud.tls.certresolver=leresolver"
-                - "traefik.http.routers.astra50-nextcloud.middlewares=nextcloud-redirect-dav,nextcloud-secure-headers"
-                - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.port=80"
-                - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.scheme=http"
-                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
-                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.replacement=https://$${1}/remote.php/dav/"
-                - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.permanent=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.accessControlMaxAge=100"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.sslRedirect=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsSeconds=63072000"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsIncludeSubdomains=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsPreload=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.forceSTSHeader=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.customFrameOptionsValue=SAMEORIGIN"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.contentTypeNosniff=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.browserXssFilter=true"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.referrerPolicy=no-referrer"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.featurePolicy=camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.X-Robots-Tag=none"
-                - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
+  nextcloud_nginx:
+    image: automagistre/tenant-nginx:base
+    environment:
+      NGINX_CONFIG_HASH: ${NEXTCLOUD_NGINX_CONF_HASH}
+    volumes:
+      - type: bind
+        source: /opt/astra50/nextcloud/data
+        target: /var/www/html
+      - type: bind
+        source: /opt/astra50/etc/nextcloud/nginx.conf
+        target: /etc/nginx/nginx.conf
+    networks:
+      - default
+      - traefik
+    deploy:
+      update_config:
+        order: stop-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-nextcloud.rule=Host(`cloud.astra50.ru`)"
+        - "traefik.http.routers.astra50-nextcloud.entrypoints=websecure"
+        - "traefik.http.routers.astra50-nextcloud.tls=true"
+        - "traefik.http.routers.astra50-nextcloud.tls.certresolver=leresolver"
+        - "traefik.http.routers.astra50-nextcloud.middlewares=nextcloud-redirect-dav,nextcloud-secure-headers"
+        - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.port=80"
+        - "traefik.http.services.astra50-nextcloud-service.loadbalancer.server.scheme=http"
+        - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+        - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.replacement=https://$${1}/remote.php/dav/"
+        - "traefik.http.middlewares.nextcloud-redirect-dav.redirectregex.permanent=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.accessControlMaxAge=100"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.sslRedirect=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsSeconds=63072000"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsIncludeSubdomains=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.stsPreload=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.forceSTSHeader=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.customFrameOptionsValue=SAMEORIGIN"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.contentTypeNosniff=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.browserXssFilter=true"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.referrerPolicy=no-referrer"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.featurePolicy=camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.X-Robots-Tag=none"
+        - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
 
-    nextcloud: &nextcloud
-        image: nextcloud:22.1.1-fpm-alpine
-        command: /bin/sh -c "apk add --no-cache imagemagick && exec /entrypoint.sh php-fpm"
-        environment:
-            PHP_INI_HASH: ${NEXTCLOUD_PHP_INI_HASH}
-            PHP_FPM_HASH: ${NEXTCLOUD_PHP_FPM_CONF_HASH}
-            PHP_FPM_WWW_HASH: ${NEXTCLOUD_PHP_FPM_WWW_CONF_HASH}
-            POSTGRES_DB: nextcloud
-            POSTGRES_USER: db
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            POSTGRES_HOST: postgres
-            REDIS_HOST: redis
-            NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
-            NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
-            NEXTCLOUD_TRUSTED_DOMAINS: cloud.astra50.ru
-            SMTP_HOST: ${SMTP_HOST}
-            SMTP_SECURE: ssl
-            SMTP_NAME: ${SMTP_USERNAME}
-            SMTP_PASSWORD: ${SMTP_PASSWORD}
-            MAIL_FROM_ADDRESS: cloud@astra50.ru
-            OBJECTSTORE_S3_HOST: minio
-            OBJECTSTORE_S3_BUCKET: nextcloud
-            OBJECTSTORE_S3_KEY: ${MINIO_ACCESS_KEY}
-            OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
-            OBJECTSTORE_S3_PORT: 9000
-            OBJECTSTORE_S3_SSL: 'false'
-            OBJECTSTORE_S3_USEPATH_STYLE: 'true'
-            OVERWRITEPROTOCOL: https
-            PHP_MEMORY_LIMIT: 2G
-        volumes:
-            -   type: bind
-                source: /opt/astra50/nextcloud/data
-                target: /var/www/html
-            -   type: bind
-                source: /opt/astra50/etc/nextcloud/php.ini
-                target: /usr/local/etc/php/php.ini
-                read_only: true
-            -   type: bind
-                source: /opt/astra50/etc/nextcloud/php-fpm.conf
-                target: /usr/local/etc/php-fpm.conf
-                read_only: true
-            -   type: bind
-                source: /opt/astra50/etc/nextcloud/php-fpm.www.conf
-                target: /usr/local/etc/php-fpm.d/www.conf
-                read_only: true
-        deploy:
-            update_config:
-                order: stop-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
+  nextcloud: &nextcloud
+    image: nextcloud:23.0.2-fpm-alpine
+    command: /bin/sh -c "apk add --no-cache imagemagick && exec /entrypoint.sh php-fpm"
+    environment:
+      PHP_INI_HASH: ${NEXTCLOUD_PHP_INI_HASH}
+      PHP_FPM_HASH: ${NEXTCLOUD_PHP_FPM_CONF_HASH}
+      PHP_FPM_WWW_HASH: ${NEXTCLOUD_PHP_FPM_WWW_CONF_HASH}
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
+      NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
+      NEXTCLOUD_TRUSTED_DOMAINS: cloud.astra50.ru
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_SECURE: ssl
+      SMTP_NAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      MAIL_FROM_ADDRESS: cloud@astra50.ru
+      OBJECTSTORE_S3_HOST: minio
+      OBJECTSTORE_S3_BUCKET: nextcloud
+      OBJECTSTORE_S3_KEY: ${MINIO_ACCESS_KEY}
+      OBJECTSTORE_S3_SECRET: ${MINIO_SECRET_KEY}
+      OBJECTSTORE_S3_PORT: 9000
+      OBJECTSTORE_S3_SSL: 'false'
+      OBJECTSTORE_S3_USEPATH_STYLE: 'true'
+      OVERWRITEPROTOCOL: https
+      PHP_MEMORY_LIMIT: 2G
+    volumes:
+      - type: bind
+        source: /opt/astra50/nextcloud/data
+        target: /var/www/html
+      - type: bind
+        source: /opt/astra50/etc/nextcloud/php.ini
+        target: /usr/local/etc/php/php.ini
+        read_only: true
+      - type: bind
+        source: /opt/astra50/etc/nextcloud/php-fpm.conf
+        target: /usr/local/etc/php-fpm.conf
+        read_only: true
+      - type: bind
+        source: /opt/astra50/etc/nextcloud/php-fpm.www.conf
+        target: /usr/local/etc/php-fpm.d/www.conf
+        read_only: true
+    deploy:
+      update_config:
+        order: stop-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
 
-    nextcloud_cron:
-        <<: *nextcloud
-        entrypoint: |
-            sh -c 'sh -s <<EOF
-                trap "break;exit" SIGHUP SIGINT SIGTERM
-                while [ ! -f /var/www/html/config/config.php ]; do
-                    sleep 1
-                done
-                while true; do
-                    php -f /var/www/html/cron.php
-                    sleep 5m
-                done
-            EOF'
-        user: www-data:root
-        networks:
-            - default
-        deploy:
-            update_config:
-                order: start-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=false"
+  nextcloud_cron:
+    <<: *nextcloud
+    entrypoint: |
+      sh -c 'sh -s <<EOF
+          trap "break;exit" SIGHUP SIGINT SIGTERM
+          while [ ! -f /var/www/html/config/config.php ]; do
+              sleep 1
+          done
+          while true; do
+              php -f /var/www/html/cron.php
+              sleep 5m
+          done
+      EOF'
+    user: www-data:root
+    networks:
+      - default
+    deploy:
+      update_config:
+        order: start-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=false"
 
-    onlyoffice:
-        image: onlyoffice/documentserver:6.4.0.121
-        networks:
-            - default
-            - traefik
-        deploy:
-            update_config:
-                order: stop-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-onlyoffice.rule=Host(`office.astra50.ru`)"
-                - "traefik.http.routers.astra50-onlyoffice.entrypoints=websecure"
-                - "traefik.http.routers.astra50-onlyoffice.tls=true"
-                - "traefik.http.routers.astra50-onlyoffice.tls.certresolver=leresolver"
-                - "traefik.http.routers.astra50-onlyoffice.middlewares=astra50-onlyoffice-headers"
-                - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.port=80"
-                - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.scheme=http"
-                - "traefik.http.middlewares.astra50-onlyoffice-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
+  onlyoffice:
+    image: onlyoffice/documentserver:6.4.0.121
+    networks:
+      - default
+      - traefik
+    deploy:
+      update_config:
+        order: stop-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-onlyoffice.rule=Host(`office.astra50.ru`)"
+        - "traefik.http.routers.astra50-onlyoffice.entrypoints=websecure"
+        - "traefik.http.routers.astra50-onlyoffice.tls=true"
+        - "traefik.http.routers.astra50-onlyoffice.tls.certresolver=leresolver"
+        - "traefik.http.routers.astra50-onlyoffice.middlewares=astra50-onlyoffice-headers"
+        - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.port=80"
+        - "traefik.http.services.astra50-onlyoffice-service.loadbalancer.server.scheme=http"
+        - "traefik.http.middlewares.astra50-onlyoffice-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
 
-    redis:
-        image: redis:6.2.5-alpine
-        volumes:
-            -   type: bind
-                source: /opt/astra50/redis/data
-                target: /data
-        deploy:
-            update_config:
-                order: stop-first
+  redis:
+    image: redis:6.2.5-alpine
+    volumes:
+      - type: bind
+        source: /opt/astra50/redis/data
+        target: /data
+    deploy:
+      update_config:
+        order: stop-first
 
-    minio:
-        image: minio/minio:RELEASE.2021-09-09T21-37-07Z
-        command:
-            - minio
-            - server
-            - /data
-            - --console-address=:9001
-        environment:
-            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-            MINIO_PROMETHEUS_AUTH_TYPE: public
-        volumes:
-            -   type: bind
-                source: /opt/astra50/minio/data
-                target: /data
-        networks:
-            - default
-            - traefik
-        deploy:
-            update_config:
-                order: stop-first
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-minio.rule=Host(`minio.astra50.ru`)"
-                - "traefik.http.routers.astra50-minio.entrypoints=websecure"
-                - "traefik.http.routers.astra50-minio.tls=true"
-                - "traefik.http.routers.astra50-minio.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-minio-service.loadbalancer.server.port=9001"
-                - "traefik.http.services.astra50-minio-service.loadbalancer.server.scheme=http"
-        healthcheck:
-            test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
-            interval: 30s
-            timeout: 20s
-            retries: 3
+  minio:
+    image: minio/minio:RELEASE.2021-09-09T21-37-07Z
+    command:
+      - minio
+      - server
+      - /data
+      - --console-address=:9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    volumes:
+      - type: bind
+        source: /opt/astra50/minio/data
+        target: /data
+    networks:
+      - default
+      - traefik
+    deploy:
+      update_config:
+        order: stop-first
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-minio.rule=Host(`minio.astra50.ru`)"
+        - "traefik.http.routers.astra50-minio.entrypoints=websecure"
+        - "traefik.http.routers.astra50-minio.tls=true"
+        - "traefik.http.routers.astra50-minio.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-minio-service.loadbalancer.server.port=9001"
+        - "traefik.http.services.astra50-minio-service.loadbalancer.server.scheme=http"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
 
-    hasura:
-        image: hasura/graphql-engine:v2.2.0
-        command:
-            - graphql-engine
-            - serve
-            - --server-port=80
-            - --unauthorized-role=anonymous
-            - --cors-domain=*
-            - --admin-internal-errors=true
-            - --admin-secret=${CRM_HASURA_ADMIN_SECRET}
-        environment:
-            HASURA_GRAPHQL_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm-hasura
-            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
-            HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
-            HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
-            HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
-        networks:
-            - default
-            - traefik
-        deploy:
-            mode: replicated
-            replicas: 1
-            update_config:
-                parallelism: 1
-                delay: 10s
-                order: start-first
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-hasura.rule=Host(`api.astra50.ru`)"
-                - "traefik.http.routers.astra50-hasura.entrypoints=websecure"
-                - "traefik.http.routers.astra50-hasura.tls=true"
-                - "traefik.http.routers.astra50-hasura.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-hasura-service.loadbalancer.server.port=80"
+  hasura:
+    image: hasura/graphql-engine:v2.2.0
+    command:
+      - graphql-engine
+      - serve
+      - --server-port=80
+      - --unauthorized-role=anonymous
+      - --cors-domain=*
+      - --admin-internal-errors=true
+      - --admin-secret=${CRM_HASURA_ADMIN_SECRET}
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm-hasura
+      HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+      HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
+      HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
+    networks:
+      - default
+      - traefik
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-hasura.rule=Host(`api.astra50.ru`)"
+        - "traefik.http.routers.astra50-hasura.entrypoints=websecure"
+        - "traefik.http.routers.astra50-hasura.tls=true"
+        - "traefik.http.routers.astra50-hasura.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-hasura-service.loadbalancer.server.port=80"
 
-    # sudo chown nobody:nogroup /var/lib/prometheus
-    prometheus:
-        image: prom/prometheus:v2.30.0
-        command:
-            - --config.file=/etc/prometheus/prometheus.yml
-            - --storage.tsdb.path=/var/lib/prometheus
-        environment:
-            PROMETHEUS_HASH: ${PROMETHEUS_HASH}
-        volumes:
-            - /opt/astra50/prometheus/data:/var/lib/prometheus
-            - /opt/astra50/etc/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-        networks:
-            - default
-            - traefik
-        deploy:
-            mode: replicated
-            resources:
-                limits:
-                    memory: 2048M
-                reservations:
-                    memory: 128M
-            update_config:
-                parallelism: 1
-                delay: 10s
-                order: stop-first
+  # sudo chown nobody:nogroup /var/lib/prometheus
+  prometheus:
+    image: prom/prometheus:v2.30.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/var/lib/prometheus
+    environment:
+      PROMETHEUS_HASH: ${PROMETHEUS_HASH}
+    volumes:
+      - /opt/astra50/prometheus/data:/var/lib/prometheus
+      - /opt/astra50/etc/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - default
+      - traefik
+    deploy:
+      mode: replicated
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 128M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
 
-    prometheus_oauth2-proxy:
-        image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.3
-        command:
-            - --http-address=:80
-            - --reverse-proxy=true
-            - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
-            - --session-store-type=redis
-            - --redis-connection-url=redis://redis:6379/2
-            - --email-domain=*
-            - --allowed-group=admin
-            - --provider=keycloak
-            - --skip-provider-button=true
-            - --scope=openid
-            - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
-            - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
-            - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
-            - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
-            - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
-            - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
-        environment:
-            OAUTH2_PROXY_UPSTREAMS: http://prometheus:9090
-            OAUTH2_PROXY_REDIRECT_URL: https://prometheus.astra50.ru/oauth2/callback
-        networks:
-            - default
-            - traefik
-        deploy:
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-prometheus.rule=Host(`prometheus.astra50.ru`)"
-                - "traefik.http.routers.astra50-prometheus.entrypoints=websecure"
-                - "traefik.http.routers.astra50-prometheus.tls=true"
-                - "traefik.http.routers.astra50-prometheus.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-prometheus-service.loadbalancer.server.port=80"
+  prometheus_oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.3
+    command:
+      - --http-address=:80
+      - --reverse-proxy=true
+      - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
+      - --session-store-type=redis
+      - --redis-connection-url=redis://redis:6379/2
+      - --email-domain=*
+      - --allowed-group=admin
+      - --provider=keycloak
+      - --skip-provider-button=true
+      - --scope=openid
+      - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
+      - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
+      - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
+      - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
+      - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+      - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+    environment:
+      OAUTH2_PROXY_UPSTREAMS: http://prometheus:9090
+      OAUTH2_PROXY_REDIRECT_URL: https://prometheus.astra50.ru/oauth2/callback
+    networks:
+      - default
+      - traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-prometheus.rule=Host(`prometheus.astra50.ru`)"
+        - "traefik.http.routers.astra50-prometheus.entrypoints=websecure"
+        - "traefik.http.routers.astra50-prometheus.tls=true"
+        - "traefik.http.routers.astra50-prometheus.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-prometheus-service.loadbalancer.server.port=80"
 
-    # sudo chown 472:472 /var/lib/grafana
-    grafana:
-        image: grafana/grafana:8.1.4
-        environment:
-            GF_SERVER_ROOT_URL: https://grafana.astra50.ru
-            GF_INSTALL_PLUGINS: grafana-piechart-panel
-            GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
-            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
-            GF_USERS_ALLOW_SIGN_UP: 'false'
-            GF_SMTP_ENABLED: 'true'
-            GF_SMTP_FROM_ADDRESS: grafana@astra50.ru
-            GF_SMTP_FROM_NAME: Grafana
-            GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
-            GF_SMTP_USER: ${SMTP_USERNAME}
-            GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
-        volumes:
-            - /opt/astra50/grafana:/var/lib/grafana
-        networks:
-            - default
-            - traefik
-        deploy:
-            mode: replicated
-            update_config:
-                parallelism: 1
-                delay: 10s
-                order: stop-first
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-grafana.rule=Host(`grafana.astra50.ru`)"
-                - "traefik.http.routers.astra50-grafana.entrypoints=websecure"
-                - "traefik.http.routers.astra50-grafana.tls=true"
-                - "traefik.http.routers.astra50-grafana.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-grafana-service.loadbalancer.server.port=3000"
+  # sudo chown 472:472 /var/lib/grafana
+  grafana:
+    image: grafana/grafana:8.1.4
+    environment:
+      GF_SERVER_ROOT_URL: https://grafana.astra50.ru
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_SMTP_ENABLED: 'true'
+      GF_SMTP_FROM_ADDRESS: grafana@astra50.ru
+      GF_SMTP_FROM_NAME: Grafana
+      GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
+      GF_SMTP_USER: ${SMTP_USERNAME}
+      GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
+    volumes:
+      - /opt/astra50/grafana:/var/lib/grafana
+    networks:
+      - default
+      - traefik
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-grafana.rule=Host(`grafana.astra50.ru`)"
+        - "traefik.http.routers.astra50-grafana.entrypoints=websecure"
+        - "traefik.http.routers.astra50-grafana.tls=true"
+        - "traefik.http.routers.astra50-grafana.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-grafana-service.loadbalancer.server.port=3000"
 
-    crm:
-        image: ${CRM_IMAGE}
-        networks:
-            - traefik
-        deploy:
-            update_config:
-                order: start-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-crm.rule=Host(`crm.astra50.ru`)"
-                - "traefik.http.routers.astra50-crm.entrypoints=websecure"
-                - "traefik.http.routers.astra50-crm.tls=true"
-                - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
+  crm:
+    image: ${CRM_IMAGE}
+    networks:
+      - traefik
+    deploy:
+      update_config:
+        order: start-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-crm.rule=Host(`crm.astra50.ru`)"
+        - "traefik.http.routers.astra50-crm.entrypoints=websecure"
+        - "traefik.http.routers.astra50-crm.tls=true"
+        - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-crm-service.loadbalancer.server.port=80"
 
-    sneg:
-        image: ${SNEG_IMAGE}
-        networks:
-            - traefik
-        deploy:
-            update_config:
-                order: start-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-sneg.rule=Host(`sneg.astra50.ru`)"
-                - "traefik.http.routers.astra50-sneg.entrypoints=websecure"
-                - "traefik.http.routers.astra50-sneg.tls=true"
-                - "traefik.http.routers.astra50-sneg.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-sneg-service.loadbalancer.server.port=80"
+  sneg:
+    image: ${SNEG_IMAGE}
+    networks:
+      - traefik
+    deploy:
+      update_config:
+        order: start-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-sneg.rule=Host(`sneg.astra50.ru`)"
+        - "traefik.http.routers.astra50-sneg.entrypoints=websecure"
+        - "traefik.http.routers.astra50-sneg.tls=true"
+        - "traefik.http.routers.astra50-sneg.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-sneg-service.loadbalancer.server.port=80"
 
-    n8n:
-        image: n8nio/n8n:0.152.0
-        environment:
-            DB_TYPE: postgresdb
-            DB_POSTGRESDB_DATABASE: n8n
-            DB_POSTGRESDB_HOST: postgres
-            DB_POSTGRESDB_PORT: 5432
-            DB_POSTGRESDB_USER: db
-            DB_POSTGRESDB_SCHEMA: public
-            DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
-            N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
-            GENERIC_TIMEZONE: Europe/Moscow
-            TZ: Europe/Moscow
-            WEBHOOK_URL: https://workflow.astra50.ru
-            NODE_ENV: production
-            EXECUTIONS_PROCESS: main
-            EXECUTIONS_DATA_PRUNE: 'true'
-            EXECUTIONS_DATA_MAX_AGE: 8760
-            N8N_DIAGNOSTICS_ENABLED: 'false'
-            NODE_FUNCTION_ALLOW_BUILTIN: '*'
-            NODE_FUNCTION_ALLOW_EXTERNAL: '*'
-        networks:
-            - traefik
-            - default
-        volumes:
-            - /opt/astra50/n8n/data:/home/node/.n8n
-        deploy:
-            update_config:
-                order: start-first
-                failure_action: rollback
-                parallelism: 1
-                delay: 5s
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-n8n-webhook.rule=Host(`workflow.astra50.ru`) && (PathPrefix(`/webhook`) || PathPrefix(`/webhook-test`))"
-                - "traefik.http.routers.astra50-n8n-webhook.entrypoints=websecure"
-                - "traefik.http.routers.astra50-n8n-webhook.tls=true"
-                - "traefik.http.routers.astra50-n8n-webhook.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-n8n-webhook-service.loadbalancer.server.port=5678"
-        healthcheck:
-            test: nc -z 127.0.0.1 5678
-            start_period: 5s
-            interval: 5s
+  n8n:
+    image: n8nio/n8n:0.152.0
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_USER: db
+      DB_POSTGRESDB_SCHEMA: public
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      GENERIC_TIMEZONE: Europe/Moscow
+      TZ: Europe/Moscow
+      WEBHOOK_URL: https://workflow.astra50.ru
+      NODE_ENV: production
+      EXECUTIONS_PROCESS: main
+      EXECUTIONS_DATA_PRUNE: 'true'
+      EXECUTIONS_DATA_MAX_AGE: 8760
+      N8N_DIAGNOSTICS_ENABLED: 'false'
+      NODE_FUNCTION_ALLOW_BUILTIN: '*'
+      NODE_FUNCTION_ALLOW_EXTERNAL: '*'
+    networks:
+      - traefik
+      - default
+    volumes:
+      - /opt/astra50/n8n/data:/home/node/.n8n
+    deploy:
+      update_config:
+        order: start-first
+        failure_action: rollback
+        parallelism: 1
+        delay: 5s
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-n8n-webhook.rule=Host(`workflow.astra50.ru`) && (PathPrefix(`/webhook`) || PathPrefix(`/webhook-test`))"
+        - "traefik.http.routers.astra50-n8n-webhook.entrypoints=websecure"
+        - "traefik.http.routers.astra50-n8n-webhook.tls=true"
+        - "traefik.http.routers.astra50-n8n-webhook.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-n8n-webhook-service.loadbalancer.server.port=5678"
+    healthcheck:
+      test: nc -z 127.0.0.1 5678
+      start_period: 5s
+      interval: 5s
 
-    n8n-proxy:
-        image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
-        command:
-            - --http-address=:80
-            - --reverse-proxy=true
-            - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
-            - --session-store-type=redis
-            - --redis-connection-url=redis://redis:6379/2
-            - --email-domain=*
-            - --allowed-group=admin
-            - --provider=keycloak
-            - --skip-provider-button=true
-            - --scope=openid
-            - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
-            - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
-            - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
-            - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
-            - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
-            - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
-        environment:
-            OAUTH2_PROXY_UPSTREAMS: http://n8n.astra50:5678
-            OAUTH2_PROXY_REDIRECT_URL: https://workflow.astra50.ru/oauth2/callback
-        networks:
-            - default
-            - traefik
-        deploy:
-            labels:
-                - "traefik.enable=true"
-                - "traefik.http.routers.astra50-n8n.rule=Host(`workflow.astra50.ru`) && !PathPrefix(`/webhook`) && !PathPrefix(`/webhook-test`)"
-                - "traefik.http.routers.astra50-n8n.entrypoints=websecure"
-                - "traefik.http.routers.astra50-n8n.tls=true"
-                - "traefik.http.routers.astra50-n8n.tls.certresolver=leresolver"
-                - "traefik.http.services.astra50-n8n-service.loadbalancer.server.port=80"
+  n8n-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+    command:
+      - --http-address=:80
+      - --reverse-proxy=true
+      - --cookie-secret=${OAUTH2_PROXY_DEVOPS_COOKIE_SECRET}
+      - --session-store-type=redis
+      - --redis-connection-url=redis://redis:6379/2
+      - --email-domain=*
+      - --allowed-group=admin
+      - --provider=keycloak
+      - --skip-provider-button=true
+      - --scope=openid
+      - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
+      - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
+      - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
+      - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
+      - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+      - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+    environment:
+      OAUTH2_PROXY_UPSTREAMS: http://n8n.astra50:5678
+      OAUTH2_PROXY_REDIRECT_URL: https://workflow.astra50.ru/oauth2/callback
+    networks:
+      - default
+      - traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.astra50-n8n.rule=Host(`workflow.astra50.ru`) && !PathPrefix(`/webhook`) && !PathPrefix(`/webhook-test`)"
+        - "traefik.http.routers.astra50-n8n.entrypoints=websecure"
+        - "traefik.http.routers.astra50-n8n.tls=true"
+        - "traefik.http.routers.astra50-n8n.tls.certresolver=leresolver"
+        - "traefik.http.services.astra50-n8n-service.loadbalancer.server.port=80"
 
 networks:
-    default:
-        driver: overlay
-        name: astra50
-    traefik:
-        external: true
-        name: traefik
+  default:
+    driver: overlay
+    name: astra50
+  traefik:
+    external: true
+    name: traefik

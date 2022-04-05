@@ -1,39 +1,39 @@
 table:
-    name: member_rate
-    schema: public
+  name: member_rate
+  schema: public
 insert_permissions:
-    -   permission:
-            backend_only: false
-            check: { }
-            columns:
-                - amount
-                - comment
-                - since
-                - until
-        role: government
+  - permission:
+      backend_only: false
+      check: { }
+      columns:
+        - amount
+        - comment
+        - since
+        - until
+    role: government
 select_permissions:
-    -   permission:
-            allow_aggregations: true
-            columns:
-                - since
-                - until
-                - amount
-                - comment
-                - created_at
-                - id
-            filter: { }
-        role: government
+  - permission:
+      allow_aggregations: true
+      columns:
+        - since
+        - until
+        - amount
+        - comment
+        - created_at
+        - id
+      filter: { }
+    role: government
 update_permissions:
-    -   permission:
-            check: null
-            columns:
-                - amount
-                - comment
-                - since
-                - until
-            filter: { }
-        role: government
+  - permission:
+      check: null
+      columns:
+        - amount
+        - comment
+        - since
+        - until
+      filter: { }
+    role: government
 delete_permissions:
-    -   permission:
-            filter: { }
-        role: government
+  - permission:
+      filter: { }
+    role: government

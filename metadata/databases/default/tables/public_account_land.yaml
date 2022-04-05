@@ -1,41 +1,41 @@
 table:
-    name: account_land
-    schema: public
+  name: account_land
+  schema: public
 object_relationships:
-    -   name: account
-        using:
-            foreign_key_constraint_on: account_id
-    -   name: land
-        using:
-            foreign_key_constraint_on: land_id
+  - name: account
+    using:
+      foreign_key_constraint_on: account_id
+  - name: land
+    using:
+      foreign_key_constraint_on: land_id
 insert_permissions:
-    -   permission:
-            backend_only: false
-            check: { }
-            columns:
-                - account_id
-                - land_id
-        role: government
+  - permission:
+      backend_only: false
+      check: { }
+      columns:
+        - account_id
+        - land_id
+    role: government
 select_permissions:
-    -   permission:
-            allow_aggregations: true
-            columns:
-                - id
-                - land_id
-                - account_id
-                - created_at
-                - updated_at
-            filter: { }
-        role: government
+  - permission:
+      allow_aggregations: true
+      columns:
+        - id
+        - land_id
+        - account_id
+        - created_at
+        - updated_at
+      filter: { }
+    role: government
 update_permissions:
-    -   permission:
-            check: null
-            columns:
-                - account_id
-                - land_id
-            filter: { }
-        role: government
+  - permission:
+      check: null
+      columns:
+        - account_id
+        - land_id
+      filter: { }
+    role: government
 delete_permissions:
-    -   permission:
-            filter: { }
-        role: government
+  - permission:
+      filter: { }
+    role: government

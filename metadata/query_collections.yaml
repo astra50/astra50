@@ -1,10 +1,10 @@
--   name: allowed-queries
-    definition:
-        queries:
-            -   name: Gate open
-                query: |-
-                    mutation MyMutation ($token: String!, $gate: String!) {
-                      open_gate(args: {token: $token, gate: $gate}) {
-                        id
-                      }
-                    }
+- name: allowed-queries
+  definition:
+    queries:
+      - name: Gate open
+        query: |-
+          mutation MyMutation ($token: String!, $gate: String!) {
+            open_gate(args: {token: $token, gate: $gate}) {
+              id
+            }
+          }
