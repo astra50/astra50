@@ -1,59 +1,9 @@
 version: '3.7'
 
 services:
-  postgres2:
+  postgres:
     image: ${KUBECTL_IMAGE}
     command: kubectl -n grachevko port-forward pod/grachevko-0 5432:5432
-
-  postgres: &postgres
-    image: postgres:13.4-alpine
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: db
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_CONF_HASH: ${POSTGRES_CONF_HASH}
-    volumes:
-      - type: bind
-        source: /opt/astra50/postgres/data
-        target: /var/lib/postgresql/data
-    healthcheck:
-      test: pg_isready -U db
-      interval: 5s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-  postgres_backup:
-    <<: *postgres
-    entrypoint: /bin/sh
-    command:
-      - -c
-      - |
-        apk add --no-cache tini gzip \
-        && echo $$'
-        postgres:5432:keycloak:db:${POSTGRES_PASSWORD}
-        postgres:5432:nextcloud:db:${POSTGRES_PASSWORD}
-        postgres:5432:crm-hasura:db:${POSTGRES_PASSWORD}
-        postgres:5432:crm:db:${POSTGRES_PASSWORD}
-        postgres:5432:n8n:db:${POSTGRES_PASSWORD}
-        ' > ~/.pgpass \
-        && chmod 600 ~/.pgpass \
-        && echo $$'#!/bin/bash
-        pg_dump -h postgres -U db keycloak | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_keycloak.sql.gz
-        pg_dump -h postgres -U db nextcloud | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_nextcloud.sql.gz
-        pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
-        pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
-        pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
-        ' > /backup.sh \
-        && chmod +x /backup.sh \
-        && echo $$'
-        10 3 * * * /backup.sh
-        ' | crontab - \
-        && exec tini -- crond -l 0 -f
-    volumes:
-      - /opt/astra50/backups/postgres:/backups
-    healthcheck:
-      disable: true
 
   nextcloud_nginx:
     image: automagistre/tenant-nginx:base
