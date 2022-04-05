@@ -3,7 +3,7 @@ version: '3.7'
 services:
   postgres:
     image: ${KUBECTL_IMAGE}
-    command: kubectl -n grachevko port-forward pod/grachevko-0 5432:5432
+    command: kubectl -n grachevko port-forward --address 0.0.0.0 pod/grachevko-0 5432:5432
 
   nextcloud_nginx:
     image: automagistre/tenant-nginx:base
