@@ -234,7 +234,7 @@ services:
         order: stop-first
 
   minio:
-    image: minio/minio:RELEASE.2021-09-09T21-37-07Z
+    image: minio/minio:RELEASE.2022-04-01T03-41-39Z
     command:
       - minio
       - server
