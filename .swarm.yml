@@ -250,7 +250,7 @@ services:
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${POSTGRES_PASSWORD}@postgres:5432/crm-hasura
-      HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+      HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
       HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
@@ -367,10 +367,10 @@ services:
       - --scope=openid
       - --client-id=${OAUTH2_PROXY_DEVOPS_CLIENT_ID}
       - --client-secret=${OAUTH2_PROXY_DEVOPS_CLIENT_SECRET}
-      - --login-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
-      - --redeem-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
-      - --profile-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
-      - --validate-url=https://auth.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+      - --login-url=https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/auth
+      - --redeem-url=https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/token
+      - --profile-url=https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
+      - --validate-url=https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/userinfo
     environment:
       OAUTH2_PROXY_UPSTREAMS: http://n8n.astra50:5678
       OAUTH2_PROXY_REDIRECT_URL: https://workflow.astra50.ru/oauth2/callback

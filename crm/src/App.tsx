@@ -96,7 +96,7 @@ const AdminWithKeycloak = () => {
 
 const App = () => {
     const keycloak = Keycloak({
-        url: 'https://auth.astra50.ru/auth',
+        url: 'https://sso.astra50.ru/auth',
         realm: 'astra50',
         clientId: 'hasura-oauth',
     })
