@@ -94,7 +94,7 @@ services:
         - "traefik.http.middlewares.nextcloud-secure-headers.headers.customResponseHeaders.server=''"
 
   nextcloud: &nextcloud
-    image: nextcloud:23.0.2-fpm-alpine
+    image: nextcloud:23.0.3-fpm-alpine
     command: /bin/sh -c "apk add --no-cache imagemagick && exec /entrypoint.sh php-fpm"
     environment:
       PHP_INI_HASH: ${NEXTCLOUD_PHP_INI_HASH}
