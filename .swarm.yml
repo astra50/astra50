@@ -3,7 +3,7 @@ version: '3.7'
 services:
   postgres2:
     image: ${KUBECTL_IMAGE}
-    command: kubectl -n grachevko port-forward svc/grachevko-primary 5432:5432
+    command: kubectl -n grachevko port-forward pod/grachevko-0 5432:5432
 
   postgres: &postgres
     image: postgres:13.4-alpine
