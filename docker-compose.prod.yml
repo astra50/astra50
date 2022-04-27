@@ -50,9 +50,6 @@ services:
       - type: bind
         source: ../../data/astra50/redis/data
         target: /data
-    deploy:
-      update_config:
-        order: stop-first
 
   hasura:
     build:
