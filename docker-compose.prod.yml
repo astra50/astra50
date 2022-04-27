@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  postgres: &postgres
+  postgres:
     image: postgres:14.2-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -21,7 +21,7 @@ services:
       start_period: 10s
 
   postgres_backup:
-    <<: *postgres
+    image: postgres:14.2-alpine
     entrypoint: /bin/sh
     command:
       - -c
