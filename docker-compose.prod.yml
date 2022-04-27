@@ -40,7 +40,7 @@ services:
         ' | crontab - \
         && exec tini -- crond -l 0 -f
     volumes:
-      - /opt/astra50/backups/postgres:/backups
+      - ../../backups:/backups
     healthcheck:
       disable: true
 
