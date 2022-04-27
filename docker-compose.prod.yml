@@ -182,7 +182,6 @@ services:
 
 networks:
   default:
-    driver: overlay
     name: astra50
   traefik:
     external: true
