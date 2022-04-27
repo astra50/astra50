@@ -34,9 +34,9 @@ services:
         ' > ~/.pgpass \
         && chmod 600 ~/.pgpass \
         && echo $$'
-        10 3 * * * pg_dump -h postgres -U db crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
-        15 3 * * * pg_dump -h postgres -U db crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
-        20 3 * * * pg_dump -h postgres -U db n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        10 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
+        15 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
+        20 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
         ' | crontab - \
         && exec tini -- crond -l 0 -f
     volumes:
