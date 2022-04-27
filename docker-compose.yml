@@ -38,7 +38,7 @@ services:
     user: ${UID:-1000}:${GID:-1000}
 
   postgres:
-    image: postgres:13.4-alpine
+    image: postgres:14.2-alpine
     labels:
       ru.grachevko.dhu: 'postgres.astra50.local'
     volumes:
@@ -54,7 +54,9 @@ services:
       POSTGRES_PASSWORD: db
 
   hasura:
-    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    build:
+      context: .
+      target: hasura
     labels:
       ru.grachevko.dhu: 'api.astra50.local'
     command:
@@ -79,7 +81,9 @@ services:
           - api.astra50.local
 
   hasura-console:
-    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    build:
+      context: .
+      target: hasura
     extra_hosts:
       - hasura-console.astra50.local:0.0.0.0
     labels:
