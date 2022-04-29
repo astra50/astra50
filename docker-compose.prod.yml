@@ -3,6 +3,7 @@ version: '3.7'
 services:
   postgres:
     image: postgres:14.2-alpine
+    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -20,6 +21,7 @@ services:
 
   postgres_backup:
     image: postgres:14.2-alpine
+    restart: always
     entrypoint: /bin/sh
     command:
       - -c
@@ -44,12 +46,14 @@ services:
 
   redis:
     image: redis:6.2.5-alpine
+    restart: always
     volumes:
       - type: bind
         source: ../../data/astra50/redis/data
         target: /data
 
   hasura:
+    restart: always
     build:
       context: .
       target: hasura
@@ -80,6 +84,7 @@ services:
       - traefik
 
   crm:
+    restart: always
     build:
       context: crm
       target: nginx
@@ -94,6 +99,7 @@ services:
       - traefik
 
   sneg:
+    restart: always
     build:
       context: sneg
       target: nginx
@@ -109,6 +115,7 @@ services:
 
   n8n:
     image: n8nio/n8n:0.152.0
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.astra50-n8n-webhook.rule=Host(`workflow.astra50.ru`) && (PathPrefix(`/webhook`) || PathPrefix(`/webhook-test`))"
@@ -147,6 +154,7 @@ services:
 
   n8n-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.astra50-n8n.rule=Host(`workflow.astra50.ru`) && !PathPrefix(`/webhook`) && !PathPrefix(`/webhook-test`)"
