@@ -14,7 +14,7 @@ services:
         source: ../../data/astra50/postgres/data
         target: /var/lib/postgresql/data
     healthcheck:
-      test: pg_isready -U db
+      test: pg_isready -U ${POSTGRES_USER}
       interval: 5s
       timeout: 5s
       retries: 3
