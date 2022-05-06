@@ -17,7 +17,7 @@ do-up: contrib pull up-postgres up-crm up-sneg
 up-postgres:
 	docker-compose up -d --force-recreate postgres
 	docker-compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
-	docker-compose exec postgres psql -U db -c "create database hasura"
+	docker-compose exec postgres psql -c "create database hasura"
 
 up-hasura:
 	docker-compose up -d --force-recreate hasura
@@ -65,11 +65,11 @@ backup-download:
 
 backup-restore:
 	@docker-compose exec postgres sh -c " \
-		psql -U db postgres -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db' AND pid <> pg_backend_pid()\"; \
-		psql -U db postgres -c \"DROP DATABASE db\"; \
-		psql -U db postgres -c \"CREATE DATABASE db\" \
-		&& gunzip < $(BACKUP_FILE) | psql -U db \
-		&& gunzip < $(HASURA_BACKUP_FILE) | psql -U db hasura \
+		psql postgres -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'astra50' AND pid <> pg_backend_pid()\"; \
+		psql postgres -c \"DROP DATABASE astra50\"; \
+		psql postgres -c \"CREATE DATABASE astra50\" \
+		&& gunzip < $(BACKUP_FILE) | psql \
+		&& gunzip < $(HASURA_BACKUP_FILE) | psql hasura \
 		"
 
 backup: backup-download backup-restore

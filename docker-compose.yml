@@ -49,9 +49,12 @@ services:
       - ./:/app
     working_dir: /app
     environment:
-      POSTGRES_DB: db
-      POSTGRES_USER: db
-      POSTGRES_PASSWORD: db
+      POSTGRES_DB: astra50
+      POSTGRES_USER: astra50
+      POSTGRES_PASSWORD: astra50
+      PGDATABASE: astra50
+      PGUSER: astra50
+      PGPASSWORD: astra50
 
   hasura:
     build:
@@ -66,8 +69,8 @@ services:
       - --unauthorized-role=anonymous
       - --cors-domain=*
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
+      HASURA_GRAPHQL_DATABASE_URL: postgres://astra50:astra50@postgres:5432/astra50
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://astra50:astra50@postgres:5432/hasura
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'false'
       HASURA_GRAPHQL_DEV_MODE: 'true'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
