@@ -1,11 +1,11 @@
 table:
-  name: gate_open_reason
   schema: public
+  name: gate_open_reason
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - id
         - name
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true

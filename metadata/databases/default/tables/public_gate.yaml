@@ -1,39 +1,50 @@
 table:
-  name: gate
   schema: public
+  name: gate
 insert_permissions:
-  - permission:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - name
+        - phone
       backend_only: false
-      check: { }
-      columns:
-        - name
-        - phone
-    role: government
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: anonymous
+    permission:
       columns:
         - id
         - name
-      filter: { }
-    role: anonymous
-  - permission:
+      filter: {}
       allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - id
         - name
         - phone
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - identifier
+        - name
+        - phone
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - name
         - phone
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

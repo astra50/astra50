@@ -1,18 +1,18 @@
 table:
-  name: target
   schema: public
+  name: target
 array_relationships:
   - name: target_payments
     using:
       foreign_key_constraint_on:
         column: target_id
         table:
-          name: target_payment
           schema: public
+          name: target_payment
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - comment
         - current_amount
@@ -20,10 +20,10 @@ insert_permissions:
         - name
         - payer_amount
         - total_amount
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - comment
         - created_at
@@ -33,11 +33,11 @@ select_permissions:
         - name
         - payer_amount
         - total_amount
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - comment
         - current_amount
@@ -45,9 +45,9 @@ update_permissions:
         - name
         - payer_amount
         - total_amount
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

@@ -1,6 +1,6 @@
 table:
-  name: member_payment
   schema: public
+  name: member_payment
 object_relationships:
   - name: account
     using:
@@ -12,9 +12,9 @@ object_relationships:
     using:
       foreign_key_constraint_on: rate_id
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - account_id
         - amount
@@ -25,10 +25,10 @@ insert_permissions:
         - person_id
         - rate
         - rate_id
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - account_id
         - amount
@@ -42,11 +42,11 @@ select_permissions:
         - rate
         - rate_id
         - updated_at
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - account_id
         - amount
@@ -57,9 +57,9 @@ update_permissions:
         - person_id
         - rate
         - rate_id
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

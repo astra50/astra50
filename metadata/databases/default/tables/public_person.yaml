@@ -1,10 +1,10 @@
 table:
-  name: person
   schema: public
+  name: person
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - birth_date
         - comment
@@ -15,10 +15,10 @@ insert_permissions:
         - phone
         - phone_second
         - telegram_id
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - balance
         - balance_at
@@ -36,11 +36,11 @@ select_permissions:
         - phone
         - phone_second
         - telegram_id
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - birth_date
         - comment
@@ -51,9 +51,9 @@ update_permissions:
         - phone
         - phone_second
         - telegram_id
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

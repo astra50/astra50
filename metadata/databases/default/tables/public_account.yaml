@@ -1,6 +1,6 @@
 table:
-  name: account
   schema: public
+  name: account
 object_relationships:
   - name: person
     using:
@@ -11,28 +11,28 @@ array_relationships:
       foreign_key_constraint_on:
         column: account_id
         table:
-          name: account_land
           schema: public
+          name: account_land
   - name: persons
     using:
       foreign_key_constraint_on:
         column: account_id
         table:
-          name: account_person
           schema: public
+          name: account_person
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - comment
         - end_at
         - number
         - person_id
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - balance
         - balance_at
@@ -43,19 +43,19 @@ select_permissions:
         - number
         - person_id
         - updated_at
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - comment
         - end_at
         - number
         - person_id
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

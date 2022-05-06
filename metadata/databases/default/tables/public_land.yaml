@@ -1,23 +1,23 @@
 table:
-  name: land
   schema: public
+  name: land
 object_relationships:
   - name: street
     using:
       foreign_key_constraint_on: street_id
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - cadastral_number
         - number
         - square
         - street_id
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - cadastral_number
         - created_at
@@ -26,19 +26,19 @@ select_permissions:
         - number_integer
         - square
         - street_id
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - cadastral_number
         - number
         - square
         - street_id
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}

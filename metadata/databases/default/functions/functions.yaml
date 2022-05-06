@@ -1,1 +1,2 @@
 - "!include public_open_gate.yaml"
+- "!include public_open_gate_site.yaml"

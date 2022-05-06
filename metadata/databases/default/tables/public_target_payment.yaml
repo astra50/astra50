@@ -1,6 +1,6 @@
 table:
-  name: target_payment
   schema: public
+  name: target_payment
 object_relationships:
   - name: land
     using:
@@ -12,9 +12,9 @@ object_relationships:
     using:
       foreign_key_constraint_on: target_id
 insert_permissions:
-  - permission:
-      backend_only: false
-      check: { }
+  - role: government
+    permission:
+      check: {}
       columns:
         - amount
         - comment
@@ -22,10 +22,10 @@ insert_permissions:
         - paid_at
         - person_id
         - target_id
-    role: government
+      backend_only: false
 select_permissions:
-  - permission:
-      allow_aggregations: true
+  - role: government
+    permission:
       columns:
         - amount
         - comment
@@ -35,11 +35,11 @@ select_permissions:
         - paid_at
         - person_id
         - target_id
-      filter: { }
-    role: government
+      filter: {}
+      allow_aggregations: true
 update_permissions:
-  - permission:
-      check: null
+  - role: government
+    permission:
       columns:
         - amount
         - comment
@@ -47,9 +47,9 @@ update_permissions:
         - paid_at
         - person_id
         - target_id
-      filter: { }
-    role: government
+      filter: {}
+      check: null
 delete_permissions:
-  - permission:
-      filter: { }
-    role: government
+  - role: government
+    permission:
+      filter: {}
