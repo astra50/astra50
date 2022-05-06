@@ -56,12 +56,12 @@ cli:
 cli-postgres:
 	docker-compose exec -w /var/lib/postgresql/data postgres bash
 
-BACKUP_SERVER=s3.automagistre.ru
+BACKUP_SERVER=s4.automagistre.ru
 BACKUP_FILE=var/backup.sql.gz
 HASURA_BACKUP_FILE=var/hasura_backup.sql.gz
 backup-download:
-	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/astra50/backups/postgres/*crm.sql.gz | head -1) $(BACKUP_FILE)
-	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/astra50/backups/postgres/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*crm.sql.gz | head -1) $(BACKUP_FILE)
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
 
 backup-restore:
 	@docker-compose exec postgres sh -c " \
