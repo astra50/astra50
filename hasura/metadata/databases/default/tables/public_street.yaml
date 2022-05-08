@@ -33,6 +33,15 @@ select_permissions:
         - id
       filter: {}
       allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - name
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
 update_permissions:
   - role: government
     permission:

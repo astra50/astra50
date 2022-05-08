@@ -9,3 +9,12 @@ select_permissions:
         - name
       filter: {}
       allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - id
+        - name
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
