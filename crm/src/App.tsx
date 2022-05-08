@@ -1,4 +1,4 @@
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
+import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
@@ -32,6 +32,7 @@ const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState(null)
     const authProvider = useAuthProvider()
     const keycloak = useKeycloak().keycloak
+    const [apollo, setApollo] = useState<ApolloClient<any> | null>(null)
 
     useEffect(() => {
         const httpLink = createHttpLink({
@@ -46,7 +47,7 @@ const AdminWithKeycloak = () => {
                 headers: {
                     ...headers,
                     authorization: `Bearer ${keycloak.token}`,
-                    'X-Hasura-Role': 'government',
+                    'X-Hasura-Role': 'member',
                 },
             }
         })
@@ -60,37 +61,40 @@ const AdminWithKeycloak = () => {
             const dataProvider = await buildHasuraProvider({
                 client: clientWithAuth,
             })
+            setApollo(clientWithAuth)
             setDataProvider(() => dataProvider)
         }
         buildDataProvider()
     }, [keycloak])
 
-    if (!dataProvider) return <Loading/>
+    if (!dataProvider || !apollo) return <Loading/>
 
     return (
-        <Admin
-            disableTelemetry
-            dashboard={Dashboard}
-            title="СНТ Астра - CRM"
-            dataProvider={dataProvider}
-            authProvider={authProvider}
-            i18nProvider={i18Provider}
-            layout={Layout}
-        >
-            <Resource {...account}/>
-            <Resource {...account_land}/>
-            <Resource {...account_person}/>
-            <Resource {...gate_open_reason}/>
-            <Resource {...gate_open}/>
-            <Resource {...gate}/>
-            <Resource {...land}/>
-            <Resource {...member_payment}/>
-            <Resource {...member_rate}/>
-            <Resource {...person}/>
-            <Resource {...street}/>
-            <Resource {...target_payment}/>
-            <Resource {...target}/>
-        </Admin>
+        <ApolloProvider client={apollo}>
+            <Admin
+                disableTelemetry
+                dashboard={Dashboard}
+                title="СНТ Астра - CRM"
+                dataProvider={dataProvider}
+                authProvider={authProvider}
+                i18nProvider={i18Provider}
+                layout={Layout}
+            >
+                <Resource {...account}/>
+                <Resource {...account_land}/>
+                <Resource {...account_person}/>
+                <Resource {...gate_open_reason}/>
+                <Resource {...gate_open}/>
+                <Resource {...gate}/>
+                <Resource {...land}/>
+                <Resource {...member_payment}/>
+                <Resource {...member_rate}/>
+                <Resource {...person}/>
+                <Resource {...street}/>
+                <Resource {...target_payment}/>
+                <Resource {...target}/>
+            </Admin>
+        </ApolloProvider>
     )
 }
 
