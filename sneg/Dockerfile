@@ -20,7 +20,7 @@ RUN set -ex \
 #
 # nginx
 #
-FROM nginx:1.21.5-alpine as nginx-base
+FROM nginx:1.21.6-alpine as nginx-base
 
 WORKDIR /data
 
