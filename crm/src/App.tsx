@@ -92,11 +92,7 @@ const AdminWithKeycloak = () => {
 }
 
 const App = () => {
-    const keycloak = Keycloak({
-        url: 'https://sso.astra50.ru/auth',
-        realm: 'astra50',
-        clientId: 'hasura-oauth',
-    })
+    const keycloak = new Keycloak()
 
     keycloak.onAuthRefreshError = () => setTimeout(keycloak.updateToken, 0, [-1])
 
