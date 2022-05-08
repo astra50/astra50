@@ -79,6 +79,10 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
       HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
       HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /data/migrations
+      HASURA_GRAPHQL_METADATA_DIR: /data/metadata
+    volumes:
+      - ./hasura:/data:ro
     networks:
       - default
       - traefik
