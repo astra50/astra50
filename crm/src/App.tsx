@@ -8,7 +8,7 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 // @ts-ignore
 import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, Loading, Resource, TranslationProvider} from 'react-admin'
+import {Admin, DataProvider, Loading, Resource, TranslationProvider} from 'react-admin'
 import account from './account'
 import account_land from './account_land'
 import account_person from './account_person'
@@ -29,7 +29,7 @@ import target_payment from './target_payment'
 const i18Provider = polyglotI18nProvider(() => russianMessages, 'ru')
 
 const AdminWithKeycloak = () => {
-    const [dataProvider, setDataProvider] = useState(null)
+    const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
     const authProvider = useAuthProvider()
     const keycloak = useKeycloak().keycloak
 
