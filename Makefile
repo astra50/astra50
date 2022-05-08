@@ -53,8 +53,8 @@ permissions:
 console:
 	docker-compose exec hasura-console bash
 
-cli:
-	docker-compose run --rm --user $(shell id -u):$(shell id -g) --label ru.grachevko.dhu="" crm sh
+crm:
+	docker-compose run --rm --label ru.grachevko.dhu="" --label traefik.enable=false crm sh
 
 cli-postgres:
 	docker-compose exec -w /var/lib/postgresql/data postgres bash
