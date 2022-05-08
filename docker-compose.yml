@@ -58,7 +58,7 @@ services:
 
   hasura:
     build:
-      context: .
+      context: ./hasura
       target: hasura
     labels:
       ru.grachevko.dhu: 'api.astra50.local'
@@ -85,7 +85,7 @@ services:
 
   hasura-console:
     build:
-      context: .
+      context: ./hasura
       target: hasura
     extra_hosts:
       - hasura-console.astra50.local:0.0.0.0
@@ -102,7 +102,7 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: admin
     working_dir: /app
     volumes:
-      - ./:/app
+      - ./hasura:/app
       - ./var/hasura:/.hasura
     user: ${UID:-1000}:${GID:-1000}
 

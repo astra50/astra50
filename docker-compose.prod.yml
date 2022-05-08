@@ -55,7 +55,7 @@ services:
   hasura:
     restart: always
     build:
-      context: .
+      context: ./hasura
       target: hasura
     labels:
       - "traefik.enable=true"
