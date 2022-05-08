@@ -1,6 +1,26 @@
 version: '3.7'
 
 services:
+  traefik:
+    image: traefik:v2.6.6
+    labels:
+      ru.grachevko.dhu: 'traefik.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-traefik.rule: Host(`traefik.astra50.local`)
+      traefik.http.routers.astra50-traefik.entrypoints: web
+      traefik.http.routers.astra50-traefik.service: api@internal
+    container_name: astra50_traefik
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker=true
+      - --providers.docker.network=astra50
+      - --providers.docker.exposedByDefault=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
   crm:
     image: astra50/astra50:node-base
     build:
@@ -9,7 +29,11 @@ services:
     extra_hosts:
       - crm.astra50.local:0.0.0.0
     labels:
-      ru.grachevko.dhu: 'crm.astra50.local'
+      ru.grachevko.dhu: 'crm.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-crm.rule: Host(`crm.astra50.local`) && !Path(`/v1/graphql`)
+      traefik.http.routers.astra50-crm.entrypoints: web
+      traefik.http.services.astra50-crm.loadbalancer.server.port: 80
     command: npm run start
     environment:
       HOST: crm.astra50.local
@@ -27,7 +51,11 @@ services:
     extra_hosts:
       - sneg.astra50.local:0.0.0.0
     labels:
-      ru.grachevko.dhu: 'sneg.astra50.local'
+      ru.grachevko.dhu: 'sneg.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-sneg.rule: Host(`sneg.astra50.local`) && !Path(`/v1/graphql`)
+      traefik.http.routers.astra50-sneg.entrypoints: web
+      traefik.http.services.astra50-sneg.loadbalancer.server.port: 80
     command: npm run start
     environment:
       HOST: sneg.astra50.local
@@ -61,7 +89,11 @@ services:
       context: ./hasura
       target: hasura
     labels:
-      ru.grachevko.dhu: 'api.astra50.local'
+      ru.grachevko.dhu: 'api.astra50.local;{crm,sneg}.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-hasura.rule: Host(`crm.astra50.local`, `sneg.astra50.local`) && Path(`/v1/graphql`)
+      traefik.http.routers.astra50-hasura.entrypoints: web
+      traefik.http.services.astra50-hasura.loadbalancer.server.port: 80
     command:
       - graphql-engine
       - serve

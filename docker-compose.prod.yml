@@ -64,6 +64,10 @@ services:
       - "traefik.http.routers.astra50-hasura.tls=true"
       - "traefik.http.routers.astra50-hasura.tls.certresolver=leresolver"
       - "traefik.http.services.astra50-hasura-service.loadbalancer.server.port=80"
+      - "traefik.http.routers.astra50-hasura-api.rule=Host(`crm.astra50.ru`, `www.astra50.ru`) && Path(`/v1/graphql`)"
+      - "traefik.http.routers.astra50-hasura-api.entrypoints=websecure"
+      - "traefik.http.routers.astra50-hasura-api.tls=true"
+      - "traefik.http.routers.astra50-hasura-api.tls.certresolver=leresolver"
     command:
       - graphql-engine
       - serve
@@ -94,7 +98,7 @@ services:
       target: nginx
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.astra50-crm.rule=Host(`crm.astra50.ru`)"
+      - "traefik.http.routers.astra50-crm.rule=Host(`crm.astra50.ru`) && !Path(`/v1/graphql`)"
       - "traefik.http.routers.astra50-crm.entrypoints=websecure"
       - "traefik.http.routers.astra50-crm.tls=true"
       - "traefik.http.routers.astra50-crm.tls.certresolver=leresolver"
@@ -109,7 +113,7 @@ services:
       target: nginx
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.astra50-sneg.rule=Host(`sneg.astra50.ru`)"
+      - "traefik.http.routers.astra50-sneg.rule=Host(`sneg.astra50.ru`) && !Path(`/v1/graphql`)"
       - "traefik.http.routers.astra50-sneg.entrypoints=websecure"
       - "traefik.http.routers.astra50-sneg.tls=true"
       - "traefik.http.routers.astra50-sneg.tls.certresolver=leresolver"

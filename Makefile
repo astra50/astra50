@@ -12,7 +12,10 @@ pull:
 up: do-up up-hasura migration
 latest: do-up backup up-hasura migration
 
-do-up: contrib pull up-postgres up-crm up-sneg
+do-up: contrib pull up-traefik up-postgres up-crm up-sneg
+
+up-traefik:
+	docker-compose up -d --force-recreate traefik
 
 up-postgres:
 	docker-compose up -d --force-recreate postgres

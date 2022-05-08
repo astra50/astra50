@@ -35,10 +35,7 @@ const AdminWithKeycloak = () => {
 
     useEffect(() => {
         const httpLink = createHttpLink({
-            uri: window.location.protocol
-                + '//api.'
-                + window.location.hostname.split('.').splice(-2).join('.')
-                + '/v1/graphql',
+            uri: '/v1/graphql',
         })
 
         const authLink = setContext((_, {headers}) => {
