@@ -1,4 +1,4 @@
-.PHONY: contrib
+.PHONY: contrib crm
 
 contrib:
 	@cp -n -r contrib/* ./ || true
