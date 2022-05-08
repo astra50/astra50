@@ -1,4 +1,4 @@
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
+import {createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
@@ -48,14 +48,12 @@ const AdminWithKeycloak = () => {
             }
         })
 
-        const clientWithAuth = new ApolloClient({
-            link: authLink.concat(httpLink),
-            cache: new InMemoryCache(),
-        })
-
         const buildDataProvider = async () => {
             const dataProvider = await buildHasuraProvider({
-                client: clientWithAuth,
+                clientOptions: {
+                    link: authLink.concat(httpLink),
+                    cache: new InMemoryCache(),
+                },
             })
             setDataProvider(() => dataProvider)
         }
