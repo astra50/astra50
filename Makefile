@@ -42,10 +42,10 @@ sneg-install:
 	docker-compose run --rm --user $(shell id -u):$(shell id -g) sneg npm install
 
 up-crm: crm-install
-	docker-compose up -d --force-recreate crm
+	docker-compose up -d --build --force-recreate crm
 
 up-sneg: sneg-install
-	docker-compose up -d --force-recreate sneg
+	docker-compose up -d --build --force-recreate sneg
 
 permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .
