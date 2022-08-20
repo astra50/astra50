@@ -106,6 +106,21 @@ services:
     networks:
       - traefik
 
+  www:
+    restart: always
+    build:
+      context: www
+      target: nginx
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.astra50-www.rule=Host(`www.astra50.ru`) && !Path(`/v1/graphql`)"
+      - "traefik.http.routers.astra50-www.entrypoints=websecure"
+      - "traefik.http.routers.astra50-www.tls=true"
+      - "traefik.http.routers.astra50-www.tls.certresolver=leresolver"
+      - "traefik.http.services.astra50-www.loadbalancer.server.port=80"
+    networks:
+      - traefik
+
   sneg:
     restart: always
     build:

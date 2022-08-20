@@ -12,7 +12,7 @@ pull:
 up: do-up up-hasura migration
 latest: do-up backup up-hasura migration
 
-do-up: contrib pull up-traefik up-postgres up-crm up-sneg
+do-up: contrib pull up-traefik up-postgres up-www up-crm up-sneg
 
 up-traefik:
 	docker-compose up -d --force-recreate traefik
@@ -46,6 +46,9 @@ up-crm: crm-install
 
 up-sneg: sneg-install
 	docker-compose up -d --build --force-recreate sneg
+
+up-www:
+	docker-compose up -d --build --force-recreate www
 
 permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .

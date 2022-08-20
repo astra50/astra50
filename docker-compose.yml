@@ -65,6 +65,23 @@ services:
     working_dir: /app
     user: ${UID:-1000}:${GID:-1000}
 
+  www:
+    image: astra50/astra50:www-nginx-base
+    build:
+      target: nginx-base
+      context: www/
+    extra_hosts:
+      - www.astra50.local:0.0.0.0
+    labels:
+      ru.grachevko.dhu: 'www.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-www.rule: Host(`www.astra50.local`) && !Path(`/v1/graphql`)
+      traefik.http.routers.astra50-www.entrypoints: web
+      traefik.http.services.astra50-www.loadbalancer.server.port: 80
+    volumes:
+      - ./www/public:/usr/share/nginx/html
+    working_dir: /data
+
   postgres:
     image: postgres:14.2-alpine
     labels:
