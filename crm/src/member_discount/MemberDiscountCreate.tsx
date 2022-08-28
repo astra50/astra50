@@ -1,5 +1,4 @@
-import {Identifier} from 'ra-core/src/types'
-import {Create, CreateProps, SimpleForm, TextInput} from 'react-admin'
+import {Create, CreateProps, Identifier, SimpleForm, TextInput} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
 import member_rate from '../member_rate'
 import {MemberRateReferenceInput} from '../member_rate/MemberRateReference'
