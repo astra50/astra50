@@ -10,28 +10,28 @@ import member_rate from './index'
 
 export const MemberRateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source="member_rate_id"
+        source="rate_id"
         reference={member_rate.name}
         {...props}
     >
-        <TextField source="name"/>
+        <TextField source="amount"/>
     </ReferenceField>
 )
 
 export const MemberRateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="member_rate_id"
+        source="rate_id"
         reference={member_rate.name}
-        filterToQuery={searchText => ({'name': searchText})}
+        filterToQuery={searchText => ({'amount': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="name"/>
+        <AutocompleteInput optionText="amount"/>
     </ReferenceInput>
 )
 
 MemberRateReferenceField.defaultProps = {
-    label: 'Улица',
+    label: 'Ставка',
 }
 MemberRateReferenceInput.defaultProps = {
-    label: 'Улица',
+    label: 'Ставка',
 }

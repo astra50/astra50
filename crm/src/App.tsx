@@ -19,6 +19,7 @@ import gate_open from './gate_open'
 import gate_open_reason from './gate_open_reason'
 import land from './land'
 import Layout from './Layout'
+import member_discount from './member_discount'
 import member_payment from './member_payment'
 import member_rate from './member_rate'
 import person from './person'
@@ -79,6 +80,7 @@ const AdminWithKeycloak = () => {
             <Resource {...gate_open}/>
             <Resource {...gate}/>
             <Resource {...land}/>
+            <Resource {...member_discount}/>
             <Resource {...member_payment}/>
             <Resource {...member_rate}/>
             <Resource {...person}/>

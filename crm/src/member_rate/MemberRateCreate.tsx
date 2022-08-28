@@ -1,4 +1,4 @@
-import {Create, CreateProps, DateInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, CreateProps, DateInput, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 
 const MemberRateCreate = (props: CreateProps) => {
@@ -12,6 +12,11 @@ const MemberRateCreate = (props: CreateProps) => {
                     label="Ставка"
                     helperText="Ставка за сотку"
                     validate={required()}
+                />
+                <NumberInput
+                    source="discount"
+                    label="Скидка"
+                    helperText="Процент"
                 />
                 <div>
                     <DateInput

@@ -1,4 +1,4 @@
-import {Datagrid, DateField, List, ListProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
@@ -13,9 +13,10 @@ const MemberRateList = (props: ListProps) =>
           sort={{field: 'since', order: 'DESC'}}
     >
         <Datagrid
-            rowClick="edit"
+            rowClick="show"
         >
             <MoneyField source="amount" label="Ставка"/>
+            <NumberField source="discount" label="Скидка"/>
             <TextField source="comment" label="Комментарий"/>
             <DateField source="since" label="С даты"/>
             <DateField source="until" label="По дату"/>

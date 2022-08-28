@@ -1,4 +1,4 @@
-import {DateInput, Edit, EditProps, FieldProps, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, EditProps, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 import {MemberRate} from '../types'
 
@@ -19,6 +19,11 @@ const MemberRateEdit = (props: EditProps) => {
                     label="Ставка"
                     helperText="Ставка за сотку"
                     validate={required()}
+                />
+                <NumberInput
+                    source="discount"
+                    label="Скидка"
+                    helperText="Процент"
                 />
                 <div>
                     <DateInput

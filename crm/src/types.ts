@@ -32,9 +32,15 @@ export interface Person extends Record, HasBalance {
 }
 
 export interface MemberRate extends Record {
-    rate: number,
+    amount: number,
     since: string,
     until: string,
+}
+
+export interface MemberDiscount extends Record {
+    rate_id: Identifier,
+    account_id: Identifier,
+    comment: string,
 }
 
 export interface Target extends Record, Timestampable {

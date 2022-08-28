@@ -1,47 +1,34 @@
 table:
   schema: public
-  name: member_rate
-array_relationships:
-  - name: member_discounts
-    using:
-      foreign_key_constraint_on:
-        column: rate_id
-        table:
-          schema: public
-          name: member_discount
+  name: member_discount
 insert_permissions:
   - role: government
     permission:
       check: {}
       columns:
-        - amount
+        - account_id
         - comment
-        - discount
-        - since
-        - until
+        - rate_id
       backend_only: false
 select_permissions:
   - role: government
     permission:
       columns:
-        - amount
         - comment
         - created_at
-        - discount
+        - updated_at
+        - account_id
         - id
-        - since
-        - until
+        - rate_id
       filter: {}
       allow_aggregations: true
 update_permissions:
   - role: government
     permission:
       columns:
-        - amount
+        - account_id
         - comment
-        - discount
-        - since
-        - until
+        - rate_id
       filter: {}
       check: null
 delete_permissions:
