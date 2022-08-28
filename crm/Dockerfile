@@ -15,7 +15,6 @@ COPY public public
 COPY src src
 
 RUN set -ex \
-    && ls  \
     && npm run build
 
 #
