@@ -36,10 +36,10 @@ migration:
 		"
 
 crm-install:
-	docker-compose run --rm --user $(shell id -u):$(shell id -g) crm npm install
+	docker-compose run --rm -T --user $(shell id -u):$(shell id -g) crm npm install
 
 sneg-install:
-	docker-compose run --rm --user $(shell id -u):$(shell id -g) sneg npm install
+	docker-compose run --rm -T --user $(shell id -u):$(shell id -g) sneg npm install
 
 up-crm: crm-install
 	docker-compose up -d --build --force-recreate crm
