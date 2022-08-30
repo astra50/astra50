@@ -1,10 +1,11 @@
-import {Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
+import {BooleanInput, Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
 import {PersonReferenceField} from '../person/PersonReference'
 
 const filters = [
     <TextInput source="account#number@_ilike,comment,account#persons#person#full_name@_ilike" label="Поиск"
                alwaysOn/>,
+    <BooleanInput source="is_discount" label="Скидка"/>,
     <AccountReferenceInput source="account_id"/>,
 ]
 

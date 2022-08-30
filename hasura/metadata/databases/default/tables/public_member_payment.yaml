@@ -19,6 +19,7 @@ insert_permissions:
         - account_id
         - amount
         - comment
+        - is_discount
         - is_regular
         - land_id
         - paid_at
@@ -35,6 +36,7 @@ select_permissions:
         - comment
         - created_at
         - id
+        - is_discount
         - is_regular
         - land_id
         - paid_at
@@ -51,6 +53,7 @@ update_permissions:
         - account_id
         - amount
         - comment
+        - is_discount
         - is_regular
         - land_id
         - paid_at
