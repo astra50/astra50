@@ -45,12 +45,117 @@
                     <th scope="row" class="text-start">КПП</th>
                     <td>507401001</td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-start">Навигация</th>
-                    <td><a href="https://yandex.ru/maps/-/CCUVYEsKgD" target="_blank">Яндекс.Карта</a></td>
-                </tr>
                 </tbody>
             </table>
+        </div>
+
+        <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#navigator">
+            Навигация
+        </button>
+
+        <div class="modal fade" id="navigator" tabindex="-1"
+             style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-sm-down">
+                <div class="modal-content">
+                    <div class="modal-header">Навигация</div>
+                    <div class="modal-body">
+                        <h2 class="fs-5 mb-3">Ворота</h2>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Ворота</th>
+                                <th>Номер</th>
+                                <th>Ссылка</th>
+                            </tr>
+                            </thead>
+                            <tbody id="gates-tbody"></tbody>
+                        </table>
+                        <h2 class="fs-5 mb-3">Участки</h2>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Улица</th>
+                                <th>Номер</th>
+                                <th>Ссылка</th>
+                            </tr>
+                            </thead>
+                            <tbody id="lands-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                async function fetchGraphQL(operationsDoc, operationName, variables) {
+                    const result = await fetch(
+                        "/v1/graphql",
+                        {
+                            method: "POST",
+                            body: JSON.stringify({
+                                query: operationsDoc,
+                                variables: variables,
+                                operationName: operationName,
+                            }),
+                        },
+                    );
+
+                    return await result.json();
+                }
+
+                const operationsDoc = `
+                    query lands {
+                      gate(where: {coordinates: {_is_null: false}}, order_by: {number: asc}) {
+                        name
+                        number
+                        coordinates
+                      }
+                      land(where: {coordinates: {_is_null: false}}, order_by: {number_integer: asc}) {
+                        id
+                        number
+                        street {
+                          name
+                        }
+                        coordinates
+                      }
+                    }
+                `;
+
+                function fetchLands() {
+                    return fetchGraphQL(
+                        operationsDoc,
+                        "lands",
+                        {},
+                    );
+                }
+
+                async function startFetchLands() {
+                    const {errors, data} = await fetchLands();
+
+                    if (errors) {
+                        console.error(errors);
+                    }
+
+                    let append = function (elem, coordinates, col1, col2) {
+                        let coords = encodeURIComponent(coordinates.replace('(', '').replace(')', '').split(',').reverse().join(','))
+
+                        elem.innerHTML = elem.innerHTML + `
+                            <tr>
+                                <td class="align-middle">${col1}</td>
+                                <td class="align-middle">${col2}</td>
+                                <td class="align-middle">
+                                    <a href="https://yandex.ru/maps/213/moscow/?ll=${coords}&whatshere[point]=${coords}&z=18" class="btn btn-link btn-small" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+                                    </a>
+                                </td>
+                           </tr>`
+                    };
+
+                    data.gate.forEach((gate) => append(document.querySelector('#gates-tbody'), gate.coordinates, gate.name, gate.number))
+                    data.land.forEach((land) => append(document.querySelector('#lands-tbody'), land.coordinates, land.street.name, land.number))
+                }
+
+                startFetchLands();
+            </script>
         </div>
 
         <hr class="col-3 col-md-2 mb-5">

@@ -4,7 +4,7 @@ const GateList = (props: ListProps) => {
     return (
         <List
             title="Ворота"
-            sort={{field: 'name', order: 'ASC'}}
+            sort={{field: 'number', order: 'ASC'}}
             {...props}
         >
             <Datagrid rowClick="edit">

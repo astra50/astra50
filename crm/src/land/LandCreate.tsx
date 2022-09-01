@@ -11,6 +11,7 @@ const LandCreate = (props: CreateProps) => {
                 <NumberInput source="number" label="Номер"/>
                 <NumberInput source="square" label="Площадь"/>
                 <TextInput source="cadastral_number" label="Кадастровый номер"/>
+                <TextInput source="coordinates" label="Координаты"/>
             </SimpleForm>
         </Create>
     )

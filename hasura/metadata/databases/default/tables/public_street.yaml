@@ -22,7 +22,6 @@ select_permissions:
       columns:
         - id
         - name
-        - created_at
       filter: {}
       allow_aggregations: true
   - role: government

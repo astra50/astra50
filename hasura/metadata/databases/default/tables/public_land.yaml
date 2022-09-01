@@ -11,15 +11,27 @@ insert_permissions:
       check: {}
       columns:
         - cadastral_number
+        - coordinates
         - number
         - square
         - street_id
       backend_only: false
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - coordinates
+        - id
+        - number
+        - number_integer
+        - street_id
+      filter: {}
+      allow_aggregations: true
   - role: government
     permission:
       columns:
         - cadastral_number
+        - coordinates
         - created_at
         - id
         - number
@@ -33,6 +45,7 @@ update_permissions:
     permission:
       columns:
         - cadastral_number
+        - coordinates
         - number
         - square
         - street_id

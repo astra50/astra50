@@ -1,4 +1,4 @@
-import {Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import {Edit, EditProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {Gate} from '../types'
 
 interface GateTitleProps {
@@ -12,12 +12,14 @@ const GateEdit = (props: EditProps) => {
     return (
         <Edit {...props} title={<GateTitle/>}>
             <SimpleForm>
+                <NumberInput source="number" label="Номер"/>
                 <TextInput
                     source="name"
                     validate={required()}
                     label="Название"
                 />
                 <TextInput source="phone" label="Телефон"/>
+                <TextInput source="coordinates" label="Координаты"/>
             </SimpleForm>
         </Edit>
     )

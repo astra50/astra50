@@ -6,23 +6,33 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - coordinates
+        - identifier
         - name
+        - number
         - phone
       backend_only: false
 select_permissions:
   - role: anonymous
     permission:
       columns:
+        - coordinates
         - id
         - name
+        - number
       filter: {}
       allow_aggregations: true
   - role: government
     permission:
       columns:
+        - coordinates
+        - created_at
         - id
+        - identifier
         - name
+        - number
         - phone
+        - updated_at
       filter: {}
       allow_aggregations: true
   - role: member
@@ -40,7 +50,10 @@ update_permissions:
   - role: government
     permission:
       columns:
+        - coordinates
+        - identifier
         - name
+        - number
         - phone
       filter: {}
       check: null
