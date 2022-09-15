@@ -1,4 +1,4 @@
-import {DateInput, Edit, EditProps, FieldProps, NumberInput, required, SimpleForm} from 'react-admin'
+import {DateInput, Edit, EditProps, FieldProps, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {Account} from '../types'
@@ -15,7 +15,7 @@ const AccountEdit = (props: EditProps) => {
               title={<Title/>}
         >
             <SimpleForm>
-                <NumberInput source="number" label="Номер"/>
+                <TextInput source="number" label="Номер"/>
                 <CommentInput/>
                 <PersonReferenceInput validate={required()}/>
                 <DateInput
