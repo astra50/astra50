@@ -8,7 +8,9 @@ ENV NODE_ENV production
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN --mount=type=cache,target=/var/cache/npm \
+    set -ex \
+    && npm install
 
 COPY tsconfig.json .
 COPY public public
