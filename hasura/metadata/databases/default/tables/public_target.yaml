@@ -17,6 +17,7 @@ insert_permissions:
         - comment
         - current_amount
         - initial_amount
+        - is_public
         - name
         - payer_amount
         - total_amount
@@ -27,7 +28,9 @@ select_permissions:
         - id
         - name
         - payer_amount
-      filter: {}
+      filter:
+        is_public:
+          _eq: true
   - role: government
     permission:
       columns:
@@ -36,9 +39,11 @@ select_permissions:
         - current_amount
         - id
         - initial_amount
+        - is_public
         - name
         - payer_amount
         - total_amount
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -48,6 +53,7 @@ update_permissions:
         - comment
         - current_amount
         - initial_amount
+        - is_public
         - name
         - payer_amount
         - total_amount

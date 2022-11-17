@@ -1,4 +1,4 @@
-import {Edit, EditProps, FieldProps, SimpleForm, TextInput} from 'react-admin'
+import {BooleanInput, Edit, EditProps, FieldProps, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 import {Target} from '../types'
 
@@ -15,6 +15,7 @@ const TargetEdit = (props: EditProps) => {
               title={<Title/>}>
             <SimpleForm>
                 <TextInput source="name" label="Цель"/>
+                <BooleanInput source="is_public" label="Публичная?"/>
                 <TextInput source="comment" label="Комментарий"/>
                 <MoneyInput source="initial_amount" label="Начальная сумма"/>
                 <MoneyInput source="total_amount" label="Целевая сумма"/>

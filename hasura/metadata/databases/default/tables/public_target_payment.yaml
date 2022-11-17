@@ -30,7 +30,10 @@ select_permissions:
         - id
         - land_id
         - target_id
-      filter: {}
+      filter:
+        target:
+          is_public:
+            _eq: true
   - role: government
     permission:
       columns:

@@ -1,4 +1,4 @@
-import {Create, CreateProps, SimpleForm, TextInput} from 'react-admin'
+import {BooleanInput, Create, CreateProps, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 
 const TargetCreate = (props: CreateProps) => {
@@ -7,6 +7,7 @@ const TargetCreate = (props: CreateProps) => {
                 title="Создать Ставку">
             <SimpleForm redirect="list">
                 <TextInput source="name" label="Цель"/>
+                <BooleanInput source="is_public" label="Публичная?"/>
                 <TextInput source="comment" label="Комментарий"/>
                 <MoneyInput source="initial_amount" label="Начальная сумма"/>
                 <MoneyInput source="total_amount" label="Целевая сумма"/>

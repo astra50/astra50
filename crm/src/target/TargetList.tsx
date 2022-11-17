@@ -1,4 +1,4 @@
-import {Datagrid, List, ListProps, TextField, TextInput} from 'react-admin'
+import {BooleanField, Datagrid, List, ListProps, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
@@ -10,11 +10,13 @@ const TargetList = (props: ListProps) =>
           title="Цели"
           empty={false}
           filters={filters}
+          sort={{field: "created_at", order: "desc"}}
     >
         <Datagrid
             rowClick="edit"
         >
             <TextField source="name" label="Цель"/>
+            <BooleanField source="is_public" label="Опубликовано"/>
             <TextField source="comment" label="Комментарий"/>
             <MoneyField source="total_amount" label="Целевая сумма"/>
             <MoneyField source="current_amount" label="Собрано"/>
