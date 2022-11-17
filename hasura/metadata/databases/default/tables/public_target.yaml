@@ -2,7 +2,7 @@ table:
   name: target
   schema: public
 array_relationships:
-  - name: target_payments
+  - name: payments
     using:
       foreign_key_constraint_on:
         column: target_id
