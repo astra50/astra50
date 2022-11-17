@@ -1,4 +1,5 @@
 import {Datagrid, DateField, List, ListProps, TextField} from 'react-admin'
+import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
 import {TargetReferenceField} from '../target/TargetReference'
@@ -19,6 +20,7 @@ const TargetPaymentList = (props: ListProps) => {
             <Datagrid rowClick="edit">
                 <TargetReferenceField/>
                 <PersonReferenceField label="Плательщик"/>
+                <LandReferenceField/>
                 <MoneyField
                     source="amount"
                     label="Сумма"
