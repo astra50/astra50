@@ -1,14 +1,14 @@
 table:
-  schema: public
   name: member_rate
+  schema: public
 array_relationships:
   - name: member_discounts
     using:
       foreign_key_constraint_on:
         column: rate_id
         table:
-          schema: public
           name: member_discount
+          schema: public
 insert_permissions:
   - role: government
     permission:
@@ -19,7 +19,6 @@ insert_permissions:
         - discount
         - since
         - until
-      backend_only: false
 select_permissions:
   - role: government
     permission:

@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: member_discount
+  schema: public
 insert_permissions:
   - role: government
     permission:
@@ -9,7 +9,6 @@ insert_permissions:
         - account_id
         - comment
         - rate_id
-      backend_only: false
 select_permissions:
   - role: government
     permission:

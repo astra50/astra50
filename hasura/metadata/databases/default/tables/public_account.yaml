@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: account
+  schema: public
 object_relationships:
   - name: person
     using:
@@ -11,15 +11,15 @@ array_relationships:
       foreign_key_constraint_on:
         column: account_id
         table:
-          schema: public
           name: account_land
+          schema: public
   - name: persons
     using:
       foreign_key_constraint_on:
         column: account_id
         table:
-          schema: public
           name: account_person
+          schema: public
 insert_permissions:
   - role: government
     permission:
@@ -29,7 +29,6 @@ insert_permissions:
         - end_at
         - number
         - person_id
-      backend_only: false
 select_permissions:
   - role: government
     permission:

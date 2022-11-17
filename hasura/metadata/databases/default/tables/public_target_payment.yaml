@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: target_payment
+  schema: public
 object_relationships:
   - name: land
     using:
@@ -22,8 +22,15 @@ insert_permissions:
         - paid_at
         - person_id
         - target_id
-      backend_only: false
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - amount
+        - id
+        - land_id
+        - target_id
+      filter: {}
   - role: government
     permission:
       columns:

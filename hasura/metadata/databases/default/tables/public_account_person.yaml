@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: account_person
+  schema: public
 object_relationships:
   - name: account
     using:
@@ -15,7 +15,6 @@ insert_permissions:
       columns:
         - account_id
         - person_id
-      backend_only: false
 select_permissions:
   - role: government
     permission:

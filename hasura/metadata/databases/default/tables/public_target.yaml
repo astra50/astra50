@@ -1,14 +1,14 @@
 table:
-  schema: public
   name: target
+  schema: public
 array_relationships:
   - name: target_payments
     using:
       foreign_key_constraint_on:
         column: target_id
         table:
-          schema: public
           name: target_payment
+          schema: public
 insert_permissions:
   - role: government
     permission:
@@ -20,8 +20,14 @@ insert_permissions:
         - name
         - payer_amount
         - total_amount
-      backend_only: false
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - name
+        - payer_amount
+      filter: {}
   - role: government
     permission:
       columns:

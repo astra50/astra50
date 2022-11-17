@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: land
+  schema: public
 object_relationships:
   - name: street
     using:
@@ -16,7 +16,6 @@ insert_permissions:
         - polygon
         - square
         - street_id
-      backend_only: false
 select_permissions:
   - role: anonymous
     permission:

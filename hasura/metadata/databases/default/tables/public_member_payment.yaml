@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: member_payment
+  schema: public
 object_relationships:
   - name: account
     using:
@@ -26,7 +26,6 @@ insert_permissions:
         - person_id
         - rate
         - rate_id
-      backend_only: false
 select_permissions:
   - role: government
     permission:

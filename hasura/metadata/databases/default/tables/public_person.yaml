@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: person
+  schema: public
 insert_permissions:
   - role: government
     permission:
@@ -15,7 +15,6 @@ insert_permissions:
         - phone
         - phone_second
         - telegram_id
-      backend_only: false
 select_permissions:
   - role: government
     permission:

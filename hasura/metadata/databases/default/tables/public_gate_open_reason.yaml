@@ -1,6 +1,6 @@
 table:
-  schema: public
   name: gate_open_reason
+  schema: public
 select_permissions:
   - role: government
     permission:
