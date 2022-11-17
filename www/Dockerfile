@@ -1,7 +1,7 @@
 #
 # nginx
 #
-FROM nginx:1.22.0-alpine as nginx-base
+FROM ${DOCKER_IO:-docker.io/library}/nginx:1.22.0-alpine as nginx-base
 
 WORKDIR /data
 

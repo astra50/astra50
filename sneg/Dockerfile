@@ -1,4 +1,4 @@
-FROM node:18.1.0-alpine3.15 as node-base
+FROM ${DOCKER_IO:-docker.io/library}/node:18.1.0-alpine3.15 as node-base
 
 WORKDIR /data
 
@@ -20,7 +20,7 @@ RUN set -ex \
 #
 # nginx
 #
-FROM nginx:1.21.6-alpine as nginx-base
+FROM ${DOCKER_IO:-docker.io/library}/nginx:1.21.6-alpine as nginx-base
 
 WORKDIR /data
 
