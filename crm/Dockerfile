@@ -22,7 +22,7 @@ RUN set -ex \
 #
 # nginx
 #
-FROM ${DOCKER_IO:-docker.io/library}/nginx:1.21.6-alpine as nginx-base
+FROM ${DOCKER_IO:-docker.io/library}/nginx:1.22.1-alpine as nginx-base
 
 WORKDIR /data
 
