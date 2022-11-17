@@ -64,7 +64,7 @@ services:
       - "traefik.http.routers.astra50-hasura.tls=true"
       - "traefik.http.routers.astra50-hasura.tls.certresolver=leresolver"
       - "traefik.http.services.astra50-hasura-service.loadbalancer.server.port=80"
-      - "traefik.http.routers.astra50-hasura-api.rule=Host(`crm.astra50.ru`, `www.astra50.ru`) && Path(`/v1/graphql`)"
+      - "traefik.http.routers.astra50-hasura-api.rule=Host(`crm.astra50.ru`, `www.astra50.ru`, `sneg.astra50.ru`) && Path(`/v1/graphql`)"
       - "traefik.http.routers.astra50-hasura-api.entrypoints=websecure"
       - "traefik.http.routers.astra50-hasura-api.tls=true"
       - "traefik.http.routers.astra50-hasura-api.tls.certresolver=leresolver"
