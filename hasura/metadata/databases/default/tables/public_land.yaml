@@ -13,6 +13,7 @@ insert_permissions:
         - cadastral_number
         - coordinates
         - number
+        - polygon
         - square
         - street_id
       backend_only: false
@@ -24,6 +25,7 @@ select_permissions:
         - id
         - number
         - number_integer
+        - polygon
         - street_id
       filter: {}
       allow_aggregations: true
@@ -36,6 +38,7 @@ select_permissions:
         - id
         - number
         - number_integer
+        - polygon
         - square
         - street_id
       filter: {}
@@ -47,6 +50,7 @@ update_permissions:
         - cadastral_number
         - coordinates
         - number
+        - polygon
         - square
         - street_id
       filter: {}
