@@ -22,20 +22,23 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
 
 const operationsDoc = `
   query targets {
-    targets: target {
-      id
-      name
-      payer_amount
-      payments {
-        land {
-          id
-          number
-          polygon
+      targets: target {
+        id
+        name
+        payer_amount
+        lands
+        payments {
+          land {
+            id
+          }
+          amount
         }
-        amount
+      }
+      lands: land {
+        id
+        polygon
       }
     }
-  }
 `;
 
 function fetchTargets() {
@@ -97,6 +100,7 @@ function App() {
     };
 
     const [target, setTarget] = useState()
+    const [allLands, setAllLands] = useState()
 
     useEffect(async () => {
         const {errors, data} = await fetchTargets();
@@ -114,10 +118,16 @@ function App() {
                 break
             }
         }
+        setAllLands(data.lands)
     }, [])
 
-    if (!target) {
+    if (!allLands || !target) {
         return null
+    }
+
+    let polygons = {}
+    for (const land of allLands) {
+        polygons[land.id] = land.polygon?.replace('((', '').replace('))', '').split('),(').map(i => i.split(',').map(c => parseFloat(c)))
     }
 
     let totalPayments = 0
@@ -129,12 +139,20 @@ function App() {
         if (typeof lands[land.id] === 'undefined') {
             lands[land.id] = {
                 id: land.id,
-                number: land.number,
                 paid: payment.amount,
-                polygon: land.polygon?.replace('((', '').replace('))', '').split('),(').map(i => i.split(',').map(c => parseFloat(c))),
+                polygon: polygons[land.id],
             }
         } else {
             lands[land.id].paid += payment.amount
+        }
+    }
+    for (const id of target.lands) {
+        if (typeof lands[id] === 'undefined') {
+            lands[id] = {
+                id: id,
+                paid: 0,
+                polygon: polygons[id],
+            }
         }
     }
 
@@ -147,7 +165,7 @@ function App() {
             const land = lands[id]
 
             if (land.polygon === undefined) {
-                console.error(`Polygon not found for "${land.number}" land.`)
+                console.error(`Polygon not found for "${land.id}" land.`)
 
                 continue;
             }
@@ -156,7 +174,7 @@ function App() {
 
             areaObjects.push({
                 type: "Feature",
-                id: land.number,
+                id: land.id,
                 geometry: {
                     type: "Polygon",
                     coordinates: [land.polygon],

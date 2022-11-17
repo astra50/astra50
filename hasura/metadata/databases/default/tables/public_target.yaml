@@ -18,6 +18,7 @@ insert_permissions:
         - current_amount
         - initial_amount
         - is_public
+        - lands
         - name
         - payer_amount
         - total_amount
@@ -26,6 +27,7 @@ select_permissions:
     permission:
       columns:
         - id
+        - lands
         - name
         - payer_amount
       filter:
@@ -40,6 +42,7 @@ select_permissions:
         - id
         - initial_amount
         - is_public
+        - lands
         - name
         - payer_amount
         - total_amount
@@ -54,6 +57,7 @@ update_permissions:
         - current_amount
         - initial_amount
         - is_public
+        - lands
         - name
         - payer_amount
         - total_amount

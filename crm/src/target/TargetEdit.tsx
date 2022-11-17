@@ -1,4 +1,13 @@
-import {BooleanInput, Edit, EditProps, FieldProps, SimpleForm, TextInput} from 'react-admin'
+import {
+    AutocompleteArrayInput,
+    BooleanInput,
+    Edit,
+    EditProps,
+    FieldProps,
+    ReferenceArrayInput,
+    SimpleForm,
+    TextInput,
+} from 'react-admin'
 import {MoneyInput} from '../money'
 import {Target} from '../types'
 
@@ -20,6 +29,15 @@ const TargetEdit = (props: EditProps) => {
                 <MoneyInput source="initial_amount" label="Начальная сумма"/>
                 <MoneyInput source="total_amount" label="Целевая сумма"/>
                 <MoneyInput source="payer_amount" label="Сумма с человека"/>
+                <ReferenceArrayInput
+                    label="Участки"
+                    source="lands" reference="land"
+                    filterToQuery={(searchText: string) => ({'number': searchText})}
+                    perPage={200}
+                    sort={{field: 'number_integer', order: 'ASC'}}
+                >
+                    <AutocompleteArrayInput optionText="number"/>
+                </ReferenceArrayInput>
             </SimpleForm>
         </Edit>
     )

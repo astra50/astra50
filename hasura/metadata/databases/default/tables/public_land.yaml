@@ -40,6 +40,7 @@ select_permissions:
         - polygon
         - square
         - street_id
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:
