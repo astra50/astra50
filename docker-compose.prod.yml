@@ -33,10 +33,14 @@ services:
         postgres:5432:n8n:${POSTGRES_USER}:${POSTGRES_PASSWORD}
         ' > ~/.pgpass \
         && chmod 600 ~/.pgpass \
+        && echo $$'#!/bin/bash
+        pg_dump -h postgres -U ${POSTGRES_USER} crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
+        pg_dump -h postgres -U ${POSTGRES_USER} crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
+        pg_dump -h postgres -U ${POSTGRES_USER} n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        ' > /backup.sh \
+        && chmod +x /backup.sh \
         && echo $$'
-        10 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} crm-hasura | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm-hasura.sql.gz
-        15 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} crm | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_crm.sql.gz
-        20 3 * * * pg_dump -h postgres -U ${POSTGRES_USER} n8n | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_n8n.sql.gz
+        15 3 * * * /backup.sh
         ' | crontab - \
         && exec tini -- crond -l 0 -f
     volumes:

@@ -82,4 +82,7 @@ backup-restore:
 		&& gunzip < $(HASURA_BACKUP_FILE) | psql hasura \
 		"
 
+backup-fresh:
+	@ssh ${BACKUP_SERVER} 'docker exec -i $$(docker ps --filter name=astra50_postgres_backup -q | head -1) /backup.sh'
+
 backup: backup-download backup-restore
