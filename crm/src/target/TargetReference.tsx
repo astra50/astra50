@@ -26,7 +26,7 @@ export const TargetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
         filterToQuery={(searchText: any) => ({'name,comment': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="name" label={props.label}/>
+        <AutocompleteInput optionText="name" label={props.label} fullWidth/>
     </ReferenceInput>
 )
 

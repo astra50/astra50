@@ -25,7 +25,7 @@ export const ContractorReferenceInput = (props: Omit<Omit<ReferenceInputProps, '
         filterToQuery={(searchText: any) => ({'name': searchText})}
         {...props}
     >
-        <SelectInput optionText="name" label={props.label}/>
+        <SelectInput optionText="name" label={props.label} fullWidth/>
     </ReferenceInput>
 )
 

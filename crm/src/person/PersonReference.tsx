@@ -25,6 +25,7 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
             inputText={(record: Person) => personFormat(record, true)}
             matchSuggestion={() => true}
             label={props.label}
+            fullWidth
         />
     </ReferenceInput>
 )
