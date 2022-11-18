@@ -1,6 +1,7 @@
 - "!include public_account.yaml"
 - "!include public_account_land.yaml"
 - "!include public_account_person.yaml"
+- "!include public_contractor.yaml"
 - "!include public_gate.yaml"
 - "!include public_gate_open.yaml"
 - "!include public_gate_open_reason.yaml"

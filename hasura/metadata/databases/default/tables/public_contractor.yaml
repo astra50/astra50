@@ -1,0 +1,33 @@
+table:
+  name: contractor
+  schema: public
+insert_permissions:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - comment
+        - name
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - id
+        - name
+        - comment
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: government
+    permission:
+      columns:
+        - comment
+        - name
+      filter: {}
+      check: null
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}

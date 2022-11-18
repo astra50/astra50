@@ -68,3 +68,8 @@ export interface AccountPerson extends Record, HasBalance {
     account_id: string,
     person_id: string,
 }
+
+export interface Contractor extends Record {
+    name: string,
+    comment: string,
+}

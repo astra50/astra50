@@ -13,6 +13,7 @@ import account from './account'
 import account_land from './account_land'
 import account_person from './account_person'
 import useAuthProvider from './authProvider'
+import contractor from './contractor'
 import {Dashboard} from './dashboard/Dashboard'
 import gate from './gate'
 import gate_open from './gate_open'
@@ -76,6 +77,7 @@ const AdminWithKeycloak = () => {
             <Resource {...account}/>
             <Resource {...account_land}/>
             <Resource {...account_person}/>
+            <Resource {...contractor}/>
             <Resource {...gate_open_reason}/>
             <Resource {...gate_open}/>
             <Resource {...gate}/>

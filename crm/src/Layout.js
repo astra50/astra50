@@ -3,7 +3,7 @@ import {forwardRef} from "react";
 import SettingsIcon from '@material-ui/icons/Settings';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
-    faBullseye,
+    faBullseye, faGhost,
     faHome,
     faJournalWhills,
     faPercentage,
@@ -52,6 +52,8 @@ const MyMenu = (props) => (
                       leftIcon={<FontAwesomeIcon icon={faToriiGate}/>}/>
         <MenuItemLink to="/gate_open" primaryText="Журнал ворот"
                       leftIcon={<FontAwesomeIcon icon={faJournalWhills}/>}/>
+        <MenuItemLink to="/contractor" primaryText="Контрагенты"
+                      leftIcon={<FontAwesomeIcon icon={faGhost}/>}/>
     </Menu>
 );
 
