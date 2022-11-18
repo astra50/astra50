@@ -39,7 +39,9 @@ select_permissions:
         - comment
         - created_at
         - current_amount
+        - decrement_amount
         - id
+        - increment_amount
         - initial_amount
         - is_public
         - lands

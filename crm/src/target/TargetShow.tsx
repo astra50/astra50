@@ -45,7 +45,9 @@ const TargetShow = () => {
                 <MoneyField source="initial_amount" label="Начальная сумма"/>
                 <MoneyField source="total_amount" label="Целевая сумма"/>
                 <MoneyField source="payer_amount" label="Сумма с человека"/>
-                <MoneyField source="current_amount" label="Собрано"/>
+                <MoneyField source="current_amount" label="Баланс"/>
+                <MoneyField source="increment_amount" label="Всего поступлений"/>
+                <MoneyField source="decrement_amount" label="Всего списаний"/>
             </SimpleShowLayout>
         </Show>
     )

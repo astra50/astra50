@@ -18,6 +18,7 @@ insert_permissions:
       columns:
         - amount
         - comment
+        - contractor_id
         - land_id
         - paid_at
         - person_id
@@ -39,12 +40,14 @@ select_permissions:
       columns:
         - amount
         - comment
+        - contractor_id
         - created_at
         - id
         - land_id
         - paid_at
         - person_id
         - target_id
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -53,6 +56,7 @@ update_permissions:
       columns:
         - amount
         - comment
+        - contractor_id
         - land_id
         - paid_at
         - person_id

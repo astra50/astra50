@@ -1,4 +1,5 @@
 import {DateInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
+import {ContractorReferenceInput} from '../contractor/ContractorReference'
 import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
@@ -6,10 +7,11 @@ import {TargetReferenceInput} from '../target/TargetReference'
 
 const TargetPaymentEdit = () => {
     return (
-        <Edit  title="Целевой взнос">
+        <Edit title="Целевой взнос">
             <SimpleForm>
-                <PersonReferenceInput label="Плательщик"/>
                 <TargetReferenceInput/>
+                <PersonReferenceInput label="Плательщик"/>
+                <ContractorReferenceInput/>
                 <LandReferenceInput/>
                 <MoneyInput
                     source="amount"

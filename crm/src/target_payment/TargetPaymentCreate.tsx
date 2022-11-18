@@ -1,4 +1,5 @@
 import {Create, DateInput, required, SimpleForm, TextInput} from 'react-admin'
+import {ContractorReferenceInput} from '../contractor/ContractorReference'
 import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
@@ -11,6 +12,7 @@ const TargetPaymentCreate = () => {
                 <PersonReferenceInput label="Плательщик"/>
                 <TargetReferenceInput/>
                 <LandReferenceInput/>
+                <ContractorReferenceInput/>
                 <MoneyInput
                     source="amount"
                     label="Сумма"
