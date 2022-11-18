@@ -27,6 +27,10 @@ up-hasura:
 	docker compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
 	docker compose up -d --force-recreate hasura-console
 
+migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
+migration-generate: ## Create new migration
+	docker compose exec hasura-console hasura-cli migrate create "$(NAME)"
+
 migration:
 	docker compose exec hasura-console sh -c " \
 		hasura-cli metadata apply \
