@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   traefik:
-    image: ${DOCKER_IO:-docker.io/library}/traefik:latest
+    image: ${DOCKER_IO:-docker.io}/library/traefik:latest
     pull_policy: always
     labels:
       ru.grachevko.dhu: 'traefik.astra50.local:0:astra50_traefik'
