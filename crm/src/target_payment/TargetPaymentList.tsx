@@ -2,9 +2,10 @@ import {Datagrid, DateField, List, ListProps, TextField} from 'react-admin'
 import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
-import {TargetReferenceField} from '../target/TargetReference'
+import {TargetReferenceField, TargetReferenceInput} from '../target/TargetReference'
 
 const filters = [
+    <TargetReferenceInput source="target_id" alwaysOn/>,
     <PersonReferenceInput source="person_id"/>,
 ]
 
