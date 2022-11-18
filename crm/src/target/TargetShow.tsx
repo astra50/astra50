@@ -1,7 +1,7 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
-    DateField,
+    BooleanField,
     EditButton,
     EditProps,
     ListButton,
@@ -38,15 +38,13 @@ const TargetShow = (props: EditProps) => {
               actions={<Actions/>}
         >
             <SimpleShowLayout>
-                <TextField source="lastname" label="Фамилия"/>
-                <TextField source="firstname" label="Имя"/>
-                <TextField source="middlename" label="Отчество"/>
-                <TextField source="phone" label="Телефон"/>
-                <TextField source="phone_second" label="Телефон2"/>
-                <TextField source="email" label="E-mail"/>
-                <MoneyField source="balance" label="Баланс" addLabel={true}/>
-                <DateField source="balance_at" label="Дата обновления баланса" showTime/>
-                <TextField source="telegram_id" label="Телеграм ID"/>
+                <TextField source="name" label="Цель"/>
+                <BooleanField source="is_public" label="Опубликовано"/>
+                <TextField source="comment" label="Комментарий"/>
+                <MoneyField source="initial_amount" label="Начальная сумма"/>
+                <MoneyField source="total_amount" label="Целевая сумма"/>
+                <MoneyField source="payer_amount" label="Сумма с человека"/>
+                <MoneyField source="current_amount" label="Собрано"/>
             </SimpleShowLayout>
         </Show>
     )

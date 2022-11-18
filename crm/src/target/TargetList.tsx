@@ -13,7 +13,7 @@ const TargetList = (props: ListProps) =>
           sort={{field: "created_at", order: "desc"}}
     >
         <Datagrid
-            rowClick="edit"
+            rowClick="show"
         >
             <TextField source="name" label="Цель"/>
             <BooleanField source="is_public" label="Опубликовано"/>
