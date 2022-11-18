@@ -1,12 +1,12 @@
-import {Datagrid, List, ListProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, List, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
     <TextInput source="firstname,lastname,middlename,phone,email,telegram_id" label="Поиск" alwaysOn/>,
 ]
 
-const PersonList = (props: ListProps) =>
-    <List {...props}
+const PersonList = () =>
+    <List
           title={'Садоводы'}
           empty={false}
           filters={filters}

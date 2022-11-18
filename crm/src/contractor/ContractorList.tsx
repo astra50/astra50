@@ -1,12 +1,12 @@
-import {Datagrid, List, ListProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, List, TextField, TextInput} from 'react-admin'
 import {CommentField} from '../comment'
 
 const filters = [
     <TextInput source="name" label="Поиск" alwaysOn/>,
 ]
 
-const ContractorList = (props: ListProps) =>
-    <List {...props}
+const ContractorList = () =>
+    <List
           title="Контрагенты"
           empty={false}
           filters={filters}

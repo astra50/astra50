@@ -1,9 +1,9 @@
-import {Edit, EditProps, SimpleForm, TextInput} from 'react-admin'
+import {Edit, SimpleForm, TextInput} from 'react-admin'
 import {PersonField} from './PersonField'
 
-const PersonEdit = (props: EditProps) => {
+const PersonEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<PersonField/>}
         >
             <SimpleForm>

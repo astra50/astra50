@@ -1,9 +1,9 @@
-import {Create, CreateProps, NumberInput, SimpleForm, TextInput} from 'react-admin'
+import {Create, NumberInput, SimpleForm, TextInput} from 'react-admin'
 import {StreetReferenceInput} from '../street/StreetReference'
 
-const LandCreate = (props: CreateProps) => {
+const LandCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать участок"
         >
             <SimpleForm redirect="list">

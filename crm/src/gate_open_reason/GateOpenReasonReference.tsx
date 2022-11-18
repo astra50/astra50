@@ -8,28 +8,30 @@ import {
 } from 'react-admin'
 import gateOpenLogReason from './index'
 
-const label = 'Причина'
-const source = 'reason_id'
-const reference = gateOpenLogReason.name
-
 export const GateOpenReasonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        label={label}
-        source={source}
-        reference={reference}
+        source={'reason_id'}
+        reference={gateOpenLogReason.name}
         {...props}
     >
-        <SelectInput optionText="name" source="name"/>
+        <SelectInput optionText="name" source="name" label={props.label}/>
     </ReferenceInput>
 )
 
+GateOpenReasonReferenceInput.defaultProps = {
+    label: 'Причина',
+}
+
 export const GateOpenReasonReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
+        source={'reason_id'}
+        reference={gateOpenLogReason.name}
         {...props}
-        label={label}
-        source={source}
-        reference={reference}
     >
-        <TextField source="name"/>
+        <TextField source="name" label={props.label}/>
     </ReferenceField>
 )
+
+GateOpenReasonReferenceField.defaultProps = {
+    label: 'Причина',
+}

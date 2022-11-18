@@ -1,11 +1,13 @@
-import {FieldProps} from 'react-admin'
+import {FieldProps, useRecordContext} from 'react-admin'
 import {Person} from '../types'
 
 export interface PersonFieldProps extends FieldProps<Person> {
     withPhone?: boolean,
 }
 
-export const PersonField = ({record, withPhone = false}: PersonFieldProps) => {
+export const PersonField = ({withPhone = false}: PersonFieldProps) => {
+    const record = useRecordContext<Person>()
+
     if (!record) {
         return null
     }

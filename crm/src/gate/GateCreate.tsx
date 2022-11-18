@@ -1,8 +1,8 @@
-import {Create, CreateProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 
-const GateCreate = (props: CreateProps) => {
+const GateCreate = () => {
     return (
-        <Create {...props}>
+        <Create >
             <SimpleForm redirect="list">
                 <NumberInput source="number" label="Номер"/>
                 <TextInput

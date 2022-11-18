@@ -1,9 +1,9 @@
-import {Create, CreateProps, DateInput, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, DateInput, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 
-const MemberRateCreate = (props: CreateProps) => {
+const MemberRateCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать Ставку"
         >
             <SimpleForm redirect="list">

@@ -1,6 +1,8 @@
-FROM ${DOCKER_IO:-docker.io/library}/node:16.15.0-alpine3.15 as node-base
+FROM ${DOCKER_IO:-docker.io/library}/node:18.12.1-alpine3.16 as node-base
 
 WORKDIR /data
+
+ENV PATH=/app/node_modules/.bin:${PATH}
 
 FROM node-base AS node
 

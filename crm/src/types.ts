@@ -1,6 +1,6 @@
-import {Identifier, Record as ReactRecord} from 'react-admin'
+import {Identifier, RaRecord} from 'react-admin'
 
-interface Record extends ReactRecord, Timestampable {
+interface Record extends RaRecord, Timestampable {
 }
 
 export interface Timestampable {

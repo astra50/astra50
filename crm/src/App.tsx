@@ -1,4 +1,4 @@
-import {createHttpLink, InMemoryCache} from '@apollo/client'
+import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
@@ -8,7 +8,8 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 // @ts-ignore
 import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, DataProvider, Loading, Resource, TranslationProvider} from 'react-admin'
+import {Admin, CustomRoutes, DataProvider, I18nContextProvider, Loading, Resource} from 'react-admin'
+import {Route} from 'react-router-dom'
 import account from './account'
 import account_land from './account_land'
 import account_person from './account_person'
@@ -19,19 +20,41 @@ import gate from './gate'
 import gate_open from './gate_open'
 import gate_open_reason from './gate_open_reason'
 import land from './land'
-import Layout from './Layout'
+import {Layout} from './layout'
 import member_discount from './member_discount'
 import member_payment from './member_payment'
 import member_rate from './member_rate'
 import person from './person'
+import Settings from './settings/Settings'
 import street from './street'
 import target from './target'
 import target_payment from './target_payment'
 
-const i18Provider = polyglotI18nProvider(() => russianMessages, 'ru')
+const i18Provider = polyglotI18nProvider(() => {
+    let messages = russianMessages
+
+    messages.ra.configurable ||= { // TODO Bypass empty translations, can be remove after ra-language-russian released
+        customize: 'Customize',
+        configureMode: 'Configure this page',
+        inspector: {
+            title: 'Inspector',
+            content: 'Hover the application UI elements to configure them',
+            reset: 'Reset Settings',
+        },
+        SimpleList: {
+            primaryText: 'Primary text',
+            secondaryText: 'Secondary text',
+            tertiaryText: 'Tertiary text',
+        },
+    }
+
+    return messages
+}, 'ru')
+
 
 const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
+    const [apollo, setApollo] = useState<ApolloClient<any> | null>(null)
     const authProvider = useAuthProvider()
     const keycloak = useKeycloak().keycloak
 
@@ -50,46 +73,53 @@ const AdminWithKeycloak = () => {
             }
         })
 
-        const buildDataProvider = async () => {
+        const clientWithAuth = new ApolloClient({
+            link: authLink.concat(httpLink),
+            cache: new InMemoryCache(),
+        });
+
+        (async () => {
             const dataProvider = await buildHasuraProvider({
-                clientOptions: {
-                    link: authLink.concat(httpLink),
-                    cache: new InMemoryCache(),
-                },
+                client: clientWithAuth,
             })
+            setApollo(clientWithAuth)
             setDataProvider(() => dataProvider)
-        }
-        buildDataProvider()
+        })()
     }, [keycloak])
 
-    if (!dataProvider) return <Loading/>
+    if (!dataProvider || !apollo) return <Loading/>
 
     return (
-        <Admin
-            disableTelemetry
-            dashboard={Dashboard}
-            title="СНТ Астра - CRM"
-            dataProvider={dataProvider}
-            authProvider={authProvider}
-            i18nProvider={i18Provider}
-            layout={Layout}
-        >
-            <Resource {...account}/>
-            <Resource {...account_land}/>
-            <Resource {...account_person}/>
-            <Resource {...contractor}/>
-            <Resource {...gate_open_reason}/>
-            <Resource {...gate_open}/>
-            <Resource {...gate}/>
-            <Resource {...land}/>
-            <Resource {...member_discount}/>
-            <Resource {...member_payment}/>
-            <Resource {...member_rate}/>
-            <Resource {...person}/>
-            <Resource {...street}/>
-            <Resource {...target_payment}/>
-            <Resource {...target}/>
-        </Admin>
+        <ApolloProvider client={apollo}>
+            <Admin
+                disableTelemetry
+                dashboard={Dashboard}
+                title="СНТ Астра - CRM"
+                dataProvider={dataProvider}
+                authProvider={authProvider}
+                i18nProvider={i18Provider}
+                layout={Layout}
+            >
+                <Resource {...account}/>
+                <Resource {...account_land}/>
+                <Resource {...account_person}/>
+                <Resource {...contractor}/>
+                <Resource {...gate_open_reason}/>
+                <Resource {...gate_open}/>
+                <Resource {...gate}/>
+                <Resource {...land}/>
+                <Resource {...member_discount}/>
+                <Resource {...member_payment}/>
+                <Resource {...member_rate}/>
+                <Resource {...person}/>
+                <Resource {...street}/>
+                <Resource {...target_payment}/>
+                <Resource {...target}/>
+                <CustomRoutes>
+                    <Route path="/settings" element={<Settings/>}/>
+                </CustomRoutes>
+            </Admin>
+        </ApolloProvider>
     )
 }
 
@@ -99,7 +129,7 @@ const App = () => {
     keycloak.onAuthRefreshError = () => setTimeout(keycloak.updateToken, 0, [-1])
 
     return (
-        <TranslationProvider i18nProvider={i18Provider}>
+        <I18nContextProvider value={i18Provider}>
             <ReactKeycloakProvider
                 authClient={keycloak}
                 LoadingComponent={<div/>}
@@ -111,7 +141,7 @@ const App = () => {
                     <AdminWithKeycloak/>
                 </React.Fragment>
             </ReactKeycloakProvider>
-        </TranslationProvider>
+        </I18nContextProvider>
 
     )
 }

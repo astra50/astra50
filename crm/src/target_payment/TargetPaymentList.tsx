@@ -1,4 +1,4 @@
-import {Datagrid, DateField, DateInput, List, ListProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, DateInput, List, TextField, TextInput} from 'react-admin'
 import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
@@ -11,14 +11,14 @@ const filters = [
     <DateInput source="paid_at" label="Дата"/>,
 ]
 
-const TargetPaymentList = (props: ListProps) => {
+const TargetPaymentList = () => {
     return (
         <List
             title="Целевые взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
-            {...props}
+
         >
             <Datagrid rowClick="edit">
                 <TargetReferenceField/>

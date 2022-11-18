@@ -1,12 +1,12 @@
-import {Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, List, NumberField, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
     <TextInput source="comment" label="Поиск" alwaysOn/>,
 ]
 
-const MemberRateList = (props: ListProps) =>
-    <List {...props}
+const MemberRateList = () =>
+    <List
           title="Ставки"
           empty={false}
           filters={filters}

@@ -1,20 +1,11 @@
-import {
-    Create,
-    CreateProps,
-    DateInput,
-    ReferenceInput,
-    required,
-    SelectInput,
-    SimpleForm,
-    TextInput,
-} from 'react-admin'
+import {Create, DateInput, ReferenceInput, required, SelectInput, SimpleForm, TextInput} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
 
-const MemberPaymentCreate = (props: CreateProps) => {
+const MemberPaymentCreate = () => {
     return (
-        <Create {...props} title="Создать платёж">
+        <Create  title="Создать платёж">
             <SimpleForm redirect="list">
                 <AccountReferenceInput/>
                 <PersonReferenceInput label="Плательщик" fullWidth/>
@@ -42,7 +33,7 @@ const MemberPaymentCreate = (props: CreateProps) => {
                     source="paid_at"
                     label="Дата платежа"
                     validate={required()}
-                    initialValue={new Date()}
+                    defaultValue={new Date()}
                 />
 
                 <TextInput

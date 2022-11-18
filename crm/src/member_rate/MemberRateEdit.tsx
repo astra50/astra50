@@ -1,4 +1,4 @@
-import {DateInput, Edit, EditProps, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 import {MemberRate} from '../types'
 
@@ -8,9 +8,9 @@ const Title = (props: FieldProps<MemberRate>) => {
     return <span>Ставка с {record ? `${record.since} по ${record.until}` : ''}</span>
 }
 
-const MemberRateEdit = (props: EditProps) => {
+const MemberRateEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<Title/>}
         >
             <SimpleForm>

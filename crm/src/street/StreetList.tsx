@@ -1,11 +1,11 @@
-import {Datagrid, List, ListProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, List, TextField, TextInput} from 'react-admin'
 
 const filters = [
     <TextInput source="name" label="Поиск" alwaysOn/>,
 ]
 
-const StreetList = (props: ListProps) =>
-    <List {...props}
+const StreetList = () =>
+    <List
           title="Улицы"
           empty={false}
           filters={filters}

@@ -1,4 +1,4 @@
-import {Edit, EditProps, FieldProps, SimpleForm} from 'react-admin'
+import {Edit, FieldProps, SimpleForm} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {AccountPerson} from '../types'
@@ -9,9 +9,9 @@ const Title = (props: FieldProps<AccountPerson>) => {
     return <span>Лицевой счёт {record ? `"${record.number}"` : ''}</span>
 }
 
-const AccountPersonEdit = (props: EditProps) => {
+const AccountPersonEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<Title/>}
         >
             <SimpleForm>

@@ -1,17 +1,9 @@
-import {
-    AutocompleteArrayInput,
-    BooleanInput,
-    Create,
-    CreateProps,
-    ReferenceArrayInput,
-    SimpleForm,
-    TextInput,
-} from 'react-admin'
+import {AutocompleteArrayInput, BooleanInput, Create, ReferenceArrayInput, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
 
-const TargetCreate = (props: CreateProps) => {
+const TargetCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать Ставку">
             <SimpleForm redirect="show">
                 <TextInput source="name" label="Цель"/>

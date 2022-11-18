@@ -1,8 +1,8 @@
-import {Create, CreateProps, SimpleForm, TextInput} from 'react-admin'
+import {Create, SimpleForm, TextInput} from 'react-admin'
 
-const PersonCreate = (props: CreateProps) => {
+const PersonCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать садовода"
         >
             <SimpleForm redirect="list">

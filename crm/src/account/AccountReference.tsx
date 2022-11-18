@@ -15,7 +15,7 @@ export const AccountReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'sou
         link="show"
         {...props}
     >
-        <TextField source="number"/>
+        <TextField source="number" label={props.label}/>
     </ReferenceField>
 )
 
@@ -24,12 +24,10 @@ export const AccountReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sou
         source="account_id"
         reference={account.name}
         sort={{field: 'number', order: 'ASC'}}
-        filterToQuery={searchText => ({'number@_ilike': searchText})}
+        filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
         {...props}
     >
-        <AutocompleteInput
-            optionText="number"
-        />
+        <AutocompleteInput optionText="number" label={props.label}/>
     </ReferenceInput>
 )
 

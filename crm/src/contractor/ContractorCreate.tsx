@@ -1,9 +1,9 @@
-import {Create, CreateProps, SimpleForm, TextInput} from 'react-admin'
+import {Create, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 
-const ContractorCreate = (props: CreateProps) => {
+const ContractorCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать контрагента"
         >
             <SimpleForm redirect="list">

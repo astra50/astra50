@@ -1,4 +1,4 @@
-import {Edit, EditProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Edit, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {Gate} from '../types'
 
 interface GateTitleProps {
@@ -8,9 +8,9 @@ interface GateTitleProps {
 const GateTitle = ({record}: GateTitleProps) => record ?
     <span>Ворота {record.name}</span> : null
 
-const GateEdit = (props: EditProps) => {
+const GateEdit = () => {
     return (
-        <Edit {...props} title={<GateTitle/>}>
+        <Edit  title={<GateTitle/>}>
             <SimpleForm>
                 <NumberInput source="number" label="Номер"/>
                 <TextInput

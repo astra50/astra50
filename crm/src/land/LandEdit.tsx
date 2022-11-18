@@ -1,4 +1,4 @@
-import {Edit, EditProps, FieldProps, NumberInput, SimpleForm, TextInput} from 'react-admin'
+import {Edit, FieldProps, NumberInput, SimpleForm, TextInput} from 'react-admin'
 import {StreetReferenceInput} from '../street/StreetReference'
 import {Land} from '../types'
 
@@ -8,9 +8,9 @@ const Title = (props: FieldProps<Land>) => {
     return <span>Участок {record ? `"${record.number}"` : ''}</span>
 }
 
-const LandEdit = (props: EditProps) => {
+const LandEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<Title/>}
         >
             <SimpleForm>

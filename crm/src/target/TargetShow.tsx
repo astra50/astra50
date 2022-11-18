@@ -1,41 +1,42 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {
-    BooleanField,
-    EditButton,
-    EditProps,
-    ListButton,
-    Show,
-    ShowActionsProps,
-    SimpleShowLayout,
-    TextField,
-    TopToolbar,
-} from 'react-admin'
+import Button from '@mui/material/Button'
+import {BooleanField, EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useRecordContext} from 'react-admin'
+import {Link} from 'react-router-dom'
 import {MoneyField} from '../money'
+import target_payment from '../target_payment'
+import {Target} from '../types'
 import {TargetField} from './TargetField'
 
-const Actions = ({basePath, data}: ShowActionsProps) => {
-    if (!data) {
+const Actions = () => {
+    const record = useRecordContext<Target>()
+
+    if (!record) {
         return <TopToolbar/>
     }
 
     return (
         <TopToolbar>
-            <ListButton
-                basePath={'/member_payment?' + new URLSearchParams({filter: JSON.stringify({target_id: data!.id})})}
-                label="Членские взносы"
-                icon={<FontAwesomeIcon icon={faRubleSign}/>}
-            />
-            <EditButton basePath={basePath} record={data}/>
+            <Button
+                color="primary"
+                component={Link}
+                to={{
+                    pathname: `/${target_payment.name}`,
+                    search: `filter=${JSON.stringify({target_id: record!.id})}`,
+                }}
+            >
+                <FontAwesomeIcon icon={faRubleSign}/> Платежи
+            </Button>
+            <EditButton record={record}/>
         </TopToolbar>
     )
 }
 
-const TargetShow = (props: EditProps) => {
+const TargetShow = () => {
     return (
-        <Show {...props}
-              title={<TargetField/>}
-              actions={<Actions/>}
+        <Show
+            title={<TargetField/>}
+            actions={<Actions/>}
         >
             <SimpleShowLayout>
                 <TextField source="name" label="Цель"/>

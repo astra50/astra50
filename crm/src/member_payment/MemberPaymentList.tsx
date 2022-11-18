@@ -1,4 +1,4 @@
-import {BooleanInput, Datagrid, DateField, List, ListProps, NumberField, TextField, TextInput} from 'react-admin'
+import {BooleanInput, Datagrid, DateField, List, NumberField, TextField, TextInput} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
 import {PersonReferenceField} from '../person/PersonReference'
 
@@ -7,16 +7,17 @@ const filters = [
                alwaysOn/>,
     <BooleanInput source="is_discount" label="Скидка"/>,
     <AccountReferenceInput source="account_id"/>,
+    // <PersonReferenceInput source="person_id"/>,
 ]
 
-const MemberPaymentList = (props: ListProps) => {
+const MemberPaymentList = () => {
     return (
         <List
             title="Членские взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
-            {...props}
+
         >
             <Datagrid rowClick="edit">
                 <AccountReferenceField/>

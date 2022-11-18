@@ -1,4 +1,4 @@
-import {Datagrid, List, ListProps, NumberField, Pagination, PaginationProps, TextField, TextInput} from 'react-admin'
+import {Datagrid, List, NumberField, Pagination, PaginationProps, TextField, TextInput} from 'react-admin'
 import {StreetReferenceField, StreetReferenceInput} from '../street/StreetReference'
 
 const filters = [
@@ -8,8 +8,8 @@ const filters = [
 
 const LandPagination = (props: PaginationProps) => <Pagination rowsPerPageOptions={[50, 100, 150]} {...props} />
 
-const LandList = (props: ListProps) =>
-    <List {...props}
+const LandList = () =>
+    <List
           title="Участки"
           empty={false}
           filters={filters}

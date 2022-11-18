@@ -2,7 +2,6 @@ import {
     AutocompleteArrayInput,
     BooleanInput,
     Edit,
-    EditProps,
     FieldProps,
     ReferenceArrayInput,
     SimpleForm,
@@ -18,9 +17,9 @@ const Title = (props: FieldProps<Target>) => {
     return <span>Цель {record ? `"${record.name}"` : ''}</span>
 }
 
-const TargetEdit = (props: EditProps) => {
+const TargetEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<Title/>}>
             <SimpleForm>
                 <TextInput source="name" label="Цель"/>

@@ -1,23 +1,20 @@
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import {
     ChipField,
     Datagrid,
     DateField,
     EditButton,
-    EditProps,
-    FieldProps,
     ReferenceField,
     ReferenceManyField,
     Show,
-    ShowActionsProps,
     SimpleShowLayout,
     SingleFieldList,
     TextField,
     TopToolbar,
+    useRecordContext,
 } from 'react-admin'
-// @ts-ignore
 import {Link} from 'react-router-dom'
 import account_land from '../account_land'
 import account_person from '../account_person'
@@ -27,8 +24,10 @@ import {MoneyField} from '../money'
 import {PersonReferenceField} from '../person/PersonReference'
 import {Account} from '../types'
 
-const Actions = ({basePath, data}: ShowActionsProps) => {
-    if (!data) {
+const Actions = () => {
+    const record = useRecordContext<Account>()
+
+    if (!record) {
         return <TopToolbar/>
     }
 
@@ -36,10 +35,8 @@ const Actions = ({basePath, data}: ShowActionsProps) => {
         <TopToolbar>
             <Button
                 component={Link}
-                to={{
-                    pathname: `/${account_land.name}/create`,
-                    state: {record: {account_id: data!.id}},
-                }}
+                to={{pathname: `/${account_land.name}/create`}}
+                state={{record: {account_id: record!.id}}}
             >
                 <FontAwesomeIcon icon={faPlus}/>&nbsp;Участок
             </Button>
@@ -47,41 +44,39 @@ const Actions = ({basePath, data}: ShowActionsProps) => {
                 component={Link}
                 to={{
                     pathname: `/${account_person.name}/create`,
-                    state: {record: {account_id: data!.id}},
                 }}
+                state={{record: {account_id: record!.id}}}
             >
                 <FontAwesomeIcon icon={faPlus}/>&nbsp;Житель
             </Button>
             <Button
                 component={Link}
-                to={{
-                    pathname: `/${member_payment.name}/create`,
-                    state: {record: {account_id: data!.id, person_id: data!.person_id}},
-                }}
+                to={{pathname: `/${member_payment.name}/create`}}
+                state={{record: {account_id: record!.id, person_id: record!.person_id}}}
             >
                 <FontAwesomeIcon icon={faPlus}/>&nbsp;Платёж
             </Button>
-            <EditButton basePath={basePath} record={data}/>
+            <EditButton record={record}/>
         </TopToolbar>
     )
 }
 
-const Title = (props: FieldProps<Account>) => {
-    const {record} = props
+const Title = () => {
+    const record = useRecordContext<Account>()
 
     return <span>Лицевой счёт {record?.number ? `"${record.number}"` : ''}</span>
 }
 
-const AccountShow = (props: EditProps) => {
+const AccountShow = () => {
     return (
-        <Show {...props}
+        <Show
               title={<Title/>}
               actions={<Actions/>}
         >
             <SimpleShowLayout>
                 <TextField source="number" label="Номер"/>
-                <CommentField addLabel={true}/>
-                <PersonReferenceField label="Владелец" addLabel={true}/>
+                <CommentField />
+                <PersonReferenceField label="Владелец" />
                 <ReferenceManyField label="Участки" reference="account_land" target="account_id" sortable={false}>
                     <SingleFieldList>
                         <ReferenceField reference="land" source="land_id" link={false}>
@@ -92,11 +87,11 @@ const AccountShow = (props: EditProps) => {
                 <ReferenceManyField label="Жители" reference="account_person" target="account_id" sortable={false}
                                     sort={{field: 'person.lastname', order: 'ASC'}}>
                     <Datagrid>
-                        <PersonReferenceField addLabel={false}/>
+                        <PersonReferenceField label={false}/>
                         <EditButton/>
                     </Datagrid>
                 </ReferenceManyField>
-                <MoneyField source="balance" label="Баланс" addLabel={true}/>
+                <MoneyField source="balance" label="Баланс" />
                 <DateField
                     source="end_at"
                     label="Закрыт"

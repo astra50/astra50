@@ -14,7 +14,7 @@ export const StreetReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'sour
         source="street_id"
         reference={street.name}
     >
-        <TextField source="name"/>
+        <TextField source="name" label={props.label}/>
     </ReferenceField>
 )
 
@@ -22,10 +22,10 @@ export const StreetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
     <ReferenceInput
         source="street_id"
         reference={street.name}
-        filterToQuery={searchText => ({'name': searchText})}
+        filterToQuery={(searchText: any) => ({'name': searchText})}
         {...props}
     >
-        <SelectInput optionText="name"/>
+        <SelectInput optionText="name" label={props.label}/>
     </ReferenceInput>
 )
 

@@ -1,4 +1,4 @@
-import {Edit, EditProps, FieldProps, SimpleForm, TextInput} from 'react-admin'
+import {Edit, FieldProps, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {Contractor} from '../types'
 
@@ -8,9 +8,9 @@ const Title = (props: FieldProps<Contractor>) => {
     return <span>Контрагент {record ? `"${record.name}"` : ''}</span>
 }
 
-const ContractorEdit = (props: EditProps) => {
+const ContractorEdit = () => {
     return (
-        <Edit {...props}
+        <Edit
               title={<Title/>}
         >
             <SimpleForm>

@@ -1,12 +1,12 @@
-import {DateInput, Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
 import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {TargetReferenceInput} from '../target/TargetReference'
 
-const TargetPaymentEdit = (props: EditProps) => {
+const TargetPaymentEdit = () => {
     return (
-        <Edit {...props} title="Целевой взнос">
+        <Edit  title="Целевой взнос">
             <SimpleForm>
                 <PersonReferenceInput label="Плательщик"/>
                 <TargetReferenceInput/>
@@ -20,7 +20,7 @@ const TargetPaymentEdit = (props: EditProps) => {
                     source="paid_at"
                     label="Дата платежа"
                     validate={required()}
-                    initialValue={new Date()}
+                    defaultValue={new Date()}
                 />
                 <TextInput
                     source="comment"

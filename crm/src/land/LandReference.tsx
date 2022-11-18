@@ -14,7 +14,7 @@ export const LandReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source
         reference={land.name}
         {...props}
     >
-        <TextField source="number"/>
+        <TextField source="number" label={props.label}/>
     </ReferenceField>
 )
 
@@ -26,7 +26,7 @@ export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source
         perPage={500}
         {...props}
     >
-        <SelectInput optionText="number"/>
+        <SelectInput optionText="number" label={props.label}/>
     </ReferenceInput>
 )
 

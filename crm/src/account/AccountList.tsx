@@ -2,7 +2,6 @@ import {
     ChipField,
     Datagrid,
     List,
-    ListProps,
     ReferenceField,
     ReferenceManyField,
     SingleFieldList,
@@ -19,8 +18,8 @@ const filters = [
     <PersonReferenceInput source="person_id"/>,
 ]
 
-const AccountList = (props: ListProps) =>
-    <List {...props}
+const AccountList = () =>
+    <List
           title="Лицевые счета"
           empty={false}
           filters={filters}

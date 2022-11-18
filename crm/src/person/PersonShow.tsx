@@ -1,46 +1,56 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import Button from '@mui/material/Button'
+
 import {
     Datagrid,
     DateField,
     EditButton,
-    EditProps,
-    ListButton,
     ReferenceField,
     ReferenceManyField,
     Show,
-    ShowActionsProps,
     SimpleShowLayout,
     TextField,
     TopToolbar,
+    useRecordContext,
 } from 'react-admin'
+import {Link} from 'react-router-dom'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
+import member_payment from '../member_payment'
 import {MoneyField} from '../money'
+import {Person} from '../types'
 import {PersonField} from './PersonField'
 
-const Actions = ({basePath, data}: ShowActionsProps) => {
-    if (!data) {
+const Actions = () => {
+    const record = useRecordContext<Person>()
+
+    if (!record) {
         return <TopToolbar/>
     }
 
     return (
         <TopToolbar>
-            <ListButton
-                basePath={'/member_payment?' + new URLSearchParams({filter: JSON.stringify({person_id: data!.id})})}
-                label="Членские взносы"
-                icon={<FontAwesomeIcon icon={faRubleSign}/>}
-            />
-            <EditButton basePath={basePath} record={data}/>
+            <Button
+                color="primary"
+                component={Link}
+                to={{
+                    pathname: `/${member_payment.name}`,
+                    search: `filter=${JSON.stringify({person_id: record!.id})}`,
+                }}
+            >
+                <FontAwesomeIcon icon={faRubleSign}/> Членские взносы
+            </Button>
+            <EditButton record={record}/>
         </TopToolbar>
     )
 }
 
-const PersonShow = (props: EditProps) => {
+const PersonShow = () => {
     return (
-        <Show {...props}
-              title={<PersonField/>}
-              actions={<Actions/>}
+        <Show
+            title={<PersonField/>}
+            actions={<Actions/>}
         >
             <SimpleShowLayout>
                 <TextField source="lastname" label="Фамилия"/>
@@ -50,9 +60,9 @@ const PersonShow = (props: EditProps) => {
                 <TextField source="phone_second" label="Телефон2"/>
                 <TextField source="email" label="E-mail"/>
                 <TextField source="comment" label="Комментарий"/>
-                <MoneyField source="balance" label="Баланс" addLabel={true}/>
+                <MoneyField source="balance" label="Баланс"/>
                 <DateField source="balance_at" label="Дата обновления баланса" showTime/>
-                <MoneyField source="last_paid_amount" label="Сумма последнего платежа" addLabel={true}/>
+                <MoneyField source="last_paid_amount" label="Сумма последнего платежа"/>
                 <DateField source="last_paid_at" label="Дата последнего платежа"/>
                 <TextField source="telegram_id" label="Телеграм ID"/>
                 <ReferenceManyField label="Лицевые счета" reference="account_person" target="person_id"

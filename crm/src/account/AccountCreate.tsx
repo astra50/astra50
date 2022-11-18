@@ -1,10 +1,10 @@
-import {Create, CreateProps, DateInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, DateInput, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 
-const AccountCreate = (props: CreateProps) => {
+const AccountCreate = () => {
     return (
-        <Create {...props}
+        <Create
                 title="Создать лицевой счёт"
         >
             <SimpleForm redirect="list">

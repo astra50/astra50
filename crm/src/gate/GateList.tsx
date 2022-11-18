@@ -1,11 +1,11 @@
-import {Datagrid, List, ListProps, TextField} from 'react-admin'
+import {Datagrid, List, TextField} from 'react-admin'
 
-const GateList = (props: ListProps) => {
+const GateList = () => {
     return (
         <List
             title="Ворота"
             sort={{field: 'number', order: 'ASC'}}
-            {...props}
+
         >
             <Datagrid rowClick="edit">
                 <TextField

@@ -14,7 +14,7 @@ export const MemberRateReferenceField = (props: Omit<Omit<ReferenceFieldProps, '
         reference={member_rate.name}
         {...props}
     >
-        <TextField source="amount"/>
+        <TextField source="amount" label={props.label}/>
     </ReferenceField>
 )
 
@@ -22,10 +22,10 @@ export const MemberRateReferenceInput = (props: Omit<Omit<ReferenceInputProps, '
     <ReferenceInput
         source="rate_id"
         reference={member_rate.name}
-        filterToQuery={searchText => ({'amount': searchText})}
+        filterToQuery={(searchText: any) => ({'amount': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="amount"/>
+        <AutocompleteInput optionText="amount" label={props.label}/>
     </ReferenceInput>
 )
 

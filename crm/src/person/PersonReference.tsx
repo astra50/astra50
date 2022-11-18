@@ -9,7 +9,7 @@ export const PersonReferenceField = (props: PersonFieldProps & Omit<Omit<Referen
         reference={person.name}
         {...props}
     >
-        <PersonField withPhone={props.withPhone}/>
+        <PersonField withPhone={props.withPhone} label={props.label}/>
     </ReferenceField>
 )
 
@@ -17,13 +17,14 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
     <ReferenceInput
         source="person_id"
         reference={person.name}
-        filterToQuery={searchText => ({'firstname,lastname,middlename,phone,email,telegram_id': searchText})}
+        filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phone,email,telegram_id': searchText})}
         {...props}
     >
         <AutocompleteInput
             optionText={<PersonField withPhone={true}/>}
             inputText={(record: Person) => personFormat(record, true)}
             matchSuggestion={() => true}
+            label={props.label}
         />
     </ReferenceInput>
 )
@@ -35,4 +36,5 @@ PersonReferenceField.defaultProps = {
 PersonReferenceInput.defaultProps = {
     label: 'Садовод',
     fullWidth: true,
+    allowEmpty: true,
 }

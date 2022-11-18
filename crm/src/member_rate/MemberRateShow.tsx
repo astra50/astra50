@@ -1,6 +1,6 @@
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import {
     Datagrid,
     DateField,
@@ -9,8 +9,6 @@ import {
     ReferenceField,
     ReferenceManyField,
     Show,
-    ShowActionsProps,
-    ShowProps,
     SimpleShowLayout,
     TextField,
     TopToolbar,
@@ -23,11 +21,12 @@ import {AccountReferenceField} from '../account/AccountReference'
 import member_discount from '../member_discount'
 import {MoneyField} from '../money'
 import {PersonReferenceField} from '../person/PersonReference'
-import {MemberDiscount} from '../types'
+import {MemberDiscount, MemberRate} from '../types'
 import {MemberRateField} from './MemberRateField'
 
-const Actions = ({basePath, data}: ShowActionsProps) => {
-    if (!data) {
+const Actions = () => {
+    const record = useRecordContext<MemberRate>()
+    if (!record) {
         return <TopToolbar/>
     }
 
@@ -37,26 +36,26 @@ const Actions = ({basePath, data}: ShowActionsProps) => {
                 component={Link}
                 to={{
                     pathname: `/${member_discount.name}/create`,
-                    state: {record: {rate_id: data!.id}},
                 }}
+                state={{record: {rate_id: record!.id}}}
             >
                 <FontAwesomeIcon icon={faPlus}/>&nbsp;Льготник
             </Button>
-            <EditButton basePath={basePath} record={data}/>
+            <EditButton record={record}/>
         </TopToolbar>
     )
 }
 
-const MemberRateShow = (props: ShowProps) => {
+const MemberRateShow = () => {
 
     return (
-        <Show {...props}
-              title={<MemberRateField/>}
-              actions={<Actions/>}
+        <Show
+            title={<MemberRateField/>}
+            actions={<Actions/>}
         >
             <SimpleShowLayout>
-                <MoneyField source="amount" label="Ставка" addLabel={true}/>
-                <NumberField source="discount" label="Скидка" addLabel={true}/>
+                <MoneyField source="amount" label="Ставка"/>
+                <NumberField source="discount" label="Скидка"/>
                 <DateField source="since" label="С даты"/>
                 <DateField source="until" label="По дату"/>
 
@@ -98,5 +97,5 @@ export default MemberRateShow
 const MemberDiscountEditButton = () => {
     let record = useRecordContext<MemberDiscount>()
 
-    return <EditButton basePath={`/${member_discount.name}/${record.id}`} record={record} label="Редактировать"/>
+    return <EditButton resource={member_discount.name} record={record} label="Редактировать"/>
 }

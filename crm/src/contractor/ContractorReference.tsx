@@ -14,7 +14,7 @@ export const ContractorReferenceField = (props: Omit<Omit<ReferenceFieldProps, '
         source="contractor_id"
         reference={contractor.name}
     >
-        <TextField source="name"/>
+        <TextField source="name" label={props.label}/>
     </ReferenceField>
 )
 
@@ -22,10 +22,10 @@ export const ContractorReferenceInput = (props: Omit<Omit<ReferenceInputProps, '
     <ReferenceInput
         source="contractor_id"
         reference={contractor.name}
-        filterToQuery={searchText => ({'name': searchText})}
+        filterToQuery={(searchText: any) => ({'name': searchText})}
         {...props}
     >
-        <SelectInput optionText="name"/>
+        <SelectInput optionText="name" label={props.label}/>
     </ReferenceInput>
 )
 
@@ -34,4 +34,5 @@ ContractorReferenceField.defaultProps = {
 }
 ContractorReferenceInput.defaultProps = {
     label: 'Контрагент',
+    allowEmpty: true,
 }

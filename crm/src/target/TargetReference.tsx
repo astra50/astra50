@@ -15,7 +15,7 @@ export const TargetReferenceField = (props: TargetFieldProps & Omit<Omit<Referen
         reference={target.name}
         {...props}
     >
-        <TextField source="name"/>
+        <TextField source="name" label={props.label}/>
     </ReferenceField>
 )
 
@@ -23,10 +23,10 @@ export const TargetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
     <ReferenceInput
         source="target_id"
         reference={target.name}
-        filterToQuery={searchText => ({'name,comment': searchText})}
+        filterToQuery={(searchText: any) => ({'name,comment': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="name"/>
+        <AutocompleteInput optionText="name" label={props.label}/>
     </ReferenceInput>
 )
 
