@@ -22,7 +22,6 @@ export const StreetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
     <ReferenceInput
         source="street_id"
         reference={street.name}
-        filterToQuery={(searchText: any) => ({'name': searchText})}
         {...props}
     >
         <SelectInput optionText="name" label={props.label}/>

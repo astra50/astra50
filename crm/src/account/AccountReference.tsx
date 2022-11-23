@@ -24,10 +24,13 @@ export const AccountReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sou
         source="account_id"
         reference={account.name}
         sort={{field: 'number', order: 'ASC'}}
-        filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="number" label={props.label}/>
+        <AutocompleteInput
+            optionText="number"
+            label={props.label}
+            filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
+        />
     </ReferenceInput>
 )
 

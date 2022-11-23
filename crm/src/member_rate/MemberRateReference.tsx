@@ -22,10 +22,13 @@ export const MemberRateReferenceInput = (props: Omit<Omit<ReferenceInputProps, '
     <ReferenceInput
         source="rate_id"
         reference={member_rate.name}
-        filterToQuery={(searchText: any) => ({'amount': searchText})}
         {...props}
     >
-        <AutocompleteInput optionText="amount" label={props.label}/>
+        <AutocompleteInput
+            optionText="amount"
+            label={props.label}
+            filterToQuery={(searchText: any) => ({'amount': searchText})}
+        />
     </ReferenceInput>
 )
 

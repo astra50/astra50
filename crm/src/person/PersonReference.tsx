@@ -17,7 +17,6 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
     <ReferenceInput
         source="person_id"
         reference={person.name}
-        filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phone,email,telegram_id': searchText})}
         {...props}
     >
         <AutocompleteInput
@@ -25,6 +24,7 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
             inputText={(record: Person) => personFormat(record, true)}
             matchSuggestion={() => true}
             label={props.label}
+            filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phone,email,telegram_id': searchText})}
             fullWidth
         />
     </ReferenceInput>

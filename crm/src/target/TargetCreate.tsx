@@ -13,13 +13,15 @@ const TargetCreate = () => {
                 <MoneyInput source="total_amount" label="Целевая сумма"/>
                 <MoneyInput source="payer_amount" label="Сумма с человека"/>
                 <ReferenceArrayInput
-                    label="Участки"
                     source="lands" reference="land"
-                    filterToQuery={(searchText: string) => ({'number': searchText})}
                     perPage={200}
                     sort={{field: 'number_integer', order: 'ASC'}}
                 >
-                    <AutocompleteArrayInput optionText="number"/>
+                    <AutocompleteArrayInput
+                        label="Участки"
+                        optionText="number"
+                        filterToQuery={(searchText: string) => ({'number': searchText})}
+                    />
                 </ReferenceArrayInput>
             </SimpleForm>
         </Create>
