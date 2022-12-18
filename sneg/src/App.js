@@ -28,6 +28,7 @@ const operationsDoc = `
         payer_amount
         lands
         payments {
+          id
           land {
             id
           }
@@ -135,6 +136,12 @@ function App() {
     for (const payment of target.payments) {
         totalPayments += payment.amount
         const land = payment.land;
+
+        if (!land) {
+            console.error(`Payment with id ${payment.id} has no land_id`)
+
+            continue
+        }
 
         if (typeof lands[land.id] === 'undefined') {
             lands[land.id] = {
