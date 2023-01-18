@@ -9,6 +9,8 @@ insert_permissions:
         - birth_date
         - comment
         - email
+        - entered_at
+        - entered_document
         - firstname
         - lastname
         - middlename
@@ -25,6 +27,8 @@ select_permissions:
         - comment
         - created_at
         - email
+        - entered_at
+        - entered_document
         - firstname
         - full_name
         - id
@@ -44,6 +48,8 @@ update_permissions:
         - birth_date
         - comment
         - email
+        - entered_at
+        - entered_document
         - firstname
         - lastname
         - middlename

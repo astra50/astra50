@@ -1,4 +1,4 @@
-import {Edit, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, SimpleForm, TextInput} from 'react-admin'
 import {PersonField} from './PersonField'
 
 const PersonEdit = () => {
@@ -15,6 +15,8 @@ const PersonEdit = () => {
                 <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
                 <TextInput source="comment" label="Комментарий"/>
+                <DateInput source="entered_at" label="Дата вступления"/>
+                <TextInput source="entered_document" label="Документ вступления"/>
             </SimpleForm>
         </Edit>
     )

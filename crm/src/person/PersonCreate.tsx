@@ -1,4 +1,4 @@
-import {Create, SimpleForm, TextInput} from 'react-admin'
+import {Create, DateInput, SimpleForm, TextInput} from 'react-admin'
 
 const PersonCreate = () => {
     return (
@@ -14,6 +14,8 @@ const PersonCreate = () => {
                 <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
                 <TextInput source="comment" label="Комментарий"/>
+                <DateInput source="entered_at" label="Дата вступления"/>
+                <TextInput source="entered_document" label="Документ вступления"/>
             </SimpleForm>
         </Create>
     )

@@ -65,6 +65,8 @@ const PersonShow = () => {
                 <MoneyField source="last_paid_amount" label="Сумма последнего платежа"/>
                 <DateField source="last_paid_at" label="Дата последнего платежа"/>
                 <TextField source="telegram_id" label="Телеграм ID"/>
+                <DateField source="entered_at" label="Дата вступления"/>
+                <TextField source="entered_document" label="Документ вступления"/>
                 <ReferenceManyField label="Лицевые счета" reference="account_person" target="person_id"
                                     sortable={false}>
                     <Datagrid>
