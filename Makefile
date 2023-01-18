@@ -74,10 +74,13 @@ backup-download:
 	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
 
 backup-restore:
+	docker compose up -d --force-recreate postgres
+	docker compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
 	@docker compose exec postgres sh -c " \
-		psql postgres -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'astra50' AND pid <> pg_backend_pid()\"; \
-		psql postgres -c \"DROP DATABASE astra50\"; \
-		psql postgres -c \"CREATE DATABASE astra50\" \
+		psql postgres -c \"DROP DATABASE IF EXISTS astra50\" \
+		&& psql postgres -c \"CREATE DATABASE astra50\" \
+		&& psql postgres -c \"DROP DATABASE IF EXISTS hasura\" \
+		&& psql postgres -c \"CREATE DATABASE hasura\" \
 		&& gunzip < $(BACKUP_FILE) | psql \
 		&& gunzip < $(HASURA_BACKUP_FILE) | psql hasura \
 		"
