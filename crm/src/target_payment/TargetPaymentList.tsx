@@ -1,4 +1,5 @@
-import {Datagrid, DateField, DateInput, List, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, DateInput, List, TextField, TextInput, WithRecord} from 'react-admin'
+import {ContractorReferenceField} from '../contractor/ContractorReference'
 import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
@@ -22,7 +23,11 @@ const TargetPaymentList = () => {
         >
             <Datagrid rowClick="edit">
                 <TargetReferenceField/>
-                <PersonReferenceField label="Плательщик"/>
+                <WithRecord label="Плательщик / Контрагент" render={record => {
+                    if (record.person_id) return <PersonReferenceField/>
+
+                    return <ContractorReferenceField/>
+                }}/>
                 <LandReferenceField/>
                 <MoneyField
                     source="amount"
