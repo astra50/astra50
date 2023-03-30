@@ -4,9 +4,10 @@ import {StreetReferenceInput} from '../street/StreetReference'
 const LandCreate = () => {
     return (
         <Create
-                title="Создать участок"
+            title="Создать участок"
+            redirect="list"
         >
-            <SimpleForm redirect="list">
+            <SimpleForm>
                 <StreetReferenceInput/>
                 <NumberInput source="number" label="Номер"/>
                 <NumberInput source="square" label="Площадь"/>

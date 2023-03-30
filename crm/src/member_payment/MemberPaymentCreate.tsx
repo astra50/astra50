@@ -5,8 +5,11 @@ import {PersonReferenceInput} from '../person/PersonReference'
 
 const MemberPaymentCreate = () => {
     return (
-        <Create  title="Создать платёж">
-            <SimpleForm redirect="list">
+        <Create
+            title="Создать платёж"
+            redirect="list"
+        >
+            <SimpleForm>
                 <AccountReferenceInput/>
                 <PersonReferenceInput label="Плательщик" fullWidth/>
                 <div>

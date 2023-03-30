@@ -3,9 +3,10 @@ import {Create, DateInput, SimpleForm, TextInput} from 'react-admin'
 const PersonCreate = () => {
     return (
         <Create
-                title="Создать садовода"
+            title="Создать садовода"
+            redirect="list"
         >
-            <SimpleForm redirect="list">
+            <SimpleForm>
                 <TextInput source="lastname" label="Фамилия"/>
                 <TextInput source="firstname" label="Имя"/>
                 <TextInput source="middlename" label="Отчество"/>

@@ -7,8 +7,11 @@ import {TargetReferenceInput} from '../target/TargetReference'
 
 const TargetPaymentCreate = () => {
     return (
-        <Create  title="Создать целевой взнос">
-            <SimpleForm redirect="list">
+        <Create
+            title="Создать целевой взнос"
+            redirect="list"
+        >
+            <SimpleForm>
                 <PersonReferenceInput label="Плательщик"/>
                 <TargetReferenceInput/>
                 <LandReferenceInput/>

@@ -4,9 +4,10 @@ import {MoneyInput} from '../money'
 const MemberRateCreate = () => {
     return (
         <Create
-                title="Создать Ставку"
+            title="Создать Ставку"
+            redirect="list"
         >
-            <SimpleForm redirect="list">
+            <SimpleForm>
                 <MoneyInput
                     source="amount"
                     label="Ставка"

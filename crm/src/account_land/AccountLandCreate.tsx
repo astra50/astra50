@@ -1,17 +1,20 @@
-import {Create, SimpleForm} from 'react-admin'
+import {Create, Identifier, RaRecord, SimpleForm} from 'react-admin'
 import account from '../account'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {LandReferenceInput} from '../land/LandReference'
 import {AccountLand} from '../types'
 
-const redirect = (_basePath: any, _id: any, data: AccountLand) => `/${account.name}/${data.account_id}/show`
-
 const AccountLandCreate = () => {
     return (
         <Create
-                title="Привязать лицевой счёт к участку"
+            title="Привязать лицевой счёт к участку"
+            redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
+                const record = data as AccountLand
+
+                return `/${account.name}/${record.account_id}/show`
+            }}
         >
-            <SimpleForm redirect={redirect}>
+            <SimpleForm>
                 <AccountReferenceInput/>
                 <LandReferenceInput/>
             </SimpleForm>

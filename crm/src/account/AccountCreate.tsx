@@ -5,9 +5,10 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const AccountCreate = () => {
     return (
         <Create
-                title="Создать лицевой счёт"
+            title="Создать лицевой счёт"
+            redirect="list"
         >
-            <SimpleForm redirect="list">
+            <SimpleForm>
                 <TextInput source="number" label="Номер"/>
                 <CommentInput/>
                 <PersonReferenceInput validate={required()}/>

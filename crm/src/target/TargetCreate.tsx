@@ -4,8 +4,10 @@ import {MoneyInput} from '../money'
 const TargetCreate = () => {
     return (
         <Create
-                title="Создать Ставку">
-            <SimpleForm redirect="show">
+            title="Создать Ставку"
+            redirect="show"
+        >
+            <SimpleForm>
                 <TextInput source="name" label="Цель"/>
                 <BooleanInput source="is_public" label="Публичная?"/>
                 <TextInput source="comment" label="Комментарий"/>

@@ -2,8 +2,10 @@ import {Create, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 
 const GateCreate = () => {
     return (
-        <Create >
-            <SimpleForm redirect="list">
+        <Create
+            redirect="list"
+        >
+            <SimpleForm>
                 <NumberInput source="number" label="Номер"/>
                 <TextInput
                     source="name"
