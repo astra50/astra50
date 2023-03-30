@@ -7,6 +7,8 @@ CREATE TABLE refinance_rate
         UNIQUE (rate, since)
     )
 ;
+SELECT audit.audit_table('public.refinance_rate');
+SELECT public.timestampable('public.refinance_rate');
 
 INSERT INTO refinance_rate (rate, since)
 VALUES (7.50, '2022-09-19'),
