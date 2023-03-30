@@ -25,6 +25,7 @@ import member_discount from './member_discount'
 import member_payment from './member_payment'
 import member_rate from './member_rate'
 import person from './person'
+import refinance_rate from './refinance_rate'
 import Settings from './settings/Settings'
 import street from './street'
 import target from './target'
@@ -50,7 +51,6 @@ const i18Provider = polyglotI18nProvider(() => {
 
     return messages
 }, 'ru')
-
 
 const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
@@ -100,9 +100,9 @@ const AdminWithKeycloak = () => {
                 i18nProvider={i18Provider}
                 layout={Layout}
             >
-                <Resource {...account}/>
                 <Resource {...account_land}/>
                 <Resource {...account_person}/>
+                <Resource {...account}/>
                 <Resource {...contractor}/>
                 <Resource {...gate_open_reason}/>
                 <Resource {...gate_open}/>
@@ -112,6 +112,7 @@ const AdminWithKeycloak = () => {
                 <Resource {...member_payment}/>
                 <Resource {...member_rate}/>
                 <Resource {...person}/>
+                <Resource {...refinance_rate}/>
                 <Resource {...street}/>
                 <Resource {...target_payment}/>
                 <Resource {...target}/>

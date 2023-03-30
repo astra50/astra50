@@ -73,3 +73,8 @@ export interface Contractor extends Record {
     name: string,
     comment: string,
 }
+
+export interface RefinanceRate extends Record {
+    rate: number,
+    since: string,
+}

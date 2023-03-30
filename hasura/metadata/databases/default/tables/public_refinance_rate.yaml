@@ -1,0 +1,31 @@
+table:
+  name: refinance_rate
+  schema: public
+insert_permissions:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - rate
+        - since
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - id
+        - rate
+        - since
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: government
+    permission:
+      columns:
+        - rate
+        - since
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}

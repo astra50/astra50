@@ -1,4 +1,5 @@
 import {
+    faBank,
     faBullseye,
     faGhost,
     faHome,
@@ -36,5 +37,8 @@ export default () => (
                    leftIcon={<FontAwesomeIcon icon={faToriiGate}/>}/>
         <Menu.Item to="/gate_open" primaryText="Журнал ворот"
                    leftIcon={<FontAwesomeIcon icon={faJournalWhills}/>}/>
+        <Divider/>
+        <Menu.Item to="/refinance_rate" primaryText="Ставка Реф."
+                   leftIcon={<FontAwesomeIcon icon={faBank}/>}/>
     </Menu>
 )
