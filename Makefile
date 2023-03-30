@@ -23,7 +23,7 @@ up-postgres:
 	docker compose exec postgres psql -c "create database hasura"
 
 up-hasura:
-	docker compose up -d --force-recreate hasura
+	docker compose up -d --force-recreate --build hasura
 	docker compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
 	docker compose up -d --force-recreate hasura-console
 
@@ -32,12 +32,7 @@ migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate create "$(NAME)"
 
 migration:
-	docker compose exec hasura-console sh -c " \
-		hasura-cli metadata apply \
-		&& hasura-cli migrate apply --all-databases \
-		&& hasura-cli metadata reload \
-		&& hasura-cli migrate status --database-name default \
-		"
+	docker compose exec hasura-console sh -c "hasura-cli deploy"
 
 crm-install:
 	docker compose run --rm -T --user $(shell id -u):$(shell id -g) crm npm install
