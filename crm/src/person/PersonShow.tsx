@@ -81,6 +81,37 @@ const PersonShow = () => {
                         </ReferenceField>
                     </Datagrid>
                 </ReferenceManyField>
+
+                <TextField
+                    source="registration_address"
+                    label="Адрес регистрации"
+                    fullWidth
+                />
+                <TextField
+                    source="passport_serial"
+                    label="Серия паспорта"
+                    fullWidth
+                />
+                <TextField
+                    source="passport_number"
+                    label="Номер паспорта"
+                    fullWidth
+                />
+                <TextField
+                    source="passport_issued_by"
+                    label="Кем выдан паспорт"
+                    fullWidth
+                />
+                <DateField
+                    source="passport_issued_date"
+                    label="Дата выдачи паспорта"
+                    fullWidth
+                />
+                <TextField
+                    source="passport_issued_code"
+                    label="Код подразделения"
+                    fullWidth
+                />
             </SimpleShowLayout>
         </Show>
     )

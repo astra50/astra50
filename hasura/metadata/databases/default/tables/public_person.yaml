@@ -2,63 +2,81 @@ table:
   name: person
   schema: public
 insert_permissions:
-  - role: government
-    permission:
-      check: {}
-      columns:
-        - birth_date
-        - comment
-        - email
-        - entered_at
-        - entered_document
-        - firstname
-        - lastname
-        - middlename
-        - phone
-        - phone_second
-        - telegram_id
+- role: government
+  permission:
+    check: {}
+    columns:
+    - birth_date
+    - comment
+    - email
+    - entered_at
+    - entered_document
+    - firstname
+    - lastname
+    - middlename
+    - passport_issued_by
+    - passport_issued_code
+    - passport_issued_date
+    - passport_number
+    - passport_serial
+    - phone
+    - phone_second
+    - registration_address
+    - telegram_id
 select_permissions:
-  - role: government
-    permission:
-      columns:
-        - balance
-        - balance_at
-        - birth_date
-        - comment
-        - created_at
-        - email
-        - entered_at
-        - entered_document
-        - firstname
-        - full_name
-        - id
-        - last_paid_amount
-        - last_paid_at
-        - lastname
-        - middlename
-        - phone
-        - phone_second
-        - telegram_id
-      filter: {}
-      allow_aggregations: true
+- role: government
+  permission:
+    columns:
+    - balance
+    - balance_at
+    - birth_date
+    - comment
+    - created_at
+    - email
+    - entered_at
+    - entered_document
+    - firstname
+    - full_name
+    - id
+    - last_paid_amount
+    - last_paid_at
+    - lastname
+    - middlename
+    - passport_issued_by
+    - passport_issued_code
+    - passport_issued_date
+    - passport_number
+    - passport_serial
+    - phone
+    - phone_second
+    - registration_address
+    - telegram_id
+    filter: {}
+    allow_aggregations: true
 update_permissions:
-  - role: government
-    permission:
-      columns:
-        - birth_date
-        - comment
-        - email
-        - entered_at
-        - entered_document
-        - firstname
-        - lastname
-        - middlename
-        - phone
-        - phone_second
-        - telegram_id
-      filter: {}
-      check: null
+- role: government
+  permission:
+    columns:
+    - birth_date
+    - comment
+    - email
+    - entered_at
+    - entered_document
+    - firstname
+    - lastname
+    - middlename
+    - passport_issued_by
+    - passport_issued_code
+    - passport_issued_date
+    - passport_number
+    - passport_serial
+    - phone
+    - phone_second
+    - registration_address
+    - telegram_id
+    filter: {}
+    check: null
 delete_permissions:
-  - role: government
-    permission:
-      filter: {}
+- role: government
+  permission:
+    filter: {}
