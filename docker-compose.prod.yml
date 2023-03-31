@@ -171,6 +171,7 @@ services:
       N8N_DIAGNOSTICS_ENABLED: 'false'
       NODE_FUNCTION_ALLOW_BUILTIN: '*'
       NODE_FUNCTION_ALLOW_EXTERNAL: '*'
+      N8N_USER_MANAGEMENT_DISABLED: 'true'
     networks:
       - traefik
       - default
