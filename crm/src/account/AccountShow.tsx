@@ -1,4 +1,4 @@
-import {faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faBank, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Button from '@mui/material/Button'
 import {
@@ -33,6 +33,13 @@ const Actions = () => {
 
     return (
         <TopToolbar>
+            <Button
+                component="a"
+                href={`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`}
+                target="_blank"
+            >
+                <FontAwesomeIcon icon={faBank}/>&nbsp;Расчёт процентов
+            </Button>
             <Button
                 component={Link}
                 to={{pathname: `/${account_land.name}/create`}}
