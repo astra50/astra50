@@ -23,6 +23,7 @@ import {
     TextField,
     TopToolbar,
     useRecordContext,
+    WithRecord,
 } from 'react-admin'
 import ReactMarkdown from 'react-markdown'
 import {Link} from 'react-router-dom'
@@ -108,15 +109,21 @@ const AccountShow = () => {
                         label="Закрыт"
                     />
                 </SimpleShowLayout>
-                <hr/>
-                <Card>
-                    <CardHeader title="Судебные документы"/>
-                    <CardContent>
-                        <DownloadStatementButton/>
-                        <br/>
-                        <DownloadCalculationButton/>
-                    </CardContent>
-                </Card>
+                <WithRecord render={(record: Account) => {
+                    if (record.balance >= 0) return <></>
+
+                    return <>
+                        <hr/>
+                        <Card>
+                            <CardHeader title="Судебные документы"/>
+                            <CardContent>
+                                <DownloadStatementButton/>
+                                <br/>
+                                <DownloadCalculationButton/>
+                            </CardContent>
+                        </Card>
+                    </>
+                }}/>
             </Show>
         </>
     )
