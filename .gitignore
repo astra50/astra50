@@ -1,5 +1,6 @@
 # dev
 /var
+.~*
 
 # dependencies
 node_modules
@@ -11,6 +12,7 @@ node_modules
 
 # production
 /build
+/.env
 
 # misc
 .DS_Store
