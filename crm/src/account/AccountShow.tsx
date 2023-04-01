@@ -222,8 +222,8 @@ const DownloadStatementButton = () => {
 }
 const DownloadCalculationButton = () => {
     const markdown = `
-        1. При импорте в Excel поставить галочку "Вычислять формулы"
-        `
+1. При импорте в Excel поставить галочку "Вычислять формулы"
+`
 
     return <>
         <Button
