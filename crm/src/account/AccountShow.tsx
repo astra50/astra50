@@ -172,7 +172,6 @@ const DownloadStatementButton = () => {
                     useGrouping: false,
                 })
 
-                console.log(response)
                 PizZipUtils.getBinaryContent(
                     '/doc/statement.docx',
                     function (error, content) {
