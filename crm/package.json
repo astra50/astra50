@@ -15,16 +15,21 @@
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
+    "docxtemplater": "^3.36.1",
+    "file-saver": "^2.0.5",
     "graphql": "^16.6.0",
     "jwt-decode": "^3.1.2",
     "keycloak-js": "^21.0.2",
     "libphonenumber-js": "^1.10.24",
+    "moment": "^2.29.4",
     "npm-check-updates": "^16.9.0",
+    "pizzip": "^3.1.4",
     "ra-data-hasura": "^0.5.5",
     "ra-language-russian": "^3.13.5",
     "react": "^18.2.0",
     "react-admin": "^4.9.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.6",
     "react-scripts": "^5.0.1",
     "typescript": "^4.9.5"
   },
@@ -51,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5"
   }
 }

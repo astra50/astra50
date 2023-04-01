@@ -52,6 +52,8 @@ const i18Provider = polyglotI18nProvider(() => {
     return messages
 }, 'ru')
 
+require('moment/locale/ru.js');
+
 const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
     const [apollo, setApollo] = useState<ApolloClient<any> | null>(null)
