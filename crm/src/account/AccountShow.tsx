@@ -231,10 +231,12 @@ const DownloadCalculationButton = () => {
 1. При импорте в Excel поставить галочку "Вычислять формулы"
 `
 
+    const record = useRecordContext<Account>()
+
     return <>
         <Button
             component="a"
-            href={`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/`}
+            href={`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`}
             target="_blank"
         >
             <FontAwesomeIcon icon={faFileExcel}/>&nbsp;Расчёт процентов
