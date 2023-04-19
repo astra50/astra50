@@ -29,7 +29,7 @@ up-hasura:
 
 migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
 migration-generate: ## Create new migration
-	docker compose exec hasura-console hasura-cli migrate --database-name dsworks create "$(NAME)"
+	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
 
 migration:
 	docker compose exec hasura-console sh -c "hasura-cli deploy"
