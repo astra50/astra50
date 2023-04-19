@@ -32,6 +32,7 @@ select_permissions:
       columns:
         - account_id
         - amount
+        - balance
         - comment
         - created_at
         - id

@@ -27,6 +27,11 @@ const MemberPaymentList = () => {
                     label="Сумма"
                     options={{style: 'currency', currency: 'RUB'}}
                 />
+                <NumberField
+                    source="balance"
+                    label="Баланс"
+                    options={{style: 'currency', currency: 'RUB'}}
+                />
                 <DateField source="paid_at" label="Дата"/>
                 <TextField source="comment" label="Комментарий"/>
             </Datagrid>
