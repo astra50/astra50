@@ -1,15 +1,8 @@
-import {gql, useLazyQuery} from '@apollo/client'
-import {faFileExcel, faFileWord, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faFileZipper, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {CardHeader} from '@mui/material'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Docxtemplater from 'docxtemplater'
-import {saveAs} from 'file-saver'
-import moment from 'moment'
-import PizZip from 'pizzip'
-import PizZipUtils from 'pizzip/utils'
 import {
     ChipField,
     Datagrid,
@@ -25,7 +18,6 @@ import {
     useRecordContext,
     WithRecord,
 } from 'react-admin'
-import ReactMarkdown from 'react-markdown'
 import {Link} from 'react-router-dom'
 import account_land from '../account_land'
 import account_person from '../account_person'
@@ -115,10 +107,7 @@ const AccountShow = () => {
                     return <>
                         <hr/>
                         <Card>
-                            <CardHeader title="Судебные документы"/>
                             <CardContent>
-                                <DownloadStatementButton/>
-                                <br/>
                                 <DownloadCalculationButton/>
                             </CardContent>
                         </Card>
@@ -129,108 +118,7 @@ const AccountShow = () => {
     )
 }
 
-const DownloadStatementButton = () => {
-    const markdown = `
-1. Сумма требований указана без процентов (скопировать из расчёта процентов) 
-2. Период задолженности не указан (взять первые и последние даты из расчёта процентов)
-`
-
-    const record = useRecordContext<Account>()
-
-    const QUERY = gql`
-        query Doc($id: uuid!) {
-            account_by_pk(id: $id) {
-                balance
-                person {
-                    lastname
-                    firstname
-                    middlename
-                    registration_address
-                    entered_at
-                    entered_document
-                }
-                lands {
-                    land {
-                        number
-                        cadastral_number
-                        square
-                    }
-                }
-            }
-        }
-    `
-
-    const [getData] = useLazyQuery<any>(QUERY)
-
-    if (!record) return null
-
-    return <>
-        <Button
-            onClick={async function () {
-                const response = await getData({variables: {id: record.id}}) as any
-
-                const account = response.data.account_by_pk
-                const land = account.lands[0].land
-                const person = account.person
-
-                const formatter = new Intl.NumberFormat('RU', {
-                    style: 'decimal',
-                    minimumFractionDigits: 2,
-                    useGrouping: false,
-                })
-
-                PizZipUtils.getBinaryContent(
-                    '/doc/statement.docx',
-                    function (error, content) {
-                        if (error) {
-                            throw error
-                        }
-
-                        const zip = new PizZip(content)
-                        const doc = new Docxtemplater(zip, {
-                            paragraphLoop: true,
-                            linebreaks: true,
-                        })
-
-                        doc.render({
-                            fullname: `${person.lastname} ${person.firstname} ${person.middlename}`.trim(),
-                            passport_address: person.registration_address,
-                            entered_at: moment(person.entered_at).format('L'),
-                            entered_document: person.entered_document,
-                            land_number: land.number,
-                            land_cadastral: land.cadastral_number,
-                            land_square: land.square * 100,
-                            debt_since: '__FIX_ME__',
-                            debt_until: '__FIX_ME__',
-                            sum: formatter.format(account.balance * -1),
-                            sum_text: '__СУММА_ТЕКСТОМ__',
-                            penalty: '__НЕУСТОЙКА__',
-                            penalty_text: '__НЕУСТОЙКА_ТЕКСТОМ__',
-                            today: moment().format('LL'),
-                        })
-
-                        const blob = doc.getZip().generate({
-                            type: 'blob',
-                            mimeType:
-                                'application/octet-stream',
-                        })
-
-                        saveAs(blob, 'Заявление о выдаче судебного приказа.docx')
-                    },
-                )
-
-            }}
-        >
-            <FontAwesomeIcon icon={faFileWord}/>&nbsp;Заявление о выдаче судебного приказа
-        </Button>
-        <ReactMarkdown>{markdown}</ReactMarkdown>
-    </>
-}
 const DownloadCalculationButton = () => {
-    const markdown = `
-1. При импорте в Excel поставить галочку "Вычислять формулы"
-`
-
     const record = useRecordContext<Account>()
 
     return <>
@@ -239,9 +127,8 @@ const DownloadCalculationButton = () => {
             href={`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`}
             target="_blank"
         >
-            <FontAwesomeIcon icon={faFileExcel}/>&nbsp;Расчёт процентов
+            <FontAwesomeIcon icon={faFileZipper}/>&nbsp;Судебные документы
         </Button>
-        <ReactMarkdown>{markdown}</ReactMarkdown>
     </>
 }
 

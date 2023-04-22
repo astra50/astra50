@@ -1,0 +1,1 @@
+DROP VIEW payment_with_refinance_rate;
