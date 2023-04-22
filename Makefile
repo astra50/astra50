@@ -1,5 +1,7 @@
 .PHONY: contrib crm
 
+MAKEFLAGS += --no-print-directory
+
 contrib:
 	@cp -n -r contrib/* ./ || true
 
