@@ -30,9 +30,15 @@ up-hasura:
 migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
 migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
-
 migration:
 	docker compose exec hasura-console sh -c "hasura-cli deploy"
+migration-apply: ## apply migration only
+	docker compose exec hasura-console hasura-cli --database-name default migrate apply
+migration-rollback: ## rollback one latest migration
+	docker compose exec hasura-console hasura-cli --database-name default migrate apply --down 1
+migration-test: migration migration-rollback migration-apply ## test latest migration (rollback/apply)
+	@$(MAKE) migration-rollback
+	@$(MAKE) migration-apply
 
 crm-install:
 	docker compose run --rm -T --user $(shell id -u):$(shell id -g) crm npm install
