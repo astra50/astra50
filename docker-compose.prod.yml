@@ -95,6 +95,7 @@ services:
       - traefik
 
   crm:
+    image: cr.grachevko.ru/astra50/crm:latest
     restart: always
     build:
       context: crm
