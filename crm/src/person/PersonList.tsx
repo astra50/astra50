@@ -19,10 +19,8 @@ const PersonList = () =>
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <TextField source="phone" label="Телефон"/>
-            <TextField source="phone_second" label="Телефон2"/>
             <TextField source="email" label="E-mail"/>
             <MoneyField source="balance" label="Баланс"/>
-            <TextField source="comment" label="Комментарий"/>
         </Datagrid>
     </List>
 
