@@ -1,13 +1,13 @@
 import {BooleanInput, Datagrid, DateField, List, NumberField, TextField, TextInput} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
-import {PersonReferenceField} from '../person/PersonReference'
+import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
 
 const filters = [
     <TextInput source="account#number@_ilike,comment,account#persons#person#full_name@_ilike" label="Поиск"
                alwaysOn/>,
     <BooleanInput source="is_discount" label="Скидка"/>,
-    <AccountReferenceInput source="account_id"/>,
-    // <PersonReferenceInput source="person_id"/>,
+    <AccountReferenceInput source="account_id" alwaysOn/>,
+    <PersonReferenceInput source="person_id" label="Плательщик" alwaysOn/>,
 ]
 
 const MemberPaymentList = () => {
@@ -17,11 +17,11 @@ const MemberPaymentList = () => {
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
-
+            perPage={25}
         >
-            <Datagrid rowClick="edit">
-                <AccountReferenceField/>
-                <PersonReferenceField label="Плательщик"/>
+            <Datagrid rowClick="show">
+                <AccountReferenceField link={false}/>
+                <PersonReferenceField label="Плательщик" link={false}/>
                 <NumberField
                     source="amount"
                     label="Сумма"
