@@ -26,7 +26,6 @@ import {MoneyField} from '../money'
 import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
 import {Person, PersonEmail, PersonPhone} from '../types'
-import {PersonField} from './PersonField'
 
 const Actions = () => {
     const record = useRecordContext<Person>()
