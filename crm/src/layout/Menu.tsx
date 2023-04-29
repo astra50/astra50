@@ -15,6 +15,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Divider} from '@mui/material'
 import {Menu} from 'react-admin'
 
+/* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 export default () => (
     <Menu>
         <Menu.DashboardItem/>

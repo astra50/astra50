@@ -6,6 +6,7 @@ const darkTheme = createTheme({
     palette: {mode: 'dark'},
 })
 
+/* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 export default () => (
     <AppBar
         userMenu={<UserMenu/>}

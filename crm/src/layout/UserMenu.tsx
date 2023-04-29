@@ -13,6 +13,7 @@ const ConfigurationMenu = forwardRef(({onClick}: { onClick?: any }, ref) => (
     />
 ))
 
+/* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 export default () => (
     <UserMenu>
         <ConfigurationMenu/>
