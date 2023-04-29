@@ -1,6 +1,6 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {Add,Call, Email} from '@mui/icons-material'
+import {Add, Call, Email} from '@mui/icons-material'
 import {Divider} from '@mui/material'
 
 import {
@@ -16,7 +16,8 @@ import {
     SimpleShowLayout,
     TextField,
     TopToolbar,
-    useRecordContext, WithRecord,
+    useRecordContext,
+    WithRecord,
 } from 'react-admin'
 import {Link} from 'react-router-dom'
 import account from '../account'
@@ -24,7 +25,7 @@ import {AccountReferenceField} from '../account/AccountReference'
 import {MoneyField} from '../money'
 import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
-import {Person, PersonPhone} from '../types'
+import {Person, PersonEmail, PersonPhone} from '../types'
 import {PersonField} from './PersonField'
 
 const Actions = () => {
@@ -70,8 +71,8 @@ const PersonShow = () => {
                     <Datagrid bulkActionButtons={false}>
                         <PersonEmailReferenceField label={false} sortable={false}/>
                         <BooleanField source="is_main" label="Основной?"/>
-                        <FunctionField render={function (record: PersonPhone) {
-                            return <Button href={'mailto:' + record.phone} label="Письмо"><Email/></Button>
+                        <FunctionField render={function (record: PersonEmail) {
+                            return <Button href={'mailto:' + record.email} label="Письмо"><Email/></Button>
                         }}/>
                     </Datagrid>
                 </ReferenceManyField>
@@ -82,7 +83,7 @@ const PersonShow = () => {
                             pathname: `/person_email/create`,
                             state: {record: {person_id: record.id}},
                         }}
-                        label="Добавить E-Mail"
+                        label="Добавить Электронный Адрес"
                         fullWidth
                     ><Add/></Button>
                 }}/>
