@@ -54,7 +54,7 @@ const Actions = () => {
 const PersonShow = () => {
     return (
         <Show
-            title={<PersonField/>}
+            title="Садовод"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
