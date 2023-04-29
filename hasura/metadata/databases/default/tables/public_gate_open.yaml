@@ -2,77 +2,77 @@ table:
   name: gate_open
   schema: public
 object_relationships:
-- name: gate
-  using:
-    foreign_key_constraint_on: gate_id
-- name: person
-  using:
-    foreign_key_constraint_on: person_id
-- name: person_by_email
-  using:
-    manual_configuration:
-      column_mapping:
-        source: email
-      insertion_order: null
-      remote_table:
-        name: person
-        schema: public
-- name: person_by_telegram
-  using:
-    manual_configuration:
-      column_mapping:
-        source: telegram_id
-      insertion_order: null
-      remote_table:
-        name: person
-        schema: public
-- name: reason
-  using:
-    foreign_key_constraint_on: reason_id
+  - name: gate
+    using:
+      foreign_key_constraint_on: gate_id
+  - name: person
+    using:
+      foreign_key_constraint_on: person_id
+  - name: person_by_email
+    using:
+      manual_configuration:
+        column_mapping:
+          source: email
+        insertion_order: null
+        remote_table:
+          name: person
+          schema: public
+  - name: person_by_telegram
+    using:
+      manual_configuration:
+        column_mapping:
+          source: telegram_id
+        insertion_order: null
+        remote_table:
+          name: person
+          schema: public
+  - name: reason
+    using:
+      foreign_key_constraint_on: reason_id
 select_permissions:
-- role: anonymous
-  permission:
-    columns:
-    - id
-    filter: {}
-- role: government
-  permission:
-    columns:
-    - comment
-    - created_at
-    - gate_id
-    - id
-    - person_id
-    - reason_id
-    - source
-    - updated_at
-    filter: {}
-    allow_aggregations: true
-- role: member
-  permission:
-    columns:
-    - comment
-    - reason_id
-    - source
-    - created_at
-    - updated_at
-    - gate_id
-    - id
-    filter:
-      source:
-        _eq: X-Hasura-User-Id
-    allow_aggregations: true
+  - role: anonymous
+    permission:
+      columns:
+        - id
+      filter: {}
+  - role: government
+    permission:
+      columns:
+        - comment
+        - created_at
+        - gate_id
+        - id
+        - person_id
+        - reason_id
+        - source
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - comment
+        - reason_id
+        - source
+        - created_at
+        - updated_at
+        - gate_id
+        - id
+      filter:
+        source:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
 event_triggers:
-- name: gate_open
-  definition:
-    enable_manual: false
-    insert:
-      columns: '*'
-  retry_conf:
-    interval_sec: 10
-    num_retries: 0
-    timeout_sec: 60
-  webhook: https://workflow.astra50.ru/webhook/gate-open
-  headers:
-  - name: x-hasura-event-secret
-    value_from_env: HASURA_EVENT_SECRET
+  - name: gate_open
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: https://workflow.astra50.ru/webhook/gate-open
+    headers:
+      - name: x-hasura-event-secret
+        value_from_env: HASURA_EVENT_SECRET
