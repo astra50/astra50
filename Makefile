@@ -65,6 +65,8 @@ console:
 
 crm:
 	docker compose run --rm --label ru.grachevko.dhu="" --label traefik.enable=false crm sh
+crm-update:
+	docker compose run --rm -T --label ru.grachevko.dhu="" --label traefik.enable=false crm sh -c "ncu -u && npm install"
 
 cli-postgres:
 	docker compose exec -w /var/lib/postgresql/data postgres bash
