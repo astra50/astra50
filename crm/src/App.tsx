@@ -25,6 +25,7 @@ import member_discount from './member_discount'
 import member_payment from './member_payment'
 import member_rate from './member_rate'
 import person from './person'
+import person_phone from './person_phone'
 import refinance_rate from './refinance_rate'
 import Settings from './settings/Settings'
 import street from './street'
@@ -112,6 +113,7 @@ const AdminWithKeycloak = () => {
                 <Resource {...member_payment}/>
                 <Resource {...member_rate}/>
                 <Resource {...person}/>
+                <Resource {...person_phone}/>
                 <Resource {...refinance_rate}/>
                 <Resource {...street}/>
                 <Resource {...target_payment}/>

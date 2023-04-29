@@ -31,6 +31,11 @@ export interface Person extends Record, HasBalance {
     email: string,
 }
 
+export interface PersonPhone extends Record {
+    person_id: string,
+    phone: string,
+}
+
 export interface MemberRate extends Record {
     amount: number,
     since: string,

@@ -19,8 +19,6 @@ insert_permissions:
         - passport_issued_date
         - passport_number
         - passport_serial
-        - phone
-        - phone_second
         - registration_address
         - telegram_id
 select_permissions:
@@ -48,7 +46,6 @@ select_permissions:
         - passport_number
         - passport_serial
         - phone
-        - phone_second
         - registration_address
         - telegram_id
       filter: {}
@@ -70,8 +67,6 @@ update_permissions:
         - passport_issued_date
         - passport_number
         - passport_serial
-        - phone
-        - phone_second
         - registration_address
         - telegram_id
       filter: {}

@@ -1,4 +1,5 @@
-import {DateInput, Edit, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, SimpleForm, TextInput, WithRecord} from 'react-admin'
+import {PersonPhoneReferenceInput} from '../person_phone/PersonPhoneReference'
 import {PersonField} from './PersonField'
 
 const PersonEdit = () => {
@@ -11,8 +12,9 @@ const PersonEdit = () => {
                 <TextInput source="lastname" label="Фамилия"/>
                 <TextInput source="firstname" label="Имя"/>
                 <TextInput source="middlename" label="Отчество"/>
-                <TextInput source="phone" label="Телефон"/>
-                <TextInput source="phone_second" label="Телефон2"/>
+                <WithRecord render={function (record) {
+                    return <PersonPhoneReferenceInput person_id={record.id as string} />
+                }}/>
                 <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
                 <TextInput source="comment" label="Комментарий"/>

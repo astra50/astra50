@@ -1,0 +1,39 @@
+table:
+  name: person_phone
+  schema: public
+insert_permissions:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - comment
+        - is_main
+        - person_id
+        - phone
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - comment
+        - created_at
+        - id
+        - is_main
+        - person_id
+        - phone
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: government
+    permission:
+      columns:
+        - comment
+        - is_main
+        - person_id
+        - phone
+      filter: {}
+      check: null
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}
