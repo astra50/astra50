@@ -1,13 +1,4 @@
-import {
-    ChipField,
-    Datagrid,
-    List,
-    ReferenceField,
-    ReferenceManyField,
-    SingleFieldList,
-    TextField,
-    TextInput,
-} from 'react-admin'
+import {Datagrid, List, ReferenceField, ReferenceManyField, SingleFieldList, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
 
@@ -33,7 +24,7 @@ const AccountList = () =>
             <ReferenceManyField label="Участки" reference="account_land" target="account_id" sortable={false}>
                 <SingleFieldList linkType={false}>
                     <ReferenceField reference="land" source="land_id" link={false}>
-                        <ChipField source="number"/>
+                        <TextField source="number"/>&nbsp;
                     </ReferenceField>
                 </SingleFieldList>
             </ReferenceManyField>
