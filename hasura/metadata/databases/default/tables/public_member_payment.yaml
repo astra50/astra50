@@ -20,7 +20,6 @@ insert_permissions:
         - amount
         - comment
         - is_discount
-        - is_regular
         - land_id
         - paid_at
         - person_id
@@ -54,7 +53,6 @@ update_permissions:
         - amount
         - comment
         - is_discount
-        - is_regular
         - land_id
         - paid_at
         - person_id
