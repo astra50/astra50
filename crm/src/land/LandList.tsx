@@ -20,7 +20,7 @@ const LandList = () =>
         <Datagrid
             rowClick="edit"
         >
-            <StreetReferenceField/>
+            <StreetReferenceField link={false}/>
             <NumberField source="number" label="Номер"/>
             <NumberField source="square" label="Площадь"/>
             <TextField source="cadastral_number" label="Кадастровый номер"/>
