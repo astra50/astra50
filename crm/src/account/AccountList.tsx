@@ -23,8 +23,7 @@ const AccountList = () =>
         title="Лицевые счета"
         empty={false}
         filters={filters}
-        sort={{field: 'updated_at', order: 'DESC'}}
-        perPage={10}
+        sort={{field: 'balance', order: 'ASC'}}
     >
         <Datagrid
             rowClick="show"
