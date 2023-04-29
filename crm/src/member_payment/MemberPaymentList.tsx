@@ -1,5 +1,7 @@
-import {BooleanInput, Datagrid, DateField, List, NumberField, TextField, TextInput} from 'react-admin'
+import {BooleanInput, Datagrid, DateField, DateInput, List, NumberField, TextField, TextInput} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
+import {LandReferenceInput} from '../land/LandReference'
+import {MemberRateReferenceInput} from '../member_rate/MemberRateReference'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
 
 const filters = [
@@ -9,6 +11,9 @@ const filters = [
     <BooleanInput source="is_regular" label="Начисление"/>,
     <AccountReferenceInput source="account_id" alwaysOn/>,
     <PersonReferenceInput source="person_id" label="Плательщик" alwaysOn/>,
+    <MemberRateReferenceInput source="rate_id"/>,
+    <DateInput source="paid_at" label="Дата платежа"/>,
+    <LandReferenceInput source="land_id"/>,
 ]
 
 const MemberPaymentList = () => {
