@@ -29,7 +29,7 @@ const AccountList = () =>
             rowClick="show"
         >
             <TextField source="number" label="Номер"/>
-            <PersonReferenceField/>
+            <PersonReferenceField link={false}/>
             <ReferenceManyField label="Участки" reference="account_land" target="account_id" sortable={false}>
                 <SingleFieldList linkType={false}>
                     <ReferenceField reference="land" source="land_id" link={false}>
