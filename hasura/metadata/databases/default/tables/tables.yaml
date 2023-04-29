@@ -10,6 +10,7 @@
 - "!include public_member_payment.yaml"
 - "!include public_member_rate.yaml"
 - "!include public_person.yaml"
+- "!include public_person_email.yaml"
 - "!include public_person_phone.yaml"
 - "!include public_personal_access_token.yaml"
 - "!include public_refinance_rate.yaml"

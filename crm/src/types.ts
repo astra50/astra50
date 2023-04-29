@@ -36,6 +36,11 @@ export interface PersonPhone extends Record {
     phone: string,
 }
 
+export interface PersonEmail extends Record {
+    person_id: string,
+    email: string,
+}
+
 export interface MemberRate extends Record {
     amount: number,
     since: string,

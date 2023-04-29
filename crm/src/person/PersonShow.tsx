@@ -1,6 +1,6 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {Add,Call} from '@mui/icons-material'
+import {Add,Call, Email} from '@mui/icons-material'
 import {Divider} from '@mui/material'
 
 import {
@@ -22,6 +22,7 @@ import {Link} from 'react-router-dom'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
 import {MoneyField} from '../money'
+import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
 import {Person, PersonPhone} from '../types'
 import {PersonField} from './PersonField'
@@ -61,14 +62,38 @@ const PersonShow = () => {
                 <TextField source="comment" label="Комментарий"/>
 
                 <Divider>Контакты</Divider>
-                <TextField source="email" label="E-mail"/>
+                <ReferenceManyField
+                    label="Электронные адреса"
+                    reference="person_email"
+                    target="person_id"
+                >
+                    <Datagrid bulkActionButtons={false}>
+                        <PersonEmailReferenceField label={false} sortable={false}/>
+                        <BooleanField source="is_main" label="Основной?"/>
+                        <FunctionField render={function (record: PersonPhone) {
+                            return <Button href={'mailto:' + record.phone} label="Письмо"><Email/></Button>
+                        }}/>
+                    </Datagrid>
+                </ReferenceManyField>
+                <WithRecord render={function (record: Person) {
+                    return <Button
+                        component={Link}
+                        to={{
+                            pathname: `/person_email/create`,
+                            state: {record: {person_id: record.id}},
+                        }}
+                        label="Добавить E-Mail"
+                        fullWidth
+                    ><Add/></Button>
+                }}/>
+
                 <ReferenceManyField
                     label="Телефоны"
                     reference="person_phone"
                     target="person_id"
                 >
                     <Datagrid bulkActionButtons={false}>
-                        <PersonPhoneReferenceField source="id" label={false} sortable={false}/>
+                        <PersonPhoneReferenceField label={false} sortable={false}/>
                         <BooleanField source="is_main" label="Основной?"/>
                         <FunctionField render={function (record: PersonPhone) {
                             return <Button href={'tel:' + record.phone} label="Звонок"><Call/></Button>
