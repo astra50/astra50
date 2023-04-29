@@ -90,7 +90,7 @@ const AccountShow = () => {
                     </ReferenceManyField>
                     <ReferenceManyField label="Жители" reference="account_person" target="account_id" sortable={false}
                                         sort={{field: 'person.lastname', order: 'ASC'}}>
-                        <Datagrid>
+                        <Datagrid bulkActionButtons={false}>
                             <PersonReferenceField label={false}/>
                             <EditButton/>
                         </Datagrid>
