@@ -17,7 +17,6 @@ import {
 import {Link} from 'react-router-dom'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
-import member_payment from '../member_payment'
 import {MoneyField} from '../money'
 import {Person} from '../types'
 import {PersonField} from './PersonField'
@@ -35,7 +34,7 @@ const Actions = () => {
                 color="primary"
                 component={Link}
                 to={{
-                    pathname: `/${member_payment.name}`,
+                    pathname: `/member_payment`,
                     search: `filter=${JSON.stringify({person_id: record!.id})}`,
                 }}
             >
