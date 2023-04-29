@@ -8,7 +8,7 @@ const filters = [
     <TextInput source="source" label="Поиск" alwaysOn/>,
     <GateReferenceInput source="gate_id"/>,
     <GateOpenReasonReferenceInput source="reason_id" label="Тип источника" alwaysOn/>,
-    <PersonReferenceInput source="person_id"/>,
+    <PersonReferenceInput source="person_id" alwaysOn/>,
 ]
 
 const GateOpenList = () => {
