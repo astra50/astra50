@@ -4,8 +4,9 @@ import {PersonReferenceField, PersonReferenceInput} from '../person/PersonRefere
 
 const filters = [
     <TextInput source="account#number@_ilike,comment,account#persons#person#full_name@_ilike" label="Поиск"
-               alwaysOn/>,
+    />,
     <BooleanInput source="is_discount" label="Скидка"/>,
+    <BooleanInput source="is_regular" label="Начисление"/>,
     <AccountReferenceInput source="account_id" alwaysOn/>,
     <PersonReferenceInput source="person_id" label="Плательщик" alwaysOn/>,
 ]
