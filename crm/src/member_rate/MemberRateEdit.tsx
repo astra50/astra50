@@ -11,7 +11,7 @@ const Title = (props: FieldProps<MemberRate>) => {
 const MemberRateEdit = () => {
     return (
         <Edit
-              title={<Title/>}
+            title={<Title/>}
         >
             <SimpleForm>
                 <MoneyInput

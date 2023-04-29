@@ -7,9 +7,9 @@ const filters = [
 
 const ContractorList = () =>
     <List
-          title="Контрагенты"
-          empty={false}
-          filters={filters}
+        title="Контрагенты"
+        empty={false}
+        filters={filters}
     >
         <Datagrid
             rowClick="edit"

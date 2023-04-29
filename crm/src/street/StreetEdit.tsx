@@ -10,7 +10,7 @@ const Title = (props: FieldProps<Street>) => {
 const StreetEdit = () => {
     return (
         <Edit
-              title={<Title/>}
+            title={<Title/>}
         >
             <SimpleForm>
                 <TextInput source="name"/>

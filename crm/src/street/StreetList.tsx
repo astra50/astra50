@@ -6,9 +6,9 @@ const filters = [
 
 const StreetList = () =>
     <List
-          title="Улицы"
-          empty={false}
-          filters={filters}
+        title="Улицы"
+        empty={false}
+        filters={filters}
     >
         <Datagrid
             rowClick="edit"

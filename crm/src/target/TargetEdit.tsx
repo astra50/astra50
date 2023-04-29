@@ -10,7 +10,6 @@ import {
 import {MoneyInput} from '../money'
 import {Target} from '../types'
 
-
 const Title = (props: FieldProps<Target>) => {
     const {record} = props
 
@@ -20,7 +19,7 @@ const Title = (props: FieldProps<Target>) => {
 const TargetEdit = () => {
     return (
         <Edit
-              title={<Title/>}>
+            title={<Title/>}>
             <SimpleForm>
                 <TextInput source="name" label="Цель"/>
                 <BooleanInput source="is_public" label="Публичная?"/>

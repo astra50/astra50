@@ -7,10 +7,10 @@ const filters = [
 
 const MemberRateList = () =>
     <List
-          title="Ставки"
-          empty={false}
-          filters={filters}
-          sort={{field: 'since', order: 'DESC'}}
+        title="Ставки"
+        empty={false}
+        filters={filters}
+        sort={{field: 'since', order: 'DESC'}}
     >
         <Datagrid
             rowClick="show"

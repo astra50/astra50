@@ -10,7 +10,7 @@ const GateTitle = ({record}: GateTitleProps) => record ?
 
 const GateEdit = () => {
     return (
-        <Edit  title={<GateTitle/>}>
+        <Edit title={<GateTitle/>}>
             <SimpleForm>
                 <NumberInput source="number" label="Номер"/>
                 <TextInput

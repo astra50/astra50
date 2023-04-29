@@ -12,7 +12,7 @@ const Title = (props: FieldProps<Account>) => {
 const AccountEdit = () => {
     return (
         <Edit
-              title={<Title/>}
+            title={<Title/>}
         >
             <SimpleForm>
                 <TextInput source="number" label="Номер"/>

@@ -20,11 +20,11 @@ const filters = [
 
 const AccountList = () =>
     <List
-          title="Лицевые счета"
-          empty={false}
-          filters={filters}
-          sort={{field: 'updated_at', order: 'DESC'}}
-          perPage={10}
+        title="Лицевые счета"
+        empty={false}
+        filters={filters}
+        sort={{field: 'updated_at', order: 'DESC'}}
+        perPage={10}
     >
         <Datagrid
             rowClick="show"

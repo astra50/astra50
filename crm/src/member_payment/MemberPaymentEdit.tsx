@@ -5,7 +5,7 @@ import {PersonReferenceInput} from '../person/PersonReference'
 
 const MemberPaymentEdit = () => {
     return (
-        <Edit  title="Членский Взнос">
+        <Edit title="Членский Взнос">
             <SimpleForm>
                 <AccountReferenceInput/>
                 <PersonReferenceInput label="Плательщик" fullWidth/>

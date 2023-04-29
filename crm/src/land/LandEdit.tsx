@@ -11,7 +11,7 @@ const Title = (props: FieldProps<Land>) => {
 const LandEdit = () => {
     return (
         <Edit
-              title={<Title/>}
+            title={<Title/>}
         >
             <SimpleForm>
                 <StreetReferenceInput/>

@@ -1,10 +1,10 @@
+import {Box, createTheme, Typography} from '@mui/material'
+import {AppBar, defaultTheme, ToggleThemeButton} from 'react-admin'
 import UserMenu from './UserMenu'
-import { defaultTheme, AppBar, ToggleThemeButton } from 'react-admin';
-import { createTheme, Box, Typography } from '@mui/material';
 
 const darkTheme = createTheme({
-    palette: { mode: 'dark' },
-});
+    palette: {mode: 'dark'},
+})
 
 export default () => (
     <AppBar

@@ -11,7 +11,7 @@ const Title = (props: FieldProps<Contractor>) => {
 const ContractorEdit = () => {
     return (
         <Edit
-              title={<Title/>}
+            title={<Title/>}
         >
             <SimpleForm>
                 <TextInput source="name"/>

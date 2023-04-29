@@ -10,12 +10,12 @@ const LandPagination = (props: PaginationProps) => <Pagination rowsPerPageOption
 
 const LandList = () =>
     <List
-          title="Участки"
-          empty={false}
-          filters={filters}
-          sort={{field: 'number_integer', order: 'ASC'}}
-          pagination={<LandPagination/>}
-          perPage={150}
+        title="Участки"
+        empty={false}
+        filters={filters}
+        sort={{field: 'number_integer', order: 'ASC'}}
+        pagination={<LandPagination/>}
+        perPage={150}
     >
         <Datagrid
             rowClick="edit"
