@@ -26,9 +26,7 @@ export interface Person extends Record, HasBalance {
     lastname: string,
     firstname: string,
     middlename: string,
-    phone: string,
-    phone_second: string,
-    email: string,
+    full_name: string,
 }
 
 export interface PersonPhone extends Record {

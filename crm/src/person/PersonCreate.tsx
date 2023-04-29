@@ -10,7 +10,6 @@ const PersonCreate = () => {
                 <TextInput source="lastname" label="Фамилия"/>
                 <TextInput source="firstname" label="Имя"/>
                 <TextInput source="middlename" label="Отчество"/>
-                <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
                 <TextInput source="comment" label="Комментарий"/>
                 <DateInput source="entered_at" label="Дата вступления"/>

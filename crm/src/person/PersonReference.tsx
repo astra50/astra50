@@ -1,7 +1,14 @@
-import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
+import {
+    AutocompleteInput,
+    ReferenceField,
+    ReferenceFieldProps,
+    ReferenceInput,
+    ReferenceInputProps,
+    TextField,
+} from 'react-admin'
 import {Person} from '../types'
 import person from './index'
-import {PersonField, PersonFieldProps, personFormat} from './PersonField'
+import {PersonFieldProps} from './PersonField'
 
 export const PersonReferenceField = (props: PersonFieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
@@ -9,7 +16,7 @@ export const PersonReferenceField = (props: PersonFieldProps & Omit<Omit<Referen
         reference={person.name}
         {...props}
     >
-        <PersonField withPhone={props.withPhone} label={props.label}/>
+        <TextField source="full_name" label={props.label}/>
     </ReferenceField>
 )
 
@@ -20,11 +27,11 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
         {...props}
     >
         <AutocompleteInput
-            optionText={<PersonField withPhone={true}/>}
-            inputText={(record: Person) => personFormat(record, true)}
+            optionText="full_name"
+            inputText={(record: Person) => record.full_name}
             matchSuggestion={() => true}
             label={props.label}
-            filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phone,email,telegram_id': searchText})}
+            filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id': searchText})}
             fullWidth
         />
     </ReferenceInput>

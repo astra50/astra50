@@ -13,9 +13,8 @@ const PersonEdit = () => {
                 <TextInput source="firstname" label="Имя"/>
                 <TextInput source="middlename" label="Отчество"/>
                 <WithRecord render={function (record) {
-                    return <PersonPhoneReferenceInput person_id={record.id as string} />
+                    return <PersonPhoneReferenceInput person_id={record.id as string}/>
                 }}/>
-                <TextInput source="email" label="E-mail"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
                 <TextInput source="comment" label="Комментарий"/>
                 <DateInput source="entered_at" label="Дата вступления"/>
