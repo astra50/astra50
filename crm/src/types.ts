@@ -62,6 +62,10 @@ export interface Gate extends Record {
     phone?: string,
 }
 
+export interface GateOpen extends Record {
+    person_id?: string,
+}
+
 export interface Account extends Record, HasBalance {
     number: string,
     comment?: string,
