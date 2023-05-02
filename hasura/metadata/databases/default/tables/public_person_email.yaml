@@ -36,3 +36,7 @@ update_permissions:
         - is_main
       filter: {}
       check: null
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}
