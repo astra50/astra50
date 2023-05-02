@@ -4,7 +4,7 @@ import {PersonReferenceField, PersonReferenceInput} from '../person/PersonRefere
 
 const filters = [
     <TextInput
-        source="number,person#lastname@_ilike,person#firstname@_ilike,person#middlename@_ilike,person#phone@_ilike,lands#land#number@_ilike"
+        source="number,person#lastname@_ilike,person#firstname@_ilike,person#middlename@_ilike,person#phones#phone@_ilike,person#emails#email@_ilike,lands#land#number@_ilike"
         label="Поиск" alwaysOn/>,
     <PersonReferenceInput source="person_id"/>,
 ]
