@@ -98,7 +98,7 @@ const AccountShow = () => {
                     <MoneyField source="balance" label="Баланс"/>
                     <DateField
                         source="end_at"
-                        label="Закрыт"
+                        label="Дата закрытия"
                     />
                 </SimpleShowLayout>
                 <WithRecord render={(record: Account) => {

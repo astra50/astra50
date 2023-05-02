@@ -20,7 +20,7 @@ const AccountEdit = () => {
                 <PersonReferenceInput validate={required()}/>
                 <DateInput
                     source="end_at"
-                    label="Закрыт"
+                    label="Дата закрытия"
                     helperText="Дата завершения действия лицевого счёта"
                 />
             </SimpleForm>
