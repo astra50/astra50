@@ -5,6 +5,7 @@ const MemberRateEdit = () => {
     return (
         <Edit
             title="Редактирование Ставки"
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <MoneyInput

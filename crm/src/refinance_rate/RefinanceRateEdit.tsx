@@ -11,6 +11,7 @@ const RefinanceRateEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <NumberInput source="rate" label="Ставка"/>

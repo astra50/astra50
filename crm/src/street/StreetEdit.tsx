@@ -11,6 +11,7 @@ const StreetEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <TextInput source="name"/>

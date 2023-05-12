@@ -12,6 +12,7 @@ const LandEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <StreetReferenceInput/>

@@ -13,6 +13,7 @@ const AccountPersonEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <AccountReferenceInput/>

@@ -7,7 +7,10 @@ import {TargetReferenceInput} from '../target/TargetReference'
 
 const TargetPaymentEdit = () => {
     return (
-        <Edit title="Редактирование Целевого взноса">
+        <Edit
+            title="Редактирование Целевого взноса"
+            mutationMode="pessimistic"
+        >
             <SimpleForm>
                 <TargetReferenceInput/>
                 <PersonReferenceInput label="Плательщик"/>

@@ -5,6 +5,7 @@ const TargetEdit = () => {
     return (
         <Edit
             title="Редактирование цели"
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <TextInput source="name" label="Цель"/>

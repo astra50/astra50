@@ -8,6 +8,7 @@ const PersonEmailEdit = () => {
         <Edit
             title="Электронный адрес"
             redirect="show"
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <PersonReferenceInput/>

@@ -13,6 +13,7 @@ const AccountEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <TextInput source="number" label="Номер"/>

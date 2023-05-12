@@ -7,6 +7,7 @@ const PersonEdit = () => {
         <Edit
             title={<PersonField/>}
             redirect="show"
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <TextInput source="lastname" label="Фамилия"/>

@@ -21,7 +21,11 @@ const MemberDiscountEdit = () => {
     }
 
     return (
-        <Edit title="Редактировать льготника" mutationOptions={{onSuccess}} mutationMode="pessimistic">
+        <Edit
+            title="Редактировать льготника"
+            mutationOptions={{onSuccess}}
+            mutationMode="pessimistic"
+        >
             <SimpleForm>
                 <MemberRateReferenceInput label="Ставка" fullWidth/>
 

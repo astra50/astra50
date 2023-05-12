@@ -6,6 +6,7 @@ const PersonPhoneEdit = () => {
     return (
         <Edit
             redirect="show"
+            mutationMode="pessimistic"
         >
             <SimpleForm>
                 <PersonReferenceInput/>
