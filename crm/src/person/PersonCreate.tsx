@@ -5,7 +5,7 @@ const PersonCreate = () => {
     return (
         <Create
             title="Создать садовода"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <TextInput source="lastname" label="Фамилия"/>

@@ -5,6 +5,7 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const PersonPhoneEdit = () => {
     return (
         <Edit
+            title="Редактировать телефон"
             redirect="show"
             mutationMode="pessimistic"
         >

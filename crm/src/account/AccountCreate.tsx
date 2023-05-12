@@ -6,7 +6,7 @@ const AccountCreate = () => {
     return (
         <Create
             title="Создать лицевой счёт"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <TextInput source="number" label="Номер" validate={required()}/>

@@ -9,6 +9,7 @@ const MemberPaymentEdit = () => {
     return (
         <Edit
             title="Членский Взнос"
+            redirect="show"
             mutationMode="pessimistic"
         >
             <SimpleForm>

@@ -13,6 +13,7 @@ const AccountEdit = () => {
     return (
         <Edit
             title={<Title/>}
+            redirect="show"
             mutationMode="pessimistic"
         >
             <SimpleForm>

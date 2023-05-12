@@ -6,7 +6,7 @@ const MemberRateCreate = () => {
     return (
         <Create
             title="Создать Ставку"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <MoneyInput

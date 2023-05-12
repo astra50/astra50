@@ -10,7 +10,7 @@ const TargetPaymentCreate = () => {
     return (
         <Create
             title="Создать целевой взнос"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <TargetReferenceInput required/>

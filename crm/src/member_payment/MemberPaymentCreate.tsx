@@ -9,7 +9,7 @@ const MemberPaymentCreate = () => {
     return (
         <Create
             title="Создать платёж"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <AccountReferenceInput required/>

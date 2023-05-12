@@ -6,7 +6,7 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const PersonEmailEdit = () => {
     return (
         <Edit
-            title="Электронный адрес"
+            title="Редактировать Электронный адрес"
             redirect="show"
             mutationMode="pessimistic"
         >

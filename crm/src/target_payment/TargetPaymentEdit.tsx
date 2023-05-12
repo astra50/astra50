@@ -10,6 +10,7 @@ const TargetPaymentEdit = () => {
     return (
         <Edit
             title="Редактирование Целевого взноса"
+            redirect="show"
             mutationMode="pessimistic"
         >
             <SimpleForm>
