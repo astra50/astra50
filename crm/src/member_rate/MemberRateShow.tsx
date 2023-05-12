@@ -1,7 +1,7 @@
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Button from '@mui/material/Button'
 import {
+    Button,
     Datagrid,
     DateField,
     EditButton,
@@ -33,14 +33,14 @@ const Actions = () => {
     return (
         <TopToolbar>
             <Button
+                label="Льготник"
                 component={Link}
                 to={{
                     pathname: `/${member_discount.name}/create`,
+                    state: {record: {rate_id: record!.id}},
                 }}
-                state={{record: {rate_id: record!.id}}}
-            >
-                <FontAwesomeIcon icon={faPlus}/>&nbsp;Льготник
-            </Button>
+                startIcon={<FontAwesomeIcon icon={faPlus}/>}
+            />
             <EditButton record={record}/>
         </TopToolbar>
     )

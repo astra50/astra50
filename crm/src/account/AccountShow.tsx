@@ -1,9 +1,9 @@
 import {faFileZipper, faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import {
+    Button,
     ChipField,
     Datagrid,
     DateField,
@@ -37,28 +37,32 @@ const Actions = () => {
     return (
         <TopToolbar>
             <Button
+                label="Участок"
                 component={Link}
-                to={{pathname: `/${account_land.name}/create`}}
-                state={{record: {account_id: record!.id}}}
-            >
-                <FontAwesomeIcon icon={faPlus}/>&nbsp;Участок
-            </Button>
+                to={{
+                    pathname: `/${account_land.name}/create`,
+                    state: {record: {account_id: record!.id}},
+                }}
+                startIcon={<FontAwesomeIcon icon={faPlus}/>}
+            />
             <Button
+                label="Житель"
                 component={Link}
                 to={{
                     pathname: `/${account_person.name}/create`,
+                    state: {record: {account_id: record!.id}},
                 }}
-                state={{record: {account_id: record!.id}}}
-            >
-                <FontAwesomeIcon icon={faPlus}/>&nbsp;Житель
-            </Button>
+                startIcon={<FontAwesomeIcon icon={faPlus}/>}
+            />
             <Button
+                label="Платёж"
                 component={Link}
-                to={{pathname: `/${member_payment.name}/create`}}
-                state={{record: {account_id: record!.id, person_id: record!.person_id}}}
-            >
-                <FontAwesomeIcon icon={faPlus}/>&nbsp;Платёж
-            </Button>
+                to={{
+                    pathname: `/${member_payment.name}/create`,
+                    state: {record: {account_id: record!.id, person_id: record!.person_id}},
+                }}
+                startIcon={<FontAwesomeIcon icon={faPlus}/>}
+            />
             <EditButton record={record}/>
         </TopToolbar>
     )
@@ -123,12 +127,16 @@ const DownloadCalculationButton = () => {
 
     return <>
         <Button
+            label="Судебные документы"
             component="a"
-            href={`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`}
-            target="_blank"
-        >
-            <FontAwesomeIcon icon={faFileZipper}/>&nbsp;Судебные документы
-        </Button>
+            onClick={function () {
+                window.open(
+                    `${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`,
+                    '_blank',
+                )
+            }}
+            startIcon={<FontAwesomeIcon icon={faFileZipper}/>}
+        />
     </>
 }
 

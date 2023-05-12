@@ -1,7 +1,15 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Button from '@mui/material/Button'
-import {BooleanField, EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useRecordContext} from 'react-admin'
+import {
+    BooleanField,
+    Button,
+    EditButton,
+    Show,
+    SimpleShowLayout,
+    TextField,
+    TopToolbar,
+    useRecordContext,
+} from 'react-admin'
 import {Link} from 'react-router-dom'
 import {MoneyField} from '../money'
 import target_payment from '../target_payment'
@@ -18,15 +26,14 @@ const Actions = () => {
     return (
         <TopToolbar>
             <Button
-                color="primary"
+                label="Платежи"
                 component={Link}
                 to={{
                     pathname: `/${target_payment.name}`,
                     search: `filter=${JSON.stringify({target_id: record!.id})}`,
                 }}
-            >
-                <FontAwesomeIcon icon={faRubleSign}/> Платежи
-            </Button>
+                startIcon={<FontAwesomeIcon icon={faRubleSign}/>}
+            />
             <EditButton record={record}/>
         </TopToolbar>
     )
