@@ -12,7 +12,7 @@ const MemberDiscountCreate = () => {
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as MemberDiscount
 
-                return `/${member_rate.name}/${record.rate_id}/show`
+                return `${member_rate.name}/${record.rate_id}/show`
             }}
         >
             <SimpleForm>

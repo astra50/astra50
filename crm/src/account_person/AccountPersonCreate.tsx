@@ -11,7 +11,7 @@ const AccountPersonCreate = () => {
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as AccountPerson
 
-                return `/${account.name}/${record.account_id}/show`
+                return `${account.name}/${record.account_id}/show`
             }}
         >
             <SimpleForm>
