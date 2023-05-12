@@ -22,6 +22,7 @@ const MemberPaymentShow = () => {
                 <BooleanField source="is_regular" label="Регулярные начисления?"/>
                 <BooleanField source="is_discount" label="Скидка?"/>
                 <TextField source="comment" label="Комментарий"/>
+
                 <Divider/>
                 <DateField source="created_at" label="Создан" showTime={true}/>
                 <DateField source="updated_at" label="Обновлён" showTime={true}/>

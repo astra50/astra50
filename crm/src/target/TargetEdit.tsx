@@ -1,25 +1,11 @@
-import {
-    AutocompleteArrayInput,
-    BooleanInput,
-    Edit,
-    FieldProps,
-    ReferenceArrayInput,
-    SimpleForm,
-    TextInput,
-} from 'react-admin'
+import {AutocompleteArrayInput, BooleanInput, Edit, ReferenceArrayInput, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
-import {Target} from '../types'
-
-const Title = (props: FieldProps<Target>) => {
-    const {record} = props
-
-    return <span>Цель {record ? `"${record.name}"` : ''}</span>
-}
 
 const TargetEdit = () => {
     return (
         <Edit
-            title={<Title/>}>
+            title="Редактирование цели"
+        >
             <SimpleForm>
                 <TextInput source="name" label="Цель"/>
                 <BooleanInput source="is_public" label="Публичная?"/>

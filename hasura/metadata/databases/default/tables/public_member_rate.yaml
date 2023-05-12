@@ -30,6 +30,7 @@ select_permissions:
         - id
         - since
         - until
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:

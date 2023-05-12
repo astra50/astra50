@@ -19,16 +19,15 @@ const TargetPaymentList = () => {
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
-
         >
-            <Datagrid rowClick="edit">
-                <TargetReferenceField/>
+            <Datagrid rowClick="show">
+                <TargetReferenceField link={false}/>
                 <WithRecord label="Плательщик / Контрагент" render={record => {
-                    if (record.person_id) return <PersonReferenceField/>
+                    if (record.person_id) return <PersonReferenceField link={false}/>
 
-                    return <ContractorReferenceField/>
+                    return <ContractorReferenceField link={false}/>
                 }}/>
-                <LandReferenceField/>
+                <LandReferenceField link={false}/>
                 <MoneyField
                     source="amount"
                     label="Сумма"

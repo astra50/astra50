@@ -4,7 +4,7 @@ import {MoneyInput} from '../money'
 const TargetCreate = () => {
     return (
         <Create
-            title="Создать Ставку"
+            title="Создать Цель"
             redirect="show"
         >
             <SimpleForm>

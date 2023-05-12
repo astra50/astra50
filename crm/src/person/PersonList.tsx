@@ -1,4 +1,4 @@
-import {Datagrid, List, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, List, TextField, TextInput} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
@@ -10,7 +10,7 @@ const PersonList = () =>
         title={'Садоводы'}
         empty={false}
         filters={filters}
-        sort={{field: 'lastname', order: 'asc'}}
+        sort={{field: 'updated_at', order: 'desc'}}
     >
         <Datagrid
             rowClick="show"
@@ -19,6 +19,8 @@ const PersonList = () =>
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <MoneyField source="balance" label="Баланс"/>
+
+            <DateField source="updated_at" label="Обновлён" showTime={true}/>
         </Datagrid>
     </List>
 

@@ -1,5 +1,6 @@
-import {DateInput, Edit, ReferenceInput, required, SelectInput, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
+import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -14,15 +15,7 @@ const MemberPaymentEdit = () => {
                     label="Сумма"
                     validate={required()}
                 />
-                <ReferenceInput
-                    source="land_id"
-                    reference="land"
-                    label="Участок"
-                    perPage={500}
-                    sort={{field: 'number', order: 'ASC'}}
-                >
-                    <SelectInput optionText="number"/>
-                </ReferenceInput>
+                <LandReferenceInput/>
                 <DateInput
                     source="paid_at"
                     label="Дата платежа"

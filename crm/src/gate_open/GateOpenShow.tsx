@@ -1,3 +1,4 @@
+import {Divider} from '@mui/material'
 import {DateField, Show, SimpleShowLayout, TextField} from 'react-admin'
 import {CommentField} from '../comment'
 import {GateReferenceField} from '../gate/GateReference'
@@ -16,6 +17,8 @@ const GateOpenShow = () => {
                 <TextField source="source" label="Источник"/>
                 <CommentField/>
                 <PersonReferenceField/>
+
+                <Divider/>
                 <DateField source="created_at" label="Создан" showTime={true}/>
                 <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>

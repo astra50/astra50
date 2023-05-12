@@ -1,8 +1,9 @@
 import {faRubleSign} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {Divider} from '@mui/material'
 import {
     BooleanField,
-    Button,
+    Button, DateField,
     EditButton,
     Show,
     SimpleShowLayout,
@@ -14,7 +15,6 @@ import {Link} from 'react-router-dom'
 import {MoneyField} from '../money'
 import target_payment from '../target_payment'
 import {Target} from '../types'
-import {TargetField} from './TargetField'
 
 const Actions = () => {
     const record = useRecordContext<Target>()
@@ -42,7 +42,7 @@ const Actions = () => {
 const TargetShow = () => {
     return (
         <Show
-            title={<TargetField/>}
+            title="Цель"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
@@ -55,6 +55,10 @@ const TargetShow = () => {
                 <MoneyField source="current_amount" label="Баланс"/>
                 <MoneyField source="increment_amount" label="Всего поступлений"/>
                 <MoneyField source="decrement_amount" label="Всего списаний"/>
+
+                <Divider/>
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>
         </Show>
     )

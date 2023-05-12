@@ -1,17 +1,10 @@
-import {DateInput, Edit, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {MoneyInput} from '../money'
-import {MemberRate} from '../types'
-
-const Title = (props: FieldProps<MemberRate>) => {
-    const {record} = props
-
-    return <span>Ставка с {record ? `${record.since} по ${record.until}` : ''}</span>
-}
 
 const MemberRateEdit = () => {
     return (
         <Edit
-            title={<Title/>}
+            title="Редактирование Ставки"
         >
             <SimpleForm>
                 <MoneyInput

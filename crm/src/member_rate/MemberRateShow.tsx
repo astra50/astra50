@@ -1,5 +1,6 @@
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {Divider} from '@mui/material'
 import {
     Button,
     Datagrid,
@@ -22,7 +23,6 @@ import member_discount from '../member_discount'
 import {MoneyField} from '../money'
 import {PersonReferenceField} from '../person/PersonReference'
 import {MemberDiscount, MemberRate} from '../types'
-import {MemberRateField} from './MemberRateField'
 
 const Actions = () => {
     const record = useRecordContext<MemberRate>()
@@ -47,10 +47,9 @@ const Actions = () => {
 }
 
 const MemberRateShow = () => {
-
     return (
         <Show
-            title={<MemberRateField/>}
+            title="Ставка"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
@@ -65,6 +64,7 @@ const MemberRateShow = () => {
                     fullWidth={true}
                 />
 
+                <Divider/>
                 <ReferenceManyField
                     label="Льготники"
                     reference="member_discount"
@@ -87,6 +87,11 @@ const MemberRateShow = () => {
                         <MemberDiscountEditButton/>
                     </Datagrid>
                 </ReferenceManyField>
+
+
+                <Divider/>
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>
         </Show>
     )

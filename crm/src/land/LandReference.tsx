@@ -8,6 +8,8 @@ import {
 } from 'react-admin'
 import land from './index'
 
+const defaultLabel = 'Участок'
+
 export const LandReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
         source="land_id"
@@ -17,6 +19,9 @@ export const LandReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source
         <TextField source="number" label={props.label}/>
     </ReferenceField>
 )
+LandReferenceField.defaultProps = {
+    label: defaultLabel,
+}
 
 export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
@@ -26,13 +31,10 @@ export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source
         perPage={500}
         {...props}
     >
-        <SelectInput optionText="number" label={props.label}/>
+        <SelectInput optionText="number" label={props.label ?? defaultLabel}/>
     </ReferenceInput>
 )
-
-LandReferenceField.defaultProps = {
-    label: 'Участок',
-}
 LandReferenceInput.defaultProps = {
-    label: 'Участок',
+    label: defaultLabel,
 }
+

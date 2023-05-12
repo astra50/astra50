@@ -168,6 +168,10 @@ const PersonShow = () => {
                     label="Код подразделения"
                     fullWidth
                 />
+
+                <Divider/>
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>
         </Show>
     )

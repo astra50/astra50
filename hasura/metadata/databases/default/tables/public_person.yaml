@@ -60,6 +60,7 @@ select_permissions:
         - passport_serial
         - registration_address
         - telegram_id
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:
