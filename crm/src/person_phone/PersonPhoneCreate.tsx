@@ -1,5 +1,6 @@
 import {BooleanInput, Create, Identifier, RaRecord, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../components/comment'
+import person from '../person'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {PersonPhone} from '../types'
 
@@ -10,7 +11,7 @@ const PersonPhoneCreate = () => {
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as PersonPhone
 
-                return `person/${record.person_id}/show`
+                return `${person.name}/${record.person_id}/show`
             }}
         >
             <SimpleForm>
