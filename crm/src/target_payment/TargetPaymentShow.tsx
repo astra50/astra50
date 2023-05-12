@@ -1,5 +1,6 @@
 import {Divider} from '@mui/material'
 import {DateField, Show, SimpleShowLayout, TextField, WithRecord} from 'react-admin'
+import {CommentField} from '../components/comment'
 import {ContractorReferenceField} from '../contractor/ContractorReference'
 import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
@@ -25,7 +26,7 @@ const TargetPaymentShow = () => {
                     label="Сумма"
                 />
                 <DateField source="paid_at" label="Дата"/>
-                <TextField source="comment" label="Комментарий"/>
+                <CommentField/>
 
                 <Divider/>
                 <DateField source="created_at" label="Создан" showTime={true}/>

@@ -1,5 +1,6 @@
-import {Edit, SimpleForm, TextInput, useNotify, useRedirect, useRefresh} from 'react-admin'
+import {Edit, SimpleForm, useNotify, useRedirect, useRefresh} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
+import {CommentInput} from '../components/comment'
 import member_rate from '../member_rate'
 import {MemberRateReferenceInput} from '../member_rate/MemberRateReference'
 import {MemberDiscount} from '../types'
@@ -28,14 +29,8 @@ const MemberDiscountEdit = () => {
         >
             <SimpleForm>
                 <MemberRateReferenceInput label="Ставка" fullWidth required/>
-
                 <AccountReferenceInput required/>
-
-                <TextInput
-                    source="comment"
-                    label="Комментарий"
-                    fullWidth
-                />
+                <CommentInput/>
             </SimpleForm>
         </Edit>
     )

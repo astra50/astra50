@@ -1,5 +1,5 @@
 import {Create, required, SimpleForm, TextInput} from 'react-admin'
-import {CommentInput} from '../comment'
+import {CommentInput} from '../components/comment'
 
 const ContractorCreate = () => {
     return (

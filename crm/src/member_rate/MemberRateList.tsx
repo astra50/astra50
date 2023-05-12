@@ -1,4 +1,5 @@
-import {Datagrid, DateField, List, NumberField, TextField, TextInput} from 'react-admin'
+import {Datagrid, DateField, List, NumberField, TextInput} from 'react-admin'
+import {CommentField} from '../components/comment'
 import {MoneyField} from '../money'
 
 const filters = [
@@ -17,7 +18,7 @@ const MemberRateList = () =>
         >
             <MoneyField source="amount" label="Ставка"/>
             <NumberField source="discount" label="Скидка"/>
-            <TextField source="comment" label="Комментарий"/>
+            <CommentField/>
             <DateField source="since" label="С даты"/>
             <DateField source="until" label="По дату"/>
         </Datagrid>

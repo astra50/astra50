@@ -1,5 +1,5 @@
 import {DateInput, Edit, required, SimpleForm} from 'react-admin'
-import {CommentInput} from '../comment'
+import {CommentInput} from '../components/comment'
 import {ContractorReferenceInput} from '../contractor/ContractorReference'
 import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'

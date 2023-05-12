@@ -1,4 +1,5 @@
 import {Create, DateInput, SimpleForm, TextInput} from 'react-admin'
+import {CommentInput} from '../components/comment'
 
 const PersonCreate = () => {
     return (
@@ -11,7 +12,7 @@ const PersonCreate = () => {
                 <TextInput source="firstname" label="Имя"/>
                 <TextInput source="middlename" label="Отчество"/>
                 <TextInput source="telegram_id" label="Телеграм ID"/>
-                <TextInput source="comment" label="Комментарий"/>
+                <CommentInput/>
                 <DateInput source="entered_at" label="Дата вступления"/>
                 <TextInput source="entered_document" label="Документ вступления"/>
                 <TextInput

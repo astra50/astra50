@@ -1,5 +1,6 @@
-import {BooleanInput, Datagrid, DateField, DateInput, List, NumberField, TextField, TextInput} from 'react-admin'
+import {BooleanInput, Datagrid, DateField, DateInput, List, NumberField, TextInput} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
+import {CommentField} from '../components/comment'
 import {LandReferenceInput} from '../land/LandReference'
 import {MemberRateReferenceInput} from '../member_rate/MemberRateReference'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
@@ -39,7 +40,7 @@ const MemberPaymentList = () => {
                     options={{style: 'currency', currency: 'RUB'}}
                 />
                 <DateField source="paid_at" label="Дата"/>
-                <TextField source="comment" label="Комментарий"/>
+                <CommentField/>
             </Datagrid>
         </List>
     )

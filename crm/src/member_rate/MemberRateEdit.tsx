@@ -1,4 +1,5 @@
-import {DateInput, Edit, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, NumberInput, required, SimpleForm} from 'react-admin'
+import {CommentInput} from '../components/comment'
 import {MoneyInput} from '../money'
 
 const MemberRateEdit = () => {
@@ -33,11 +34,7 @@ const MemberRateEdit = () => {
                     helperText="Дата завершения действия ставки НЕ включительно"
                     validate={required()}
                 />
-                <TextInput
-                    source="comment"
-                    label="Комментарий"
-                    fullWidth={true}
-                />
+                <CommentInput/>
             </SimpleForm>
         </Edit>
     )

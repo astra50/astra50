@@ -1,4 +1,5 @@
-import {Datagrid, DateField, DateInput, List, TextField, TextInput, WithRecord} from 'react-admin'
+import {Datagrid, DateField, DateInput, List, TextInput, WithRecord} from 'react-admin'
+import {CommentField} from '../components/comment'
 import {ContractorReferenceField} from '../contractor/ContractorReference'
 import {LandReferenceField} from '../land/LandReference'
 import {MoneyField} from '../money'
@@ -33,7 +34,7 @@ const TargetPaymentList = () => {
                     label="Сумма"
                 />
                 <DateField source="paid_at" label="Дата"/>
-                <TextField source="comment" label="Комментарий"/>
+                <CommentField/>
             </Datagrid>
         </List>
     )

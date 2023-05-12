@@ -1,5 +1,5 @@
 import {Edit, FieldProps, required, SimpleForm, TextInput} from 'react-admin'
-import {CommentInput} from '../comment'
+import {CommentInput} from '../components/comment'
 import {Contractor} from '../types'
 
 const Title = (props: FieldProps<Contractor>) => {

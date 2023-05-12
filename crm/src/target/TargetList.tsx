@@ -1,4 +1,5 @@
 import {BooleanField, Datagrid, List, TextField, TextInput} from 'react-admin'
+import {CommentField} from '../components/comment'
 import {MoneyField} from '../money'
 
 const filters = [
@@ -17,7 +18,7 @@ const TargetList = () =>
         >
             <TextField source="name" label="Цель"/>
             <BooleanField source="is_public" label="Опубликовано"/>
-            <TextField source="comment" label="Комментарий"/>
+            <CommentField/>
             <MoneyField source="total_amount" label="Целевая сумма"/>
             <MoneyField source="current_amount" label="Собрано"/>
         </Datagrid>

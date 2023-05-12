@@ -3,7 +3,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Divider} from '@mui/material'
 import {
     BooleanField,
-    Button, DateField,
+    Button,
+    DateField,
     EditButton,
     Show,
     SimpleShowLayout,
@@ -12,6 +13,7 @@ import {
     useRecordContext,
 } from 'react-admin'
 import {Link} from 'react-router-dom'
+import {CommentField} from '../components/comment'
 import {MoneyField} from '../money'
 import target_payment from '../target_payment'
 import {Target} from '../types'
@@ -48,7 +50,7 @@ const TargetShow = () => {
             <SimpleShowLayout>
                 <TextField source="name" label="Цель"/>
                 <BooleanField source="is_public" label="Опубликовано"/>
-                <TextField source="comment" label="Комментарий"/>
+                <CommentField/>
                 <MoneyField source="initial_amount" label="Начальная сумма"/>
                 <MoneyField source="total_amount" label="Целевая сумма"/>
                 <MoneyField source="payer_amount" label="Сумма с человека"/>

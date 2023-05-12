@@ -1,6 +1,6 @@
 import {Divider} from '@mui/material'
 import {DateField, Show, SimpleShowLayout, TextField} from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {GateReferenceField} from '../gate/GateReference'
 import {GateOpenReasonReferenceField} from '../gate_open_reason/GateOpenReasonReference'
 import {PersonReferenceField} from '../person/PersonReference'

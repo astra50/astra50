@@ -21,7 +21,7 @@ import {
 import {Link} from 'react-router-dom'
 import account_land from '../account_land'
 import account_person from '../account_person'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import member_payment from '../member_payment'
 import {MoneyField} from '../money'
 import {PersonReferenceField} from '../person/PersonReference'

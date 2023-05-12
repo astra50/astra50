@@ -1,6 +1,6 @@
 import {Email} from '@mui/icons-material'
 import {BooleanField, Button, EditButton, Show, SimpleShowLayout, TopToolbar, useRecordContext} from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {EmailField} from '../components/email'
 import {PersonReferenceField} from '../person/PersonReference'
 

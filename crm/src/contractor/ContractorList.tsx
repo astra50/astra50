@@ -1,5 +1,5 @@
 import {Datagrid, List, TextField, TextInput} from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 
 const filters = [
     <TextInput source="name" label="Поиск" alwaysOn/>,

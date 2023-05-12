@@ -11,7 +11,6 @@ import {
     ReferenceManyField,
     Show,
     SimpleShowLayout,
-    TextField,
     TopToolbar,
     useRecordContext,
 } from 'react-admin'
@@ -19,6 +18,7 @@ import {
 import {Link} from 'react-router-dom'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
+import {CommentField} from '../components/comment'
 import member_discount from '../member_discount'
 import {MoneyField} from '../money'
 import {PersonReferenceField} from '../person/PersonReference'
@@ -58,11 +58,7 @@ const MemberRateShow = () => {
                 <DateField source="since" label="С даты"/>
                 <DateField source="until" label="По дату"/>
 
-                <TextField
-                    source="comment"
-                    label="Комментарий"
-                    fullWidth={true}
-                />
+                <CommentField/>
 
                 <Divider/>
                 <ReferenceManyField
@@ -80,10 +76,7 @@ const MemberRateShow = () => {
                         >
                             <PersonReferenceField source="person_id"/>
                         </ReferenceField>
-                        <TextField
-                            source="comment"
-                            label="Комментарий"
-                        />
+                        <CommentField/>
                         <MemberDiscountEditButton/>
                     </Datagrid>
                 </ReferenceManyField>

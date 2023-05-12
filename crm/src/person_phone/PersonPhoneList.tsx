@@ -1,5 +1,5 @@
 import {BooleanField, Datagrid, List, TextField, TextInput} from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {PersonReferenceField} from '../person/PersonReference'
 
 const filters = [

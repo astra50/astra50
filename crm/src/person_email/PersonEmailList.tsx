@@ -1,5 +1,5 @@
 import {BooleanField, Datagrid, List, TextInput} from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {EmailField} from '../components/email'
 import {PersonReferenceField} from '../person/PersonReference'
 

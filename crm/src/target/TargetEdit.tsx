@@ -7,7 +7,7 @@ import {
     SimpleForm,
     TextInput,
 } from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {MoneyInput} from '../money'
 
 const TargetEdit = () => {

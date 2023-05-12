@@ -9,7 +9,7 @@ import {
     TopToolbar,
     useRecordContext,
 } from 'react-admin'
-import {CommentField} from '../comment'
+import {CommentField} from '../components/comment'
 import {PersonReferenceField} from '../person/PersonReference'
 
 const PersonPhoneShowActions = () => {

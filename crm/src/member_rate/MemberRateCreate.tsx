@@ -1,4 +1,5 @@
-import {Create, DateInput, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Create, DateInput, NumberInput, required, SimpleForm} from 'react-admin'
+import {CommentInput} from '../components/comment'
 import {MoneyInput} from '../money'
 
 const MemberRateCreate = () => {
@@ -34,11 +35,7 @@ const MemberRateCreate = () => {
                     validate={required()}
                 />
 
-                <TextInput
-                    source="comment"
-                    label="Комментарий"
-                    fullWidth={true}
-                />
+                <CommentInput/>
             </SimpleForm>
         </Create>
     )

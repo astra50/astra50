@@ -22,6 +22,7 @@ import {
 import {Link} from 'react-router-dom'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
+import {CommentField} from '../components/comment'
 import {MoneyField} from '../money'
 import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
@@ -59,7 +60,7 @@ const PersonShow = () => {
             <SimpleShowLayout>
                 <FunctionField label="Фамилия Имя Отчество"
                                render={(record: Person) => `${record.full_name}`}/>
-                <TextField source="comment" label="Комментарий"/>
+                <CommentField/>
 
                 <Divider>Контакты</Divider>
                 <ReferenceManyField

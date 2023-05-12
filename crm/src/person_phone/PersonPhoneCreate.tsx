@@ -1,5 +1,5 @@
 import {BooleanInput, Create, Identifier, RaRecord, required, SimpleForm, TextInput} from 'react-admin'
-import {CommentInput} from '../comment'
+import {CommentInput} from '../components/comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {PersonPhone} from '../types'
 

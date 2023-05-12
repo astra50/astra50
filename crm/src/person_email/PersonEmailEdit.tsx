@@ -1,5 +1,5 @@
 import {BooleanInput, Edit, SimpleForm} from 'react-admin'
-import {CommentInput} from '../comment'
+import {CommentInput} from '../components/comment'
 import {EmailInput} from '../components/email'
 import {PersonReferenceInput} from '../person/PersonReference'
 
