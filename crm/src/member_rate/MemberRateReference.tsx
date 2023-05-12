@@ -4,6 +4,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     TextField,
 } from 'react-admin'
 import member_rate from './index'
@@ -20,7 +21,11 @@ export const MemberRateReferenceField = (props: Omit<Omit<ReferenceFieldProps, '
     </ReferenceField>
 )
 
-export const MemberRateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface MemberRateReferenceInputProps {
+    required?: boolean,
+}
+
+export const MemberRateReferenceInput = (props: MemberRateReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="rate_id"
         reference={member_rate.name}
@@ -30,6 +35,7 @@ export const MemberRateReferenceInput = (props: Omit<Omit<ReferenceInputProps, '
             optionText="amount"
             label={props.label ?? defaultLabel}
             filterToQuery={(searchText: any) => ({'amount': searchText})}
+            validate={props.required ? required() : []}
         />
     </ReferenceInput>
 )

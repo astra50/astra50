@@ -1,4 +1,4 @@
-import {DateInput, Edit, FieldProps, NumberInput, SimpleForm} from 'react-admin'
+import {DateInput, Edit, FieldProps, NumberInput, required, SimpleForm} from 'react-admin'
 import {RefinanceRate} from '../types'
 
 const Title = (props: FieldProps<RefinanceRate>) => {
@@ -14,8 +14,8 @@ const RefinanceRateEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <NumberInput source="rate" label="Ставка"/>
-                <DateInput source="since" label="Дата"/>
+                <NumberInput source="rate" label="Ставка" validate={required()}/>
+                <DateInput source="since" label="Дата" validate={required()}/>
             </SimpleForm>
         </Edit>
     )

@@ -1,4 +1,4 @@
-import {Edit, FieldProps, NumberInput, SimpleForm, TextInput} from 'react-admin'
+import {Edit, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {StreetReferenceInput} from '../street/StreetReference'
 import {Land} from '../types'
 
@@ -15,9 +15,9 @@ const LandEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <StreetReferenceInput/>
+                <StreetReferenceInput required/>
                 <NumberInput source="number" label="Номер"/>
-                <NumberInput source="square" label="Площадь"/>
+                <NumberInput source="square" label="Площадь" validate={required()}/>
                 <TextInput source="cadastral_number" label="Кадастровый номер"/>
                 <TextInput source="coordinates" label="Координаты"/>
                 <TextInput source="polygon" label="Геометрия" fullWidth/>

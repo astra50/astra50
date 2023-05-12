@@ -11,7 +11,7 @@ const MemberPaymentEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <AccountReferenceInput/>
+                <AccountReferenceInput required/>
                 <PersonReferenceInput label="Плательщик" fullWidth/>
                 <MoneyInput
                     source="amount"

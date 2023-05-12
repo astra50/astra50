@@ -27,9 +27,9 @@ const MemberDiscountEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <MemberRateReferenceInput label="Ставка" fullWidth/>
+                <MemberRateReferenceInput label="Ставка" fullWidth required/>
 
-                <AccountReferenceInput/>
+                <AccountReferenceInput required/>
 
                 <TextInput
                     source="comment"

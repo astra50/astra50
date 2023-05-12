@@ -11,8 +11,8 @@ const PersonEmailEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <PersonReferenceInput/>
-                <EmailInput/>
+                <PersonReferenceInput required/>
+                <EmailInput required/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>
             </SimpleForm>

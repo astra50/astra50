@@ -1,4 +1,4 @@
-import {Create, DateInput, NumberInput, SimpleForm} from 'react-admin'
+import {Create, DateInput, NumberInput, required, SimpleForm} from 'react-admin'
 
 const RefinanceRateCreate = () => {
     return (
@@ -7,8 +7,8 @@ const RefinanceRateCreate = () => {
             redirect="list"
         >
             <SimpleForm>
-                <NumberInput source="rate" label="Ставка"/>
-                <DateInput source="since" label="Дата"/>
+                <NumberInput source="rate" label="Ставка" validate={required()}/>
+                <DateInput source="since" label="Дата" validate={required()}/>
             </SimpleForm>
         </Create>
     )

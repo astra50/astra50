@@ -15,8 +15,8 @@ const AccountLandCreate = () => {
             }}
         >
             <SimpleForm>
-                <AccountReferenceInput/>
-                <LandReferenceInput/>
+                <AccountReferenceInput required/>
+                <LandReferenceInput required/>
             </SimpleForm>
         </Create>
     )

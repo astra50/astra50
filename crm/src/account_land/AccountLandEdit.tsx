@@ -16,8 +16,8 @@ const AccountLandEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <AccountReferenceInput/>
-                <LandReferenceInput/>
+                <AccountReferenceInput required/>
+                <LandReferenceInput required/>
             </SimpleForm>
         </Edit>
     )

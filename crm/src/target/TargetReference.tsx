@@ -4,6 +4,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     TextField,
 } from 'react-admin'
 import target from './index'
@@ -28,7 +29,11 @@ TargetReferenceField.defaultProps = {
     label: defaultLabel,
 }
 
-export const TargetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface TargetReferenceInputProps {
+    required?: boolean,
+}
+
+export const TargetReferenceInput = (props: TargetReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="target_id"
         reference={target.name}
@@ -38,6 +43,7 @@ export const TargetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
             optionText="name"
             label={props.label ?? defaultLabel}
             filterToQuery={(searchText: any) => ({'name,comment': searchText})}
+            validate={props.required ? required() : []}
             fullWidth
         />
     </ReferenceInput>

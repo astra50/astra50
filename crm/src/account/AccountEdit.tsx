@@ -16,14 +16,14 @@ const AccountEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <TextInput source="number" label="Номер"/>
-                <CommentInput/>
-                <PersonReferenceInput validate={required()}/>
+                <TextInput source="number" label="Номер" validate={required()}/>
+                <PersonReferenceInput required/>
                 <DateInput
                     source="end_at"
                     label="Дата закрытия"
                     helperText="Дата завершения действия лицевого счёта"
                 />
+                <CommentInput/>
             </SimpleForm>
         </Edit>
     )

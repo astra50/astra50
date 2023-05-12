@@ -1,4 +1,4 @@
-import {BooleanInput, Edit, SimpleForm, TextInput} from 'react-admin'
+import {BooleanInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -9,8 +9,8 @@ const PersonPhoneEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <PersonReferenceInput/>
-                <TextInput source="phone" label="Телефон"/>
+                <PersonReferenceInput required/>
+                <TextInput source="phone" label="Телефон" validate={required()}/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>
             </SimpleForm>

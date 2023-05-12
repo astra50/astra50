@@ -3,6 +3,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     SelectInput,
     TextField,
 } from 'react-admin'
@@ -18,13 +19,21 @@ export const StreetReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'sour
     </ReferenceField>
 )
 
-export const StreetReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface StreetReferenceInputProps {
+    required?: boolean,
+}
+
+export const StreetReferenceInput = (props: StreetReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="street_id"
         reference={street.name}
         {...props}
     >
-        <SelectInput optionText="name" label={props.label}/>
+        <SelectInput
+            optionText="name"
+            label={props.label}
+            validate={props.required ? required() : []}
+        />
     </ReferenceInput>
 )
 

@@ -1,4 +1,4 @@
-import {Create, SimpleForm, TextInput} from 'react-admin'
+import {Create, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 
 const ContractorCreate = () => {
@@ -8,7 +8,7 @@ const ContractorCreate = () => {
             redirect="list"
         >
             <SimpleForm>
-                <TextInput source="name" label="Название"/>
+                <TextInput source="name" label="Название" validate={required()}/>
                 <CommentInput/>
             </SimpleForm>
         </Create>

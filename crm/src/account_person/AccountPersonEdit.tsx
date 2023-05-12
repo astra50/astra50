@@ -16,8 +16,8 @@ const AccountPersonEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <AccountReferenceInput/>
-                <PersonReferenceInput/>
+                <AccountReferenceInput required/>
+                <PersonReferenceInput required/>
             </SimpleForm>
         </Edit>
     )

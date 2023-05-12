@@ -1,4 +1,5 @@
-import {DateInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
+import {DateInput, Edit, required, SimpleForm} from 'react-admin'
+import {CommentInput} from '../comment'
 import {ContractorReferenceInput} from '../contractor/ContractorReference'
 import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../money'
@@ -12,7 +13,7 @@ const TargetPaymentEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <TargetReferenceInput/>
+                <TargetReferenceInput required/>
                 <PersonReferenceInput label="Плательщик"/>
                 <ContractorReferenceInput/>
                 <LandReferenceInput/>
@@ -27,11 +28,7 @@ const TargetPaymentEdit = () => {
                     validate={required()}
                     defaultValue={new Date()}
                 />
-                <TextInput
-                    source="comment"
-                    label="Комментарий"
-                    fullWidth
-                />
+                <CommentInput/>
             </SimpleForm>
         </Edit>
     )

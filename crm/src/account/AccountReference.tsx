@@ -4,6 +4,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     TextField,
 } from 'react-admin'
 import account from './index'
@@ -19,7 +20,11 @@ export const AccountReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'sou
     </ReferenceField>
 )
 
-export const AccountReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface AccountReferenceInputProps {
+    required?: boolean,
+}
+
+export const AccountReferenceInput = (props: AccountReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="account_id"
         reference={account.name}
@@ -30,6 +35,7 @@ export const AccountReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sou
             optionText="number"
             label={props.label}
             filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
+            validate={props.required ? required() : []}
         />
     </ReferenceInput>
 )

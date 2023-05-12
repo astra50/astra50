@@ -15,8 +15,8 @@ const AccountPersonCreate = () => {
             }}
         >
             <SimpleForm>
-                <AccountReferenceInput/>
-                <PersonReferenceInput/>
+                <AccountReferenceInput required/>
+                <PersonReferenceInput required/>
             </SimpleForm>
         </Create>
     )

@@ -1,4 +1,4 @@
-import {Edit, FieldProps, SimpleForm, TextInput} from 'react-admin'
+import {Edit, FieldProps, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import {Contractor} from '../types'
 
@@ -15,7 +15,7 @@ const ContractorEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <TextInput source="name"/>
+                <TextInput source="name" label="Название" validate={required()}/>
                 <CommentInput/>
             </SimpleForm>
         </Edit>

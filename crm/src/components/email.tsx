@@ -1,11 +1,16 @@
-import {TextField, TextInput, TextInputProps} from 'react-admin'
+import {required, TextField, TextInput, TextInputProps} from 'react-admin'
 
 interface InputProps {
     source?: string,
+    required?: boolean,
 }
 
 export const EmailInput = (props: InputProps & Omit<Omit<TextInputProps, 'source'>, 'reference' | 'children'>) => (
-    <TextInput source="email" label={props.label ?? 'Электронный адрес'}/>
+    <TextInput
+        source="email"
+        label={props.label ?? 'Электронный адрес'}
+        validate={props.required ? required() : []}
+    />
 )
 
 interface FieldProps {

@@ -3,6 +3,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     SelectInput,
     TextField,
 } from 'react-admin'
@@ -23,7 +24,11 @@ LandReferenceField.defaultProps = {
     label: defaultLabel,
 }
 
-export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface LandReferenceInputProps {
+    required?: boolean,
+}
+
+export const LandReferenceInput = (props: LandReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="land_id"
         reference={land.name}
@@ -31,7 +36,11 @@ export const LandReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source
         perPage={500}
         {...props}
     >
-        <SelectInput optionText="number" label={props.label ?? defaultLabel}/>
+        <SelectInput
+            optionText="number"
+            label={props.label ?? defaultLabel}
+            validate={props.required ? required() : []}
+        />
     </ReferenceInput>
 )
 LandReferenceInput.defaultProps = {

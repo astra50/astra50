@@ -4,6 +4,7 @@ import {
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
+    required,
     TextField,
 } from 'react-admin'
 import {Person} from '../types'
@@ -20,7 +21,11 @@ export const PersonReferenceField = (props: PersonFieldProps & Omit<Omit<Referen
     </ReferenceField>
 )
 
-export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+interface PersonReferenceInputProps {
+    required?: boolean,
+}
+
+export const PersonReferenceInput = (props: PersonReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         source="person_id"
         reference={person.name}
@@ -32,6 +37,7 @@ export const PersonReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'sour
             matchSuggestion={() => true}
             label={props.label}
             filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id': searchText})}
+            validate={props.required ? required() : []}
             fullWidth
         />
     </ReferenceInput>

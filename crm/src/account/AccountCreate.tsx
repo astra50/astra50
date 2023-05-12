@@ -9,14 +9,14 @@ const AccountCreate = () => {
             redirect="list"
         >
             <SimpleForm>
-                <TextInput source="number" label="Номер"/>
-                <CommentInput/>
-                <PersonReferenceInput validate={required()}/>
+                <TextInput source="number" label="Номер" validate={required()}/>
+                <PersonReferenceInput required={true}/>
                 <DateInput
                     source="end_at"
                     label="Дата закрытия"
                     helperText="Дата завершения действия лицевого счёта"
                 />
+                <CommentInput/>
             </SimpleForm>
         </Create>
     )

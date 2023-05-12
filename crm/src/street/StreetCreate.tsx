@@ -1,4 +1,4 @@
-import {Create, SimpleForm, TextInput} from 'react-admin'
+import {Create, required, SimpleForm, TextInput} from 'react-admin'
 
 const StreetCreate = () => {
     return (
@@ -7,7 +7,7 @@ const StreetCreate = () => {
             redirect="list"
         >
             <SimpleForm>
-                <TextInput source="name" label="Название"/>
+                <TextInput source="name" label="Название" validate={required()}/>
             </SimpleForm>
         </Create>
     )

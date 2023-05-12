@@ -1,4 +1,4 @@
-import {Edit, FieldProps, SimpleForm, TextInput} from 'react-admin'
+import {Edit, FieldProps, required, SimpleForm, TextInput} from 'react-admin'
 import {Street} from '../types'
 
 const Title = (props: FieldProps<Street>) => {
@@ -14,7 +14,7 @@ const StreetEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <TextInput source="name"/>
+                <TextInput source="name" validate={required()}/>
             </SimpleForm>
         </Edit>
     )
