@@ -34,6 +34,7 @@ update_permissions:
         - comment
         - email
         - is_main
+        - person_id
       filter: {}
       check: null
 delete_permissions:
