@@ -58,7 +58,7 @@ const PersonShow = () => {
         >
             <SimpleShowLayout>
                 <FunctionField label="Фамилия Имя Отчество"
-                               render={(record: Person) => `${record.lastname} ${record.firstname} ${record.middlename}`}/>
+                               render={(record: Person) => `${record.full_name}`}/>
                 <TextField source="comment" label="Комментарий"/>
 
                 <Divider>Контакты</Divider>
