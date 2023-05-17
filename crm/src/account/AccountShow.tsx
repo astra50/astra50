@@ -129,11 +129,17 @@ const DownloadCalculationButton = () => {
         <Button
             label="Судебные документы"
             component="a"
-            onClick={function () {
-                window.open(
-                    `${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`,
-                    '_blank',
-                )
+            onClick={function (e) {
+                e.preventDefault()
+
+                fetch(`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`)
+                .then(res => res.blob())
+                .then(function (blob) {
+                    const a = document.createElement('a')
+                    a.href = window.URL.createObjectURL(blob)
+                    a.download = `Судебные документы ${record.number}`
+                    a.click()
+                })
             }}
             startIcon={<FontAwesomeIcon icon={faFileZipper}/>}
         />
