@@ -1,7 +1,8 @@
-import {faFileZipper, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faFileZipper, faPlus, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import {useState} from 'react'
 import {
     Button,
     ChipField,
@@ -124,26 +125,31 @@ const AccountShow = () => {
 
 const DownloadCalculationButton = () => {
     const record = useRecordContext<Account>()
+    const [loading, setLoading] = useState(false)
 
-    return <>
-        <Button
-            label="Судебные документы"
-            component="a"
-            onClick={function (e) {
-                e.preventDefault()
+    return <Button
+        label="Судебные документы"
+        component="a"
+        disabled={loading}
+        onClick={function (e) {
+            e.preventDefault()
 
-                fetch(`${window.location.origin.replace('crm', 'workflow')}/webhook/39e25294-01f3-4073-9975-1a67bb002e24/${record.id}`)
-                .then(res => res.blob())
-                .then(function (blob) {
-                    const a = document.createElement('a')
-                    a.href = window.URL.createObjectURL(blob)
-                    a.download = `Судебные документы ${record.number}`
-                    a.click()
-                })
-            }}
-            startIcon={<FontAwesomeIcon icon={faFileZipper}/>}
-        />
-    </>
+            setLoading(true)
+
+            fetch(`${window.location.origin.replace('crm', 'workflow')}/webhook/court?id=${record.id}`)
+            .then(res => res.blob())
+            .then(function (blob) {
+                const a = document.createElement('a')
+                a.href = window.URL.createObjectURL(blob)
+                a.download = `Судебные документы ${record.number}`
+                a.click()
+            })
+            .finally(function () {
+                setLoading(false)
+            })
+        }}
+        startIcon={loading ? <FontAwesomeIcon icon={faSpinner} spinPulse/> : <FontAwesomeIcon icon={faFileZipper}/>}
+    />
 }
 
 export default AccountShow
