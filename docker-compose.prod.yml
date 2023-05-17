@@ -154,7 +154,9 @@ services:
       - "traefik.http.routers.astra50-n8n-webhook.entrypoints=websecure"
       - "traefik.http.routers.astra50-n8n-webhook.tls=true"
       - "traefik.http.routers.astra50-n8n-webhook.tls.certresolver=leresolver"
-      - "traefik.http.services.astra50-n8n-webhook-service.loadbalancer.server.port=5678"
+      - "traefik.http.services.astra50-n8n-webhook.loadbalancer.server.port=5678"
+      - "traefik.http.middlewares.astra50-n8n-webhook.headers.customResponseHeaders.Access-Control-Allow-Origin=https://crm.astra50.ru"
+      - "traefik.http.routers.astra50-n8n-webhook.middlewares=astra50-n8n-webhook@docker"
     environment:
       DB_TYPE: postgresdb
       DB_POSTGRESDB_DATABASE: n8n
