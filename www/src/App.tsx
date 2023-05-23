@@ -1,4 +1,6 @@
 import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apollo/client'
+import {YMInitializer} from '@appigram/react-yandex-metrika'
+import {ReactKeycloakProvider} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
 // @ts-ignore
 import buildHasuraProvider from 'ra-data-hasura'
@@ -12,7 +14,6 @@ import useAuthProvider from './authProvider'
 import {Dashboard} from './dashboard/Dashboard'
 import {Layout} from './layout'
 import Settings from './settings/Settings'
-import {ReactKeycloakProvider} from '@react-keycloak/web'
 
 const i18Provider = polyglotI18nProvider(() => {
     let messages = russianMessages
@@ -96,6 +97,16 @@ const App = () => {
                }}
             >
                 <React.Fragment>
+                    <YMInitializer
+                        accounts={[39294260]}
+                        options={{
+                            webvisor: true,
+                            clickmap: true,
+                            trackLinks: true,
+                            accurateTrackBounce: true,
+                        }}
+                        version="2"
+                    />
                     <AdminWithKeycloak/>
                 </React.Fragment>
             </ReactKeycloakProvider>

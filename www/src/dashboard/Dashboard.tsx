@@ -1,3 +1,4 @@
+import ym from '@appigram/react-yandex-metrika'
 import {faLocationDot, faQrcode} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Card, CardActions, CardHeader, Container, Stack} from '@mui/material'
@@ -106,7 +107,10 @@ const InformationTable = (props: InformationTableProps) => {
 
 const NavButton = () => {
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
+    const handleOpen = () => {
+        ym('hit', 'dashboard-nav-button')
+        setOpen(true)
+    }
     const handleClose = () => setOpen(false)
 
     const {data} = useLandsQuery()
@@ -207,7 +211,10 @@ const QrButton = () => {
     const [open, setOpen] = useState(false)
     const [qrcode, setQrcode] = useState<string>()
 
-    const handleOpen = () => setOpen(true)
+    const handleOpen = () => {
+        ym('hit', 'dashboard-qrcode-button')
+        setOpen(true)
+    }
     const handleClose = () => setOpen(false)
 
     const style = {
