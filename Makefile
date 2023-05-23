@@ -1,4 +1,12 @@
+.DEFAULT_GOAL := help-short
+
 MAKEFLAGS += --no-print-directory
+
+### Help
+help-short:
+	@grep -E '^[a-zA-Z_-]+( [a-zA-Z_-]+)*:[ a-zA-Z_-]+?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+help:
+	@grep -E '^[a-zA-Z_-]+( [a-zA-Z_-]+)*:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 ### dev
 .PHONY: contrib
@@ -8,17 +16,17 @@ permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .
 
 .PHONY: crm www hasura postgres
-crm www hasura:
+crm www hasura: ## Get terminal inside container
 	@docker compose run --rm $(CLI_LABEL) --entrypoint sh $@ -c 'if [ -x "$$(command -v bash)" ]; then exec bash; else exec sh; fi'
 
 ### docker compose
 CLI_LABEL := --label ru.grachevko.dhu="" --label traefik.enable=false
 
-down:
+down: ## docker compose down
 	docker compose down --volumes --remove-orphans
-pull:
+pull: ## docker compose pull
 	docker compose pull $(SERVICE)
-build:
+build: ## docker compose build
 	docker compose build $(SERVICE)
 
 ### up/deploy
@@ -53,11 +61,11 @@ up-hasura:
 migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
 migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
-migration:
+migration: ## apply migration and hasura metadata
 	docker compose exec hasura-console sh -c "hasura-cli deploy"
-migration-apply: ## apply migration only
+migration-apply: ### apply migration only
 	docker compose exec hasura-console hasura-cli --database-name default migrate apply
-migration-rollback: ## rollback one latest migration
+migration-rollback: ### rollback one latest migration
 	docker compose exec hasura-console hasura-cli --database-name default migrate apply --down 1
 migration-test: migration migration-rollback migration-apply ## test latest migration (rollback/apply)
 	@$(MAKE) migration-rollback
