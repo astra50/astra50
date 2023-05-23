@@ -23,7 +23,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   crm:
-    image: astra50/astra50:node-base
+    image: astra50/crm:node-base
+    pull_policy: never
     build:
       target: node-base
       context: crm/
@@ -45,7 +46,8 @@ services:
     user: ${UID:-1000}:${GID:-1000}
 
   sneg:
-    image: astra50/astra50:sneg-node-base
+    image: astra50/sneg:node-base
+    pull_policy: never
     build:
       target: node-base
       context: sneg/
