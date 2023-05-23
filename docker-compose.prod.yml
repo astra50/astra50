@@ -111,6 +111,7 @@ services:
       - traefik
 
   www:
+    image: cr.grachevko.ru/astra50/www:latest
     restart: always
     build:
       context: www

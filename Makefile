@@ -54,8 +54,21 @@ up-crm: crm-install
 up-sneg: sneg-install
 	docker compose up -d --build --force-recreate sneg
 
+.PHONY: www
+www:
+	docker compose run --rm --label ru.grachevko.dhu="" --label traefik.enable=false www sh
 up-www:
 	docker compose up -d --build --force-recreate www
+install-www:
+	docker compose run --rm -T www npm install
+www-schema-build:
+	docker compose build gq
+www-schema: www-schema-build
+	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.schema.json
+www-push: IMAGE=cr.grachevko.ru/astra50/www:latest
+www-push: www-schema
+	docker build --tag $(IMAGE) www/
+	docker push $(IMAGE)
 
 permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .

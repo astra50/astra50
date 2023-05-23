@@ -67,9 +67,10 @@ services:
     user: ${UID:-1000}:${GID:-1000}
 
   www:
-    image: astra50/astra50:www-nginx-base
+    image: astra50/www:node-base
+    pull_policy: never
     build:
-      target: nginx-base
+      target: node-base
       context: www/
     extra_hosts:
       - www.astra50.local:0.0.0.0
@@ -79,9 +80,14 @@ services:
       traefik.http.routers.astra50-www.rule: Host(`www.astra50.local`) && !Path(`/v1/graphql`)
       traefik.http.routers.astra50-www.entrypoints: web
       traefik.http.services.astra50-www.loadbalancer.server.port: 80
+    command: sh -c "npm run codegen:watch & npm run start"
+    environment:
+      HOST: www.astra50.local
+      PORT: 80
     volumes:
-      - ./www/public:/usr/share/nginx/html
-    working_dir: /data
+    - ./www:/app
+    working_dir: /app
+    user: ${UID:-1000}:${GID:-1000}
 
   postgres:
     image: postgres:14.2-alpine
@@ -157,6 +163,13 @@ services:
       - ./hasura:/app
       - ./var/hasura:/.hasura
     user: ${UID:-1000}:${GID:-1000}
+
+  gq:
+    build:
+      context: ./hasura
+      target: gq
+    environment:
+      GRAPHQURL_ENDPOINT: http://hasura/v1/graphql
 
 networks:
   default:

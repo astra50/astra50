@@ -1,3 +1,28 @@
+FROM ${DOCKER_IO:-docker.io/library}/node:18.12.1-alpine3.16 as node-base
+
+WORKDIR /data
+
+ENV PATH=/app/node_modules/.bin:${PATH}
+
+FROM node-base AS node-builder
+
+ENV NODE_ENV production
+
+COPY package.json package-lock.json ./
+
+RUN --mount=type=cache,target=/var/cache/npm \
+    set -ex \
+    && npm install --dev
+
+COPY tsconfig.json codegen.ts graphql.schema.json ./
+COPY public public
+COPY src src
+
+ENV GRAPHQL_ENDPOINT ./graphql.schema.json
+RUN set -ex \
+    && npm run codegen \
+    && npm run build
+
 #
 # nginx
 #
@@ -47,7 +72,7 @@ FROM nginx-base AS nginx
 
 ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
 
-COPY public/ .
+COPY --from=node-builder /data/build .
 COPY etc/nginx.conf /etc/nginx/nginx.conf
 
 RUN find . \

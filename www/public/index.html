@@ -1,247 +1,43 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="СНТ Астра">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="СНТ Астра"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
     <title>СНТ Астра</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="app"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-</head>
-<body>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-<div class="col-lg-8 mx-auto p-3 py-md-5">
-    <div class="overflow-hidden" style="max-height: 30vh;">
-        <div class="container px-5 text-center">
-            <img src="/files/logo.png" class="img-fluid mb-4" height="100"
-                 loading="lazy">
-        </div>
-    </div>
-
-    <main>
-        <h2 class="display-6 text-center mb-4">Информация</h2>
-
-        <div class="table-responsive">
-            <table class="table text-center">
-                <tbody>
-                <tr>
-                    <th scope="row" class="text-start">Телефон</th>
-                    <td><a href="tel:+79993336731">+7 (999) 333-67-31</a></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">E-Mail</th>
-                    <td><a href="mailto:info@astra50.ru">info@astra50.ru</a></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Адрес</th>
-                    <td>142143, МО, ПОДОЛЬСК ГОРОД, БОРИСОВКА ДЕРЕВНЯ</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">ОГРН</th>
-                    <td>1025007516820</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">ИНН</th>
-                    <td>5074022777</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">КПП</th>
-                    <td>507401001</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#navigator">
-            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.293 5.207l3.5 3.5a1.001 1.001 0 0 0 1.665-.42l1.5-5a1 1 0 0 0-1.245-1.245l-5 1.5a1.003 1.003 0 0 0-.42 1.665z"
-                      fill="currentColor"></path>
-                <path d="M4.96 8.157c-1.708 1.501-1.952 4.168-.548 5.968 1.414 1.812 3.99 2.107 5.756.658l4.88-4.004a2.112 2.112 0 0 1 3.016.346c.749.96.617 2.4-.293 3.2l-1.043.916c-.409.36-.456.99-.106 1.41.35.42.966.468 1.375.108l1.043-.916c1.708-1.502 1.953-4.166.547-5.968-1.412-1.81-3.992-2.106-5.756-.658l-4.88 4.004a2.11 2.11 0 0 1-3.016-.346c-.747-.958-.616-2.4.293-3.2l.542-.415c.409-.36.46-.99.11-1.41a.964.964 0 0 0-1.38-.11l-.54.417z"
-                      fill="currentColor"></path>
-                <path d="M10 19a3 3 0 1 1 6 0 3 3 0 0 1-6 0z" fill="currentColor"></path>
-            </svg>
-            Навигация
-        </button>
-
-        <div class="modal fade" id="navigator" tabindex="-1"
-             style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-sm-down">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Навигация</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h2 class="fs-5 mb-3">Ворота</h2>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Название</th>
-                                <th>Номер</th>
-                                <th>Ссылка</th>
-                            </tr>
-                            </thead>
-                            <tbody id="gates-tbody"></tbody>
-                        </table>
-                        <h2 class="fs-5 mb-3">Участки</h2>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Улица</th>
-                                <th>Номер</th>
-                                <th>Ссылка</th>
-                            </tr>
-                            </thead>
-                            <tbody id="lands-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <script>
-                async function fetchGraphQL(operationsDoc, operationName, variables) {
-                    const result = await fetch(
-                        "/v1/graphql",
-                        {
-                            method: "POST",
-                            body: JSON.stringify({
-                                query: operationsDoc,
-                                variables: variables,
-                                operationName: operationName,
-                            }),
-                        },
-                    );
-
-                    return await result.json();
-                }
-
-                const operationsDoc = `
-                    query lands {
-                      gate(where: {coordinates: {_is_null: false}}, order_by: {number: asc}) {
-                        name
-                        number
-                        coordinates
-                      }
-                      land(where: {coordinates: {_is_null: false}}, order_by: {number_integer: asc}) {
-                        id
-                        number
-                        street {
-                          name
-                        }
-                        coordinates
-                      }
-                    }
-                `;
-
-                function fetchLands() {
-                    return fetchGraphQL(
-                        operationsDoc,
-                        "lands",
-                        {},
-                    );
-                }
-
-                async function startFetchLands() {
-                    const {errors, data} = await fetchLands();
-
-                    if (errors) {
-                        console.error(errors);
-                    }
-
-                    let append = function (elem, coordinates, col1, col2) {
-                        let coords = encodeURIComponent(coordinates.replace('(', '').replace(')', '').split(',').reverse().join(','))
-
-                        elem.innerHTML = elem.innerHTML + `
-                            <tr>
-                                <td class="align-middle">${col1}</td>
-                                <td class="align-middle">${col2}</td>
-                                <td class="align-middle">
-                                    <a href="https://yandex.ru/maps/213/moscow/?ll=${coords}&whatshere[point]=${coords}&z=18" class="btn btn-link btn-small" target="_blank">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
-                                    </a>
-                                </td>
-                           </tr>`
-                    };
-
-                    data.gate.forEach((gate) => append(document.querySelector('#gates-tbody'), gate.coordinates, gate.name, gate.number))
-                    data.land.forEach((land) => append(document.querySelector('#lands-tbody'), land.coordinates, land.street.name, land.number))
-                }
-
-                startFetchLands();
-            </script>
-        </div>
-
-        <hr class="col-3 col-md-2 mb-5">
-
-        <h2 class="display-6 text-center mb-4">Банковские реквизиты</h2>
-
-        <div class="table-responsive">
-            <table class="table text-center">
-                <tbody>
-                <tr>
-                    <th scope="row" class="text-start">Наименование</th>
-                    <td>СНТ "АСТРА"</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Р/C</th>
-                    <td>40703810438000016950</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">БИК</th>
-                    <td>044525225</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Банк</th>
-                    <td>ПАО СБЕРБАНК</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">К/C</th>
-                    <td>30101810400000000225</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">ИНН</th>
-                    <td>5074022777</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">КПП</th>
-                    <td>507401001</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#qrSberModal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code"
-                 viewBox="0 0 16 16">
-                <path d="M2 2h2v2H2V2Z"></path>
-                <path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"></path>
-                <path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"></path>
-                <path d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z"></path>
-                <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path>
-            </svg>
-            QR Код
-        </button>
-
-        <div class="modal fade" id="qrSberModal" tabindex="-1"
-             style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-sm-down">
-                <img src="/files/qr_sber.png" class="img-fluid border rounded-3 shadow-lg mb-4"
-                     loading="lazy">
-
-            </div>
-        </div>
-    </main>
-
-    <footer class="pt-5 my-5 text-muted border-top">
-        СНТ Астра &middot; &copy; 2022
-    </footer>
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-
-</body>
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>
