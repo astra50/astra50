@@ -99,7 +99,7 @@ services:
       - type: tmpfs
         target: /var/lib/postgresql/data
         tmpfs:
-          size: 2G
+          size: 4294967296
       - ./:/app
     working_dir: /app
     environment:
