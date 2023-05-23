@@ -1,9 +1,18 @@
-.PHONY: contrib crm
-
 MAKEFLAGS += --no-print-directory
 
+### dev
+.PHONY: contrib
 contrib:
 	@cp -n -r contrib/* ./ || true
+permissions:
+	sudo chown -R $(shell id -u):$(shell id -g) .
+
+.PHONY: crm www hasura postgres
+crm www hasura:
+	@docker compose run --rm $(CLI_LABEL) --entrypoint sh $@ -c 'if [ -x "$$(command -v bash)" ]; then exec bash; else exec sh; fi'
+
+### docker compose
+CLI_LABEL := --label ru.grachevko.dhu="" --label traefik.enable=false
 
 down:
 	docker compose down --volumes --remove-orphans
@@ -12,9 +21,9 @@ pull:
 build:
 	docker compose build $(SERVICE)
 
+### up/deploy
 up: do-up up-hasura migration
 latest: do-up backup up-hasura migration
-
 do-up: contrib pull up-traefik up-postgres up-www up-crm up-sneg
 
 -deploy:
@@ -24,19 +33,23 @@ do-up: contrib pull up-traefik up-postgres up-www up-crm up-sneg
 	docker rm -f $(OLD_CONTAINER)
 	docker compose up -d --scale $(SERVICE)=1 --no-recreate --wait $(SERVICE)
 
+### Traefik
 up-traefik:
 	docker compose up -d --force-recreate traefik
 
+### Postgres
 up-postgres:
 	docker compose up -d --force-recreate postgres
 	docker compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
 	docker compose exec postgres psql -c "create database hasura"
 
+### Hasura
 up-hasura:
 	docker compose up -d --force-recreate --build hasura
 	docker compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
 	docker compose up -d --force-recreate hasura-console
 
+### Migration
 migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
 migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
@@ -50,59 +63,46 @@ migration-test: migration migration-rollback migration-apply ## test latest migr
 	@$(MAKE) migration-rollback
 	@$(MAKE) migration-apply
 
-crm-install:
-	docker compose run --rm -T --user $(shell id -u):$(shell id -g) crm npm install
-
-sneg-install:
-	docker compose run --rm -T --user $(shell id -u):$(shell id -g) sneg npm install
-
-up-crm: crm-install
+### CRM
+install-crm:
+	docker compose run --rm -T $(CLI_LABEL) --user $(shell id -u):$(shell id -g) crm npm install
+up-crm: install-crm
 	docker compose up -d --build --force-recreate crm
-
-up-sneg: sneg-install
-	docker compose up -d --build --force-recreate sneg
-
-.PHONY: www
-www:
-	docker compose run --rm --label ru.grachevko.dhu="" --label traefik.enable=false www sh
-up-www:
-	docker compose up -d --build --force-recreate www
-install-www:
-	docker compose run --rm -T www npm install
-www-schema-build:
-	docker compose build gq
-www-schema: www-schema-build
-	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.schema.json
-www-push: IMAGE=cr.grachevko.ru/astra50/www:latest
-www-push: www-schema
-	docker build --tag $(IMAGE) www/
-	docker push $(IMAGE)
-www-deploy: SERVICE=www
-www-deploy: pull -deploy
-www-deploy-build: build -deploy
-
-permissions:
-	sudo chown -R $(shell id -u):$(shell id -g) .
-
-console:
-	docker compose exec hasura-console bash
-
-crm:
-	docker compose run --rm --label ru.grachevko.dhu="" --label traefik.enable=false crm sh
-crm-update:
-	docker compose run --rm -T --label ru.grachevko.dhu="" --label traefik.enable=false crm sh -c "ncu -u && npm install"
-crm-push: IMAGE=cr.grachevko.ru/astra50/crm:latest
-crm-push:
+update-crm:
+	docker compose run --rm -T $(CLI_LABEL) crm sh -c "ncu -u && npm install"
+push-crm: IMAGE=cr.grachevko.ru/astra50/crm:latest
+push-crm:
 	docker build --tag $(IMAGE) crm/
 	docker push $(IMAGE)
-crm-deploy: OLD_CONTAINER=$(shell docker compose ps -q www | head -1)
-crm-deploy: SERVICE=www
-crm-deploy: pull -deploy
-crm-deploy-build: build -deploy
+deploy-crm: OLD_CONTAINER=$(shell docker compose ps -q www | head -1)
+deploy-crm: SERVICE=www
+deploy-crm: pull -deploy
+deploy-crm-build: build -deploy
 
-cli-postgres:
-	docker compose exec -w /var/lib/postgresql/data postgres bash
+### Sneg
+install-sneg:
+	docker compose run --rm -T --user $(shell id -u):$(shell id -g) sneg npm install
+up-sneg: install-sneg
+	docker compose up -d --build --force-recreate sneg
 
+### www
+install-www:
+	docker compose run --rm -T www npm install
+up-www:
+	docker compose up -d --build --force-recreate www
+schema-www-build:
+	docker compose build gq
+schema-www: schema-www-build
+	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.schema.json
+push-www: IMAGE=cr.grachevko.ru/astra50/www:latest
+push-www: schema-www
+	docker build --tag $(IMAGE) www/
+	docker push $(IMAGE)
+deploy-www: SERVICE=www
+deploy-www: pull -deploy
+deploy-www-build: build -deploy
+
+### Backup
 BACKUP_SERVER=s4.automagistre.ru
 BACKUP_FILE=var/backup.sql.gz
 HASURA_BACKUP_FILE=var/hasura_backup.sql.gz
