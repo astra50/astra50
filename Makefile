@@ -7,14 +7,22 @@ contrib:
 
 down:
 	docker compose down --volumes --remove-orphans
-
 pull:
-	docker compose pull
+	docker compose pull $(SERVICE)
+build:
+	docker compose build $(SERVICE)
 
 up: do-up up-hasura migration
 latest: do-up backup up-hasura migration
 
 do-up: contrib pull up-traefik up-postgres up-www up-crm up-sneg
+
+-deploy:
+	$(eval OLD_CONTAINER := $(shell docker compose ps -q $(SERVICE) | head -1))
+	docker compose up -d --scale $(SERVICE)=2 --no-recreate --wait $(SERVICE)
+	docker stop --time 60 $(OLD_CONTAINER) || docker kill $(OLD_CONTAINER)
+	docker rm -f $(OLD_CONTAINER)
+	docker compose up -d --scale $(SERVICE)=1 --no-recreate --wait $(SERVICE)
 
 up-traefik:
 	docker compose up -d --force-recreate traefik
@@ -69,6 +77,9 @@ www-push: IMAGE=cr.grachevko.ru/astra50/www:latest
 www-push: www-schema
 	docker build --tag $(IMAGE) www/
 	docker push $(IMAGE)
+www-deploy: SERVICE=www
+www-deploy: pull -deploy
+www-deploy-build: build -deploy
 
 permissions:
 	sudo chown -R $(shell id -u):$(shell id -g) .
@@ -84,6 +95,10 @@ crm-push: IMAGE=cr.grachevko.ru/astra50/crm:latest
 crm-push:
 	docker build --tag $(IMAGE) crm/
 	docker push $(IMAGE)
+crm-deploy: OLD_CONTAINER=$(shell docker compose ps -q www | head -1)
+crm-deploy: SERVICE=www
+crm-deploy: pull -deploy
+crm-deploy-build: build -deploy
 
 cli-postgres:
 	docker compose exec -w /var/lib/postgresql/data postgres bash
