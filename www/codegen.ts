@@ -1,21 +1,6 @@
 import {type CodegenConfig} from '@graphql-codegen/cli'
 
-const schemaUrl = process.env.GRAPHQL_ENDPOINT ?? 'http://hasura/v1/graphql'
-
-console.log(schemaUrl)
-
 const config: CodegenConfig = {
-    schema: [
-        {
-            [`${schemaUrl}`]: {
-                headers: {
-                    'X-Hasura-Admin-Secret': 'admin',
-                    'X-Hasura-Role': 'anonymous',
-                },
-            },
-        },
-    ],
-    documents: ['./**/*.graphql'],
     config: {
         avoidOptionals: {
             field: true,
@@ -33,20 +18,38 @@ const config: CodegenConfig = {
         },
     },
     generates: {
-        'src/types.ts': {
+        'src/anonymous/types.ts': {
+            schema: './graphql.anonymous.json',
             plugins: ['typescript'],
         },
-        './': {
+        './src/anonymous': {
+            schema: './graphql.anonymous.json',
+            documents: ['./src/anonymous/**/*.graphql'],
             preset: 'near-operation-file',
             presetConfig: {
                 folder: '__gql-generated',
                 extension: '.generated.ts',
-                baseTypesPath: 'src/types.ts',
+                baseTypesPath: 'types.ts',
             },
             plugins: ['typescript-operations', 'typescript-react-apollo'],
         },
-        './graphql.schema.json': {
-            plugins: ['introspection'],
+        'src/member/types.ts': {
+            schema: './graphql.member.json',
+            plugins: ['typescript'],
+        },
+        './src/member': {
+            schema: './graphql.member.json',
+            documents: ['./src/member/**/*.graphql'],
+            preset: 'near-operation-file',
+            presetConfig: {
+                folder: '__gql-generated',
+                extension: '.generated.ts',
+                baseTypesPath: 'types.ts',
+            },
+            config: {
+                withHooks: true,
+            },
+            plugins: ['typescript-operations', 'typescript-react-apollo'],
         },
     },
 }

@@ -96,12 +96,15 @@ up-sneg: install-sneg
 ### www
 install-www:
 	docker compose run --rm -T www npm install
-up-www:
+up-www: schema-www
 	docker compose up -d --build --force-recreate www
+update-www:
+	docker compose run --rm -T $(CLI_LABEL) www sh -c "ncu -u && npm install"
 schema-www-build:
 	docker compose build gq
 schema-www: schema-www-build
-	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.schema.json
+	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.anonymous.json
+	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: member" --introspect --format=json > www/graphql.member.json
 push-www: IMAGE=cr.grachevko.ru/astra50/www:latest
 push-www: schema-www
 	docker build --tag $(IMAGE) www/

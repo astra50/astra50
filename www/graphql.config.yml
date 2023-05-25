@@ -1,9 +1,15 @@
 schema: ./graphql.schema.json
 extensions:
   endpoints:
-    local:
-      url: http://hasura.astra50.local/v1/graphql
+    anonymous:
+      url: http://www.astra50.local/v1/graphql
       headers:
         x-hasura-admin-secret: admin
         x-hasura-role: anonymous
+      introspect: true
+    member:
+      url: http://www.astra50.local/v1/graphql
+      headers:
+        x-hasura-admin-secret: admin
+        x-hasura-role: member
       introspect: true

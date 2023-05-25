@@ -1,0 +1,7 @@
+subscription GateOpenSubscription {
+    gate_open(order_by: {created_at: desc}, limit: 1) {
+        gate {
+            ...GateWithLastOpen
+        }
+    }
+}

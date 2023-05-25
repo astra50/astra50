@@ -5,4 +5,5 @@ configuration:
   custom_root_fields: {}
   exposed_as: mutation
 permissions:
+  - role: government
   - role: member

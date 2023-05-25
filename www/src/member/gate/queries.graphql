@@ -1,0 +1,14 @@
+fragment GateWithLastOpen on gate {
+    id
+    name
+    number
+    opens(order_by: {created_at: desc}, limit: 1) {
+        created_at
+    }
+}
+
+query gates {
+    gate(order_by: {number: asc}) {
+        ...GateWithLastOpen
+    }
+}

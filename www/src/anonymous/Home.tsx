@@ -1,7 +1,7 @@
 import ym from '@appigram/react-yandex-metrika'
 import {faLocationDot, faQrcode} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {Card, CardActions, CardHeader, Container, Stack} from '@mui/material'
+import {Card, CardActions, CardHeader, Stack} from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import QRCode from 'qrcode'
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useLandsQuery} from './__gql-generated/queries.generated'
 
 // TODO fetch from API
@@ -37,37 +37,28 @@ const bank = [
     {key: 'КПП', value: '507401001'},
 ]
 
-export const Dashboard = () => (
+export const Home = () => (
     <Stack
         spacing={4}
         justifyContent="center"
         alignContent="center"
     >
-        <Container maxWidth="sm">
-            <img
-                alt="logo"
-                src="/files/logo.png"
-                loading="lazy"
-                style={{
-                    marginTop: '30px',
-                    width: '100%',
-                    maxHeight: 200,
-                }}/>
-        </Container>
-        <Card>
-            <CardHeader title="Информация"/>
-            <InformationTable rows={info}/>
-            <CardActions>
-                <NavButton/>
-            </CardActions>
-        </Card>
-        <Card>
-            <CardHeader title="Банковские реквизиты"/>
-            <InformationTable rows={bank}/>
-            <CardActions>
-                <QrButton/>
-            </CardActions>
-        </Card>
+        <Box sx={{margin: 'auto'}}>
+            <Card sx={{marginBottom: 2}}>
+                <CardHeader title="Информация"/>
+                <InformationTable rows={info}/>
+                <CardActions>
+                    <NavButton/>
+                </CardActions>
+            </Card>
+            <Card>
+                <CardHeader title="Банковские реквизиты"/>
+                <InformationTable rows={bank}/>
+                <CardActions>
+                    <QrButton/>
+                </CardActions>
+            </Card>
+        </Box>
     </Stack>
 )
 

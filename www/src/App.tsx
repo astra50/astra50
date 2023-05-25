@@ -1,6 +1,10 @@
-import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apollo/client'
+import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, split} from '@apollo/client'
+import {setContext} from '@apollo/client/link/context'
+import {GraphQLWsLink} from '@apollo/client/link/subscriptions'
+import {getMainDefinition} from '@apollo/client/utilities'
 import {YMInitializer} from '@appigram/react-yandex-metrika'
-import {ReactKeycloakProvider} from '@react-keycloak/web'
+import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
+import {createClient} from 'graphql-ws'
 import Keycloak from 'keycloak-js'
 // @ts-ignore
 import buildHasuraProvider from 'ra-data-hasura'
@@ -8,11 +12,13 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 // @ts-ignore
 import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, CustomRoutes, DataProvider, I18nContextProvider, Loading} from 'react-admin'
+import {Admin, Authenticated, CustomRoutes, DataProvider, I18nContextProvider, Loading} from 'react-admin'
 import {Route} from 'react-router-dom'
-import useAuthProvider from './authProvider'
-import {Dashboard} from './dashboard/Dashboard'
+import {Home} from './anonymous/Home'
+import useAuthProvider from './auth/authProvider'
 import {Layout} from './layout'
+import {Finance} from './member/finance'
+import {Gate} from './member/gate'
 import Settings from './settings/Settings'
 
 const i18Provider = polyglotI18nProvider(() => {
@@ -39,20 +45,66 @@ const i18Provider = polyglotI18nProvider(() => {
 const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
     const [apollo, setApollo] = useState<ApolloClient<any> | null>(null)
+    const keycloak = useKeycloak().keycloak
 
     const authProvider = useAuthProvider()
 
     useEffect(() => {
-        const httpLink = createHttpLink({
-            uri: '/v1/graphql',
-        })
-
-        const clientWithAuth = new ApolloClient({
-            link: httpLink,
-            cache: new InMemoryCache(),
-        });
-
         (async () => {
+            const roles = await authProvider.getPermissions(null)
+
+            const role = roles.length === 0 ? 'anonymous' : ((roles: string[]) => {
+                for (let role of ['government', 'member', 'villager']) {
+                    if (roles.includes(role)) {
+                        return role
+                    }
+                }
+
+                return 'user'
+            })(roles)
+
+            const httpLink = createHttpLink({
+                uri: '/v1/graphql',
+            })
+
+            const authHeaders = {
+                ...(keycloak.token && {authorization: `Bearer ${keycloak.token}`}),
+                'X-Hasura-Role': role,
+            }
+
+            const authLink = setContext((_, {headers}) => {
+                return {
+                    headers: {
+                        ...headers,
+                        ...authHeaders,
+                    },
+                }
+            })
+
+            const wsLink = new GraphQLWsLink(createClient({
+                url: `${window.location.protocol === 'http:' ? 'ws' : 'wss'}://${window.location.host}/v1/graphql`,
+                connectionParams: {
+                    headers: authHeaders,
+                },
+            }))
+
+            const splitLink = split(
+                ({query}) => {
+                    const definition = getMainDefinition(query)
+                    return (
+                        definition.kind === 'OperationDefinition' &&
+                        definition.operation === 'subscription'
+                    )
+                },
+                authLink.concat(wsLink),
+                authLink.concat(httpLink),
+            )
+
+            const clientWithAuth = new ApolloClient({
+                link: splitLink,
+                cache: new InMemoryCache(),
+            })
+
             const dataProvider = await buildHasuraProvider({
                 client: clientWithAuth,
             })
@@ -66,16 +118,19 @@ const AdminWithKeycloak = () => {
     return (
         <ApolloProvider client={apollo}>
             <Admin
-                disableTelemetry
                 authProvider={authProvider}
-                dashboard={Dashboard}
-                title="СНТ Астра"
                 dataProvider={dataProvider}
+                disableTelemetry
                 i18nProvider={i18Provider}
                 layout={Layout}
+                loginPage={false}
+                title="СНТ Астра"
             >
                 <CustomRoutes>
-                    <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/finance" element={<Authenticated requireAuth><Finance/></Authenticated>}/>
+                    <Route path="/gate" element={<Authenticated requireAuth><Gate/></Authenticated>}/>
+                    <Route path="/settings" element={<Authenticated requireAuth><Settings/></Authenticated>}/>
                 </CustomRoutes>
             </Admin>
         </ApolloProvider>
@@ -91,10 +146,11 @@ const App = () => {
         <I18nContextProvider value={i18Provider}>
             <ReactKeycloakProvider
                 authClient={keycloak}
-                LoadingComponent={<div/>}
-               initOptions={{
-                   onLoad: 'check-sso',
-               }}
+                LoadingComponent={<Loading/>}
+                initOptions={{
+                    onLoad: 'check-sso',
+                    enableLogging: false,
+                }}
             >
                 <React.Fragment>
                     <YMInitializer
@@ -111,7 +167,6 @@ const App = () => {
                 </React.Fragment>
             </ReactKeycloakProvider>
         </I18nContextProvider>
-
     )
 }
 

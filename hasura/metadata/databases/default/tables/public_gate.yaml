@@ -1,6 +1,14 @@
 table:
   name: gate
   schema: public
+array_relationships:
+  - name: opens
+    using:
+      foreign_key_constraint_on:
+        column: gate_id
+        table:
+          name: gate_open
+          schema: public
 insert_permissions:
   - role: government
     permission:
@@ -37,12 +45,13 @@ select_permissions:
   - role: member
     permission:
       columns:
+        - created_at
+        - id
         - identifier
         - name
+        - number
         - phone
-        - created_at
         - updated_at
-        - id
       filter: {}
       allow_aggregations: true
 update_permissions:
