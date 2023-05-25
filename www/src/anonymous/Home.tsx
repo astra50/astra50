@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import QRCode from 'qrcode'
 import React, {useEffect, useState} from 'react'
-import {useLandsQuery} from './__gql-generated/queries.generated'
+import {useLands} from './__gql-generated/queries.generated'
 
 // TODO fetch from API
 const info = [
@@ -104,7 +104,7 @@ const NavButton = () => {
     }
     const handleClose = () => setOpen(false)
 
-    const {data} = useLandsQuery()
+    const {data} = useLands()
 
     const style = {
         position: 'absolute' as 'absolute',

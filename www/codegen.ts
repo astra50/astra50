@@ -16,6 +16,9 @@ const config: CodegenConfig = {
             typeValues: 'change-case-all#pascalCase',
             enumValues: 'change-case-all#pascalCase',
         },
+        withHooks: true,
+        dedupeOperationSuffix: true,
+        omitOperationSuffix: true,
     },
     generates: {
         'src/anonymous/types.ts': {
@@ -45,10 +48,6 @@ const config: CodegenConfig = {
                 folder: '__gql-generated',
                 extension: '.generated.ts',
                 baseTypesPath: 'types.ts',
-            },
-            config: {
-                withHooks: true,
-                dedupeOperationSuffix: true,
             },
             plugins: ['typescript-operations', 'typescript-react-apollo'],
         },

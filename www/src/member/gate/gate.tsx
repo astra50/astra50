@@ -4,8 +4,8 @@ import {Box, Tab, Tabs} from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
-import {useOpenGateMutation} from './__gql-generated/mutations.generated'
-import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/queries.generated'
+import {useOpenGate} from './__gql-generated/mutations.generated'
+import {GateWithLastOpen, useGates} from './__gql-generated/queries.generated'
 import {useGateOpenSubscription} from './__gql-generated/subscriptions.generated'
 
 const gateOpenDelay = 30
@@ -55,7 +55,7 @@ function a11yProps(index: number) {
 
 const GateList = () => {
     const [value, setValue] = useState(0)
-    const {data: gates} = useGatesQuery()
+    const {data: gates} = useGates()
     const {data: gateOpen} = useGateOpenSubscription()
 
     const gateFromEvent = gateOpen?.gate_open[0]?.gate
@@ -93,14 +93,14 @@ const GateList = () => {
 }
 
 interface GateButtonProps {
-    gate: GateWithLastOpenFragment,
+    gate: GateWithLastOpen,
 }
 
 const GateButton = (props: GateButtonProps) => {
     const {gate} = props
 
     const [delay, _setDelay] = useState(0)
-    const [openGateMutation] = useOpenGateMutation({
+    const [openGateMutation] = useOpenGate({
         variables: {
             id: gate.id,
         },
