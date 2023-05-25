@@ -45,6 +45,7 @@ select_permissions:
   - role: member
     permission:
       columns:
+        - coordinates
         - created_at
         - id
         - identifier

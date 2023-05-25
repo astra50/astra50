@@ -43,6 +43,18 @@ select_permissions:
         - updated_at
       filter: {}
       allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - cadastral_number
+        - coordinates
+        - id
+        - number
+        - number_integer
+        - polygon
+        - street_id
+      filter: {}
+      allow_aggregations: true
 update_permissions:
   - role: government
     permission:
