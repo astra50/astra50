@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
 import {useOpenGateMutation} from './__gql-generated/mutations.generated'
 import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/queries.generated'
-import {useGateOpenSubscriptionSubscription} from './__gql-generated/subscriptions.generated'
+import {useGateOpenSubscription} from './__gql-generated/subscriptions.generated'
 
 const gateOpenDelay = 30
 console.log(gateOpenDelay)
@@ -56,7 +56,7 @@ function a11yProps(index: number) {
 const GateList = () => {
     const [value, setValue] = useState(0)
     const {data: gates} = useGatesQuery()
-    const {data: gateOpen} = useGateOpenSubscriptionSubscription()
+    const {data: gateOpen} = useGateOpenSubscription()
 
     const gateFromEvent = gateOpen?.gate_open[0]?.gate
     const handleChange = (_event: SyntheticEvent, newValue: number) => {

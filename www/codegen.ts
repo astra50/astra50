@@ -48,6 +48,7 @@ const config: CodegenConfig = {
             },
             config: {
                 withHooks: true,
+                dedupeOperationSuffix: true,
             },
             plugins: ['typescript-operations', 'typescript-react-apollo'],
         },
