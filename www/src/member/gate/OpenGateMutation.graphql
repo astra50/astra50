@@ -1,6 +1,5 @@
 mutation OpenGate($id: String!) {
     open_gate_site(args: {gate: $id}) {
         id
-        created_at
     }
 }

@@ -1,3 +1,3 @@
-import {Gate} from './gate'
+import {Gate} from './Gate'
 
 export {Gate}
