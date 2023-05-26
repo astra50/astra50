@@ -65,7 +65,7 @@ const Footer = () => {
             <Grid container direction="column">
                 <Grid item xs={12}>
                     <Typography variant="subtitle1">
-                        СНТ Астра © {`${new Date().getFullYear()}`} <a href="#/gate">gate</a>
+                        СНТ Астра © {`${new Date().getFullYear()}`}
                     </Typography>
                 </Grid>
             </Grid>
