@@ -15,10 +15,12 @@ import React, {useEffect, useState} from 'react'
 import {Admin, Authenticated, CustomRoutes, DataProvider, I18nContextProvider, Loading} from 'react-admin'
 import {Route} from 'react-router-dom'
 import {Home} from './anonymous/Home'
+import {scalarTypePolicies as scalarTypePoliciesAnonymous} from './anonymous/types'
 import useAuthProvider from './auth/authProvider'
 import {Layout} from './layout'
 import {Finance} from './member/finance'
 import {Gate} from './member/gate'
+import {scalarTypePolicies as scalarTypePoliciesMember} from './member/types'
 import Settings from './settings/Settings'
 
 const i18Provider = polyglotI18nProvider(() => {
@@ -102,7 +104,12 @@ const AdminWithKeycloak = () => {
 
             const clientWithAuth = new ApolloClient({
                 link: splitLink,
-                cache: new InMemoryCache(),
+                cache: new InMemoryCache({
+                    typePolicies: {
+                        ...scalarTypePoliciesAnonymous,
+                        ...scalarTypePoliciesMember,
+                    },
+                }),
             })
 
             const dataProvider = await buildHasuraProvider({

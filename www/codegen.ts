@@ -2,14 +2,16 @@ import {type CodegenConfig} from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
     config: {
-        avoidOptionals: {
-            field: true,
-        },
+        avoidOptionals: true,
         scalars: {
             timestamp: 'import("dayjs").Dayjs',
             timestamptz: 'import("dayjs").Dayjs',
             uuid: 'string',
             numeric: 'number',
+        },
+        scalarTypePolicies: {
+            timestamp: '../components/dayjs#dateTypePolicy',
+            timestamptz: '../components/dayjs#dateTypePolicy',
         },
         namingConvention: {
             typeNames: 'change-case-all#pascalCase',
@@ -20,7 +22,7 @@ const config: CodegenConfig = {
     generates: {
         'src/anonymous/types.ts': {
             schema: './graphql.anonymous.json',
-            plugins: ['typescript'],
+            plugins: ['typescript', './src/plugins/scalarTypePolicies.js'],
         },
         './src/anonymous': {
             schema: './graphql.anonymous.json',
@@ -35,7 +37,7 @@ const config: CodegenConfig = {
         },
         'src/member/types.ts': {
             schema: './graphql.member.json',
-            plugins: ['typescript'],
+            plugins: ['typescript', './src/plugins/scalarTypePolicies.js'],
         },
         './src/member': {
             schema: './graphql.member.json',
