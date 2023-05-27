@@ -18,7 +18,7 @@ export default (props: LayoutProps) => {
     const {isLoading, authenticated} = useAuthState([], false)
     if (isLoading) return <Loading/>
 
-    return <Container style={{backgroundColor: '#fff'}}>
+    return <Container sx={{backgroundColor: '#fff'}}>
         <Container maxWidth="sm" sx={{marginBottom: 2}}>
             <img
                 alt="logo"
