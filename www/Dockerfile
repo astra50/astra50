@@ -14,11 +14,10 @@ RUN --mount=type=cache,target=/var/cache/npm \
     set -ex \
     && npm install --dev
 
-COPY tsconfig.json codegen.ts graphql.schema.json ./
+COPY tsconfig.json codegen.ts graphql.*.json .eslintignore ./
 COPY public public
 COPY src src
 
-ENV GRAPHQL_ENDPOINT ./graphql.schema.json
 RUN set -ex \
     && npm run codegen \
     && npm run build
