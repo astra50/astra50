@@ -8,7 +8,7 @@ import {useGateOpenSubscription} from './__gql-generated/GateOpenSubscription.ge
 import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/GatesQuery.generated'
 import {useOpenGateMutation} from './__gql-generated/OpenGateMutation.generated'
 
-const gateOpenDelay = 10
+const gateOpenDelay = 30 // TODO Fetch timeout from API
 
 export const Gate = () => (
     <Box
