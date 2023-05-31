@@ -138,6 +138,9 @@ services:
       HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
     healthcheck:
       disable: true
+    working_dir: /data
+    volumes:
+    - ./hasura:/data:ro
     networks:
       default:
         aliases:

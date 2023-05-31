@@ -72,6 +72,9 @@ migration-rollback: ### rollback one latest migration
 migration-test: migration migration-rollback migration-apply ## test latest migration (rollback/apply)
 	@$(MAKE) migration-rollback
 	@$(MAKE) migration-apply
+deploy-migration: INDEX=$(shell docker compose ps hasura | tail -1 | awk '{print $$1}' | awk -F  "-" '{print $$NF}')
+deploy-migration:
+	docker compose exec --index $(INDEX) hasura sh -c "hasura-cli deploy"
 
 ### CRM
 install-crm:
