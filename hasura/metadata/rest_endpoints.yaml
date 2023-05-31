@@ -1,4 +1,4 @@
-- comment: null
+- comment: ""
   definition:
     query:
       collection_name: allowed-queries
