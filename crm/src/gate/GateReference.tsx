@@ -8,13 +8,16 @@ import {
 } from 'react-admin'
 import gate from './index'
 
+const defaultSource = 'gate_id'
+const defaultLabel = 'Ворота'
+
 export const GateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source={'gate_id'}
+        source={defaultSource}
         reference={gate.name}
         {...props}
     >
-        <SelectInput optionText="name" source="name" label={props.label}/>
+        <SelectInput optionText="name" source="name" label={props.label ?? defaultLabel}/>
     </ReferenceInput>
 )
 
@@ -24,8 +27,9 @@ GateReferenceInput.defaultProps = {
 
 export const GateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source={'gate_id'}
+        source={defaultSource}
         reference={gate.name}
+        link="show"
         {...props}
     >
         <TextField source="name" label={props.label}/>
@@ -33,5 +37,5 @@ export const GateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source
 )
 
 GateReferenceField.defaultProps = {
-    label: 'Ворота',
+    label: defaultLabel,
 }
