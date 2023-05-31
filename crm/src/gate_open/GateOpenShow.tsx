@@ -12,8 +12,8 @@ const GateOpenShow = () => {
         >
             <SimpleShowLayout>
                 <TextField source="id"/>
-                <GateReferenceField label="Ворота" link={false}/>
-                <GateOpenReasonReferenceField label="Тип источника" link={false}/>
+                <GateReferenceField label="Ворота"/>
+                <GateOpenReasonReferenceField label="Тип источника"/>
                 <TextField source="source" label="Источник"/>
                 <CommentField/>
                 <PersonReferenceField/>
