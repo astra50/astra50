@@ -5,4 +5,6 @@ RUN set -ex \
 
 ENTRYPOINT ["gq"]
 
-FROM ${DOCKER_IO:-docker.io}/hasura/graphql-engine:v2.22.0.cli-migrations-v3 as hasura
+FROM ${DOCKER_IO:-docker.io}/hasura/graphql-engine:v2.26.0.cli-migrations-v3 as hasura
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD curl --fail http://127.0.0.1/healthz || exit 1
