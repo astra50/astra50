@@ -8,8 +8,6 @@ import {useGateOpenSubscription} from './__gql-generated/GateOpenSubscription.ge
 import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/GatesQuery.generated'
 import {useOpenGateMutation} from './__gql-generated/OpenGateMutation.generated'
 
-const gateOpenDelay = 30 // TODO Fetch timeout from API
-
 export const Gate = () => (
     <Box
         display="flex"
@@ -105,7 +103,7 @@ interface GateButtonWithCountdownProps {
 
 const GateButtonWithCountdown = (props: GateButtonWithCountdownProps) => {
     const {gate} = props
-    const allowClickAfter = gate.opens[0]?.created_at.add(gateOpenDelay, 'second') ?? dayjs()
+    const allowClickAfter = gate.opens[0]?.created_at.add(gate.delay, 'second') ?? dayjs()
     const isAllowInFuture = allowClickAfter.isAfter(dayjs(), 'second')
 
     const [disabled, setDisabled] = useState(false)
@@ -123,7 +121,7 @@ const GateButtonWithCountdown = (props: GateButtonWithCountdownProps) => {
     const onClick = () => {
         setDisabled(true)
 
-        setTimeout(() => setDisabled(false), gateOpenDelay * 1000)
+        setTimeout(() => setDisabled(false), gate.delay * 1000)
     }
 
     return <Stack>
@@ -134,7 +132,7 @@ const GateButtonWithCountdown = (props: GateButtonWithCountdownProps) => {
             disable={onClick}
         />
         {isAllowInFuture &&
-            <Countdown delay={gateOpenDelay} allowClickAfter={allowClickAfter}/>}
+            <Countdown delay={gate.delay} allowClickAfter={allowClickAfter}/>}
     </Stack>
 }
 

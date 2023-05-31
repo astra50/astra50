@@ -13,6 +13,12 @@ const GateCreate = () => {
                     label="Название"
                 />
                 <TextInput source="phone" label="Телефон"/>
+                <NumberInput
+                    label="Задержка"
+                    helperText="Задержка между открытиями"
+                    source="delay"
+                    validate={required()}
+                />
                 <TextInput source="coordinates" label="Координаты"/>
             </SimpleForm>
         </Create>

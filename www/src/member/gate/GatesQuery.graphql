@@ -2,6 +2,7 @@ fragment GateWithLastOpen on gate {
     id
     name
     number
+    delay
     opens(order_by: {created_at: desc}, limit: 1) {
         created_at
     }
