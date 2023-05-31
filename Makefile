@@ -30,9 +30,9 @@ build: ## docker compose build
 	docker compose build $(SERVICE)
 
 ### up/deploy
-up: do-up up-hasura migration
-latest: do-up backup up-hasura migration
-do-up: contrib pull up-traefik up-postgres up-www up-crm up-sneg
+up: do-up migration
+latest: do-up backup migration
+do-up: contrib pull up-traefik up-postgres up-hasura up-www up-crm up-sneg
 
 -deploy:
 	$(eval OLD_CONTAINER := $(shell docker compose ps -q $(SERVICE) | head -1))
