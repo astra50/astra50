@@ -18,23 +18,47 @@ import {useLandsQuery} from './__gql-generated/queries.generated'
 
 // TODO fetch from API
 const info = [
-    {key: 'Телефон', value: '+7 (999) 333-67-31', link: 'tel:+79993336731'},
-    {key: 'E-Mail', value: 'info@astra50.ru', link: 'mailto:info@astra50.ru'},
-    {key: 'Адрес', value: '142143, МО, ПОДОЛЬСК ГОРОД, БОРИСОВКА ДЕРЕВНЯ'},
-    {key: 'ОГРН', value: '1025007516820'},
-    {key: 'ИНН', value: '5074022777'},
-    {key: 'КПП', value: '507401001'},
+    ['Телефон', {value: '+7 (999) 333-67-31', link: 'tel:+79993336731'}],
+    ['E-Mail', {value: 'info@astra50.ru', link: 'mailto:info@astra50.ru'}],
+]
+
+// TODO fetch from API
+const requisites = [
+    ['Полное наименования', 'Садовое Некоммерческое Товарищество "АСТРА"'],
+    ['Сокращенное наименования', 'СНТ "АСТРА"'],
+    ['Дата создания', '24.12.2002'],
+    ['ОГРН', '1025007516820'],
+    ['ИНН', '5074022777'],
+    ['КПП', '507401001'],
+    ['Юр. Адрес', '142143, Московская область, г. Подольск, д. Борисовка'],
+    ['ОКВЭД', '68.32.2 (01.13.3, 01.25, 01.29)'],
+    ['ПФР', '060056010053'],
+    ['ФСС', '501811009550181'],
+    ['ОКПО', '13322354'],
+    ['ОКАТО', '46460000051'],
+    ['ОКТМО', '46760000146'],
+    ['ОКОГУ', '4210014'],
+    ['ОКФС', '16'],
+    ['ОКОПФ', '20702'],
 ]
 
 // TODO fetch from API
 const bank = [
-    {key: 'Наименование', value: 'СНТ "АСТРА"'},
-    {key: 'Р/C', value: '40703810438000016950'},
-    {key: 'БИК', value: '044525225'},
-    {key: 'Банк', value: 'ПАО СБЕРБАНК'},
-    {key: 'К/C', value: '30101810400000000225'},
-    {key: 'ИНН', value: '5074022777'},
-    {key: 'КПП', value: '507401001'},
+    ['Наименование', 'СНТ "АСТРА"'],
+    ['Р/C', '40703810438000016950'],
+    ['БИК', '044525225'],
+    ['Банк', 'ПАО СБЕРБАНК'],
+    ['К/C', '30101810400000000225'],
+    ['ИНН', '5074022777'],
+    ['КПП', '507401001'],
+]
+
+// TODO fetch from API
+const organizations = [
+    ['Мосэнергосбыт (подключение)', {value: '8 (499) 550-95-50', link: 'tel:8499550-95-50'}, 'mosenergosbyt.ru'],
+    ['Россети Москва (диспетчер)', {value: '8 (800) 220-0-220', link: 'tel:88002200220'}, 'rossetimr.ru'],
+    ['ООО «ЛайнНэт» (интернет)', {value: '8 (495) 858-11-10', link: 'tel:84958581110'}, 'line-net.ru'],
+    ['МСК-НТ (Вывоз мусора)', {value: '8 800 234-36-70', link: 'tel:88002343670'}, 'mskobl.msk-nt.ru'],
 ]
 
 export const Home = () => (
@@ -44,29 +68,35 @@ export const Home = () => (
         alignContent="center"
     >
         <Box sx={{margin: 'auto'}}>
-            <Card sx={{marginBottom: 2}}>
-                <CardHeader title="Информация"/>
+            <Card>
+                <CardHeader title="Контакты"/>
                 <InformationTable rows={info}/>
                 <CardActions>
                     <NavButton/>
                 </CardActions>
             </Card>
-            <Card>
+            <Card sx={{marginTop: 3}}>
+                <CardHeader title="Реквизиты"/>
+                <InformationTable rows={requisites}/>
+            </Card>
+            <Card sx={{marginTop: 3}}>
                 <CardHeader title="Банковские реквизиты"/>
                 <InformationTable rows={bank}/>
                 <CardActions>
                     <QrButton/>
                 </CardActions>
             </Card>
+            <Card sx={{marginTop: 3}}>
+                <CardHeader title="Контакты организаций"/>
+                <InformationTable rows={organizations}/>
+            </Card>
         </Box>
     </Stack>
 )
 
-interface Row {
-    key: string,
-    value: string,
-    link?: string,
-}
+type Cell = { value: string, link: string } | string
+
+type Row = Cell[]
 
 interface InformationTableProps {
     rows: Row[]
@@ -79,17 +109,23 @@ const InformationTable = (props: InformationTableProps) => {
         <TableContainer component={Paper}>
             <Table sx={{width: '100%', margin: 'auto'}} aria-label="simple table" size="small">
                 <TableBody>
-                    {rows.map((row) => (
+                    {rows.map((row, i) =>
                         <TableRow
-                            key={row.key}
+                            key={i}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
-                            <TableCell component="th" scope="row">{row.key}</TableCell>
-                            <TableCell align="center">
-                                {row.link ? (<a href={row.link}>{row.value}</a>) : <>{row.value}</>}
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                            {row.map((cell, j) => {
+                                const [value, link] = typeof cell === 'string'
+                                    ? [cell, null]
+                                    : [cell.value, cell.link]
+
+                                return j === 0
+                                    ? <TableCell key={j} component="th" scope="row">{value}</TableCell>
+                                    : <TableCell key={j} align="center">
+                                        {link ? (<a href={link}>{value}</a>) : <>{value}</>}
+                                    </TableCell>
+                            })}
+                        </TableRow>)}
                 </TableBody>
             </Table>
         </TableContainer>
