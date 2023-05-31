@@ -87,8 +87,8 @@ push-crm: IMAGE=cr.grachevko.ru/astra50/crm:latest
 push-crm:
 	docker build --tag $(IMAGE) crm/
 	docker push $(IMAGE)
-deploy-crm: OLD_CONTAINER=$(shell docker compose ps -q www | head -1)
-deploy-crm: SERVICE=www
+deploy-crm: OLD_CONTAINER=$(shell docker compose ps -q crm | head -1)
+deploy-crm: SERVICE=crm
 deploy-crm: pull -deploy
 deploy-crm-build: build -deploy
 
