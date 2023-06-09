@@ -45,6 +45,30 @@ select_permissions:
         - updated_at
       filter: {}
       allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - account_id
+        - amount
+        - balance
+        - id
+        - is_discount
+        - land_id
+        - paid_at
+        - person_id
+        - rate
+      filter:
+        _or:
+          - account:
+              person:
+                user_id:
+                  _eq: X-Hasura-User-Id
+          - account:
+              persons:
+                person:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+      allow_aggregations: true
 update_permissions:
   - role: government
     permission:

@@ -12,13 +12,13 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 // @ts-ignore
 import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, Authenticated, CustomRoutes, DataProvider, I18nContextProvider, Loading} from 'react-admin'
+import {Admin, Authenticated, CustomRoutes, DataProvider, I18nContextProvider, Loading, Resource} from 'react-admin'
 import {Route} from 'react-router-dom'
 import {Home} from './anonymous/Home'
 import {scalarTypePolicies as scalarTypePoliciesAnonymous} from './anonymous/types'
 import useAuthProvider from './auth/authProvider'
 import {Layout} from './layout'
-import {Finance} from './member/finance'
+import {MemberPaymentList} from './member/finance'
 import {Gate} from './member/gate'
 import {scalarTypePolicies as scalarTypePoliciesMember} from './member/types'
 import Settings from './settings/Settings'
@@ -56,7 +56,7 @@ const AdminWithKeycloak = () => {
             const roles = await authProvider.getPermissions(null)
 
             const role = roles.length === 0 ? 'anonymous' : ((roles: string[]) => {
-                for (let role of ['government', 'member', 'villager']) {
+                for (let role of ['member', 'villager']) {
                     if (roles.includes(role)) {
                         return role
                     }
@@ -133,9 +133,11 @@ const AdminWithKeycloak = () => {
                 loginPage={false}
                 title="СНТ Астра"
             >
+                <Resource name="account"/>
+                <Resource name="member_payment" list={MemberPaymentList}/>
+                <Resource name="person"/>
                 <CustomRoutes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/finance" element={<Authenticated requireAuth><Finance/></Authenticated>}/>
                     <Route path="/gate" element={<Authenticated requireAuth><Gate/></Authenticated>}/>
                     <Route path="/settings" element={<Authenticated requireAuth><Settings/></Authenticated>}/>
                 </CustomRoutes>

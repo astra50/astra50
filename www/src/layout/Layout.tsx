@@ -45,8 +45,8 @@ export default (props: LayoutProps) => {
                 }}
             >
                 <BottomNavigationAction label="Главная" value="/" icon={<Home/>}/>
+                <BottomNavigationAction label="Финансы" value="/member_payment" icon={<CurrencyRuble/>}/>
                 <BottomNavigationAction label="Ворота" value="/gate" icon={<DoorSliding/>}/>
-                <BottomNavigationAction label="Финансы" value="/finance" icon={<CurrencyRuble/>} sx={{display: 'none'}}/>
             </BottomNavigation>
         </Paper>}
     </Container>

@@ -1,0 +1,6 @@
+query MyAccounts {
+    account(distinct_on: id) {
+        id
+        number
+    }
+}

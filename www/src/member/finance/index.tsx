@@ -1,3 +1,3 @@
-import {Finance} from './finance'
+import MemberPaymentList from './MemberPaymentList'
 
-export {Finance}
+export {MemberPaymentList}
