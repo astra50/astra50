@@ -17,3 +17,4 @@
 - "!include public_street.yaml"
 - "!include public_target.yaml"
 - "!include public_target_payment.yaml"
+- "!include public_users.yaml"

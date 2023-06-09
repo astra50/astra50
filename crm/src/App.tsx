@@ -32,6 +32,7 @@ import Settings from './settings/Settings'
 import street from './street'
 import target from './target'
 import target_payment from './target_payment'
+import user from './user'
 
 const i18Provider = polyglotI18nProvider(() => {
     let messages = russianMessages
@@ -120,6 +121,7 @@ const AdminWithKeycloak = () => {
                 <Resource {...street}/>
                 <Resource {...target_payment}/>
                 <Resource {...target}/>
+                <Resource {...user}/>
                 <CustomRoutes>
                     <Route path="/settings" element={<Settings/>}/>
                 </CustomRoutes>

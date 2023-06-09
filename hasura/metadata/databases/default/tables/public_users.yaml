@@ -1,0 +1,36 @@
+table:
+  name: users
+  schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: user
+  custom_root_fields: {}
+array_relationships:
+  - name: person
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: person
+          schema: public
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - id
+        - username
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - id
+        - username
+        - created_at
+        - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

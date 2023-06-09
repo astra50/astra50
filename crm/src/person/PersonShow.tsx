@@ -27,6 +27,7 @@ import {MoneyField} from '../money'
 import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
 import {Person, PersonEmail, PersonPhone} from '../types'
+import {UsersReferenceField} from '../user/UserReference'
 
 const Actions = () => {
     const record = useRecordContext<Person>()
@@ -113,6 +114,7 @@ const PersonShow = () => {
                     ><Add/></Button>
                 }}/>
                 <TextField source="telegram_id" label="Телеграм ID"/>
+                <UsersReferenceField/>
 
                 <Divider>Член СНТ</Divider>
                 <DateField source="entered_at" label="Дата вступления"/>
