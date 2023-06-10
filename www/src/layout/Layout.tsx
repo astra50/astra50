@@ -1,6 +1,6 @@
+import {Info} from '@mui/icons-material'
 import CurrencyRuble from '@mui/icons-material/CurrencyRuble'
 import DoorSliding from '@mui/icons-material/DoorSliding'
-import Home from '@mui/icons-material/Home'
 import {Box, Container, CssBaseline, Grid, Typography} from '@mui/material'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
@@ -49,7 +49,7 @@ export default (props: LayoutProps) => {
                     redirect(newValue)
                 }}
             >
-                <BottomNavigationAction label="Главная" value="/" icon={<Home/>}/>
+                <BottomNavigationAction label="Инфо" value="/" icon={<Info/>}/>
                 <BottomNavigationAction label="Финансы" value="/finance" icon={<CurrencyRuble/>}/>
                 <BottomNavigationAction label="Ворота" value="/gate" icon={<DoorSliding/>}/>
             </BottomNavigation>
