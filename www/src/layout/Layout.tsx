@@ -6,16 +6,21 @@ import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {LayoutProps, Loading, useAuthState, useRedirect} from 'react-admin'
 import {useLocation} from 'react-router-dom'
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 export default (props: LayoutProps) => {
     const {pathname} = useLocation()
-    const [value, setValue] = useState<string>(pathname)
+    const [value, setValue] = useState<string>('/')
     const redirect = useRedirect()
     const {isLoading, authenticated} = useAuthState([], false)
+
+    useEffect(() => {
+        setValue(pathname)
+    }, [pathname])
+
     if (isLoading) return <Loading/>
 
     return <Container sx={{backgroundColor: '#fff'}}>

@@ -12,8 +12,19 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 // @ts-ignore
 import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, Authenticated, CustomRoutes, DataProvider, I18nContextProvider, Loading, Resource} from 'react-admin'
-import {Route} from 'react-router-dom'
+import {
+    AdminContext,
+    AdminUI,
+    Authenticated,
+    CustomRoutes,
+    DataProvider,
+    I18nContextProvider,
+    Loading,
+    Resource,
+    useAuthState,
+    useRedirect,
+} from 'react-admin'
+import {Route, useLocation} from 'react-router-dom'
 import {Home} from './anonymous/Home'
 import {scalarTypePolicies as scalarTypePoliciesAnonymous} from './anonymous/types'
 import useAuthProvider from './auth/authProvider'
@@ -124,24 +135,13 @@ const AdminWithKeycloak = () => {
 
     return (
         <ApolloProvider client={apollo}>
-            <Admin
+            <AdminContext
                 authProvider={authProvider}
                 dataProvider={dataProvider}
-                disableTelemetry
                 i18nProvider={i18Provider}
-                layout={Layout}
-                loginPage={false}
-                title="СНТ Астра"
             >
-                <Resource name="account"/>
-                <Resource name="member_payment" list={MemberPaymentList}/>
-                <Resource name="person"/>
-                <CustomRoutes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/gate" element={<Authenticated requireAuth><Gate/></Authenticated>}/>
-                    <Route path="/settings" element={<Authenticated requireAuth><Settings/></Authenticated>}/>
-                </CustomRoutes>
-            </Admin>
+                <Resources/>
+            </AdminContext>
         </ApolloProvider>
     )
 }
@@ -176,6 +176,37 @@ const App = () => {
                 </React.Fragment>
             </ReactKeycloakProvider>
         </I18nContextProvider>
+    )
+}
+
+const Resources = () => {
+    const location = useLocation()
+    const redirect = useRedirect()
+    const authState = useAuthState()
+
+    useEffect(() => {
+        if (authState.authenticated && location.pathname === '/') {
+            // Gate is default page for authenticated user
+            redirect('/gate')
+        }
+    }, [])
+
+    return (
+        <AdminUI
+            title="СНТ Астра"
+            disableTelemetry
+            layout={Layout}
+            loginPage={false}
+        >
+            <Resource name="account"/>
+            <Resource name="member_payment" list={MemberPaymentList}/>
+            <Resource name="person"/>
+            <CustomRoutes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/gate" element={<Authenticated requireAuth><Gate/></Authenticated>}/>
+                <Route path="/settings" element={<Authenticated requireAuth><Settings/></Authenticated>}/>
+            </CustomRoutes>
+        </AdminUI>
     )
 }
 
