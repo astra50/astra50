@@ -1,7 +1,7 @@
 import {Info} from '@mui/icons-material'
 import CurrencyRuble from '@mui/icons-material/CurrencyRuble'
 import DoorSliding from '@mui/icons-material/DoorSliding'
-import {Box, Container, CssBaseline, Grid, Typography} from '@mui/material'
+import {Box, Container, CssBaseline, Grid, Typography, useMediaQuery} from '@mui/material'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Divider from '@mui/material/Divider'
@@ -16,6 +16,7 @@ export default (props: LayoutProps) => {
     const [value, setValue] = useState<string>('/')
     const redirect = useRedirect()
     const {isLoading, authenticated} = useAuthState([], false)
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'))
 
     useEffect(() => {
         setValue(pathname)
@@ -38,7 +39,7 @@ export default (props: LayoutProps) => {
         <CssBaseline/>
         {props.children}
         <Divider sx={{marginTop: 2}}/>
-        <Footer/>
+        {!isSmall && <Footer/>}
         <div style={{marginBottom: authenticated ? 56 : 0}}/>
         {authenticated && <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0}} elevation={3}>
             <BottomNavigation
