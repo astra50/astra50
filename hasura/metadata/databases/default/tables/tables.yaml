@@ -6,6 +6,7 @@
 - "!include public_gate_open.yaml"
 - "!include public_gate_open_reason.yaml"
 - "!include public_land.yaml"
+- "!include public_me.yaml"
 - "!include public_member_discount.yaml"
 - "!include public_member_payment.yaml"
 - "!include public_member_rate.yaml"

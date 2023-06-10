@@ -1,0 +1,13 @@
+query Summary {
+    me {
+        id
+        balance
+        balance_at
+        last_paid_amount
+        last_paid_at
+    }
+    account(distinct_on: id) {
+        id
+        number
+    }
+}

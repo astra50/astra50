@@ -13,6 +13,13 @@ array_relationships:
         table:
           name: account_land
           schema: public
+  - name: payments
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          name: member_payment
+          schema: public
   - name: persons
     using:
       foreign_key_constraint_on:

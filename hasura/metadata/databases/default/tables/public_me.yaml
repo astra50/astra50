@@ -1,0 +1,22 @@
+table:
+  name: me
+  schema: public
+select_permissions:
+  - role: member
+    permission:
+      columns:
+        - balance
+        - balance_at
+        - birth_date
+        - entered_at
+        - firstname
+        - full_name
+        - id
+        - last_paid_amount
+        - last_paid_at
+        - lastname
+        - middlename
+        - telegram_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

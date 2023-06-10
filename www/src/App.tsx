@@ -4,6 +4,7 @@ import {GraphQLWsLink} from '@apollo/client/link/subscriptions'
 import {getMainDefinition} from '@apollo/client/utilities'
 import {YMInitializer} from '@appigram/react-yandex-metrika'
 import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
+import dayjs from 'dayjs'
 import {createClient} from 'graphql-ws'
 import Keycloak from 'keycloak-js'
 // @ts-ignore
@@ -29,10 +30,14 @@ import {Home} from './anonymous/Home'
 import {scalarTypePolicies as scalarTypePoliciesAnonymous} from './anonymous/types'
 import useAuthProvider from './auth/authProvider'
 import {Layout} from './layout'
-import {MemberPaymentList} from './member/finance'
+import {Finance} from './member/finance'
 import {Gate} from './member/gate'
 import {scalarTypePolicies as scalarTypePoliciesMember} from './member/types'
 import Settings from './settings/Settings'
+
+dayjs.extend(require('dayjs/plugin/localizedFormat'))
+require('dayjs/locale/ru')
+dayjs.locale('ru')
 
 const i18Provider = polyglotI18nProvider(() => {
     let messages = russianMessages
@@ -199,10 +204,11 @@ const Resources = () => {
             loginPage={false}
         >
             <Resource name="account"/>
-            <Resource name="member_payment" list={MemberPaymentList}/>
+            <Resource name="member_payment"/>
             <Resource name="person"/>
             <CustomRoutes>
                 <Route path="/" element={<Home/>}/>
+                <Route path="/finance" element={<Authenticated requireAuth><Finance/></Authenticated>}/>
                 <Route path="/gate" element={<Authenticated requireAuth><Gate/></Authenticated>}/>
                 <Route path="/settings" element={<Authenticated requireAuth><Settings/></Authenticated>}/>
             </CustomRoutes>

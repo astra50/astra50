@@ -1,4 +1,4 @@
-query MyAccounts {
+query Accounts {
     account(distinct_on: id) {
         id
         number
