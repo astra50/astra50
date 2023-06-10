@@ -8,7 +8,7 @@ import React, {useState} from 'react'
 import {
     Datagrid,
     DateField,
-    List,
+    InfiniteList,
     Loading,
     NumberField,
     ReferenceField,
@@ -87,7 +87,7 @@ const MemberPaymentList = () => {
     const accounts = data!.account!.length
 
     return (
-        <List
+        <InfiniteList
             actions={false}
             empty={false}
             sort={{field: 'paid_at', order: 'DESC'}}
@@ -125,7 +125,7 @@ const MemberPaymentList = () => {
                 />
                 <DateField source="paid_at" label="Дата"/>
             </Datagrid>
-        </List>
+        </InfiniteList>
     )
 }
 
