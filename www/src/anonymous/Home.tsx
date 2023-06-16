@@ -160,6 +160,7 @@ const NavButton = () => {
                 variant="contained"
                 onClick={handleOpen}
                 startIcon={<FontAwesomeIcon icon={faLocationDot}/>}
+                size="small"
             >Навигация</Button>
             <Modal
                 open={open}
@@ -267,6 +268,7 @@ const QrButton = () => {
                 variant="contained"
                 onClick={handleOpen}
                 startIcon={<FontAwesomeIcon icon={faQrcode}/>}
+                size="small"
             >QR Code</Button>
             {qrcode && <Modal
                 open={open}
