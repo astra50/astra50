@@ -22,7 +22,7 @@ const useAuthProvider = (): AuthProvider => {
                 ? Promise.resolve()
                 : Promise.reject('Failed to obtain access token.')
         },
-        logout: () => 'development' === process.env.NODE_ENV ? Promise.resolve() : keycloak.logout(),
+        logout: () => keycloak.authenticated ? keycloak.logout() : Promise.resolve(),
         getIdentity: () => {
             if (keycloak.token) {
                 const decoded = decode(keycloak.token)
