@@ -1,5 +1,5 @@
 import ym from '@appigram/react-yandex-metrika'
-import {faLocationDot, faQrcode} from '@fortawesome/free-solid-svg-icons'
+import {faKey, faLocationDot, faQrcode} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Card, CardActions, CardHeader, Stack} from '@mui/material'
 import Box from '@mui/material/Box'
@@ -14,6 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import QRCode from 'qrcode'
 import React, {useEffect, useState} from 'react'
+import {Loading, useAuthState, useLogin} from 'react-admin'
 import {useLandsQuery} from './__gql-generated/queries.generated'
 
 // TODO fetch from API
@@ -71,8 +72,9 @@ export const Home = () => (
             <Card>
                 <CardHeader title="Контакты"/>
                 <InformationTable rows={info}/>
-                <CardActions>
+                <CardActions style={{width: '100%', justifyContent: 'space-between'}}>
                     <NavButton/>
+                    <LoginButton/>
                 </CardActions>
             </Card>
             <Card sx={{marginTop: 3}}>
@@ -282,4 +284,22 @@ const QrButton = () => {
             </Modal>}
         </div>
     )
+}
+
+const LoginButton = () => {
+    const {isLoading, authenticated} = useAuthState()
+    const login = useLogin()
+
+    if (isLoading) return <Loading/>
+
+    if (authenticated) return null
+
+    return <Button
+        onClick={login}
+        variant="contained"
+        startIcon={<FontAwesomeIcon icon={faKey}/>}
+        size="small"
+    >
+        Вход
+    </Button>
 }
