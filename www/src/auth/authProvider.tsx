@@ -12,7 +12,7 @@ const useAuthProvider = (): AuthProvider => {
         checkAuth: () => keycloak.authenticated && keycloak.token
             ? Promise.resolve()
             : Promise.reject({message: false, redirectTo: '/'}),
-        logout: () => 'development' === process.env.NODE_ENV ? Promise.resolve() : keycloak.logout(),
+        logout: () => keycloak.authenticated ? keycloak.logout() : Promise.resolve(),
         getIdentity: () => {
             if (keycloak.token) {
                 const decoded = jwt_decode<KeycloakTokenParsed>(keycloak.token)
