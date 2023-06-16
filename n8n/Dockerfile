@@ -6,7 +6,7 @@ RUN set -ex \
     && npm install docxtemplater pizzip number-to-words-ru \
     && npm install https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz
 
-FROM n8nio/n8n:0.222.3 AS n8n
+FROM n8nio/n8n:0.231.2 AS n8n
 
 COPY --from=builder /data/node_modules/docxtemplater /usr/local/lib/node_modules/n8n/node_modules/docxtemplater
 COPY --from=builder /data/node_modules/pizzip /usr/local/lib/node_modules/n8n/node_modules/pizzip
