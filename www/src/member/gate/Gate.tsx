@@ -13,8 +13,10 @@ import {useOpenGateMutation} from './__gql-generated/OpenGateMutation.generated'
 export const Gate = () => (
     <Box
         display="flex"
-        justifyContent="center"
-        alignItems="center"
+        flexDirection="column"
+        justifyContent="space-between"
+        height="100%"
+        flexGrow={2}
     >
         <GateList/>
     </Box>
@@ -77,9 +79,10 @@ const GateList = () => {
 
     return (
         <Stack
-            display="flex"
-            justifyContent="center"
+            justifyContent="space-between"
             alignItems="center"
+            height="100%"
+            flexGrow={2}
         >
             <Card>
                 <CardMedia sx={{height: 'auto !important', width: '80vw', aspectRatio: '16/9'}}>
@@ -92,7 +95,7 @@ const GateList = () => {
                     />
                 </CardMedia>
             </Card>
-            <Box sx={{marginTop: '20px'}}>
+            <Box>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange}>
                         {gates?.gate.map((item, i) => {

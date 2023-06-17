@@ -24,7 +24,13 @@ export default (props: LayoutProps) => {
 
     if (isLoading) return <Loading/>
 
-    return <Container sx={{backgroundColor: '#fff'}}>
+    return <Container sx={{
+        backgroundColor: '#fff',
+        minHeight: '100vh',
+        paddingBottom: authenticated ? '70px' : '16px',
+        display: 'flex',
+        flexDirection: 'column',
+    }}>
         <Container maxWidth="sm" sx={{marginBottom: 2}}>
             <img
                 alt="logo"
@@ -38,9 +44,8 @@ export default (props: LayoutProps) => {
         </Container>
         <CssBaseline/>
         {props.children}
-        <Divider sx={{marginTop: 2}}/>
+        {!isSmall && <Divider sx={{marginTop: 2}}/>}
         {!isSmall && <Footer/>}
-        <div style={{marginBottom: authenticated ? 56 : 0}}/>
         {authenticated && <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0}} elevation={3}>
             <BottomNavigation
                 showLabels

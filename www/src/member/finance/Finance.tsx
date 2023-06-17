@@ -39,10 +39,10 @@ const Finance = () => {
                         <Tab label="Детализация" value="2"/>
                     </TabList>
                 </Box>
-                <TabPanel value="1">
+                <TabPanel value="1" style={{paddingLeft: 0, paddingRight: 0}}>
                     <Summary/>
                 </TabPanel>
-                <TabPanel value="2">
+                <TabPanel value="2" style={{padding: 0}}>
                     <ResourceContextProvider value="member_payment">
                         <MemberPaymentList/>
                     </ResourceContextProvider>
