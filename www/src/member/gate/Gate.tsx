@@ -1,9 +1,11 @@
 import NavigationIcon from '@mui/icons-material/Navigation'
-import {Box, Stack, Tab, Tabs} from '@mui/material'
+import {Box, Card, Stack, Tab, Tabs} from '@mui/material'
+import CardMedia from '@mui/material/CardMedia'
 import Fab from '@mui/material/Fab'
 import dayjs, {Dayjs} from 'dayjs'
 import {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
 import {LinearProgress} from 'react-admin'
+import ReactPlayer from 'react-player'
 import {useGateOpenSubscription} from './__gql-generated/GateOpenSubscription.generated'
 import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/GatesQuery.generated'
 import {useOpenGateMutation} from './__gql-generated/OpenGateMutation.generated'
@@ -74,26 +76,43 @@ const GateList = () => {
     }
 
     return (
-        <Box>
-            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    {gates?.gate.map((item, i) => {
-                        const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
+        <Stack
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Card>
+                <CardMedia sx={{height: 'auto !important', width: '80vw', aspectRatio: '16/9'}}>
+                    <ReactPlayer
+                        light
+                        controls
+                        width="100%"
+                        height="100%"
+                        url="https://www.youtube.com/watch?v=Hfm94aHAbYQ"
+                    />
+                </CardMedia>
+            </Card>
+            <Box sx={{marginTop: '20px'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs value={value} onChange={handleChange}>
+                        {gates?.gate.map((item, i) => {
+                            const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
 
-                        return <Tab label={`${gate.number} ${gate.name}`} {...a11yProps(i)} key={gate.id}/>
-                    })}
-                </Tabs>
+                            return <Tab label={`${gate.number} ${gate.name}`} {...a11yProps(i)} key={gate.id}/>
+                        })}
+                    </Tabs>
+                </Box>
+                {gates?.gate.map((item, i) => {
+                    const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
+
+                    return (
+                        <TabPanel value={value} index={i} key={gate.id}>
+                            <GateButtonWithCountdown gate={gate}/>
+                        </TabPanel>
+                    )
+                })}
             </Box>
-            {gates?.gate.map((item, i) => {
-                const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
-
-                return (
-                    <TabPanel value={value} index={i} key={gate.id}>
-                        <GateButtonWithCountdown gate={gate}/>
-                    </TabPanel>
-                )
-            })}
-        </Box>
+        </Stack>
     )
 }
 
