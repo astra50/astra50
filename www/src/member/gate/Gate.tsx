@@ -163,6 +163,7 @@ const GateButton = (props: GateButtonProps) => {
         variant="extended"
         onClick={handleClick}
         disabled={props.disabled}
+        style={{zIndex: 'auto'}}
     >
         <NavigationIcon sx={{mr: 1}}/>
         Открыть &nbsp;
