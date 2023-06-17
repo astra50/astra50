@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography'
 import QRCode from 'qrcode'
 import React, {useEffect, useState} from 'react'
 import {Loading, useAuthState, useLogin, useLogout} from 'react-admin'
+import ReactMarkdown from 'react-markdown'
 import {useLandsQuery} from './__gql-generated/queries.generated'
 
 // TODO fetch from API
@@ -56,10 +57,10 @@ const bank = [
 
 // TODO fetch from API
 const organizations = [
-    ['Мосэнергосбыт (подключение)', {value: '8 (499) 550-95-50', link: 'tel:8499550-95-50'}, 'mosenergosbyt.ru'],
-    ['Россети Москва (диспетчер)', {value: '8 (800) 220-0-220', link: 'tel:88002200220'}, 'rossetimr.ru'],
-    ['ООО «ЛайнНэт» (интернет)', {value: '8 (495) 858-11-10', link: 'tel:84958581110'}, 'line-net.ru'],
-    ['МСК-НТ (Вывоз мусора)', {value: '8 800 234-36-70', link: 'tel:88002343670'}, 'mskobl.msk-nt.ru'],
+    ['Мосэнергосбыт;подключение', `[+7 (499) 550-95-50](tel:84995509550)\n\n[mosenergosbyt.ru](https://mosenergosbyt.ru)`],
+    ['Россети Москва;диспетчер', `[8 800 220-0-220](tel:88002200220)\n\n[rossetimr.ru](https://rossetimr.ru)`],
+    ['ООО «ЛайнНэт»;интернет', `[+7 (495) 858-11-10](tel:84958581110)\n\n[line-net.ru](https://line-net.ru)`],
+    ['МСК-НТ;вывоз мусора', `[8 800 234-36-70](tel:88002343670)\n\n[mskobl.msk-nt.ru](https://mskobl.msk-nt.ru)`],
 ]
 
 export const Home = () => (
@@ -90,7 +91,7 @@ export const Home = () => (
             </Card>
             <Card sx={{marginTop: 3}}>
                 <CardHeader title="Контакты организаций"/>
-                <InformationTable rows={organizations}/>
+                <InformationTable rows={organizations} isMarkdownEnabled/>
             </Card>
         </Box>
     </Stack>
@@ -102,10 +103,11 @@ type Row = Cell[]
 
 interface InformationTableProps {
     rows: Row[]
+    isMarkdownEnabled?: boolean
 }
 
 const InformationTable = (props: InformationTableProps) => {
-    const {rows} = props
+    const {rows, isMarkdownEnabled} = props
 
     return (
         <TableContainer component={Paper}>
@@ -121,11 +123,29 @@ const InformationTable = (props: InformationTableProps) => {
                                     ? [cell, null]
                                     : [cell.value, cell.link]
 
-                                return j === 0
-                                    ? <TableCell key={j} component="th" scope="row">{value}</TableCell>
-                                    : <TableCell key={j} align="center">
-                                        {link ? (<a href={link}>{value}</a>) : <>{value}</>}
+                                let [text, caption] = value.split(';')
+
+                                if (j === 0) {
+                                    return <TableCell key={j} component="th" scope="row">
+                                        {text}
+                                        {caption && <Typography variant="caption" display="block" gutterBottom>
+                                            {caption}
+                                        </Typography>}
                                     </TableCell>
+                                }
+
+                                let elem = null
+                                if (link) {
+                                    elem = <a href={link}>{text}</a>
+                                } else if (isMarkdownEnabled) {
+                                    elem = <ReactMarkdown>{text}</ReactMarkdown>
+                                } else {
+                                    elem = <>{text}</>
+                                }
+
+                                return <TableCell key={j} align="center" style={{minWidth: 160}}>
+                                    {elem}
+                                </TableCell>
                             })}
                         </TableRow>)}
                 </TableBody>
