@@ -93,6 +93,7 @@ const MemberPaymentList = () => {
             sort={{field: 'paid_at', order: 'DESC'}}
             perPage={25}
             exporter={false}
+            pagination={false}
         >
             <Datagrid
                 rowClick={false}
