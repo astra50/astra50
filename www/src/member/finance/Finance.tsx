@@ -9,6 +9,7 @@ import {
     Datagrid,
     DateField,
     InfiniteList,
+    InfinitePagination,
     Loading,
     NumberField,
     ReferenceField,
@@ -93,7 +94,7 @@ const MemberPaymentList = () => {
             sort={{field: 'paid_at', order: 'DESC'}}
             perPage={25}
             exporter={false}
-            pagination={false}
+            pagination={<InfinitePagination sx={{padding: '0'}}/>}
         >
             <Datagrid
                 rowClick={false}
