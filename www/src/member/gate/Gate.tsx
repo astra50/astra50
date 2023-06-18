@@ -153,8 +153,10 @@ const GateButtonWithCountdown = (props: GateButtonWithCountdownProps) => {
             disabled={disabled || isAllowInFuture}
             disable={onClick}
         />
-        {isAllowInFuture &&
-            <Countdown delay={gate.delay} allowClickAfter={allowClickAfter}/>}
+        {isAllowInFuture
+            ? <Countdown delay={gate.delay} allowClickAfter={allowClickAfter}/>
+            : <div style={{width: '160px', height: '20px'}}/>
+        }
     </Stack>
 }
 
@@ -219,6 +221,6 @@ const Countdown = (props: CountdownProps) => {
     }, [])
 
     return <Box sx={{width: '100%'}}>
-        <LinearProgress variant="determinate" value={progress}/>
+        <LinearProgress variant="determinate" value={progress} timeout={0}/>
     </Box>
 }
