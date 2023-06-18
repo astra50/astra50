@@ -26,7 +26,7 @@ export default (props: LayoutProps) => {
 
     return <Container sx={{
         backgroundColor: '#fff',
-        minHeight: '100vh',
+        minHeight: '100svh',
         paddingBottom: authenticated ? '70px' : '16px',
         display: 'flex',
         flexDirection: 'column',
