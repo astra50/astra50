@@ -58,6 +58,8 @@ up-hasura:
 	docker compose up -d --force-recreate hasura-console
 deploy-hasura: SERVICE=hasura
 deploy-hasura: build -deploy
+metadata: ### Export hasura metadata and save it in ./metadata directory
+	docker compose exec hasura-console hasura-cli metadata export
 
 ### Migration
 migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; echo $$username')
