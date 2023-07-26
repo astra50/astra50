@@ -6,6 +6,9 @@ fragment GateWithLastOpen on gate {
     opens(order_by: {created_at: desc}, limit: 1) {
         created_at
     }
+    cctv {
+        url
+    }
 }
 
 query Gates {

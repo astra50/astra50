@@ -1,0 +1,46 @@
+table:
+  name: cctv
+  schema: public
+insert_permissions:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - comment
+        - name
+        - url
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - id
+        - name
+        - comment
+        - url
+        - created_at
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - created_at
+        - id
+        - name
+        - updated_at
+        - url
+      filter: {}
+      allow_aggregations: true
+update_permissions:
+  - role: government
+    permission:
+      columns:
+        - comment
+        - name
+        - url
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}

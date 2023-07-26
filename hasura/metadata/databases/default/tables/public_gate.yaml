@@ -1,6 +1,10 @@
 table:
   name: gate
   schema: public
+object_relationships:
+  - name: cctv
+    using:
+      foreign_key_constraint_on: cctv_id
 array_relationships:
   - name: opens
     using:
@@ -14,6 +18,7 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - cctv_id
         - coordinates
         - delay
         - name
@@ -32,6 +37,7 @@ select_permissions:
   - role: government
     permission:
       columns:
+        - cctv_id
         - coordinates
         - created_at
         - delay
@@ -45,6 +51,7 @@ select_permissions:
   - role: member
     permission:
       columns:
+        - cctv_id
         - coordinates
         - created_at
         - delay
@@ -59,6 +66,7 @@ update_permissions:
   - role: government
     permission:
       columns:
+        - cctv_id
         - coordinates
         - delay
         - name

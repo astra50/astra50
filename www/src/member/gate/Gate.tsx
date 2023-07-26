@@ -1,5 +1,7 @@
+import {faVideoSlash} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import NavigationIcon from '@mui/icons-material/Navigation'
-import {Box, Card, Stack, Tab, Tabs} from '@mui/material'
+import {Box, Card, Stack, Tab, Tabs, useMediaQuery} from '@mui/material'
 import CardMedia from '@mui/material/CardMedia'
 import Fab from '@mui/material/Fab'
 import dayjs, {Dayjs} from 'dayjs'
@@ -67,6 +69,7 @@ const GateList = () => {
     const [value, setValue] = useState(0)
     const {data: gates} = useGatesQuery()
     const {data: gateOpen} = useGateOpenSubscription()
+    const isSmall = useMediaQuery((theme: any) => theme.breakpoints.down('sm'))
 
     const gateFromEvent = gateOpen?.gate_open[0]?.gate
     if (gateFromEvent) {
@@ -85,15 +88,30 @@ const GateList = () => {
             flexGrow={2}
         >
             <Card>
-                <CardMedia sx={{height: 'auto !important', width: '80vw', aspectRatio: '16/9'}}>
-                    <ReactPlayer
-                        light
-                        controls
-                        width="100%"
-                        height="100%"
-                        url="https://www.youtube.com/watch?v=Hfm94aHAbYQ"
-                    />
-                </CardMedia>
+                {gates?.gate.map((item, i) => {
+                    const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
+
+                    return (
+                        <CardMedia
+                            sx={{height: 'auto !important', width: '80vw', aspectRatio: '16/9'}}
+                            style={{
+                                display: value === i ? 'flex' : 'none',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            key={i}
+                        >
+                            {gate.cctv ? <ReactPlayer
+                                light
+                                controls
+                                playing={value === i}
+                                width="100%"
+                                height="100%"
+                                url={gate.cctv!.url!}
+                            /> : <FontAwesomeIcon icon={faVideoSlash} size={isSmall ? '6x' : '10x'}/>}
+                        </CardMedia>
+                    )
+                })}
             </Card>
             <Box>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>

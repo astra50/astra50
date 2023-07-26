@@ -1,4 +1,5 @@
 import {Create, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {CctvReferenceInput} from '../cctv/CctvReference'
 
 const GateCreate = () => {
     return (
@@ -20,6 +21,7 @@ const GateCreate = () => {
                     validate={required()}
                 />
                 <TextInput source="coordinates" label="Координаты"/>
+                <CctvReferenceInput/>
             </SimpleForm>
         </Create>
     )

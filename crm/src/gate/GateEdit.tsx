@@ -1,4 +1,5 @@
 import {Edit, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {CctvReferenceInput} from '../cctv/CctvReference'
 import {Gate} from '../types'
 
 interface GateTitleProps {
@@ -13,6 +14,7 @@ const GateEdit = () => {
         <Edit
             title={<GateTitle/>}
             mutationMode="pessimistic"
+            redirect="show"
         >
             <SimpleForm>
                 <NumberInput source="number" label="Номер"/>
@@ -29,6 +31,7 @@ const GateEdit = () => {
                     validate={required()}
                 />
                 <TextInput source="coordinates" label="Координаты"/>
+                <CctvReferenceInput/>
             </SimpleForm>
         </Edit>
     )

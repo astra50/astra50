@@ -8,7 +8,9 @@ import {
     faRoad,
     faRubleSign,
     faToriiGate,
-    faUserFriends, faUsers,
+    faUserFriends,
+    faUsers,
+    faVideo,
     faWallet,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -44,5 +46,8 @@ export default () => (
         <Divider/>
         <Menu.Item to="/user" primaryText="Пользователи"
                    leftIcon={<FontAwesomeIcon icon={faUsers}/>}/>
+        <Divider/>
+        <Menu.Item to="/cctv" primaryText="Видеокамеры"
+                   leftIcon={<FontAwesomeIcon icon={faVideo}/>}/>
     </Menu>
 )
