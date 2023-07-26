@@ -1,4 +1,17 @@
-import {Datagrid, List, ReferenceField, ReferenceManyField, SingleFieldList, TextField, TextInput} from 'react-admin'
+import {
+    CreateButton,
+    DatagridConfigurable,
+    DateField,
+    FilterButton,
+    List,
+    ReferenceField,
+    ReferenceManyField,
+    SelectColumnsButton,
+    SingleFieldList,
+    TextField,
+    TextInput,
+    TopToolbar,
+} from 'react-admin'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
 
@@ -9,15 +22,26 @@ const filters = [
     <PersonReferenceInput source="person_id"/>,
 ]
 
+const AccountActions = () => (
+    <TopToolbar>
+        <SelectColumnsButton/>
+        <FilterButton/>
+        <CreateButton/>
+    </TopToolbar>
+)
+
 const AccountList = () =>
     <List
+        actions={<AccountActions/>}
         title="Лицевые счета"
         empty={false}
         filters={filters}
         sort={{field: 'balance', order: 'ASC'}}
     >
-        <Datagrid
+        <DatagridConfigurable
+            bulkActionButtons={false}
             rowClick="show"
+            omit={['created_at', 'updated_at']}
         >
             <TextField source="number" label="Номер"/>
             <PersonReferenceField link={false}/>
@@ -29,7 +53,9 @@ const AccountList = () =>
                 </SingleFieldList>
             </ReferenceManyField>
             <MoneyField source="balance" label="Баланс"/>
-        </Datagrid>
+            <DateField source="created_at" label="Создан" showTime={true}/>
+            <DateField source="updated_at" label="Обновлён" showTime={true}/>
+        </DatagridConfigurable>
     </List>
 
 export default AccountList

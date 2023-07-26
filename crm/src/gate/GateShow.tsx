@@ -17,6 +17,7 @@ const GateShow = () => {
                     <NumberField source="delay" label="Задержка между открытиями"/>
                     <TextField source="coordinates" label="Координаты"/>
                     <CctvReferenceField/>
+
                     <Divider/>
                     <DateField source="created_at" label="Создан" showTime={true}/>
                     <DateField source="updated_at" label="Обновлён" showTime={true}/>

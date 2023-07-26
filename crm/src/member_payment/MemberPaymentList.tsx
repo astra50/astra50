@@ -1,4 +1,16 @@
-import {BooleanInput, Datagrid, DateField, DateInput, List, NumberField, TextInput} from 'react-admin'
+import {
+    BooleanInput,
+    CreateButton,
+    DatagridConfigurable,
+    DateField,
+    DateInput,
+    FilterButton,
+    List,
+    NumberField,
+    SelectColumnsButton,
+    TextInput,
+    TopToolbar,
+} from 'react-admin'
 import {AccountReferenceField, AccountReferenceInput} from '../account/AccountReference'
 import {CommentField} from '../components/comment'
 import {LandReferenceInput} from '../land/LandReference'
@@ -17,16 +29,29 @@ const filters = [
     <LandReferenceInput source="land_id"/>,
 ]
 
+const MemberPaymentActions = () => (
+    <TopToolbar>
+        <SelectColumnsButton/>
+        <FilterButton/>
+        <CreateButton/>
+    </TopToolbar>
+)
+
 const MemberPaymentList = () => {
     return (
         <List
+            actions={<MemberPaymentActions/>}
             title="Членские взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
             perPage={25}
         >
-            <Datagrid rowClick="show">
+            <DatagridConfigurable
+                bulkActionButtons={false}
+                rowClick="show"
+                omit={['created_at', 'updated_at']}
+            >
                 <AccountReferenceField link={false}/>
                 <PersonReferenceField label="Плательщик" link={false}/>
                 <NumberField
@@ -41,7 +66,10 @@ const MemberPaymentList = () => {
                 />
                 <DateField source="paid_at" label="Дата"/>
                 <CommentField/>
-            </Datagrid>
+
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
+            </DatagridConfigurable>
         </List>
     )
 }

@@ -1,27 +1,50 @@
-import {Datagrid, DateField, List, TextField, TextInput} from 'react-admin'
+import {
+    CreateButton,
+    DatagridConfigurable,
+    DateField,
+    FilterButton,
+    List,
+    SelectColumnsButton,
+    TextField,
+    TextInput,
+    TopToolbar,
+} from 'react-admin'
 import {MoneyField} from '../money'
 
 const filters = [
-    <TextInput source="firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id" label="Поиск" alwaysOn/>,
+    <TextInput source="firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id" label="Поиск"
+               alwaysOn/>,
 ]
+
+const PersonActions = () => (
+    <TopToolbar>
+        <SelectColumnsButton/>
+        <FilterButton/>
+        <CreateButton/>
+    </TopToolbar>
+)
 
 const PersonList = () =>
     <List
-        title={'Садоводы'}
+        actions={<PersonActions/>}
+        title="Садоводы"
         empty={false}
         filters={filters}
         sort={{field: 'updated_at', order: 'desc'}}
     >
-        <Datagrid
+        <DatagridConfigurable
+            bulkActionButtons={false}
             rowClick="show"
+            omit={['created_at', 'updated_at']}
         >
             <TextField source="lastname" label="Фамилия"/>
             <TextField source="firstname" label="Имя"/>
             <TextField source="middlename" label="Отчество"/>
             <MoneyField source="balance" label="Баланс"/>
 
+            <DateField source="created_at" label="Создан" showTime={true}/>
             <DateField source="updated_at" label="Обновлён" showTime={true}/>
-        </Datagrid>
+        </DatagridConfigurable>
     </List>
 
 export default PersonList

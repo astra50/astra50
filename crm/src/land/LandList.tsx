@@ -1,4 +1,17 @@
-import {Datagrid, List, NumberField, Pagination, PaginationProps, TextField, TextInput} from 'react-admin'
+import {
+    CreateButton,
+    DatagridConfigurable,
+    DateField,
+    FilterButton,
+    List,
+    NumberField,
+    Pagination,
+    PaginationProps,
+    SelectColumnsButton,
+    TextField,
+    TextInput,
+    TopToolbar,
+} from 'react-admin'
 import {StreetReferenceField, StreetReferenceInput} from '../street/StreetReference'
 
 const filters = [
@@ -8,8 +21,17 @@ const filters = [
 
 const LandPagination = (props: PaginationProps) => <Pagination rowsPerPageOptions={[50, 100, 150]} {...props} />
 
+const LandActions = () => (
+    <TopToolbar>
+        <SelectColumnsButton/>
+        <FilterButton/>
+        <CreateButton/>
+    </TopToolbar>
+)
+
 const LandList = () =>
     <List
+        actions={<LandActions/>}
         title="Участки"
         empty={false}
         filters={filters}
@@ -17,14 +39,19 @@ const LandList = () =>
         pagination={<LandPagination/>}
         perPage={150}
     >
-        <Datagrid
+        <DatagridConfigurable
+            bulkActionButtons={false}
             rowClick="edit"
+            omit={['created_at', 'updated_at']}
         >
             <StreetReferenceField link={false}/>
             <NumberField source="number" label="Номер"/>
             <NumberField source="square" label="Площадь"/>
             <TextField source="cadastral_number" label="Кадастровый номер"/>
-        </Datagrid>
+
+            <DateField source="created_at" label="Создан" showTime={true}/>
+            <DateField source="updated_at" label="Обновлён" showTime={true}/>
+        </DatagridConfigurable>
     </List>
 
 export default LandList

@@ -1,11 +1,15 @@
-import {Datagrid, DateField, FunctionField, TextField} from 'react-admin'
+import {DatagridConfigurable, DateField, FunctionField, TextField} from 'react-admin'
 import {GateReferenceField} from '../gate/GateReference'
 import {GateOpenReasonReferenceField} from '../gate_open_reason/GateOpenReasonReference'
 import {PersonReferenceField} from '../person/PersonReference'
 import {GateOpen} from '../types'
 
 export const GateOpenListDatagrid = () =>
-    <Datagrid bulkActionButtons={false} rowClick="show">
+    <DatagridConfigurable
+        bulkActionButtons={false}
+        rowClick="show"
+        omit={['updated_at']}
+    >
         <GateReferenceField label="Ворота" link={false}/>
         <GateOpenReasonReferenceField label="Тип источника" link={false}/>
         <FunctionField label="Источник / Садовод" render={function (record: GateOpen) {
@@ -16,4 +20,5 @@ export const GateOpenListDatagrid = () =>
             return <TextField source="source" label="Источник"/>
         }}/>
         <DateField source="created_at" label="Дата" showTime={true}/>
-    </Datagrid>
+        <DateField source="updated_at" label="Обновлён" showTime={true}/>
+    </DatagridConfigurable>

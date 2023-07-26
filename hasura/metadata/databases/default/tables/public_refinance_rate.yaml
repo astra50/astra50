@@ -12,9 +12,11 @@ select_permissions:
   - role: government
     permission:
       columns:
+        - created_at
         - id
         - rate
         - since
+        - updated_at
       filter: {}
       allow_aggregations: true
 update_permissions:

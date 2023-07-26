@@ -1,4 +1,15 @@
-import {Datagrid, DateField, DateInput, List, TextInput, WithRecord} from 'react-admin'
+import {
+    CreateButton,
+    DatagridConfigurable,
+    DateField,
+    DateInput,
+    FilterButton,
+    List,
+    SelectColumnsButton,
+    TextInput,
+    TopToolbar,
+    WithRecord,
+} from 'react-admin'
 import {CommentField} from '../components/comment'
 import {ContractorReferenceField} from '../contractor/ContractorReference'
 import {LandReferenceField} from '../land/LandReference'
@@ -13,15 +24,28 @@ const filters = [
     <DateInput source="paid_at" label="Дата"/>,
 ]
 
+const TargetPaymentActions = () => (
+    <TopToolbar>
+        <SelectColumnsButton/>
+        <FilterButton/>
+        <CreateButton/>
+    </TopToolbar>
+)
+
 const TargetPaymentList = () => {
     return (
         <List
+            actions={<TargetPaymentActions/>}
             title="Целевые взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}
         >
-            <Datagrid rowClick="show">
+            <DatagridConfigurable
+                bulkActionButtons={false}
+                rowClick="show"
+                omit={['created_at', 'updated_at']}
+            >
                 <TargetReferenceField link={false}/>
                 <WithRecord label="Плательщик / Контрагент" render={record => {
                     if (record.person_id) return <PersonReferenceField link={false}/>
@@ -35,7 +59,10 @@ const TargetPaymentList = () => {
                 />
                 <DateField source="paid_at" label="Дата"/>
                 <CommentField/>
-            </Datagrid>
+
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
+            </DatagridConfigurable>
         </List>
     )
 }
