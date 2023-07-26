@@ -136,7 +136,6 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: admin
       HASURA_EVENT_SECRET: admin
       HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
-      HASURA_GRAPHQL_ENDPOINT: http://hasura:8080
     healthcheck:
       disable: true
     working_dir: /data

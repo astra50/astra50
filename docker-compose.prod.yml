@@ -88,6 +88,7 @@ services:
       HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: 'false'
       HASURA_GRAPHQL_MIGRATIONS_DIR: /data/migrations
       HASURA_GRAPHQL_METADATA_DIR: /data/metadata
+      HASURA_GRAPHQL_ENDPOINT: http://hasura:8080
     working_dir: /data
     volumes:
       - ./hasura:/data:ro
