@@ -3,6 +3,7 @@ import {
     DatagridConfigurable,
     DateField,
     FilterButton,
+    FunctionField,
     List,
     ReferenceField,
     ReferenceManyField,
@@ -14,6 +15,7 @@ import {
 } from 'react-admin'
 import {MoneyField} from '../money'
 import {PersonReferenceField, PersonReferenceInput} from '../person/PersonReference'
+import {Account} from '../types'
 
 const filters = [
     <TextInput
@@ -48,7 +50,9 @@ const AccountList = () =>
             <ReferenceManyField label="Участки" reference="account_land" target="account_id" sortable={false}>
                 <SingleFieldList linkType={false}>
                     <ReferenceField reference="land" source="land_id" link={false}>
-                        <TextField source="number"/>&nbsp;
+                        <FunctionField render={(record: Account) => {
+                            return <div>{record.number}&nbsp;</div>
+                        }}/>
                     </ReferenceField>
                 </SingleFieldList>
             </ReferenceManyField>
