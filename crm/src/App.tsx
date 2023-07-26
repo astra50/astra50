@@ -1,5 +1,6 @@
 import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
+import {YMInitializer} from '@appigram/react-yandex-metrika'
 import {ReactKeycloakProvider, useKeycloak} from '@react-keycloak/web'
 import Keycloak from 'keycloak-js'
 // @ts-ignore
@@ -147,6 +148,16 @@ const App = () => {
                 }}
             >
                 <React.Fragment>
+                    <YMInitializer
+                        accounts={[94451023]}
+                        options={{
+                            webvisor: true,
+                            clickmap: true,
+                            trackLinks: true,
+                            accurateTrackBounce: true,
+                        }}
+                        version="2"
+                    />
                     <AdminWithKeycloak/>
                 </React.Fragment>
             </ReactKeycloakProvider>
