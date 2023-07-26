@@ -1,4 +1,5 @@
 import {
+    faAddressBook,
     faBank,
     faBullseye,
     faGhost,
@@ -49,5 +50,8 @@ export default () => (
         <Divider/>
         <Menu.Item to="/cctv" primaryText="Видеокамеры"
                    leftIcon={<FontAwesomeIcon icon={faVideo}/>}/>
+        <Divider/>
+        <Menu.Item to="/contact" primaryText="Контакты"
+                   leftIcon={<FontAwesomeIcon icon={faAddressBook}/>}/>
     </Menu>
 )

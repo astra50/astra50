@@ -12,11 +12,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import {parsePhoneNumber} from 'libphonenumber-js'
 import QRCode from 'qrcode'
 import React, {useEffect, useState} from 'react'
 import {Loading, useAuthState, useLogin, useLogout} from 'react-admin'
 import ReactMarkdown from 'react-markdown'
-import {useLandsQuery} from './__gql-generated/queries.generated'
+import {useContactsQuery} from './__gql-generated/ContactsQuery.generated'
+import {useLandsQuery} from './__gql-generated/LandsQuery.generated'
 
 // TODO fetch from API
 const info = [
@@ -55,47 +57,74 @@ const bank = [
     ['КПП', '507401001'],
 ]
 
-// TODO fetch from API
-const organizations = [
-    ['Мосэнергосбыт;подключение', `[+7 (499) 550-95-50](tel:84995509550)\n\n[mosenergosbyt.ru](https://mosenergosbyt.ru)`],
-    ['Россети Москва;диспетчер', `[8 800 220-0-220](tel:88002200220)\n\n[rossetimr.ru](https://rossetimr.ru)`],
-    ['ООО «ЛайнНэт»;интернет', `[+7 (495) 858-11-10](tel:84958581110)\n\n[line-net.ru](https://line-net.ru)`],
-    ['МСК-НТ;вывоз мусора', `[8 800 234-36-70](tel:88002343670)\n\n[mskobl.msk-nt.ru](https://mskobl.msk-nt.ru)`],
-]
-
-export const Home = () => (
-    <Stack
-        spacing={4}
-        justifyContent="center"
-        alignContent="center"
-    >
-        <Box sx={{margin: 'auto'}}>
-            <Card>
-                <CardHeader title="Контакты"/>
-                <InformationTable rows={info}/>
-                <CardActions style={{width: '100%', justifyContent: 'space-between'}}>
-                    <NavButton/>
-                    <LoginButton/>
-                </CardActions>
-            </Card>
-            <Card sx={{marginTop: 3}}>
-                <CardHeader title="Реквизиты"/>
-                <InformationTable rows={requisites}/>
-            </Card>
-            <Card sx={{marginTop: 3}}>
-                <CardHeader title="Банковские реквизиты"/>
-                <InformationTable rows={bank}/>
-                <CardActions>
-                    <QrButton/>
-                </CardActions>
-            </Card>
-            <Card sx={{marginTop: 3}}>
-                <CardHeader title="Контакты организаций"/>
-                <InformationTable rows={organizations} isMarkdownEnabled/>
-            </Card>
-        </Box>
-    </Stack>
-)
+export const Home = () => {
+    const {data: contacts} = useContactsQuery()
+console.log(contacts)
+    return (
+        <Stack
+            spacing={4}
+            justifyContent="center"
+            alignContent="center"
+        >
+            <Box sx={{margin: 'auto'}}>
+                <Card>
+                    <CardHeader title="Контакты"/>
+                    <InformationTable rows={info}/>
+                    <CardActions style={{width: '100%', justifyContent: 'space-between'}}>
+                        <NavButton/>
+                        <LoginButton/>
+                    </CardActions>
+                </Card>
+                <Card sx={{marginTop: 3}}>
+                    <CardHeader title="Реквизиты"/>
+                    <InformationTable rows={requisites}/>
+                </Card>
+                <Card sx={{marginTop: 3}}>
+                    <CardHeader title="Банковские реквизиты"/>
+                    <InformationTable rows={bank}/>
+                    <CardActions>
+                        <QrButton/>
+                    </CardActions>
+                </Card>
+                <Card sx={{marginTop: 3}}>
+                    <CardHeader title="Контакты организаций"/>
+                    <TableContainer component={Paper}>
+                        <Table sx={{width: '100%', margin: 'auto'}} aria-label="simple table" size="small">
+                            <TableBody>
+                                {contacts && contacts.contact.map((contact, i) =>
+                                    <TableRow
+                                        key={i}
+                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {contact.name}
+                                            {contact.description &&
+                                                <Typography variant="caption" display="flex" gutterBottom>
+                                                    {contact.description}
+                                                </Typography>
+                                            }
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: 160}}>
+                                            {contact.phone && (
+                                                <p>
+                                                    <a href={`tel:${contact.phone}`}>{parsePhoneNumber(contact.phone).formatNational()}</a>
+                                                </p>
+                                            )}
+                                            {contact.site && (
+                                                <p>
+                                                    <a href={`//${contact.site}`} target="_blank">{contact.site}</a>
+                                                </p>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>)}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Card>
+            </Box>
+        </Stack>
+    )
+}
 
 type Cell = { value: string, link: string } | string
 

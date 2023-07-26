@@ -16,6 +16,7 @@ import account_land from './account_land'
 import account_person from './account_person'
 import useAuthProvider from './authProvider'
 import cctv from './cctv'
+import contact from './contact'
 import contractor from './contractor'
 import {Dashboard} from './dashboard/Dashboard'
 import gate from './gate'
@@ -109,6 +110,7 @@ const AdminWithKeycloak = () => {
                 <Resource {...account_person}/>
                 <Resource {...account}/>
                 <Resource {...cctv}/>
+                <Resource {...contact}/>
                 <Resource {...contractor}/>
                 <Resource {...gate_open_reason}/>
                 <Resource {...gate_open}/>

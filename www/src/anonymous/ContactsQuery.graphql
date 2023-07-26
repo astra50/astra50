@@ -1,0 +1,8 @@
+query Contacts {
+    contact(order_by: {position: asc}) {
+        name
+        description
+        phone
+        site
+    }
+}

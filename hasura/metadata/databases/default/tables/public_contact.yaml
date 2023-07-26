@@ -1,0 +1,74 @@
+table:
+  name: contact
+  schema: public
+insert_permissions:
+  - role: government
+    permission:
+      check: {}
+      columns:
+        - comment
+        - description
+        - is_public
+        - name
+        - phone
+        - position
+        - site
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - description
+        - id
+        - name
+        - phone
+        - position
+        - site
+      filter:
+        is_public:
+          _eq: true
+      allow_aggregations: true
+  - role: government
+    permission:
+      columns:
+        - is_public
+        - position
+        - comment
+        - description
+        - name
+        - phone
+        - site
+        - created_at
+        - updated_at
+        - id
+      filter: {}
+      allow_aggregations: true
+  - role: member
+    permission:
+      columns:
+        - description
+        - id
+        - name
+        - phone
+        - position
+        - site
+      filter:
+        is_public:
+          _eq: true
+      allow_aggregations: true
+update_permissions:
+  - role: government
+    permission:
+      columns:
+        - comment
+        - description
+        - is_public
+        - name
+        - phone
+        - position
+        - site
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: government
+    permission:
+      filter: {}

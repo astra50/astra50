@@ -2,6 +2,7 @@
 - "!include public_account_land.yaml"
 - "!include public_account_person.yaml"
 - "!include public_cctv.yaml"
+- "!include public_contact.yaml"
 - "!include public_contractor.yaml"
 - "!include public_gate.yaml"
 - "!include public_gate_open.yaml"
