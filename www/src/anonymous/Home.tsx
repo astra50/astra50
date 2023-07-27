@@ -59,7 +59,7 @@ const bank = [
 
 export const Home = () => {
     const {data: contacts} = useContactsQuery()
-console.log(contacts)
+
     return (
         <Stack
             spacing={4}
