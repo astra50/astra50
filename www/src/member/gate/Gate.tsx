@@ -142,6 +142,7 @@ const Player = (props: PlayerProps) => {
     const {cctv, rate} = props
 
     return <ReactPlayer
+        playing
         light={cctv.preview ? <Preview url={cctv.preview} rate={rate}/> : <></>}
         controls={false}
         width="100%"
