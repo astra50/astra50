@@ -25,7 +25,7 @@ CctvReferenceInput.defaultProps = {
     label: defaultLabel,
 }
 
-export const CctvReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const CctvReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         source={defaultSource}
         reference={cctv.name}

@@ -19,6 +19,7 @@ insert_permissions:
       check: {}
       columns:
         - cctv_id
+        - cctv_preview_rate
         - coordinates
         - delay
         - name
@@ -38,6 +39,7 @@ select_permissions:
     permission:
       columns:
         - cctv_id
+        - cctv_preview_rate
         - coordinates
         - created_at
         - delay
@@ -52,6 +54,7 @@ select_permissions:
     permission:
       columns:
         - cctv_id
+        - cctv_preview_rate
         - coordinates
         - created_at
         - delay
@@ -67,6 +70,7 @@ update_permissions:
     permission:
       columns:
         - cctv_id
+        - cctv_preview_rate
         - coordinates
         - delay
         - name

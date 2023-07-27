@@ -17,6 +17,7 @@ const GateShow = () => {
                     <NumberField source="delay" label="Задержка между открытиями"/>
                     <TextField source="coordinates" label="Координаты"/>
                     <CctvReferenceField/>
+                    <NumberField source="cctv_preview_rate" label="Частота обновления превью видеокамеры"/>
 
                     <Divider/>
                     <DateField source="created_at" label="Создан" showTime={true}/>

@@ -103,7 +103,7 @@ const GateList = () => {
                             key={i}
                         >
                             {gate.cctv
-                                ? <Player cctv={gate.cctv}/>
+                                ? <Player cctv={gate.cctv} rate={gate.cctv_preview_rate}/>
                                 : <FontAwesomeIcon icon={faVideoSlash} size={isSmall ? '6x' : '10x'}/>}
                         </CardMedia>
                     )
@@ -135,18 +135,43 @@ const GateList = () => {
 
 interface PlayerProps {
     cctv: CctvFragment
+    rate: number
 }
 
 const Player = (props: PlayerProps) => {
-    const {cctv} = props
+    const {cctv, rate} = props
 
     return <ReactPlayer
-        light={cctv.preview ? <img src={cctv.preview!} alt="Thumbnail" width="100%"/> : <></>}
+        light={cctv.preview ? <Preview url={cctv.preview} rate={rate}/> : <></>}
         controls={false}
         width="100%"
         height="100%"
         url={cctv!.url!}
     />
+}
+
+interface PreviewProps {
+    url: string,
+    rate: number
+}
+
+const Preview = (props: PreviewProps) => {
+    const {url, rate} = props
+    const [_, setHash] = useState(false)
+
+    useEffect(() => {
+        if (rate === 0) {
+            return
+        }
+
+        const timer = setInterval(() => setHash((hash) => !hash), rate)
+
+        return () => clearInterval(timer)
+    }, [rate])
+
+    const hash = (url.includes('?') ? '&' : '?') + dayjs().unix()
+
+    return <img src={url + hash} alt="Thumbnail" width="100%"/>
 }
 
 interface GateButtonWithCountdownProps {

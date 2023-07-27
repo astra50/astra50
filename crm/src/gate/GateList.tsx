@@ -8,6 +8,7 @@ import {
     TextField,
     TopToolbar,
 } from 'react-admin'
+import {CctvReferenceField} from '../cctv/CctvReference'
 
 const GateActions = () => (
     <TopToolbar>
@@ -27,12 +28,19 @@ const GateList = () => {
             <DatagridConfigurable
                 bulkActionButtons={false}
                 rowClick="show"
-                omit={['created_at', 'updated_at']}
+                omit={[
+                    'cctv_id',
+                    'cctv_preview_rate',
+                    'created_at',
+                    'updated_at',
+                ]}
             >
                 <TextField source="name" label="Название"/>
                 <NumberField source="number" label="Номер"/>
                 <TextField source="phone" label="Телефон"/>
                 <NumberField source="delay" label="Задержка"/>
+                <CctvReferenceField source="cctv_id"/>
+                <NumberField source="cctv_preview_rate" label="Частота обновления превью видеокамеры"/>
 
                 <DateField source="created_at" label="Создан" showTime={true}/>
                 <DateField source="updated_at" label="Обновлён" showTime={true}/>

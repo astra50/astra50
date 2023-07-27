@@ -22,6 +22,7 @@ const GateCreate = () => {
                 />
                 <TextInput source="coordinates" label="Координаты"/>
                 <CctvReferenceInput/>
+                <NumberInput source="cctv_preview_rate" label="Частота обновления превью видеокамеры"/>
             </SimpleForm>
         </Create>
     )
