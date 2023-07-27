@@ -1,3 +1,8 @@
+fragment Cctv on cctv {
+    url
+    preview
+}
+
 fragment GateWithLastOpen on gate {
     id
     name
@@ -7,8 +12,7 @@ fragment GateWithLastOpen on gate {
         created_at
     }
     cctv {
-        url
-        preview
+        ...Cctv
     }
 }
 

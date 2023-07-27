@@ -9,7 +9,7 @@ import {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
 import {LinearProgress} from 'react-admin'
 import ReactPlayer from 'react-player'
 import {useGateOpenSubscription} from './__gql-generated/GateOpenSubscription.generated'
-import {GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/GatesQuery.generated'
+import {CctvFragment, GateWithLastOpenFragment, useGatesQuery} from './__gql-generated/GatesQuery.generated'
 import {useOpenGateMutation} from './__gql-generated/OpenGateMutation.generated'
 
 export const Gate = () => (
@@ -102,14 +102,9 @@ const GateList = () => {
                             }}
                             key={i}
                         >
-                            {gate.cctv ? <ReactPlayer
-                                light={gate.cctv.preview ? <img src={gate.cctv.preview!} alt='Thumbnail' width="100%"/> : <></>}
-                                controls={false}
-                                playing={value === i}
-                                width="100%"
-                                height="100%"
-                                url={gate.cctv!.url!}
-                            /> : <FontAwesomeIcon icon={faVideoSlash} size={isSmall ? '6x' : '10x'}/>}
+                            {gate.cctv
+                                ? <Player cctv={gate.cctv}/>
+                                : <FontAwesomeIcon icon={faVideoSlash} size={isSmall ? '6x' : '10x'}/>}
                         </CardMedia>
                     )
                 })}
@@ -136,6 +131,22 @@ const GateList = () => {
             </Box>
         </Stack>
     )
+}
+
+interface PlayerProps {
+    cctv: CctvFragment
+}
+
+const Player = (props: PlayerProps) => {
+    const {cctv} = props
+
+    return <ReactPlayer
+        light={cctv.preview ? <img src={cctv.preview!} alt="Thumbnail" width="100%"/> : <></>}
+        controls={false}
+        width="100%"
+        height="100%"
+        url={cctv!.url!}
+    />
 }
 
 interface GateButtonWithCountdownProps {
