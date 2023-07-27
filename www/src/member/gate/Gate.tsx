@@ -87,13 +87,14 @@ const GateList = () => {
             height="100%"
             flexGrow={2}
         >
+            <Box/>
             <Card>
                 {gates?.gate.map((item, i) => {
                     const gate = gateFromEvent?.id === item.id ? gateFromEvent : item
 
                     return (
                         <CardMedia
-                            sx={{height: 'auto !important', width: '80vw', aspectRatio: '16/9'}}
+                            sx={{height: 'auto !important', width: isSmall ? '100vw' : '80vw', aspectRatio: '16/9'}}
                             style={{
                                 display: value === i ? 'flex' : 'none',
                                 justifyContent: 'center',
@@ -102,8 +103,8 @@ const GateList = () => {
                             key={i}
                         >
                             {gate.cctv ? <ReactPlayer
-                                light
-                                controls
+                                light={gate.cctv.preview ? <img src={gate.cctv.preview!} alt='Thumbnail' width="100%"/> : <></>}
+                                controls={false}
                                 playing={value === i}
                                 width="100%"
                                 height="100%"

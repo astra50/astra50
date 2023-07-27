@@ -8,17 +8,19 @@ insert_permissions:
       columns:
         - comment
         - name
+        - preview
         - url
 select_permissions:
   - role: government
     permission:
       columns:
+        - comment
+        - created_at
         - id
         - name
-        - comment
-        - url
-        - created_at
+        - preview
         - updated_at
+        - url
       filter: {}
       allow_aggregations: true
   - role: member
@@ -27,6 +29,7 @@ select_permissions:
         - created_at
         - id
         - name
+        - preview
         - updated_at
         - url
       filter: {}
@@ -37,6 +40,7 @@ update_permissions:
       columns:
         - comment
         - name
+        - preview
         - url
       filter: {}
       check: {}

@@ -13,7 +13,8 @@ const CctvEdit = () => {
                     validate={required()}
                     label="Название"
                 />
-                <TextInput source="url"/>
+                <TextInput source="url" fullWidth/>
+                <TextInput source="preview" fullWidth/>
                 <CommentInput/>
             </SimpleForm>
         </Edit>

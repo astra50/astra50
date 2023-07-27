@@ -10,9 +10,11 @@ const CctvShow = () => {
             >
                 <SimpleShowLayout>
                     <TextField source="id"/>
+
                     <TextField source="name" label="Название"/>
-                    <CommentField/>
                     <TextField source="url"/>
+                    <TextField source="preview"/>
+                    <CommentField/>
 
                     <Divider/>
                     <DateField source="created_at" label="Создан" showTime={true}/>

@@ -12,7 +12,8 @@ const CctvCreate = () => {
                     validate={required()}
                     label="Название"
                 />
-                <TextInput source="url"/>
+                <TextInput source="url" fullWidth/>
+                <TextInput source="preview" fullWidth/>
                 <CommentInput/>
             </SimpleForm>
         </Create>
