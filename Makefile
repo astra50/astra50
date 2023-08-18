@@ -76,7 +76,7 @@ migration-test: migration migration-rollback migration-apply ## test latest migr
 	@$(MAKE) migration-apply
 deploy-migration: INDEX=$(shell docker compose ps hasura | tail -1 | awk '{print $$1}' | awk -F  "-" '{print $$NF}')
 deploy-migration:
-	docker compose exec --index $(INDEX) hasura sh -c "hasura-cli deploy"
+	docker compose exec --index $(INDEX) --env HASURA_GRAPHQL_ENDPOINT=http://hasura:8080 hasura sh -c "hasura-cli deploy"
 
 ### CRM
 install-crm:
