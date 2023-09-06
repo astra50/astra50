@@ -11,31 +11,11 @@ import russianMessages from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
 import {Admin, CustomRoutes, DataProvider, I18nContextProvider, Loading, Resource} from 'react-admin'
 import {Route} from 'react-router-dom'
-import account from './account'
-import account_land from './account_land'
-import account_person from './account_person'
 import useAuthProvider from './authProvider'
-import cctv from './cctv'
-import contact from './contact'
-import contractor from './contractor'
 import {Dashboard} from './dashboard/Dashboard'
-import gate from './gate'
-import gate_open from './gate_open'
-import gate_open_reason from './gate_open_reason'
-import land from './land'
 import {Layout} from './layout'
-import member_discount from './member_discount'
-import member_payment from './member_payment'
-import member_rate from './member_rate'
-import person from './person'
-import person_email from './person_email'
-import person_phone from './person_phone'
-import refinance_rate from './refinance_rate'
+import {resources} from './resources'
 import Settings from './settings/Settings'
-import street from './street'
-import target from './target'
-import target_payment from './target_payment'
-import user from './user'
 
 const i18Provider = polyglotI18nProvider(() => {
     let messages = russianMessages
@@ -106,27 +86,7 @@ const AdminWithKeycloak = () => {
                 i18nProvider={i18Provider}
                 layout={Layout}
             >
-                <Resource {...account_land}/>
-                <Resource {...account_person}/>
-                <Resource {...account}/>
-                <Resource {...cctv}/>
-                <Resource {...contact}/>
-                <Resource {...contractor}/>
-                <Resource {...gate_open_reason}/>
-                <Resource {...gate_open}/>
-                <Resource {...gate}/>
-                <Resource {...land}/>
-                <Resource {...member_discount}/>
-                <Resource {...member_payment}/>
-                <Resource {...member_rate}/>
-                <Resource {...person_email}/>
-                <Resource {...person_phone}/>
-                <Resource {...person}/>
-                <Resource {...refinance_rate}/>
-                <Resource {...street}/>
-                <Resource {...target_payment}/>
-                <Resource {...target}/>
-                <Resource {...user}/>
+                {resources.map((res) => <Resource key={res.name} {...res}/>)}
                 <CustomRoutes>
                     <Route path="/settings" element={<Settings/>}/>
                 </CustomRoutes>
