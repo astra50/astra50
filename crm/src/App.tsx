@@ -85,6 +85,7 @@ const AdminWithKeycloak = () => {
                 authProvider={authProvider}
                 i18nProvider={i18Provider}
                 layout={Layout}
+                darkTheme={{palette: {mode: 'dark'}}}
             >
                 {resources.map((res) => <Resource key={res.name} {...res}/>)}
                 <CustomRoutes>
