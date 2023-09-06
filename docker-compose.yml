@@ -23,7 +23,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   crm:
-    image: astra50/crm:node-base
     pull_policy: never
     build:
       target: node-base
@@ -36,7 +35,7 @@ services:
       traefik.http.routers.astra50-crm.rule: Host(`crm.astra50.local`) && !Path(`/v1/graphql`)
       traefik.http.routers.astra50-crm.entrypoints: web
       traefik.http.services.astra50-crm.loadbalancer.server.port: 80
-    command: npm run start
+    command: sh -c "npm run codegen:watch & npm run start"
     environment:
       HOST: crm.astra50.local
       PORT: 80
@@ -69,7 +68,6 @@ services:
     user: ${UID:-1000}:${GID:-1000}
 
   www:
-    image: astra50/www:node-base
     pull_policy: never
     build:
       target: node-base
