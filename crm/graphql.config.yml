@@ -1,0 +1,9 @@
+schema: ./graphql.schema.json
+extensions:
+  endpoints:
+    schema:
+      url: http://crm.astra50.local/v1/graphql
+      headers:
+        x-hasura-admin-secret: admin
+        x-hasura-role: government
+      introspect: true

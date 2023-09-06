@@ -2,12 +2,11 @@ import {DateInput, Edit, SimpleForm, TextInput, WithRecord} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 import {PersonPhoneReferenceInput} from '../person_phone/PersonPhoneReference'
 import {UsersReferenceInput} from '../user/UserReference'
-import {PersonField} from './PersonField'
 
 const PersonEdit = () => {
     return (
         <Edit
-            title={<PersonField/>}
+            title="Садовод"
             redirect="show"
             mutationMode="pessimistic"
         >

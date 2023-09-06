@@ -85,6 +85,10 @@ up-crm: install-crm
 	docker compose up -d --build --force-recreate crm
 update-crm:
 	docker compose run --rm -T $(CLI_LABEL) crm sh -c "ncu -u && npm install"
+schema-crm: gq-build
+	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: government" --introspect --format=json > crm/graphql.schema.json
+codegen-crm:
+	docker compose run --rm -T --label ru.grachevko.dhu="" --label traefik.enable=false crm npm run codegen
 push-crm: IMAGE=cr.grachevko.ru/astra50/crm:latest
 push-crm:
 	docker build --tag $(IMAGE) crm/
@@ -107,11 +111,11 @@ up-www: schema-www
 	docker compose up -d --build --force-recreate www
 update-www:
 	docker compose run --rm -T $(CLI_LABEL) www sh -c "ncu -u && npm install"
-schema-www-build:
-	docker compose build gq
-schema-www: schema-www-build
+schema-www: gq-build
 	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: anonymous" --introspect --format=json > www/graphql.anonymous.json
 	docker compose run --rm gq -H "X-Hasura-Admin-Secret: admin" -H "X-Hasura-Role: member" --introspect --format=json > www/graphql.member.json
+codegen-www:
+	docker compose run --rm -T --label ru.grachevko.dhu="" --label traefik.enable=false www npm run codegen
 push-www: IMAGE=cr.grachevko.ru/astra50/www:latest
 push-www: schema-www
 	docker build --tag $(IMAGE) www/
@@ -119,6 +123,10 @@ push-www: schema-www
 deploy-www: SERVICE=www
 deploy-www: pull -deploy
 deploy-www-build: build -deploy
+
+### gq
+gq-build:
+	docker compose build gq
 
 ### Backup
 BACKUP_SERVER=s4.automagistre.ru

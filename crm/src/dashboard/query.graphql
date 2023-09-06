@@ -1,0 +1,5 @@
+query KeepForCodegen {
+    street {
+        id
+    }
+}
