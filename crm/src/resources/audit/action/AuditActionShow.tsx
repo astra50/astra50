@@ -1,7 +1,7 @@
 import React from 'react'
 import {BooleanField, DateField, Show, SimpleShowLayout, TextField, TopToolbar} from 'react-admin'
 import {JsonField} from '../../../components/JsonField'
-import {UsersReferenceField} from '../../user/UserReference'
+import {UserReferenceField} from '../../user/UserReference'
 
 const AuditActions = () => {
     return (
@@ -22,7 +22,7 @@ const AuditActionShow = () => {
                 <TextField source="relid"/>
                 <TextField source="session_user_name"/>
                 <JsonField source="hasura_user"/>
-                <UsersReferenceField/>
+                <UserReferenceField/>
                 <DateField source="action_tstamp_tx" showTime/>
                 <DateField source="action_tstamp_stm" showTime/>
                 <DateField source="action_tstamp_clk" showTime/>

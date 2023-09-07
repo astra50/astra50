@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const UsersReferenceField = (props: Partial<ReferenceFieldProps>) => {
+export const UserReferenceField = (props: Partial<ReferenceFieldProps>) => {
     return (
         <ReferenceField
             reference={defaults.reference}
@@ -21,7 +21,7 @@ export const UsersReferenceField = (props: Partial<ReferenceFieldProps>) => {
     )
 }
 
-UsersReferenceField.defaultProps = {
+UserReferenceField.defaultProps = {
     label: defaults.label,
     link: defaults.link,
 }

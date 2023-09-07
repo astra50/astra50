@@ -1,5 +1,5 @@
 import {DatagridConfigurable, DateField, List, SelectField, SelectInput, TextField, TextInput} from 'react-admin'
-import {UsersReferenceField, UsersReferenceInput} from '../../user/UserReference'
+import {UserReferenceField, UsersReferenceInput} from '../../user/UserReference'
 import {AuditTableReferenceInput} from '../table/AuditTableReference'
 
 const actionProps = {
@@ -33,7 +33,7 @@ const AuditActionList = () =>
         >
             <SelectField {...actionProps}/>
             <TextField source="table_name"/>
-            <UsersReferenceField link={false}/>
+            <UserReferenceField link={false}/>
             <DateField source="action_tstamp_tx" label="Дата" showTime={true}/>
         </DatagridConfigurable>
     </List>

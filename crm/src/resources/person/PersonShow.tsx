@@ -20,14 +20,14 @@ import {
     WithRecord,
 } from 'react-admin'
 import {Link} from 'react-router-dom'
-import account from '../account'
-import {AccountReferenceField} from '../account/AccountReference'
 import {CommentField} from '../../components/comment'
 import {MoneyField} from '../../components/money'
+import {Person, PersonEmail, PersonPhone} from '../../types'
+import account from '../account'
+import {AccountReferenceField} from '../account/AccountReference'
 import {PersonEmailReferenceField} from '../person_email/PersonEmailReference'
 import {PersonPhoneReferenceField} from '../person_phone/PersonPhoneReference'
-import {Person, PersonEmail, PersonPhone} from '../../types'
-import {UsersReferenceField} from '../user/UserReference'
+import {UserReferenceField} from '../user/UserReference'
 
 const Actions = () => {
     const record = useRecordContext<Person>()
@@ -114,7 +114,7 @@ const PersonShow = () => {
                     ><Add/></Button>
                 }}/>
                 <TextField source="telegram_id" label="Телеграм ID"/>
-                <UsersReferenceField/>
+                <UserReferenceField/>
 
                 <Divider>Член СНТ</Divider>
                 <DateField source="entered_at" label="Дата вступления"/>
