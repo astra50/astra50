@@ -1,26 +1,28 @@
 import {
     AutocompleteInput,
+    FieldProps,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
     TextField,
 } from 'react-admin'
-import person_email from './index'
-
-interface FieldProps {
-    source?: string,
-}
+import defaults from './defaults'
 
 export const PersonEmailReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source={props.source ?? 'id'}
-        reference={person_email.name}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="email" label={props.label}/>
     </ReferenceField>
 )
+
+PersonEmailReferenceField.defaultProps = {
+    label: defaults.label,
+    link: defaults.link,
+}
 
 interface InputProps {
     person_id?: string,
@@ -28,8 +30,8 @@ interface InputProps {
 
 export const PersonEmailReferenceInput = (props: InputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="phone_id"
-        reference={person_email.name}
+        reference={defaults.reference}
+        source={defaults.source}
         filter={{person_id: props.person_id}}
         {...props}
     >
@@ -43,12 +45,8 @@ export const PersonEmailReferenceInput = (props: InputProps & Omit<Omit<Referenc
     </ReferenceInput>
 )
 
-PersonEmailReferenceField.defaultProps = {
-    label: 'E-Mail',
-    link: 'show',
-}
 PersonEmailReferenceInput.defaultProps = {
-    label: 'E-Mail',
+    label: defaults.label,
     fullWidth: true,
     allowEmpty: true,
 }

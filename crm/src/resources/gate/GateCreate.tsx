@@ -4,7 +4,7 @@ import {CctvReferenceInput} from '../cctv/CctvReference'
 const GateCreate = () => {
     return (
         <Create
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <NumberInput source="number" label="Номер"/>

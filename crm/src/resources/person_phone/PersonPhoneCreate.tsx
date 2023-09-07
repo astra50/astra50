@@ -7,7 +7,6 @@ import {PersonPhone} from '../../types'
 const PersonPhoneCreate = () => {
     return (
         <Create
-            title="Создать телефон"
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as PersonPhone
 

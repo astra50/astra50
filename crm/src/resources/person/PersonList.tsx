@@ -27,7 +27,6 @@ const PersonActions = () => (
 const PersonList = () =>
     <List
         actions={<PersonActions/>}
-        title="Садоводы"
         empty={false}
         filters={filters}
         sort={{field: 'updated_at', order: 'desc'}}

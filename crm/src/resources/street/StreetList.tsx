@@ -25,13 +25,12 @@ const StreetActions = () => (
 const StreetList = () =>
     <List
         actions={<StreetActions/>}
-        title="Улицы"
         empty={false}
         filters={filters}
     >
         <DatagridConfigurable
             bulkActionButtons={false}
-            rowClick="edit"
+            rowClick="show"
             omit={['created_at', 'updated_at']}
         >
             <TextField source="name" label="Название"/>

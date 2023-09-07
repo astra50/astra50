@@ -1,5 +1,6 @@
 import {
     AutocompleteInput,
+    FieldProps,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
@@ -7,28 +8,23 @@ import {
     required,
     TextField,
 } from 'react-admin'
-import user from './index'
+import defaults from './defaults'
 
-const defaultLabel = 'Пользователь'
-const defaultSource = 'user_id'
-
-interface InputFieldProps {
-}
-
-export const UsersReferenceField = (props: InputFieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => {
+export const UsersReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => {
     return (
         <ReferenceField
-            source={defaultSource}
-            reference={user.name}
-            link="show"
+            reference={defaults.reference}
+            source={defaults.source}
             {...props}
         >
             <TextField source="username"/>
         </ReferenceField>
     )
 }
+
 UsersReferenceField.defaultProps = {
-    label: defaultLabel,
+    label: defaults.label,
+    link: defaults.link,
 }
 
 interface UsersReferenceInputProps {
@@ -37,16 +33,20 @@ interface UsersReferenceInputProps {
 
 export const UsersReferenceInput = (props: UsersReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source={defaultSource}
-        reference={user.name}
+        source={defaults.source}
+        reference={defaults.reference}
         {...props}
     >
         <AutocompleteInput
             optionText="username"
-            label={props.label ?? defaultLabel}
+            label={props.label}
             filterToQuery={(searchText: any) => ({'username': searchText})}
             validate={props.required ? required() : []}
             fullWidth
         />
     </ReferenceInput>
 )
+
+UsersReferenceInput.defaultProps = {
+    label: defaults.label,
+}

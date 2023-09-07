@@ -36,7 +36,6 @@ const TargetPaymentList = () => {
     return (
         <List
             actions={<TargetPaymentActions/>}
-            title="Целевые взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}

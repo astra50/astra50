@@ -41,7 +41,6 @@ const MemberPaymentList = () => {
     return (
         <List
             actions={<MemberPaymentActions/>}
-            title="Членские взносы"
             empty={false}
             filters={filters}
             sort={{field: 'paid_at', order: 'DESC'}}

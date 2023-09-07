@@ -8,7 +8,6 @@ import {MemberDiscount} from '../../types'
 const MemberDiscountCreate = () => {
     return (
         <Create
-            title="Создать льготника"
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as MemberDiscount
 

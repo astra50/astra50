@@ -4,8 +4,7 @@ import {StreetReferenceInput} from '../street/StreetReference'
 const LandCreate = () => {
     return (
         <Create
-            title="Создать участок"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <StreetReferenceInput required/>

@@ -6,30 +6,12 @@ import {
     SelectInput,
     TextField,
 } from 'react-admin'
-import cctv from './index'
-
-const defaultSource = 'cctv_id'
-const defaultLabel = 'Видеокамера'
-
-export const CctvReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
-    <ReferenceInput
-        source={defaultSource}
-        reference={cctv.name}
-        {...props}
-    >
-        <SelectInput optionText="name" source="name" label={props.label ?? defaultLabel}/>
-    </ReferenceInput>
-)
-
-CctvReferenceInput.defaultProps = {
-    label: defaultLabel,
-}
+import defaults from './defaults'
 
 export const CctvReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
-        source={defaultSource}
-        reference={cctv.name}
-        link="show"
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="name" label={props.label}/>
@@ -37,5 +19,20 @@ export const CctvReferenceField = (props: Partial<ReferenceFieldProps>) => (
 )
 
 CctvReferenceField.defaultProps = {
-    label: defaultLabel,
+    label: defaults.label,
+    link: defaults.link,
+}
+
+export const CctvReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+    <ReferenceInput
+        reference={defaults.reference}
+        source={defaults.source}
+        {...props}
+    >
+        <SelectInput optionText="name" source="name" label={props.label}/>
+    </ReferenceInput>
+)
+
+CctvReferenceInput.defaultProps = {
+    label: defaults.label,
 }

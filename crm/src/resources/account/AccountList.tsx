@@ -35,7 +35,6 @@ const AccountActions = () => (
 const AccountList = () =>
     <List
         actions={<AccountActions/>}
-        title="Лицевые счета"
         empty={false}
         filters={filters}
         sort={{field: 'balance', order: 'ASC'}}

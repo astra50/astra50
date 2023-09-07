@@ -28,7 +28,6 @@ const PersonEmailActions = () => (
 const PersonEmailList = () =>
     <List
         actions={<PersonEmailActions/>}
-        title="Электронные адреса"
         empty={false}
         filters={filters}
         perPage={25}

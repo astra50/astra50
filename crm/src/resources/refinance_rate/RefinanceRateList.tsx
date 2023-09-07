@@ -18,12 +18,11 @@ const RefinanceRateActions = () => (
 const RefinanceRateList = () =>
     <List
         actions={<RefinanceRateActions/>}
-        title="Ставки рефинансирования"
         empty={false}
         sort={{field: 'since', order: 'DESC'}}
     >
         <DatagridConfigurable
-            rowClick="edit"
+            rowClick="show"
             bulkActionButtons={false}
             omit={['updated_at']}
         >

@@ -1,17 +1,9 @@
-import {Edit, FieldProps, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
+import {Edit, NumberInput, required, SimpleForm, TextInput} from 'react-admin'
 import {StreetReferenceInput} from '../street/StreetReference'
-import {Land} from '../../types'
-
-const Title = (props: FieldProps<Land>) => {
-    const {record} = props
-
-    return <span>Участок {record ? `"${record.number}"` : ''}</span>
-}
 
 const LandEdit = () => {
     return (
         <Edit
-            title={<Title/>}
             mutationMode="pessimistic"
         >
             <SimpleForm>

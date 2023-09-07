@@ -9,7 +9,6 @@ import {PersonReferenceField} from '../person/PersonReference'
 const MemberPaymentShow = () => {
     return (
         <Show
-            title="Членский взнос"
         >
             <SimpleShowLayout>
                 <TextField source="id"/>

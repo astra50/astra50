@@ -9,7 +9,6 @@ import {TargetReferenceInput} from '../target/TargetReference'
 const TargetPaymentCreate = () => {
     return (
         <Create
-            title="Создать целевой взнос"
             redirect="show"
         >
             <SimpleForm>

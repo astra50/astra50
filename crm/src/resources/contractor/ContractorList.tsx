@@ -26,13 +26,12 @@ const ContractorActions = () => (
 const ContractorList = () =>
     <List
         actions={<ContractorActions/>}
-        title="Контрагенты"
         empty={false}
         filters={filters}
     >
         <DatagridConfigurable
             bulkActionButtons={false}
-            rowClick="edit"
+            rowClick="show"
             omit={['created_at', 'updated_at']}
         >
             <TextField source="name" label="Название"/>

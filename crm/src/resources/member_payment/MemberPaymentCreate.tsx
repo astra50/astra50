@@ -8,7 +8,6 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const MemberPaymentCreate = () => {
     return (
         <Create
-            title="Создать платёж"
             redirect="show"
         >
             <SimpleForm>

@@ -4,7 +4,6 @@ import {CommentInput} from '../../components/comment'
 const ContactCreate = () => {
     return (
         <Create
-            title="Создать контакт"
             redirect="show"
         >
             <SimpleForm>

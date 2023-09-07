@@ -1,26 +1,27 @@
 import {
-    AutocompleteInput,
+    AutocompleteInput, FieldProps,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
     ReferenceInputProps,
     TextField,
 } from 'react-admin'
-import person_phone from './index'
-
-interface FieldProps {
-    source?: string,
-}
+import defaults from './defaults'
 
 export const PersonPhoneReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source={props.source ?? 'id'}
-        reference={person_phone.name}
+        source={defaults.source}
         {...props}
+        reference={defaults.reference}
     >
         <TextField source="phone" label={props.label}/>
     </ReferenceField>
 )
+
+PersonPhoneReferenceField.defaultProps = {
+    label: defaults.label,
+    link: defaults.link,
+}
 
 interface InputProps {
     person_id?: string,
@@ -28,10 +29,10 @@ interface InputProps {
 
 export const PersonPhoneReferenceInput = (props: InputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="phone_id"
-        reference={person_phone.name}
+        source={defaults.source}
         filter={{person_id: props.person_id}}
         {...props}
+        reference={defaults.reference}
     >
         <AutocompleteInput
             optionText="phone"
@@ -43,12 +44,8 @@ export const PersonPhoneReferenceInput = (props: InputProps & Omit<Omit<Referenc
     </ReferenceInput>
 )
 
-PersonPhoneReferenceField.defaultProps = {
-    label: 'Телефон',
-    link: 'show',
-}
 PersonPhoneReferenceInput.defaultProps = {
-    label: 'Телефон',
+    label: defaults.label,
     fullWidth: true,
     allowEmpty: true,
 }

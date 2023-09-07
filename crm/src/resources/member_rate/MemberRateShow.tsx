@@ -11,18 +11,19 @@ import {
     ReferenceManyField,
     Show,
     SimpleShowLayout,
+    TextField,
     TopToolbar,
     useRecordContext,
 } from 'react-admin'
 // @ts-ignore
 import {Link} from 'react-router-dom'
+import {CommentField} from '../../components/comment'
+import {MoneyField} from '../../components/money'
+import {MemberRate} from '../../types'
 import account from '../account'
 import {AccountReferenceField} from '../account/AccountReference'
-import {CommentField} from '../../components/comment'
 import member_discount from '../member_discount'
-import {MoneyField} from '../../components/money'
 import {PersonReferenceField} from '../person/PersonReference'
-import {MemberDiscount, MemberRate} from '../../types'
 
 const Actions = () => {
     const record = useRecordContext<MemberRate>()
@@ -49,10 +50,10 @@ const Actions = () => {
 const MemberRateShow = () => {
     return (
         <Show
-            title="Ставка"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
+                <TextField source="id"/>
                 <MoneyField source="amount" label="Ставка"/>
                 <NumberField source="discount" label="Скидка"/>
                 <DateField source="since" label="С даты"/>
@@ -61,39 +62,33 @@ const MemberRateShow = () => {
                 <CommentField/>
 
                 <Divider/>
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
+
+                <Divider/>
                 <ReferenceManyField
                     label="Льготники"
                     reference="member_discount"
                     target="rate_id"
-                    sortable={false}>
-                    <Datagrid>
-                        <AccountReferenceField/>
+                    sortable={false}
+                    perPage={100500}
+                >
+                    <Datagrid bulkActionButtons={false} rowClick="show">
+                        <AccountReferenceField link={false}/>
                         <ReferenceField
                             source="account_id"
                             reference={account.name}
                             link={false}
                             label="Льготник"
                         >
-                            <PersonReferenceField source="person_id"/>
+                            <PersonReferenceField source="person_id" link={false}/>
                         </ReferenceField>
                         <CommentField/>
-                        <MemberDiscountEditButton/>
                     </Datagrid>
                 </ReferenceManyField>
-
-
-                <Divider/>
-                <DateField source="created_at" label="Создан" showTime={true}/>
-                <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>
         </Show>
     )
 }
 
 export default MemberRateShow
-
-const MemberDiscountEditButton = () => {
-    let record = useRecordContext<MemberDiscount>()
-
-    return <EditButton resource={member_discount.name} record={record} label="Редактировать"/>
-}

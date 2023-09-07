@@ -6,32 +6,34 @@ import {
     SelectInput,
     TextField,
 } from 'react-admin'
-import contractor from './index'
+import defaults from './defaults'
 
 export const ContractorReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
-        source="contractor_id"
-        reference={contractor.name}
     >
         <TextField source="name" label={props.label}/>
     </ReferenceField>
 )
 
+ContractorReferenceField.defaultProps = {
+    label: defaults.label,
+    link: defaults.link,
+}
+
 export const ContractorReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="contractor_id"
-        reference={contractor.name}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <SelectInput optionText="name" label={props.label} fullWidth/>
     </ReferenceInput>
 )
 
-ContractorReferenceField.defaultProps = {
-    label: 'Контрагент',
-}
 ContractorReferenceInput.defaultProps = {
-    label: 'Контрагент',
+    label: defaults.label,
     allowEmpty: true,
 }

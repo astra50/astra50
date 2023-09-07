@@ -27,7 +27,6 @@ const MemberRateActions = () => (
 const MemberRateList = () =>
     <List
         actions={<MemberRateActions/>}
-        title="Ставки"
         empty={false}
         filters={filters}
         sort={{field: 'since', order: 'DESC'}}

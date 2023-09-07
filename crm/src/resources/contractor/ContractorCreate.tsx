@@ -4,7 +4,6 @@ import {CommentInput} from '../../components/comment'
 const ContractorCreate = () => {
     return (
         <Create
-            title="Создать контрагента"
             redirect="list"
         >
             <SimpleForm>

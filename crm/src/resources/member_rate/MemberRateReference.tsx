@@ -7,19 +7,22 @@ import {
     required,
     TextField,
 } from 'react-admin'
-import member_rate from './index'
-
-const defaultLabel = 'Ставка'
+import defaults from './defaults'
 
 export const MemberRateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source="rate_id"
-        reference={member_rate.name}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
-        <TextField source="amount" label={props.label ?? defaultLabel}/>
+        <TextField source="amount" label={props.label}/>
     </ReferenceField>
 )
+
+MemberRateReferenceField.defaultProps = {
+    label: defaults.label,
+    link: defaults.link,
+}
 
 interface MemberRateReferenceInputProps {
     required?: boolean,
@@ -27,15 +30,19 @@ interface MemberRateReferenceInputProps {
 
 export const MemberRateReferenceInput = (props: MemberRateReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="rate_id"
-        reference={member_rate.name}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <AutocompleteInput
             optionText="amount"
-            label={props.label ?? defaultLabel}
+            label={props.label}
             filterToQuery={(searchText: any) => ({'amount': searchText})}
             validate={props.required ? required() : []}
         />
     </ReferenceInput>
 )
+
+MemberRateReferenceInput.defaultProps = {
+    label: defaults.label,
+}

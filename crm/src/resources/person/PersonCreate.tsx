@@ -4,7 +4,6 @@ import {CommentInput} from '../../components/comment'
 const PersonCreate = () => {
     return (
         <Create
-            title="Создать садовода"
             redirect="show"
         >
             <SimpleForm>

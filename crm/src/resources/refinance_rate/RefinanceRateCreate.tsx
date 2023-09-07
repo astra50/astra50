@@ -3,8 +3,7 @@ import {Create, DateInput, NumberInput, required, SimpleForm} from 'react-admin'
 const RefinanceRateCreate = () => {
     return (
         <Create
-            title="Создать ставку"
-            redirect="list"
+            redirect="show"
         >
             <SimpleForm>
                 <NumberInput source="rate" label="Ставка" validate={required()}/>

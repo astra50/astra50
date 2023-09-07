@@ -11,7 +11,7 @@ export const GateOpenListDatagrid = () =>
         omit={['updated_at']}
     >
         <GateReferenceField label="Ворота" link={false}/>
-        <GateOpenReasonReferenceField label="Тип источника" link={false}/>
+        <GateOpenReasonReferenceField link={false}/>
         <FunctionField label="Источник / Садовод" render={function (record: GateOpen) {
             if (record.person_id) {
                 return <PersonReferenceField link={false}/>

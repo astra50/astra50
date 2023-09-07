@@ -4,7 +4,6 @@ import {DateField, ReferenceOneField, Show, SimpleShowLayout, TextField} from 'r
 const UserShow = () => {
     return (
         <Show
-            title="Пользователь"
         >
             <SimpleShowLayout>
                 <TextField source="id"/>

@@ -3,7 +3,6 @@ import {Edit, SimpleForm, TextInput} from 'react-admin'
 const UserEdit = () => {
     return (
         <Edit
-            title="Редактирование пользователя"
             redirect="show"
             mutationMode="pessimistic"
         >

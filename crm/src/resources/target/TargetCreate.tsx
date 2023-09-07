@@ -13,7 +13,6 @@ import {MoneyInput} from '../../components/money'
 const TargetCreate = () => {
     return (
         <Create
-            title="Создать Цель"
             redirect="show"
         >
             <SimpleForm>

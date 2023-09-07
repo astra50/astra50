@@ -10,10 +10,10 @@ import {TargetReferenceField} from '../target/TargetReference'
 const TargetPaymentShow = () => {
     return (
         <Show
-            title="Целевой взнос"
         >
             <SimpleShowLayout>
                 <TextField source="id"/>
+
                 <TargetReferenceField/>
                 <WithRecord label="Плательщик / Контрагент" render={record => {
                     if (record.person_id) return <PersonReferenceField/>

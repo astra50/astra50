@@ -5,7 +5,6 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const AccountCreate = () => {
     return (
         <Create
-            title="Создать лицевой счёт"
             redirect="show"
         >
             <SimpleForm>

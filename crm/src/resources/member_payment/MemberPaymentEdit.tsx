@@ -8,7 +8,6 @@ import {PersonReferenceInput} from '../person/PersonReference'
 const MemberPaymentEdit = () => {
     return (
         <Edit
-            title="Членский Взнос"
             redirect="show"
             mutationMode="pessimistic"
         >

@@ -8,12 +8,11 @@ import {PersonReferenceField} from '../person/PersonReference'
 const GateOpenShow = () => {
     return (
         <Show
-            title="Открытие ворот"
         >
             <SimpleShowLayout>
                 <TextField source="id"/>
                 <GateReferenceField label="Ворота"/>
-                <GateOpenReasonReferenceField label="Тип источника"/>
+                <GateOpenReasonReferenceField/>
                 <TextField source="source" label="Источник"/>
                 <CommentField/>
                 <PersonReferenceField/>

@@ -4,7 +4,6 @@ import {CommentInput} from '../../components/comment'
 const ContactEdit = () => {
     return (
         <Edit
-            title="Контакт"
             mutationMode="pessimistic"
             redirect="show"
         >

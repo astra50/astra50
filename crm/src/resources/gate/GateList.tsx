@@ -21,7 +21,6 @@ const GateList = () => {
     return (
         <List
             actions={<GateActions/>}
-            title="Ворота"
             empty={false}
             sort={{field: 'number', order: 'ASC'}}
         >

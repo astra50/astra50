@@ -4,7 +4,6 @@ import {CommentInput} from '../../components/comment'
 const CctvEdit = () => {
     return (
         <Edit
-            title="Видеокамера"
             mutationMode="pessimistic"
         >
             <SimpleForm>

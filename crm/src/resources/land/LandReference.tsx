@@ -7,21 +7,21 @@ import {
     SelectInput,
     TextField,
 } from 'react-admin'
-import land from './index'
-
-const defaultLabel = 'Участок'
+import defaults from './defaults'
 
 export const LandReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source="land_id"
-        reference={land.name}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="number" label={props.label}/>
     </ReferenceField>
 )
+
 LandReferenceField.defaultProps = {
-    label: defaultLabel,
+    label: defaults.label,
+    link: defaults.link,
 }
 
 interface LandReferenceInputProps {
@@ -30,20 +30,20 @@ interface LandReferenceInputProps {
 
 export const LandReferenceInput = (props: LandReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="land_id"
-        reference={land.name}
+        reference={defaults.reference}
+        source={defaults.source}
         sort={{field: 'number_integer', order: 'ASC'}}
         perPage={500}
         {...props}
     >
         <SelectInput
             optionText="number"
-            label={props.label ?? defaultLabel}
+            label={props.label}
             validate={props.required ? required() : []}
         />
     </ReferenceInput>
 )
-LandReferenceInput.defaultProps = {
-    label: defaultLabel,
-}
 
+LandReferenceInput.defaultProps = {
+    label: defaults.label,
+}

@@ -6,7 +6,6 @@ import {UsersReferenceInput} from '../user/UserReference'
 const PersonEdit = () => {
     return (
         <Edit
-            title="Садовод"
             redirect="show"
             mutationMode="pessimistic"
         >

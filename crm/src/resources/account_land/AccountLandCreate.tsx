@@ -7,7 +7,6 @@ import {AccountLand} from '../../types'
 const AccountLandCreate = () => {
     return (
         <Create
-            title="Привязать лицевой счёт к участку"
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as AccountLand
 

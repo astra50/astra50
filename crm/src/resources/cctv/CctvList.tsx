@@ -19,7 +19,6 @@ const CctvList = () => {
     return (
         <List
             actions={<CctvActions/>}
-            title="Видеокамеры"
             sort={{field: 'name', order: 'ASC'}}
             empty={false}
         >

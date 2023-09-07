@@ -44,10 +44,11 @@ const Actions = () => {
 const TargetShow = () => {
     return (
         <Show
-            title="Цель"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
+                <TextField source="id"/>
+
                 <TextField source="name" label="Цель"/>
                 <BooleanField source="is_public" label="Опубликовано"/>
                 <CommentField/>

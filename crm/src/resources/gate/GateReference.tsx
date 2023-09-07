@@ -6,30 +6,12 @@ import {
     SelectInput,
     TextField,
 } from 'react-admin'
-import gate from './index'
-
-const defaultSource = 'gate_id'
-const defaultLabel = 'Ворота'
-
-export const GateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
-    <ReferenceInput
-        source={defaultSource}
-        reference={gate.name}
-        {...props}
-    >
-        <SelectInput optionText="name" source="name" label={props.label ?? defaultLabel}/>
-    </ReferenceInput>
-)
-
-GateReferenceInput.defaultProps = {
-    label: 'Ворота',
-}
+import defaults from './defaults'
 
 export const GateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source={defaultSource}
-        reference={gate.name}
-        link="show"
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="name" label={props.label}/>
@@ -37,5 +19,20 @@ export const GateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source
 )
 
 GateReferenceField.defaultProps = {
-    label: defaultLabel,
+    label: defaults.label,
+    link: defaults.link,
+}
+
+export const GateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+    <ReferenceInput
+        reference={defaults.reference}
+        source={defaults.source}
+        {...props}
+    >
+        <SelectInput optionText="name" source="name" label={props.label}/>
+    </ReferenceInput>
+)
+
+GateReferenceInput.defaultProps = {
+    label: defaults.label,
 }

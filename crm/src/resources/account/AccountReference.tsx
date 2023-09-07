@@ -7,18 +7,22 @@ import {
     required,
     TextField,
 } from 'react-admin'
-import account from './index'
+import defaults from './defaults'
 
 export const AccountReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        source="account_id"
-        reference={account.name}
-        link="show"
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="number" label={props.label}/>
     </ReferenceField>
 )
+
+AccountReferenceField.defaultProps = {
+    label: defaults.label,
+    link: defaults.link,
+}
 
 interface AccountReferenceInputProps {
     required?: boolean,
@@ -26,8 +30,8 @@ interface AccountReferenceInputProps {
 
 export const AccountReferenceInput = (props: AccountReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        source="account_id"
-        reference={account.name}
+        reference={defaults.reference}
+        source={defaults.source}
         sort={{field: 'number', order: 'ASC'}}
         {...props}
     >
@@ -40,9 +44,6 @@ export const AccountReferenceInput = (props: AccountReferenceInputProps & Omit<O
     </ReferenceInput>
 )
 
-AccountReferenceField.defaultProps = {
-    label: 'Лицевой счёт',
-}
 AccountReferenceInput.defaultProps = {
-    label: 'Лицевой счёт',
+    label: defaults.label,
 }

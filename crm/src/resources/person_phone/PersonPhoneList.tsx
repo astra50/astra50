@@ -28,7 +28,6 @@ const PersonPhoneActions = () => (
 const PersonPhoneList = () =>
     <List
         actions={<PersonPhoneActions/>}
-        title="Телефоны"
         empty={false}
         filters={filters}
         perPage={25}

@@ -8,7 +8,6 @@ import {PersonEmail} from '../../types'
 const PersonEmailCreate = () => {
     return (
         <Create
-            title="Создать e-mail"
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as PersonEmail
 

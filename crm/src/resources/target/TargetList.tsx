@@ -28,7 +28,6 @@ const TargetActions = () => (
 const TargetList = () =>
     <List
         actions={<TargetActions/>}
-        title="Цели"
         empty={false}
         filters={filters}
         sort={{field: 'created_at', order: 'desc'}}

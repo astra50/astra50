@@ -1,6 +1,5 @@
 import {
-    AutocompleteInput,
-    FieldProps,
+    AutocompleteInput, FieldProps,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
@@ -9,14 +8,12 @@ import {
     TextField,
 } from 'react-admin'
 import {Person} from '../../types'
-
-const defaultReference = 'person'
-const defaultSource = 'person_id'
+import defaults from './defaults'
 
 export const PersonReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceField
-        reference={defaultReference}
-        source={props.source ?? defaultSource}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <TextField source="full_name" label={props.label}/>
@@ -24,8 +21,8 @@ export const PersonReferenceField = (props: FieldProps & Omit<Omit<ReferenceFiel
 )
 
 PersonReferenceField.defaultProps = {
-    label: 'Садовод',
-    link: 'show',
+    label: defaults.label,
+    link: defaults.link,
 }
 
 interface PersonReferenceInputProps {
@@ -34,8 +31,8 @@ interface PersonReferenceInputProps {
 
 export const PersonReferenceInput = (props: PersonReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
-        reference={props.reference ?? defaultReference}
-        source={props.source ?? defaultSource}
+        reference={defaults.reference}
+        source={defaults.source}
         {...props}
     >
         <AutocompleteInput
@@ -51,7 +48,7 @@ export const PersonReferenceInput = (props: PersonReferenceInputProps & Omit<Omi
 )
 
 PersonReferenceInput.defaultProps = {
-    label: 'Садовод',
+    label: defaults.label,
     fullWidth: true,
     allowEmpty: true,
 }

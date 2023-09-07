@@ -7,7 +7,6 @@ import {AccountPerson} from '../../types'
 const AccountPersonCreate = () => {
     return (
         <Create
-            title="Привязать лицевой счёт к садоводу"
             redirect={(_resource?: string, _id?: Identifier, data?: Partial<RaRecord>) => {
                 const record = data as AccountPerson
 

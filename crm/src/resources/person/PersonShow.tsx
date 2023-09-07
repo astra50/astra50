@@ -55,10 +55,10 @@ const Actions = () => {
 const PersonShow = () => {
     return (
         <Show
-            title="Садовод"
             actions={<Actions/>}
         >
             <SimpleShowLayout>
+                <TextField source="id"/>
                 <FunctionField label="Фамилия Имя Отчество"
                                render={(record: Person) => `${record.full_name}`}/>
                 <CommentField/>
@@ -70,7 +70,7 @@ const PersonShow = () => {
                     target="person_id"
                 >
                     <Datagrid bulkActionButtons={false}>
-                        <PersonEmailReferenceField label={false} sortable={false}/>
+                        <PersonEmailReferenceField source="id" label={false} sortable={false}/>
                         <BooleanField source="is_main" label="Основной?"/>
                         <FunctionField render={function (record: PersonEmail) {
                             return <Button href={'mailto:' + record.email} label="Письмо"><Email/></Button>
@@ -95,7 +95,7 @@ const PersonShow = () => {
                     target="person_id"
                 >
                     <Datagrid bulkActionButtons={false}>
-                        <PersonPhoneReferenceField label={false} sortable={false}/>
+                        <PersonPhoneReferenceField source="id" label={false} sortable={false}/>
                         <BooleanField source="is_main" label="Основной?"/>
                         <FunctionField render={function (record: PersonPhone) {
                             return <Button href={'tel:' + record.phone} label="Звонок"><Call/></Button>

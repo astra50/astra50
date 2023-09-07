@@ -32,7 +32,6 @@ const LandActions = () => (
 const LandList = () =>
     <List
         actions={<LandActions/>}
-        title="Участки"
         empty={false}
         filters={filters}
         sort={{field: 'number_integer', order: 'ASC'}}
@@ -41,7 +40,7 @@ const LandList = () =>
     >
         <DatagridConfigurable
             bulkActionButtons={false}
-            rowClick="edit"
+            rowClick="show"
             omit={['created_at', 'updated_at']}
         >
             <StreetReferenceField link={false}/>

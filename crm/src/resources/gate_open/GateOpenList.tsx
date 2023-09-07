@@ -7,7 +7,7 @@ import {GateOpenListDatagrid} from './GateOpenListDatagrid'
 const filters = [
     <TextInput source="source" label="Поиск" alwaysOn/>,
     <GateReferenceInput source="gate_id"/>,
-    <GateOpenReasonReferenceInput source="reason_id" label="Тип источника" alwaysOn/>,
+    <GateOpenReasonReferenceInput source="reason_id" alwaysOn/>,
     <PersonReferenceInput source="person_id" alwaysOn/>,
 ]
 
@@ -23,7 +23,6 @@ const GateOpenList = () => {
     return (
         <List
             actions={<GateOpenActions/>}
-            title="Журнал открытия ворот"
             empty={false}
             sort={{field: 'created_at', order: 'DESC'}}
             filters={filters}

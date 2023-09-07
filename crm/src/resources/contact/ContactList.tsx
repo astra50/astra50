@@ -29,7 +29,6 @@ const ContactActions = () => (
 const ContactList = () =>
     <List
         actions={<ContactActions/>}
-        title="контакты"
         empty={false}
         filters={filters}
         sort={{field: 'position', order: 'asc'}}

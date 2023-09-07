@@ -5,7 +5,6 @@ import {MoneyInput} from '../../components/money'
 const MemberRateCreate = () => {
     return (
         <Create
-            title="Создать Ставку"
             redirect="show"
         >
             <SimpleForm>

@@ -13,7 +13,6 @@ import {MoneyInput} from '../../components/money'
 const TargetEdit = () => {
     return (
         <Edit
-            title="Редактирование цели"
             redirect="show"
             mutationMode="pessimistic"
         >

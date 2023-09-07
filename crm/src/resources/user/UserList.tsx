@@ -3,7 +3,7 @@ import {
     DatagridConfigurable,
     DateField,
     FilterButton,
-    List,
+    List, ReferenceOneField,
     SelectColumnsButton,
     TextField,
     TextInput,
@@ -11,7 +11,7 @@ import {
 } from 'react-admin'
 
 const filters = [
-    <TextInput source="username" label="Поиск" alwaysOn/>,
+    <TextInput source="username,person#full_name@_ilike" label="Поиск" alwaysOn/>,
 ]
 
 const UserActions = () => (
@@ -25,7 +25,6 @@ const UserActions = () => (
 const UserList = () =>
     <List
         actions={<UserActions/>}
-        title="Пользователи"
         empty={false}
         filters={filters}
         sort={{field: 'created_at', order: 'desc'}}
@@ -36,6 +35,10 @@ const UserList = () =>
             omit={['updated_at']}
         >
             <TextField source="username"/>
+
+            <ReferenceOneField target="user_id" reference="person" label="Садовод" link={false}>
+                <TextField source="full_name"/>
+            </ReferenceOneField>
 
             <DateField source="created_at" label="Создан" showTime={true}/>
             <DateField source="updated_at" label="Обновлён" showTime={true}/>

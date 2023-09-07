@@ -1,7 +1,8 @@
 import CallIcon from '@mui/icons-material/Call'
+import {Divider} from '@mui/material'
 import {
     BooleanField,
-    Button,
+    Button, DateField,
     EditButton,
     Show,
     SimpleShowLayout,
@@ -28,14 +29,18 @@ const PersonPhoneShowActions = () => {
 const PersonPhoneShow = () => {
     return (
         <Show
-            title="Телефон"
             actions={<PersonPhoneShowActions/>}
         >
             <SimpleShowLayout>
+                <TextField source="id"/>
                 <PersonReferenceField/>
                 <TextField source="phone" label="Телефон"/>
                 <BooleanField source="is_main" label="Основной?"/>
                 <CommentField/>
+
+                <Divider/>
+                <DateField source="created_at" label="Создан" showTime={true}/>
+                <DateField source="updated_at" label="Обновлён" showTime={true}/>
             </SimpleShowLayout>
         </Show>
     )
