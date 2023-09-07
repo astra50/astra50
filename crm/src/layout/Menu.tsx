@@ -6,6 +6,7 @@ import {
     faHome,
     faJournalWhills,
     faPercentage,
+    faPersonHarassing,
     faRoad,
     faRubleSign,
     faToriiGate,
@@ -53,5 +54,8 @@ export default () => (
         <Divider/>
         <Menu.Item to="/contact" primaryText="Контакты"
                    leftIcon={<FontAwesomeIcon icon={faAddressBook}/>}/>
+        <Divider/>
+        <Menu.Item to="/audit_action" primaryText="Аудит"
+                   leftIcon={<FontAwesomeIcon icon={faPersonHarassing}/>}/>
     </Menu>
 )

@@ -1,0 +1,14 @@
+table:
+  name: table
+  schema: audit
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - id
+      filter:
+        id:
+          _nin:
+            - public.personal_access_token
+      allow_aggregations: true
+    comment: ""

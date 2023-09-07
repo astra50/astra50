@@ -1,0 +1,44 @@
+table:
+  name: logged_actions
+  schema: audit
+configuration:
+  column_config:
+    event_id:
+      custom_name: id
+  custom_column_names:
+    event_id: id
+  custom_name: audit_action
+  custom_root_fields: {}
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+select_permissions:
+  - role: government
+    permission:
+      columns:
+        - action
+        - action_tstamp_clk
+        - action_tstamp_stm
+        - action_tstamp_tx
+        - application_name
+        - changed_fields
+        - client_addr
+        - client_port
+        - client_query
+        - hasura_user
+        - event_id
+        - relid
+        - row_data
+        - schema_name
+        - session_user_name
+        - statement_only
+        - table_name
+        - transaction_id
+        - user_id
+      filter:
+        table_name:
+          _nin:
+            - personal_access_token
+      allow_aggregations: true
+    comment: ""

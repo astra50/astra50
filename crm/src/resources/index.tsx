@@ -1,6 +1,7 @@
 import account from './account'
 import account_land from './account_land'
 import account_person from './account_person'
+import audit from './audit'
 import cctv from './cctv'
 import contact from './contact'
 import contractor from './contractor'
@@ -21,6 +22,7 @@ import target_payment from './target_payment'
 import user from './user'
 
 export const resources = [
+    ...audit,
     account_land,
     account_person,
     account,
