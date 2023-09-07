@@ -1,5 +1,5 @@
 import {
-    AutocompleteInput, FieldProps,
+    AutocompleteInput,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
@@ -10,7 +10,7 @@ import {
 import {Person} from '../../types'
 import defaults from './defaults'
 
-export const PersonReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const PersonReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -29,7 +29,7 @@ interface PersonReferenceInputProps {
     required?: boolean,
 }
 
-export const PersonReferenceInput = (props: PersonReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const PersonReferenceInput = (props: PersonReferenceInputProps & Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

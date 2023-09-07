@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const AccountReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const AccountReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -28,7 +28,7 @@ interface AccountReferenceInputProps {
     required?: boolean,
 }
 
-export const AccountReferenceInput = (props: AccountReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const AccountReferenceInput = (props: AccountReferenceInputProps & Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

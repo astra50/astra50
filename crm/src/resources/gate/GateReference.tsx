@@ -8,7 +8,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const GateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const GateReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -23,7 +23,7 @@ GateReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-export const GateReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const GateReferenceInput = (props: Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

@@ -23,7 +23,7 @@ CctvReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-export const CctvReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const CctvReferenceInput = (props: Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

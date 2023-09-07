@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const MemberRateReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const MemberRateReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -28,7 +28,7 @@ interface MemberRateReferenceInputProps {
     required?: boolean,
 }
 
-export const MemberRateReferenceInput = (props: MemberRateReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const MemberRateReferenceInput = (props: MemberRateReferenceInputProps & Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

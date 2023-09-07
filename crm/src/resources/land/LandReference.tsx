@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const LandReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const LandReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -28,7 +28,7 @@ interface LandReferenceInputProps {
     required?: boolean,
 }
 
-export const LandReferenceInput = (props: LandReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const LandReferenceInput = (props: LandReferenceInputProps & Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}

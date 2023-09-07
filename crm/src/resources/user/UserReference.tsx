@@ -1,6 +1,5 @@
 import {
     AutocompleteInput,
-    FieldProps,
     ReferenceField,
     ReferenceFieldProps,
     ReferenceInput,
@@ -10,7 +9,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const UsersReferenceField = (props: FieldProps & Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => {
+export const UsersReferenceField = (props: Partial<ReferenceFieldProps>) => {
     return (
         <ReferenceField
             reference={defaults.reference}
@@ -31,7 +30,7 @@ interface UsersReferenceInputProps {
     required?: boolean,
 }
 
-export const UsersReferenceInput = (props: UsersReferenceInputProps & Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const UsersReferenceInput = (props: UsersReferenceInputProps & Partial<ReferenceInputProps>) => (
     <ReferenceInput
         source={defaults.source}
         reference={defaults.reference}

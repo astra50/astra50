@@ -8,7 +8,7 @@ import {
 } from 'react-admin'
 import defaults from './defaults'
 
-export const ContractorReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => (
+export const ContractorReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         reference={defaults.reference}
         source={defaults.source}
@@ -23,7 +23,7 @@ ContractorReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-export const ContractorReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
+export const ContractorReferenceInput = (props: Partial<ReferenceInputProps>) => (
     <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}
