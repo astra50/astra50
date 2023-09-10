@@ -1,4 +1,4 @@
-import {BooleanInput, Edit, SimpleForm} from 'react-admin'
+import {BooleanInput, Edit, required, SimpleForm} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 import {EmailInput} from '../../components/email'
 import {PersonReferenceInput} from '../person/PersonReference'
@@ -10,8 +10,8 @@ const PersonEmailEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <PersonReferenceInput required/>
-                <EmailInput required/>
+                <PersonReferenceInput validate={required()}/>
+                <EmailInput validate={required()}/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>
             </SimpleForm>

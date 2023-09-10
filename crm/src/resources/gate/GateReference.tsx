@@ -1,11 +1,4 @@
-import {
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    SelectInput,
-    TextField,
-} from 'react-admin'
+import {ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 import defaults from './defaults'
 
 export const GateReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -13,9 +6,7 @@ export const GateReferenceField = (props: Partial<ReferenceFieldProps>) => (
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="name" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 GateReferenceField.defaultProps = {
@@ -23,15 +14,28 @@ GateReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-export const GateReferenceInput = (props: Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        {...props}
-    >
-        <SelectInput optionText="name" source="name" label={props.label}/>
-    </ReferenceInput>
-)
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
+}
+
+export const GateReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            {...rest}
+        >
+            <SelectInput
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 GateReferenceInput.defaultProps = {
     label: defaults.label,

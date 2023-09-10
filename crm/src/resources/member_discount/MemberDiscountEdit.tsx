@@ -1,4 +1,4 @@
-import {Edit, SimpleForm, useNotify, useRedirect} from 'react-admin'
+import {Edit, required, SimpleForm, useNotify, useRedirect} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 import {MemberDiscount} from '../../types'
 import {AccountReferenceInput} from '../account/AccountReference'
@@ -25,8 +25,8 @@ const MemberDiscountEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <MemberRateReferenceInput label="Ставка" fullWidth required/>
-                <AccountReferenceInput required/>
+                <MemberRateReferenceInput label="Ставка" fullWidth validate={required()}/>
+                <AccountReferenceInput validate={required()}/>
                 <CommentInput/>
             </SimpleForm>
         </Edit>

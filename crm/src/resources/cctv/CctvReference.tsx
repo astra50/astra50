@@ -1,11 +1,4 @@
-import {
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    SelectInput,
-    TextField,
-} from 'react-admin'
+import {ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 import defaults from './defaults'
 
 export const CctvReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -13,9 +6,7 @@ export const CctvReferenceField = (props: Partial<ReferenceFieldProps>) => (
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="name" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 CctvReferenceField.defaultProps = {
@@ -23,15 +14,28 @@ CctvReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-export const CctvReferenceInput = (props: Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        {...props}
-    >
-        <SelectInput optionText="name" source="name" label={props.label}/>
-    </ReferenceInput>
-)
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
+}
+
+export const CctvReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            {...rest}
+        >
+            <SelectInput
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 CctvReferenceInput.defaultProps = {
     label: defaults.label,

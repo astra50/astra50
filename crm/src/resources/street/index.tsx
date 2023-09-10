@@ -12,7 +12,8 @@ const street = {
     show: StreetShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'name',
 }
 
 export default street

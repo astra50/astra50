@@ -1,12 +1,4 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
 export const MemberRateReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -14,9 +6,7 @@ export const MemberRateReferenceField = (props: Partial<ReferenceFieldProps>) =>
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="amount" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 MemberRateReferenceField.defaultProps = {
@@ -24,24 +14,29 @@ MemberRateReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-interface MemberRateReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const MemberRateReferenceInput = (props: MemberRateReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        {...props}
-    >
-        <AutocompleteInput
-            optionText="amount"
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'amount': searchText})}
-            validate={props.required ? required() : []}
-        />
-    </ReferenceInput>
-)
+export const MemberRateReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            {...rest}
+        >
+            <AutocompleteInput
+                filterToQuery={(searchText: any) => ({'amount': searchText})}
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 MemberRateReferenceInput.defaultProps = {
     label: defaults.label,

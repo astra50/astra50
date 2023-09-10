@@ -12,7 +12,8 @@ const member_rate = {
     show: MemberRateShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'amount',
 }
 
 export default member_rate

@@ -1,12 +1,4 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
 export const AccountReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -14,9 +6,7 @@ export const AccountReferenceField = (props: Partial<ReferenceFieldProps>) => (
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="number" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 AccountReferenceField.defaultProps = {
@@ -24,25 +14,30 @@ AccountReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-interface AccountReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const AccountReferenceInput = (props: AccountReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        sort={{field: 'number', order: 'ASC'}}
-        {...props}
-    >
-        <AutocompleteInput
-            optionText="number"
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
-            validate={props.required ? required() : []}
-        />
-    </ReferenceInput>
-)
+export const AccountReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            sort={{field: 'number', order: 'ASC'}}
+            {...rest}
+        >
+            <AutocompleteInput
+                filterToQuery={(searchText: any) => ({'number@_ilike': searchText})}
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 AccountReferenceInput.defaultProps = {
     label: defaults.label,

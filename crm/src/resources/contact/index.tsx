@@ -1,8 +1,8 @@
-import defaults from './defaults'
 import ContactCreate from './ContactCreate'
 import ContactEdit from './ContactEdit'
 import ContactList from './ContactList'
 import ContactShow from './ContactShow'
+import defaults from './defaults'
 
 const contact = {
     name: defaults.reference,
@@ -12,7 +12,8 @@ const contact = {
     show: ContactShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'name',
 }
 
 export default contact

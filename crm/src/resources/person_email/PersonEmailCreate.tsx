@@ -1,9 +1,9 @@
-import {BooleanInput, Create, Identifier, RaRecord, SimpleForm} from 'react-admin'
+import {BooleanInput, Create, Identifier, RaRecord, required, SimpleForm} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 import {EmailInput} from '../../components/email'
+import {PersonEmail} from '../../types'
 import person from '../person'
 import {PersonReferenceInput} from '../person/PersonReference'
-import {PersonEmail} from '../../types'
 
 const PersonEmailCreate = () => {
     return (
@@ -15,8 +15,8 @@ const PersonEmailCreate = () => {
             }}
         >
             <SimpleForm>
-                <PersonReferenceInput required/>
-                <EmailInput required/>
+                <PersonReferenceInput validate={required()}/>
+                <EmailInput validate={required()}/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>
             </SimpleForm>

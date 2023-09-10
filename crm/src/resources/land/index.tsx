@@ -12,7 +12,8 @@ const land = {
     show: LandShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'number',
 }
 
 export default land

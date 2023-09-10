@@ -14,7 +14,7 @@ const person: ResourceProps = {
     options: {
         label: defaults.label,
     },
-    recordRepresentation: (record) => `${record.lastname} ${record.firstname} ${record.middlename}`
+    recordRepresentation: 'full_name',
 }
 
 export default person

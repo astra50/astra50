@@ -1,12 +1,4 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
 export const TargetReferenceField = (props: Partial<ReferenceFieldProps>) => {
@@ -15,9 +7,7 @@ export const TargetReferenceField = (props: Partial<ReferenceFieldProps>) => {
             reference={defaults.reference}
             source={defaults.source}
             {...props}
-        >
-            <TextField source="name"/>
-        </ReferenceField>
+        />
     )
 }
 
@@ -25,25 +15,29 @@ TargetReferenceField.defaultProps = {
     label: defaults.label,
 }
 
-interface TargetReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const TargetReferenceInput = (props: TargetReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        {...props}
-    >
-        <AutocompleteInput
-            optionText="name"
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'name,comment': searchText})}
-            validate={props.required ? required() : []}
-            fullWidth
-        />
-    </ReferenceInput>
-)
+export const TargetReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            {...rest}
+        >
+            <AutocompleteInput
+                filterToQuery={(searchText: any) => ({'name,comment': searchText})}
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 TargetReferenceInput.defaultProps = {
     label: defaults.label,

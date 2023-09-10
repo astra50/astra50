@@ -9,7 +9,7 @@ const PersonPhoneEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <PersonReferenceInput required/>
+                <PersonReferenceInput validate={required()}/>
                 <TextInput source="phone" label="Телефон" validate={required()}/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>

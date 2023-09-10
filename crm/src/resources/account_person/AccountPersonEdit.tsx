@@ -1,4 +1,4 @@
-import {Edit, SimpleForm} from 'react-admin'
+import {Edit, required, SimpleForm} from 'react-admin'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {PersonReferenceInput} from '../person/PersonReference'
 
@@ -8,8 +8,8 @@ const AccountPersonEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <AccountReferenceInput required/>
-                <PersonReferenceInput required/>
+                <AccountReferenceInput validate={required()}/>
+                <PersonReferenceInput validate={required()}/>
             </SimpleForm>
         </Edit>
     )

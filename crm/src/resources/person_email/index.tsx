@@ -12,7 +12,8 @@ const person_email = {
     show: PersonEmailShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'email',
 }
 
 export default person_email

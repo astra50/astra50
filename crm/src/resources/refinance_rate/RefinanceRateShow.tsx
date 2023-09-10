@@ -1,7 +1,7 @@
 import {Divider} from '@mui/material'
 import {DateField, NumberField, Show, SimpleShowLayout, TextField} from 'react-admin'
 
-const PersonPhoneShow = () => {
+const RefinanceRateShow = () => {
     return (
         <Show
         >
@@ -19,4 +19,4 @@ const PersonPhoneShow = () => {
     )
 }
 
-export default PersonPhoneShow
+export default RefinanceRateShow

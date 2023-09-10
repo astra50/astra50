@@ -10,7 +10,8 @@ const user = {
     show: UserShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'username',
 }
 
 export default user

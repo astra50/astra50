@@ -1,12 +1,4 @@
-import {
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    SelectInput,
-    TextField,
-} from 'react-admin'
+import {ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 import defaults from './defaults'
 
 export const LandReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -14,9 +6,7 @@ export const LandReferenceField = (props: Partial<ReferenceFieldProps>) => (
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="number" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 LandReferenceField.defaultProps = {
@@ -24,25 +14,30 @@ LandReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-interface LandReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const LandReferenceInput = (props: LandReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        sort={{field: 'number_integer', order: 'ASC'}}
-        perPage={500}
-        {...props}
-    >
-        <SelectInput
-            optionText="number"
-            label={props.label}
-            validate={props.required ? required() : []}
-        />
-    </ReferenceInput>
-)
+export const LandReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            sort={{field: 'number_integer', order: 'ASC'}}
+            perPage={500}
+            {...rest}
+        >
+            <SelectInput
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 LandReferenceInput.defaultProps = {
     label: defaults.label,

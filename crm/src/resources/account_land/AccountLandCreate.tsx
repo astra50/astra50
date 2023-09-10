@@ -1,8 +1,8 @@
-import {Create, Identifier, RaRecord, SimpleForm} from 'react-admin'
+import {Create, Identifier, RaRecord, required, SimpleForm} from 'react-admin'
+import {AccountLand} from '../../types'
 import account from '../account'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {LandReferenceInput} from '../land/LandReference'
-import {AccountLand} from '../../types'
 
 const AccountLandCreate = () => {
     return (
@@ -14,8 +14,8 @@ const AccountLandCreate = () => {
             }}
         >
             <SimpleForm>
-                <AccountReferenceInput required/>
-                <LandReferenceInput required/>
+                <AccountReferenceInput validate={required()}/>
+                <LandReferenceInput validate={required()}/>
             </SimpleForm>
         </Create>
     )

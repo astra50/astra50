@@ -12,7 +12,8 @@ const target = {
     show: TargetShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'name',
 }
 
 export default target

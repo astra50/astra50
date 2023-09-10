@@ -21,11 +21,11 @@ const filters = [
 ]
 
 const AuditActionList = () =>
-    <List title="Аудит"
-          empty={false}
-          filters={filters}
-          sort={{field: 'action_tstamp_tx', order: 'DESC'}}
-          exporter={false}
+    <List
+        empty={false}
+        filters={filters}
+        sort={{field: 'action_tstamp_tx', order: 'DESC'}}
+        exporter={false}
     >
         <DatagridConfigurable
             bulkActionButtons={false}

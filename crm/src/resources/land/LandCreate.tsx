@@ -7,7 +7,7 @@ const LandCreate = () => {
             redirect="show"
         >
             <SimpleForm>
-                <StreetReferenceInput required/>
+                <StreetReferenceInput validate={required()}/>
                 <NumberInput source="number" label="Номер"/>
                 <NumberInput source="square" label="Площадь" validate={required()}/>
                 <TextInput source="cadastral_number" label="Кадастровый номер"/>

@@ -1,12 +1,4 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import {Person} from '../../types'
 import defaults from './defaults'
 
@@ -15,9 +7,7 @@ export const PersonReferenceField = (props: Partial<ReferenceFieldProps>) => (
         reference={defaults.reference}
         source={defaults.source}
         {...props}
-    >
-        <TextField source="full_name" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 PersonReferenceField.defaultProps = {
@@ -25,30 +15,35 @@ PersonReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-interface PersonReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const PersonReferenceInput = (props: PersonReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        reference={defaults.reference}
-        source={defaults.source}
-        {...props}
-    >
-        <AutocompleteInput
-            optionText="full_name"
-            inputText={(record: Person) => record.full_name ?? record.id}
-            matchSuggestion={() => true}
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id': searchText})}
-            validate={props.required ? required() : []}
-            fullWidth
-        />
-    </ReferenceInput>
-)
+export const PersonReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            sort={{field: 'full_name', order: 'ASC'}}
+            {...rest}
+        >
+            <AutocompleteInput
+                inputText={(record: Person) => record.full_name ?? record.id}
+                matchSuggestion={() => true}
+                filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id': searchText})}
+
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 PersonReferenceInput.defaultProps = {
     label: defaults.label,
     fullWidth: true,
-    allowEmpty: true,
 }

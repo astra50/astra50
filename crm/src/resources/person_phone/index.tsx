@@ -12,7 +12,8 @@ const person_phone = {
     show: PersonPhoneShow,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'phone',
 }
 
 export default person_phone

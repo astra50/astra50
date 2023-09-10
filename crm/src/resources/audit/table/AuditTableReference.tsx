@@ -1,20 +1,29 @@
 import {AutocompleteInput, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
-export const AuditTableReferenceInput = (props: Partial<ReferenceInputProps>) =>
-    <ReferenceInput
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
+}
+
+export const AuditTableReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}
         sort={{field: 'id', order: 'asc'}}
-        {...props}
+        {...rest}
     >
         <AutocompleteInput
-            optionText="id"
             filterToQuery={(searchText: any) => ({'id': searchText})}
-            label={props.label}
             style={{width: '300px'}}
+            validate={validate}
+            disabled={disabled}
+            fullWidth={fullWidth}
         />
     </ReferenceInput>
+}
 
 AuditTableReferenceInput.defaultProps = {
     label: defaults.label,

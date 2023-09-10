@@ -1,8 +1,8 @@
 import {DateInput, Edit, required, SimpleForm} from 'react-admin'
-import {AccountReferenceInput} from '../account/AccountReference'
 import {CommentInput} from '../../components/comment'
-import {LandReferenceInput} from '../land/LandReference'
 import {MoneyInput} from '../../components/money'
+import {AccountReferenceInput} from '../account/AccountReference'
+import {LandReferenceInput} from '../land/LandReference'
 import {PersonReferenceInput} from '../person/PersonReference'
 
 const MemberPaymentEdit = () => {
@@ -12,7 +12,7 @@ const MemberPaymentEdit = () => {
             mutationMode="pessimistic"
         >
             <SimpleForm>
-                <AccountReferenceInput required/>
+                <AccountReferenceInput validate={required()}/>
                 <PersonReferenceInput label="Плательщик" fullWidth/>
                 <MoneyInput
                     source="amount"

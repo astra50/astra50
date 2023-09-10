@@ -1,8 +1,8 @@
-import {Create, Identifier, RaRecord, SimpleForm} from 'react-admin'
+import {Create, Identifier, RaRecord, required, SimpleForm} from 'react-admin'
+import {AccountPerson} from '../../types'
 import account from '../account'
 import {AccountReferenceInput} from '../account/AccountReference'
 import {PersonReferenceInput} from '../person/PersonReference'
-import {AccountPerson} from '../../types'
 
 const AccountPersonCreate = () => {
     return (
@@ -14,8 +14,8 @@ const AccountPersonCreate = () => {
             }}
         >
             <SimpleForm>
-                <AccountReferenceInput required/>
-                <PersonReferenceInput required/>
+                <AccountReferenceInput validate={required()}/>
+                <PersonReferenceInput validate={required()}/>
             </SimpleForm>
         </Create>
     )

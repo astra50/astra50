@@ -1,6 +1,6 @@
-import defaults from './defaults'
 import AccountPersonCreate from './AccountPersonCreate'
 import AccountPersonEdit from './AccountPersonEdit'
+import defaults from './defaults'
 
 const account_person = {
     name: defaults.reference,
@@ -8,7 +8,8 @@ const account_person = {
     edit: AccountPersonEdit,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: '',
 }
 
 export default account_person

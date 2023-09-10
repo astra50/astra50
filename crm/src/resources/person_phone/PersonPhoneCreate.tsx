@@ -1,8 +1,8 @@
 import {BooleanInput, Create, Identifier, RaRecord, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../../components/comment'
+import {PersonPhone} from '../../types'
 import person from '../person'
 import {PersonReferenceInput} from '../person/PersonReference'
-import {PersonPhone} from '../../types'
 
 const PersonPhoneCreate = () => {
     return (
@@ -14,7 +14,7 @@ const PersonPhoneCreate = () => {
             }}
         >
             <SimpleForm>
-                <PersonReferenceInput required/>
+                <PersonReferenceInput validate={required()}/>
                 <TextInput source="phone" label="Телефон" validate={required()}/>
                 <BooleanInput source="is_main" label="Основной?"/>
                 <CommentInput/>

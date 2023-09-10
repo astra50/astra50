@@ -12,7 +12,8 @@ const gate = {
     edit: GateEdit,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: 'name',
 }
 
 export default gate

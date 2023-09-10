@@ -1,50 +1,41 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
-export const UserReferenceField = (props: Partial<ReferenceFieldProps>) => {
-    return (
-        <ReferenceField
-            reference={defaults.reference}
-            source={defaults.source}
-            {...props}
-        >
-            <TextField source="username"/>
-        </ReferenceField>
-    )
-}
+export const UserReferenceField = (props: Partial<ReferenceFieldProps>) =>
+    <ReferenceField
+        reference={defaults.reference}
+        source={defaults.source}
+        {...props}
+    />
 
 UserReferenceField.defaultProps = {
     label: defaults.label,
     link: defaults.link,
 }
 
-interface UsersReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const UsersReferenceInput = (props: UsersReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        source={defaults.source}
-        reference={defaults.reference}
-        {...props}
-    >
-        <AutocompleteInput
-            optionText="username"
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'username': searchText})}
-            validate={props.required ? required() : []}
-            fullWidth
-        />
-    </ReferenceInput>
-)
+export const UsersReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            source={defaults.source}
+            reference={defaults.reference}
+            {...rest}
+        >
+            <AutocompleteInput
+                filterToQuery={(searchText: any) => ({'username': searchText})}
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 UsersReferenceInput.defaultProps = {
     label: defaults.label,

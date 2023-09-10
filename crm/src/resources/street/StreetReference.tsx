@@ -1,23 +1,12 @@
-import {
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    required,
-    SelectInput,
-    TextField,
-} from 'react-admin'
+import {ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps, SelectInput} from 'react-admin'
 import defaults from './defaults'
-import street from './index'
 
 export const StreetReferenceField = (props: Partial<ReferenceFieldProps>) => (
     <ReferenceField
         source={defaults.source}
         reference={defaults.reference}
         {...props}
-    >
-        <TextField source="name" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 StreetReferenceField.defaultProps = {
@@ -25,23 +14,28 @@ StreetReferenceField.defaultProps = {
     link: defaults.link,
 }
 
-interface StreetReferenceInputProps {
-    required?: boolean,
+interface InputProps {
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const StreetReferenceInput = (props: StreetReferenceInputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        source="street_id"
-        reference={street.name}
-        {...props}
-    >
-        <SelectInput
-            optionText="name"
-            label={props.label}
-            validate={props.required ? required() : []}
-        />
-    </ReferenceInput>
-)
+export const StreetReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            {...rest}
+        >
+            <SelectInput
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 StreetReferenceInput.defaultProps = {
     label: defaults.label,

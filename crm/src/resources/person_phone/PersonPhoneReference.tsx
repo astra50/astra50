@@ -1,11 +1,4 @@
-import {
-    AutocompleteInput,
-    ReferenceField,
-    ReferenceFieldProps,
-    ReferenceInput,
-    ReferenceInputProps,
-    TextField,
-} from 'react-admin'
+import {AutocompleteInput, ReferenceField, ReferenceFieldProps, ReferenceInput, ReferenceInputProps} from 'react-admin'
 import defaults from './defaults'
 
 export const PersonPhoneReferenceField = (props: Partial<ReferenceFieldProps>) => (
@@ -13,9 +6,7 @@ export const PersonPhoneReferenceField = (props: Partial<ReferenceFieldProps>) =
         source={defaults.source}
         {...props}
         reference={defaults.reference}
-    >
-        <TextField source="phone" label={props.label}/>
-    </ReferenceField>
+    />
 )
 
 PersonPhoneReferenceField.defaultProps = {
@@ -24,28 +15,33 @@ PersonPhoneReferenceField.defaultProps = {
 }
 
 interface InputProps {
-    person_id?: string,
+    person_id?: string
+    disabled?: boolean
+    fullWidth?: boolean
 }
 
-export const PersonPhoneReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => (
-    <ReferenceInput
-        source={defaults.source}
-        filter={{person_id: props.person_id}}
-        {...props}
-        reference={defaults.reference}
-    >
-        <AutocompleteInput
-            optionText="phone"
-            matchSuggestion={() => true}
-            label={props.label}
-            filterToQuery={(searchText: any) => ({'phone': searchText})}
-            fullWidth
-        />
-    </ReferenceInput>
-)
+export const PersonPhoneReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
+    const {person_id, disabled, fullWidth, validate, ...rest} = props
+
+    return (
+        <ReferenceInput
+            reference={defaults.reference}
+            source={defaults.source}
+            filter={{person_id: props.person_id}}
+            {...rest}
+        >
+            <AutocompleteInput
+                matchSuggestion={() => true}
+                filterToQuery={(searchText: any) => ({'phone': searchText})}
+                validate={validate}
+                disabled={disabled}
+                fullWidth={fullWidth}
+            />
+        </ReferenceInput>
+    )
+}
 
 PersonPhoneReferenceInput.defaultProps = {
     label: defaults.label,
     fullWidth: true,
-    allowEmpty: true,
 }

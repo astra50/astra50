@@ -1,9 +1,9 @@
-import {Create, Identifier, RaRecord, SimpleForm} from 'react-admin'
-import {AccountReferenceInput} from '../account/AccountReference'
+import {Create, Identifier, RaRecord, required, SimpleForm} from 'react-admin'
 import {CommentInput} from '../../components/comment'
+import {MemberDiscount} from '../../types'
+import {AccountReferenceInput} from '../account/AccountReference'
 import member_rate from '../member_rate'
 import {MemberRateReferenceInput} from '../member_rate/MemberRateReference'
-import {MemberDiscount} from '../../types'
 
 const MemberDiscountCreate = () => {
     return (
@@ -15,8 +15,8 @@ const MemberDiscountCreate = () => {
             }}
         >
             <SimpleForm>
-                <MemberRateReferenceInput label="Ставка" fullWidth required/>
-                <AccountReferenceInput required/>
+                <MemberRateReferenceInput label="Ставка" fullWidth validate={required()}/>
+                <AccountReferenceInput validate={required()}/>
                 <CommentInput/>
             </SimpleForm>
         </Create>

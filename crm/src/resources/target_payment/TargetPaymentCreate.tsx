@@ -1,8 +1,8 @@
 import {Create, DateInput, required, SimpleForm} from 'react-admin'
 import {CommentInput} from '../../components/comment'
+import {MoneyInput} from '../../components/money'
 import {ContractorReferenceInput} from '../contractor/ContractorReference'
 import {LandReferenceInput} from '../land/LandReference'
-import {MoneyInput} from '../../components/money'
 import {PersonReferenceInput} from '../person/PersonReference'
 import {TargetReferenceInput} from '../target/TargetReference'
 
@@ -12,7 +12,7 @@ const TargetPaymentCreate = () => {
             redirect="show"
         >
             <SimpleForm>
-                <TargetReferenceInput required/>
+                <TargetReferenceInput validate={required()}/>
                 <PersonReferenceInput label="Плательщик"/>
                 <ContractorReferenceInput/>
                 <LandReferenceInput/>

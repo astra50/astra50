@@ -8,7 +8,7 @@ const gate_open = {
     show: GateOpenShow,
     options: {
         label: defaults.label,
-    }
+    },
 }
 
 export default gate_open

@@ -1,6 +1,6 @@
-import defaults from './defaults'
 import AccountLandCreate from './AccountLandCreate'
 import AccountLandEdit from './AccountLandEdit'
+import defaults from './defaults'
 
 const account_land = {
     name: defaults.reference,
@@ -8,7 +8,8 @@ const account_land = {
     edit: AccountLandEdit,
     options: {
         label: defaults.label,
-    }
+    },
+    recordRepresentation: '',
 }
 
 export default account_land
