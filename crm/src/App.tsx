@@ -6,10 +6,20 @@ import Keycloak from 'keycloak-js'
 // @ts-ignore
 import buildHasuraProvider from 'ra-data-hasura'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
+import en from 'ra-language-english'
 // @ts-ignore
-import russianMessages from 'ra-language-russian'
+import ru from 'ra-language-russian'
 import React, {useEffect, useState} from 'react'
-import {Admin, CustomRoutes, DataProvider, I18nContextProvider, Loading, Resource} from 'react-admin'
+import {
+    Admin,
+    CustomRoutes,
+    DataProvider,
+    I18nContextProvider,
+    Loading,
+    resolveBrowserLocale,
+    Resource,
+    TranslationMessages,
+} from 'react-admin'
 import {Route} from 'react-router-dom'
 import useAuthProvider from './authProvider'
 import {Dashboard} from './dashboard/Dashboard'
@@ -17,26 +27,24 @@ import {Layout} from './layout'
 import {resources} from './resources'
 import Settings from './settings/Settings'
 
-const i18Provider = polyglotI18nProvider(() => {
-    let messages = russianMessages
+const translations: { [index: string]: TranslationMessages } = {
+    en,
+    ru: ((ru: TranslationMessages) => {
+        ru.ra.page.show = en.ra.page.show
+        ru.ra.page.edit = en.ra.page.edit
 
-    messages.ra.configurable ||= { // TODO Bypass empty translations, can be remove after ra-language-russian released
-        customize: 'Customize',
-        configureMode: 'Configure this page',
-        inspector: {
-            title: 'Inspector',
-            content: 'Hover the application UI elements to configure them',
-            reset: 'Reset Settings',
-        },
-        SimpleList: {
-            primaryText: 'Primary text',
-            secondaryText: 'Secondary text',
-            tertiaryText: 'Tertiary text',
-        },
-    }
+        return ru
+    })(ru),
+}
 
-    return messages
-}, 'ru')
+const i18Provider = polyglotI18nProvider(
+    locale => translations[locale],
+    resolveBrowserLocale('ru'),
+    [
+        {locale: 'ru', name: 'Русский'},
+        {locale: 'en', name: 'English'},
+    ],
+)
 
 const AdminWithKeycloak = () => {
     const [dataProvider, setDataProvider] = useState<DataProvider | null>(null)
