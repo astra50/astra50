@@ -18,6 +18,7 @@ export const AuditTableReferenceInput = (props: InputProps & Partial<ReferenceIn
         <AutocompleteInput
             filterToQuery={(searchText: any) => ({'id': searchText})}
             style={{width: '300px'}}
+            label={label}
             validate={validate}
             disabled={disabled}
             fullWidth={fullWidth}
