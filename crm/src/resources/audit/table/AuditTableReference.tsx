@@ -12,7 +12,7 @@ export const AuditTableReferenceInput = (props: InputProps & Partial<ReferenceIn
     return <ReferenceInput
         reference={defaults.reference}
         source={defaults.source}
-        sort={{field: 'id', order: 'asc'}}
+        sort={{field: 'id', order: 'ASC'}}
         {...rest}
     >
         <AutocompleteInput

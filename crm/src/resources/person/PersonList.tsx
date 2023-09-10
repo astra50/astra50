@@ -29,7 +29,7 @@ const PersonList = () =>
         actions={<PersonActions/>}
         empty={false}
         filters={filters}
-        sort={{field: 'updated_at', order: 'desc'}}
+        sort={{field: 'updated_at', order: 'DESC'}}
     >
         <DatagridConfigurable
             bulkActionButtons={false}

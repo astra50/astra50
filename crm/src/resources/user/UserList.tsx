@@ -27,7 +27,7 @@ const UserList = () =>
         actions={<UserActions/>}
         empty={false}
         filters={filters}
-        sort={{field: 'created_at', order: 'desc'}}
+        sort={{field: 'created_at', order: 'DESC'}}
     >
         <DatagridConfigurable
             bulkActionButtons={false}

@@ -31,7 +31,7 @@ const ContactList = () =>
         actions={<ContactActions/>}
         empty={false}
         filters={filters}
-        sort={{field: 'position', order: 'asc'}}
+        sort={{field: 'position', order: 'ASC'}}
     >
         <DatagridConfigurable
             bulkActionButtons={false}

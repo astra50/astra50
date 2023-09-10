@@ -27,7 +27,7 @@ const GateShow = () => {
                     target="gate_id"
                     label={false}
                     perPage={15}
-                    sort={{field: 'created_at', order: 'desc'}}
+                    sort={{field: 'created_at', order: 'DESC'}}
                 >
                     <GateOpenListDatagrid/>
                 </ReferenceManyField>
