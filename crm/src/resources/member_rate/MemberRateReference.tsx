@@ -20,7 +20,7 @@ interface InputProps {
 }
 
 export const MemberRateReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
-    const {disabled, fullWidth, validate, ...rest} = props
+    const {label, disabled, fullWidth, validate, ...rest} = props
 
     return (
         <ReferenceInput
@@ -30,6 +30,7 @@ export const MemberRateReferenceInput = (props: InputProps & Partial<ReferenceIn
         >
             <AutocompleteInput
                 filterToQuery={(searchText: any) => ({'amount': searchText})}
+                label={label}
                 validate={validate}
                 disabled={disabled}
                 fullWidth={fullWidth}

@@ -21,7 +21,7 @@ interface InputProps {
 }
 
 export const PersonReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
-    const {disabled, fullWidth, validate, ...rest} = props
+    const {label, disabled, fullWidth, validate, ...rest} = props
 
     return (
         <ReferenceInput
@@ -35,6 +35,7 @@ export const PersonReferenceInput = (props: InputProps & Partial<ReferenceInputP
                 matchSuggestion={() => true}
                 filterToQuery={(searchText: any) => ({'firstname,lastname,middlename,phones#phone@_ilike,emails#email@_ilike,telegram_id': searchText})}
 
+                label={label}
                 validate={validate}
                 disabled={disabled}
                 fullWidth={fullWidth}

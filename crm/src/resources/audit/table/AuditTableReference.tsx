@@ -7,7 +7,7 @@ interface InputProps {
 }
 
 export const AuditTableReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
-    const {disabled, fullWidth, validate, ...rest} = props
+    const {label, disabled, fullWidth, validate, ...rest} = props
 
     return <ReferenceInput
         reference={defaults.reference}

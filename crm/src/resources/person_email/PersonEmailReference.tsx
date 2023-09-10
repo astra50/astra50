@@ -21,7 +21,7 @@ interface InputProps {
 }
 
 export const PersonEmailReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
-    const {person_id, disabled, fullWidth, validate, ...rest} = props
+    const {person_id, label, disabled, fullWidth, validate, ...rest} = props
 
     return (
         <ReferenceInput
@@ -33,6 +33,7 @@ export const PersonEmailReferenceInput = (props: InputProps & Partial<ReferenceI
             <AutocompleteInput
                 matchSuggestion={() => true}
                 filterToQuery={(searchText: any) => ({'phone': searchText})}
+                label={label}
                 validate={validate}
                 disabled={disabled}
                 fullWidth={fullWidth}

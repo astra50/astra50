@@ -20,7 +20,7 @@ interface InputProps {
 }
 
 export const CctvReferenceInput = (props: InputProps & Partial<ReferenceInputProps>) => {
-    const {disabled, fullWidth, validate, ...rest} = props
+    const {label, disabled, fullWidth, validate, ...rest} = props
 
     return (
         <ReferenceInput
@@ -29,6 +29,7 @@ export const CctvReferenceInput = (props: InputProps & Partial<ReferenceInputPro
             {...rest}
         >
             <SelectInput
+                label={label}
                 validate={validate}
                 disabled={disabled}
                 fullWidth={fullWidth}
