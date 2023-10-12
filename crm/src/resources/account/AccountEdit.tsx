@@ -10,7 +10,7 @@ const AccountEdit = () => {
         >
             <SimpleForm>
                 <TextInput source="number" label="Номер" validate={required()}/>
-                <PersonReferenceInput validate={required()}/>
+                <PersonReferenceInput label="Владелец" validate={required()}/>
                 <DateInput
                     source="end_at"
                     label="Дата закрытия"
