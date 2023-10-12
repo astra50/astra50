@@ -9,7 +9,7 @@ const AccountCreate = () => {
         >
             <SimpleForm>
                 <TextInput source="number" label="Номер" validate={required()}/>
-                <PersonReferenceInput required={true}/>
+                <PersonReferenceInput validate={required()}/>
                 <DateInput
                     source="end_at"
                     label="Дата закрытия"
