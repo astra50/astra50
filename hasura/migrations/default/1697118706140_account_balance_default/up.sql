@@ -1,0 +1,1 @@
+ALTER TABLE public.account ALTER COLUMN balance SET DEFAULT 0;
