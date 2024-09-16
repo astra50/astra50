@@ -1,6 +1,6 @@
 {
     "realm": "astra50",
-    "auth-server-url": "https://sso.astra50.ru/auth/",
+    "auth-server-url": "https://sso.automagistre.ru/auth/",
     "ssl-required": "external",
     "resource": "hasura-oauth",
     "public-client": true,
