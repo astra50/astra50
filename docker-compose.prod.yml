@@ -150,6 +150,8 @@ services:
       context: ./n8n
       target: n8n
     restart: always
+    extra_hosts:
+      - "ha.astra50.ru:178.159.40.36"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.astra50-n8n-webhook.rule=Host(`workflow.astra50.grachevko.ru`) && (PathPrefix(`/webhook`) || PathPrefix(`/webhook-test`))"
