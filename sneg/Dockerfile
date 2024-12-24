@@ -1,4 +1,4 @@
-FROM node:18.1.0-alpine3.15 as node-base
+FROM node:18.1.0-alpine3.15 AS node-base
 
 WORKDIR /data
 
@@ -20,7 +20,7 @@ RUN set -ex \
 #
 # nginx
 #
-FROM nginx:1.22.1-alpine as nginx-base
+FROM nginx:1.22.1-alpine AS nginx-base
 
 WORKDIR /data
 
