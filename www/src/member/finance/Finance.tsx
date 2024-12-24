@@ -60,18 +60,26 @@ const Summary = () => {
 
     const me = data!.me[0]
 
+    if (!me || !me.balance) {
+        return (
+            <Alert severity="error">
+                <AlertTitle>Данные <strong>не найдены</strong></AlertTitle>
+            </Alert>
+        )
+    }
+
     return (
         <Box
             display="flex"
             justifyContent="center"
             alignItems="center"
         >
-            {me.balance! >= 0
+            {me.balance >= 0
                 ? <Alert severity="success">
                     <AlertTitle>Задолженность <strong>отсутствует</strong></AlertTitle>
                 </Alert>
                 : <Alert severity="warning">
-                    <AlertTitle>Ваша задолженность <strong>{me.balance! * -1} рублей</strong></AlertTitle>
+                    <AlertTitle>Ваша задолженность <strong>{me.balance * -1} рублей</strong></AlertTitle>
                     Последний платёж был <strong>{dayjs(me.last_paid_at!).format('LL')}</strong> на
                     сумму <strong>{me.last_paid_amount} рублей</strong>
                 </Alert>}
