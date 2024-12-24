@@ -66,7 +66,7 @@ migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; 
 migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
 migration: ## apply migration and hasura metadata
-	docker compose exec hasura-console sh -c "hasura-cli deploy"
+	docker compose exec -u root hasura-console sh -c "hasura-cli deploy"
 migration-apply: ### apply migration only
 	docker compose exec hasura-console hasura-cli --database-name default migrate apply
 migration-rollback: ### rollback one latest migration
