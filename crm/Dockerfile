@@ -1,4 +1,4 @@
-FROM node:18.17.1-alpine3.17 AS node-base
+FROM node:23.5.0-alpine3.20 AS node-base
 
 WORKDIR /data
 
