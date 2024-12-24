@@ -55,9 +55,21 @@ export default (props: LayoutProps) => {
                     redirect(newValue)
                 }}
             >
-                <BottomNavigationAction label="Инфо" value="/" icon={<Info/>}/>
-                <BottomNavigationAction label="Финансы" value="/finance" icon={<CurrencyRuble/>}/>
-                <BottomNavigationAction label="Ворота" value="/gate" icon={<DoorSliding/>}/>
+                <BottomNavigationAction
+                    label="Инфо"
+                    value="/"
+                    icon={<Info/>}
+                />
+                <BottomNavigationAction
+                    label="Финансы"
+                    value="/finance"
+                    icon={<CurrencyRuble/>}
+                />
+                <BottomNavigationAction
+                    label="Ворота"
+                    value="/gate"
+                    icon={<DoorSliding/>}
+                />
             </BottomNavigation>
         </Paper>}
     </Container>
