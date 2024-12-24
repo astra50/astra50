@@ -133,8 +133,8 @@ BACKUP_SERVER=s4.automagistre.ru
 BACKUP_FILE=var/backup.sql.gz
 HASURA_BACKUP_FILE=var/hasura_backup.sql.gz
 backup-download:
-	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*crm.sql.gz | head -1) $(BACKUP_FILE)
-	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /srv/backups/*crm.sql.gz | head -1) $(BACKUP_FILE)
+	@scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /srv/backups/*crm-hasura.sql.gz | head -1) $(HASURA_BACKUP_FILE)
 
 backup-restore:
 	docker compose up -d --force-recreate postgres
@@ -149,6 +149,6 @@ backup-restore:
 		"
 
 backup-fresh:
-	@ssh ${BACKUP_SERVER} 'docker exec -i $$(docker ps --filter name=astra50_postgres_backup -q | head -1) /backup.sh'
+	@ssh ${BACKUP_SERVER} 'docker exec -i $$(docker ps --filter name=astra50-postgres_backup -q | head -1) /backup.sh'
 
 backup: backup-download backup-restore
