@@ -7,6 +7,7 @@ insert_permissions:
       check: {}
       columns:
         - comment
+        - is_enabled
         - name
         - preview
         - url
@@ -17,6 +18,7 @@ select_permissions:
         - comment
         - created_at
         - id
+        - is_enabled
         - name
         - preview
         - updated_at
@@ -28,6 +30,7 @@ select_permissions:
       columns:
         - created_at
         - id
+        - is_enabled
         - name
         - preview
         - updated_at
@@ -39,6 +42,7 @@ update_permissions:
     permission:
       columns:
         - comment
+        - is_enabled
         - name
         - preview
         - url

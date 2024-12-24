@@ -4,7 +4,7 @@
       - name: Gate open
         query: |
           mutation MyMutation ($token: String!, $gate: uuid!) {
-          	open_gate(args: {token:$token,gate:$gate}) {
-          		id
-          	}
+            open_gate(args: {token:$token,gate:$gate}) {
+              id
+            }
           }

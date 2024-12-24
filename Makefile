@@ -55,7 +55,7 @@ up-postgres:
 up-hasura:
 	docker compose up -d --force-recreate --build hasura
 	docker compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
-	docker compose up -d --force-recreate hasura-console
+	docker compose up -d --force-recreate --build hasura-console
 deploy-hasura: SERVICE=hasura
 deploy-hasura: build -deploy
 metadata: ### Export hasura metadata and save it in ./metadata directory
@@ -66,7 +66,7 @@ migration-generate: NAME ?= $(shell sh -c 'read -p "Migration name: " username; 
 migration-generate: ## Create new migration
 	docker compose exec hasura-console hasura-cli migrate --database-name default create "$(NAME)"
 migration: ## apply migration and hasura metadata
-	docker compose exec -u root hasura-console sh -c "hasura-cli deploy"
+	docker compose exec hasura-console sh -c "hasura-cli deploy"
 migration-apply: ### apply migration only
 	docker compose exec hasura-console hasura-cli --database-name default migrate apply
 migration-rollback: ### rollback one latest migration

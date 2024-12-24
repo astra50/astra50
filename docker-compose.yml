@@ -167,6 +167,8 @@ services:
       - ./hasura:/app
       - ./var/hasura:/.hasura
     user: ${UID:-1000}:${GID:-1000}
+    healthcheck:
+      test: curl --fail http://127.0.0.1/healthz
 
   gq:
     build:
