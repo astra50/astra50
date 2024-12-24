@@ -1,5 +1,5 @@
 import {Divider} from '@mui/material'
-import {DateField, Show, SimpleShowLayout, TextField} from 'react-admin'
+import {BooleanField, DateField, Show, SimpleShowLayout, TextField} from 'react-admin'
 import {CommentField} from '../../components/comment'
 
 const CctvShow = () => {
@@ -13,6 +13,7 @@ const CctvShow = () => {
                 <TextField source="url"/>
                 <TextField source="preview"/>
                 <CommentField/>
+                <BooleanField source="is_enabled"/>
 
                 <Divider/>
                 <DateField source="created_at" label="Создан" showTime={true}/>

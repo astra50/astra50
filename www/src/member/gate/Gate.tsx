@@ -102,7 +102,7 @@ const GateList = () => {
                             }}
                             key={i}
                         >
-                            {gate.cctv
+                            {gate.cctv && gate.cctv.is_enabled
                                 ? <Player cctv={gate.cctv} rate={gate.cctv_preview_rate}/>
                                 : <FontAwesomeIcon icon={faVideoSlash} size={isSmall ? '6x' : '10x'}/>}
                         </CardMedia>

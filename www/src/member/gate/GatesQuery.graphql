@@ -1,6 +1,7 @@
 fragment Cctv on cctv {
     url
     preview
+    is_enabled
 }
 
 fragment GateWithLastOpen on gate {

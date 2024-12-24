@@ -1,4 +1,4 @@
-import {Create, required, SimpleForm, TextInput} from 'react-admin'
+import {BooleanInput, Create, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 
 const CctvCreate = () => {
@@ -15,6 +15,7 @@ const CctvCreate = () => {
                 <TextInput source="url" fullWidth/>
                 <TextInput source="preview" fullWidth/>
                 <CommentInput/>
+                <BooleanInput source="is_enabled" fullWidth/>
             </SimpleForm>
         </Create>
     )

@@ -1,4 +1,4 @@
-import {Edit, required, SimpleForm, TextInput} from 'react-admin'
+import {BooleanInput, Edit, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../../components/comment'
 
 const CctvEdit = () => {
@@ -15,6 +15,7 @@ const CctvEdit = () => {
                 <TextInput source="url" fullWidth/>
                 <TextInput source="preview" fullWidth/>
                 <CommentInput/>
+                <BooleanInput source="is_enabled" fullWidth/>
             </SimpleForm>
         </Edit>
     )

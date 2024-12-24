@@ -1,4 +1,5 @@
 import {
+    BooleanField,
     CreateButton,
     DatagridConfigurable,
     DateField,
@@ -35,6 +36,7 @@ const CctvList = () => {
                 <TextField source="name" label="Название"/>
                 <TextField source="url"/>
                 <TextField source="preview"/>
+                <BooleanField source="is_enabled"/>
 
                 <DateField source="created_at" label="Создан" showTime={true}/>
                 <DateField source="updated_at" label="Обновлён" showTime={true}/>
