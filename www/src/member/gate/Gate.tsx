@@ -170,7 +170,7 @@ const Preview = (props: PreviewProps) => {
         return () => clearInterval(timer)
     }, [rate])
 
-    const hash = (url.includes('?') ? '&' : '?') + dayjs().unix()
+    const hash = (url.includes('?') ? '&' : '?') + "hash=" + dayjs().unix()
 
     return <img src={url + hash} alt="Thumbnail" width="100%"/>
 }
