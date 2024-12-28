@@ -1,0 +1,19 @@
+version: "2"
+servers:
+- engine: postgresql
+  uri: "postgresql://astra50:astra50@postgres.astra50.local:5432/astra50?sslmode=disable"
+sql:
+- engine: "postgresql"
+  queries: "./sql"
+  schema: "db/schema.sql"
+  database:
+    managed: true
+  gen:
+    go:
+      out: "./internal/sql"
+      sql_package: "pgx/v5"
+      emit_db_tags: true
+      emit_interface: true
+      emit_json_tags: true
+      emit_methods_with_db_argument: false
+      query_parameter_limit: 0

@@ -50,6 +50,8 @@ up-postgres:
 	docker compose up -d --force-recreate postgres
 	docker compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
 	docker compose exec postgres psql -c "create database hasura"
+schema-postgres:
+	docker compose exec postgres pg_dump --schema-only > ./alice/db/schema.sql
 
 ### Hasura
 up-hasura:
@@ -123,6 +125,18 @@ push-www: schema-www
 deploy-www: SERVICE=www
 deploy-www: pull -deploy
 deploy-www-build: build -deploy
+
+### alice
+sqlc: schema-postgres
+	cd alice && go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.27.0 generate
+sql: sqlc
+	cd alice/internal/sql && go run ../generate/sql
+push-alice: IMAGE=cr.grachevko.ru/astra50/alice:latest
+push-alice:
+	docker build --tag $(IMAGE) alice/
+	docker push $(IMAGE)
+deploy-alice: SERVICE=alice
+deploy-alice: pull -deploy
 
 ### gq
 gq-build:

@@ -1,0 +1,9 @@
+linters-settings:
+  gci:
+    sections:
+    - standard # Standard section: captures all standard packages.
+    - default # Default section: contains all imports that could not be matched to another section type.
+    - prefix(github.com/astra50) # Custom section: groups all imports with the specified Prefix.
+    - dot # Dot section: contains all dot imports. This section is not present unless explicitly enabled.
+    skip-generated: false
+    custom-order: true

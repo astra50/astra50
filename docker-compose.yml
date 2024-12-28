@@ -90,6 +90,23 @@ services:
     working_dir: /app
     user: ${UID:-1000}:${GID:-1000}
 
+  alice:
+    build:
+      dockerfile: alice/Dockerfile
+      target: golang
+    command: air serve
+    working_dir: /app/alice
+    environment:
+      GOPATH: ${GOPATH}
+      POSTGRES_URI: postgresql://astra50:astra50@postgres:5432/astra50?sslmode=disable
+      JWKS_URL: https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs
+    volumes:
+    - ./:/app
+    - ${GOPATH}:${GOPATH}
+    - ${HOME}/.netrc:/home/app/.netrc:ro
+    - ${HOME}/.cache/go-build:/home/app/.cache/go-build
+    user: ${USER_ID}:${GROUP_ID}
+
   postgres:
     image: postgres:14.2-alpine
     labels:

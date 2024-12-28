@@ -128,6 +128,21 @@ services:
     networks:
       - traefik
 
+  alice:
+    image: cr.grachevko.ru/astra50/alice:latest
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.astra50-alice.rule=Host(`alice.astra50.ru`)"
+      - "traefik.http.routers.astra50-alice.entrypoints=websecure"
+      - "traefik.http.routers.astra50-alice.tls=true"
+      - "traefik.http.routers.astra50-alice.tls.certresolver=leresolver"
+      - "traefik.http.services.astra50-alice.loadbalancer.server.port=8080"
+    networks:
+      - traefik
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8080/health
+
   sneg:
     restart: always
     build:
