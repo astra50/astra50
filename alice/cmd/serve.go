@@ -24,6 +24,8 @@ import (
 	"github.com/astra50/astra50/alice/internal/postgres"
 )
 
+const UserIDKey = "user_id"
+
 func init() {
 	rootCmd.AddCommand(serveCmd)
 }
@@ -106,14 +108,14 @@ var serveCmd = &cobra.Command{
 			{
 				v1 := r.Group("v1.0")
 				v1.Use(func(c *gin.Context) {
-					userId := c.GetString("user-id")
+					userId := c.GetString(UserIDKey)
 					if userId == "" {
 						c.AbortWithStatus(http.StatusUnauthorized)
 
 						return
 					}
 
-					log.Info(ctx, "Authorized", log.String("user_id", userId))
+					log.Info(ctx, "Authorized", log.String(UserIDKey, userId))
 				})
 
 				v1.HEAD("/", func(c *gin.Context) {
@@ -358,6 +360,6 @@ func Jwks(ctx context.Context, jwksURL string) func(c *gin.Context) {
 
 		userId := claims["sub"].(string)
 
-		c.Set("user_id", userId)
+		c.Set(UserIDKey, userId)
 	}
 }
