@@ -138,6 +138,9 @@ services:
       - "traefik.http.routers.astra50-alice.tls=true"
       - "traefik.http.routers.astra50-alice.tls.certresolver=leresolver"
       - "traefik.http.services.astra50-alice.loadbalancer.server.port=8080"
+    environment:
+      POSTGRES_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/crm
+      JWKS_URL: https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs
     networks:
       - traefik
     healthcheck:
