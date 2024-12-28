@@ -53,5 +53,5 @@ RUN set -ex && \
 USER app
 
 ENTRYPOINT ["alice"]
-CMD ["cmd"]
+CMD ["serve"]
 STOPSIGNAL SIGTERM
