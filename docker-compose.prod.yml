@@ -142,6 +142,7 @@ services:
       POSTGRES_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/crm
       JWKS_URL: https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs
     networks:
+      - default
       - traefik
     healthcheck:
       test: wget -qO- http://127.0.0.1:8080/health
