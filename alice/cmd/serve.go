@@ -107,7 +107,13 @@ var serveCmd = &cobra.Command{
 
 			{
 				v1 := r.Group("v1.0")
-				v1.Use(func(c *gin.Context) {
+
+				v1.HEAD("/", func(c *gin.Context) {
+					c.Status(http.StatusOK)
+				})
+
+				user := v1.Group("/user")
+				user.Use(func(c *gin.Context) {
 					userId := c.GetString(UserIDKey)
 					if userId == "" {
 						c.AbortWithStatus(http.StatusUnauthorized)
@@ -117,12 +123,6 @@ var serveCmd = &cobra.Command{
 
 					log.Info(ctx, "Authorized", log.String(UserIDKey, userId))
 				})
-
-				v1.HEAD("/", func(c *gin.Context) {
-					c.Status(http.StatusOK)
-				})
-
-				user := v1.Group("/user")
 
 				user.POST("/unlink", func(c *gin.Context) {
 					c.JSON(http.StatusOK, gin.H{"request_id": c.GetHeader("X-Request-Id")})
