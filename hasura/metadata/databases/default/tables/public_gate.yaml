@@ -22,6 +22,7 @@ insert_permissions:
         - cctv_preview_rate
         - coordinates
         - delay
+        - ha_entity_id
         - name
         - number
         - phone
@@ -43,6 +44,7 @@ select_permissions:
         - coordinates
         - created_at
         - delay
+        - ha_entity_id
         - id
         - name
         - number
@@ -73,6 +75,7 @@ update_permissions:
         - cctv_preview_rate
         - coordinates
         - delay
+        - ha_entity_id
         - name
         - number
         - phone
