@@ -94,6 +94,12 @@ services:
     build:
       dockerfile: alice/Dockerfile
       target: golang
+    labels:
+      ru.grachevko.dhu: 'alice.astra50.local:0:astra50_traefik'
+      traefik.enable: true
+      traefik.http.routers.astra50-alice.rule: Host(`alice.astra50.local`)
+      traefik.http.routers.astra50-alice.entrypoints: web
+      traefik.http.services.astra50-alice.loadbalancer.server.port: 8080
     command: air serve
     working_dir: /app/alice
     environment:
