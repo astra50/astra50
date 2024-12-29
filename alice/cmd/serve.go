@@ -14,6 +14,7 @@ import (
 
 	"github.com/MicahParks/keyfunc"
 	"github.com/astra50/astra50/alice/internal/sql"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/ilyakaznacheev/cleanenv"
@@ -37,9 +38,13 @@ var serveCfg = struct {
 			Health string `env:"HTTP_HEALTH_PATH" env-default:"/health"`
 		}
 	}
-	JWKS_URL                string        `env:"JWKS_URL"`
-	PostgresURI             string        `env:"POSTGRES_URI"`
+	JWKS_URL                string        `env:"JWKS_URL" env-required:"true"`
+	PostgresURI             string        `env:"POSTGRES_URI" env-required:"true"`
 	GracefulShutdownTimeout time.Duration `env:"GRACEFUL_SHUTDOWN_TIMEOUT" env-default:"5s"`
+	GateHook                struct {
+		URL   string `env:"GATE_HOOK_URL" env-required:"true"`
+		Token string `env:"GATE_HOOK_TOKEN" env-required:"true"`
+	}
 }{}
 
 var serveCmd = &cobra.Command{
@@ -63,18 +68,6 @@ var serveCmd = &cobra.Command{
 			}
 		}
 
-		if cfg.PostgresURI == "" {
-			return errors.New("env PostgresURI is required")
-		}
-
-		if cfg.PostgresURI == "" {
-			return errors.New("env PostgresURI is required")
-		}
-
-		if cfg.JWKS_URL == "" {
-			return errors.New("env JWKS_URL is required")
-		}
-
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -92,10 +85,17 @@ var serveCmd = &cobra.Command{
 		httpSrv := &http.Server{Addr: cfg.Http.Addr}
 		{
 			r := gin.New()
+
 			r.ContextWithFallback = true
+
+			r.Use(gin.LoggerWithConfig(gin.LoggerConfig{
+				SkipPaths: []string{
+					"/health",
+				},
+			}))
+
 			r.Use(gin.Recovery())
 			r.Use(Jwks(ctx, cfg.JWKS_URL))
-			httpSrv.Handler = r
 
 			r.Use(func(c *gin.Context) {
 				c.Request = c.Request.WithContext(sql.WithContext(c.Request.Context(), sql.FromContext(ctx)))
@@ -116,6 +116,8 @@ var serveCmd = &cobra.Command{
 				user.Use(func(c *gin.Context) {
 					userId := c.GetString(UserIDKey)
 					if userId == "" {
+						log.Warn(ctx, "Unauthorized")
+
 						c.AbortWithStatus(http.StatusUnauthorized)
 
 						return
@@ -130,7 +132,7 @@ var serveCmd = &cobra.Command{
 
 				devices := user.Group("/devices")
 
-				devices.GET("/", func(c *gin.Context) {
+				devices.GET("", func(c *gin.Context) {
 					type Capability struct {
 						Type        string `json:"type"`
 						Retrievable bool   `json:"retrievable"`
@@ -139,6 +141,7 @@ var serveCmd = &cobra.Command{
 					type Device struct {
 						ID           string       `json:"id"`
 						Name         string       `json:"name"`
+						Room         string       `json:"room"`
 						Type         string       `json:"type"`
 						Capabilities []Capability `json:"capabilities"`
 					}
@@ -155,14 +158,24 @@ var serveCmd = &cobra.Command{
 					devs := make([]Device, 0, len(gates))
 					for _, gate := range gates {
 						devs = append(devs, Device{
-							ID:   gate.ID.String(),
-							Name: gate.Name,
+							ID: gate.ID.String(),
+							Name: func() string {
+								switch gate.Number.Int32 {
+								case 1:
+									return "Первые ворота"
+								case 2:
+									return "Вторые ворота"
+								default:
+									return gate.Name
+								}
+							}(),
+							Room: "СНТ Астра",
 							Type: "devices.types.openable",
 							Capabilities: []Capability{
 								{
-									Type:        "devices.capabilities.range",
+									Type:        "devices.capabilities.on_off",
 									Retrievable: false,
-									Parameters:  map[string]string{"instance": "open"},
+									Parameters:  map[string]string{},
 								},
 							},
 						})
@@ -171,33 +184,10 @@ var serveCmd = &cobra.Command{
 					c.JSON(http.StatusOK, gin.H{
 						"request_id": c.GetHeader("X-Request-Id"),
 						"payload": gin.H{
+							"user_id": c.GetString(UserIDKey),
 							"devices": devs,
 						},
 					})
-
-					// {
-					//  "request_id": String,
-					//  "payload": {
-					//    "devices":[
-					//      {
-					//        "id": String,
-					//        "capabilities": [
-					//          "<capability1>": Object,
-					//          "<capability2>": Object,
-					//          ...
-					//        ],
-					//        "properties": [
-					//          "<property1>": Object,
-					//          "<property2>": Object,
-					//          ...
-					//        ],
-					//        "error_code": String,
-					//        "error_message": String
-					//      },
-					//      ...
-					//    ]
-					//  }
-					// }
 				})
 
 				devices.POST("/query", func(c *gin.Context) {
@@ -211,52 +201,180 @@ var serveCmd = &cobra.Command{
 				})
 
 				devices.POST("/action", func(c *gin.Context) {
-					// {
-					//  "payload": {
-					//    "devices":[
-					//      {
-					//        "id": String,
-					//        "custom_data": Object,
-					//        "capabilities": [
-					//          "<capability1>": Object,
-					//          "<capability2>": Object,
-					//          ...
-					//        ]
-					//      }
-					//    ]
-					//  }
-					// }
+					var req struct {
+						Payload struct {
+							Devices []struct {
+								ID           string `json:"id"`
+								Capabilities []struct {
+									Type  string `json:"type"`
+									State struct {
+										Instance string `json:"instance"`
+										Value    bool   `json:"value"`
+									} `json:"state"`
+								} `json:"capabilities"`
+							} `json:"devices"`
+						} `json:"payload"`
+					}
 
-					c.JSON(http.StatusOK, gin.H{
-						"request_id": c.GetHeader("X-Request-Id"),
-						"payload": gin.H{
-							"devices": []string{},
-						},
-					})
+					if err := c.ShouldBindJSON(&req); err != nil {
+						log.Error(ctx, "c.ShouldBindJSON", err)
 
-					// {
-					//    "request_id": String,
-					//    "payload": {
-					//      "devices": [
-					//        {
-					//          "id": String,
-					//          "capabilities": [
-					//            "<capability1>": Object,
-					//            "<capability2>": Object,
-					//            ...
-					//          ],
-					//          "action_result": {
-					//            "status": String,
-					//            "error_code": String,
-					//            "error_message": String
-					//          }
-					//        },
-					//        ...
-					//      ]
-					//    }
-					// }
+						return
+					}
+
+					spew.Dump(req)
+
+					type ActionResult struct {
+						Status       string `json:"status"`
+						ErrorCode    string `json:"error_code,omitempty"`
+						ErrorMessage string `json:"error_message,omitempty"`
+					}
+
+					type State struct {
+						Instance     string       `json:"instance"`
+						ActionResult ActionResult `json:"action_result"`
+					}
+
+					type Capability struct {
+						Type  string `json:"type"`
+						State State  `json:"state"`
+					}
+
+					var res struct {
+						RequestID string `json:"request_id"`
+						Payload   struct {
+							Devices []struct {
+								ID           string       `json:"id"`
+								Capabilities []Capability `json:"capabilities,omitempty"`
+								ActionResult ActionResult `json:"action_result,omitempty"`
+							} `json:"devices"`
+						} `json:"payload"`
+					}
+
+					res.RequestID = c.GetHeader("X-Request-Id")
+
+					for i, dev := range req.Payload.Devices {
+						res.Payload.Devices[i].ID = dev.ID
+
+						params := sql.GateOneParams{}
+
+						if err := params.ID.Scan(dev.ID); err != nil {
+							log.Error(ctx, "params.ID.Scan", err)
+
+							c.AbortWithStatus(http.StatusInternalServerError)
+
+							return
+						}
+
+						gate, err := sql.GateOne(ctx, params)
+						if err != nil {
+							log.Error(ctx, "sql.GateOne", err)
+
+							res.Payload.Devices[i].ActionResult.Status = "ERROR"
+							res.Payload.Devices[i].ActionResult.ErrorCode = "DEVICE_UNREACHABLE"
+
+							continue
+						}
+
+						for _, capability := range dev.Capabilities {
+							switch capability.Type {
+							case "devices.capabilities.on_off":
+								_, err = sql.GateOpenInsert(ctx, sql.GateOpenInsertParams{
+									GateID:   gate.ID,
+									ReasonID: "alice",
+									Source:   c.GetString(UserIDKey),
+								})
+								if err != nil {
+									log.Error(ctx, "sql.GateOpenInsert", err)
+
+									res.Payload.Devices[i].Capabilities = append(
+										res.Payload.Devices[i].Capabilities,
+										Capability{
+											Type: capability.Type,
+											State: State{
+												Instance: capability.State.Instance,
+												ActionResult: ActionResult{
+													Status:    "ERROR",
+													ErrorCode: "DEVICE_UNREACHABLE",
+												},
+											},
+										},
+									)
+
+									continue
+								}
+
+								{
+									req, err := http.NewRequest("POST", cfg.GateHook.URL+gate.ID.String(), nil)
+									if err != nil {
+										log.Error(ctx, "http.NewRequest", err)
+
+										res.Payload.Devices[i].Capabilities = append(
+											res.Payload.Devices[i].Capabilities,
+											Capability{
+												Type: capability.Type,
+												State: State{
+													Instance: capability.State.Instance,
+													ActionResult: ActionResult{
+														Status:    "ERROR",
+														ErrorCode: "DEVICE_UNREACHABLE",
+													},
+												},
+											},
+										)
+
+										continue
+									}
+
+									req.Header.Set("X-HA-SECRET", cfg.GateHook.Token)
+
+									client := http.Client{Timeout: 3 * time.Second}
+									_, err = client.Do(req)
+									if err != nil {
+										log.Error(ctx, "client.Do(req) to workflow", err)
+
+										res.Payload.Devices[i].Capabilities = append(
+											res.Payload.Devices[i].Capabilities,
+											Capability{
+												Type: capability.Type,
+												State: State{
+													Instance: capability.State.Instance,
+													ActionResult: ActionResult{
+														Status:    "ERROR",
+														ErrorCode: "DEVICE_UNREACHABLE",
+													},
+												},
+											},
+										)
+
+										continue
+									}
+								}
+							default:
+								log.Error(ctx, "unsupported capability", log.String("capability", capability.Type))
+
+								res.Payload.Devices[i].Capabilities = append(
+									res.Payload.Devices[i].Capabilities,
+									Capability{
+										Type: capability.Type,
+										State: State{
+											Instance: capability.State.Instance,
+											ActionResult: ActionResult{
+												Status:    "ERROR",
+												ErrorCode: "INTERNAL_ERROR",
+											},
+										},
+									},
+								)
+							}
+						}
+					}
+
+					c.JSON(http.StatusOK, res)
 				})
 			} // Yandex Alice
+
+			httpSrv.Handler = r
 		} // http routing
 
 		go func() {

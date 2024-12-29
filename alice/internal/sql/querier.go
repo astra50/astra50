@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	GateOne(ctx context.Context, arg GateOneParams) (Gate, error)
 	GateOpenInsert(ctx context.Context, arg GateOpenInsertParams) (GateOpen, error)
 	Gates(ctx context.Context) ([]Gate, error)
 }

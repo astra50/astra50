@@ -1,6 +1,12 @@
 -- name: Gates :many
 SELECT *
-FROM public.gate;
+FROM public.gate
+;
+
+-- name: GateOne :one
+SELECT *
+FROM public.gate
+WHERE id = @id
 ;
 
 -- name: GateOpenInsert :one

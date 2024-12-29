@@ -11,6 +11,34 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const gateOne = `-- name: GateOne :one
+SELECT id, name, phone, created_at, updated_at, coordinates, number, delay, cctv_id, cctv_preview_rate
+FROM public.gate
+WHERE id = $1
+`
+
+type GateOneParams struct {
+	ID pgtype.UUID `db:"id" json:"id"`
+}
+
+func (q *Queries) GateOne(ctx context.Context, arg GateOneParams) (Gate, error) {
+	row := q.db.QueryRow(ctx, gateOne, arg.ID)
+	var i Gate
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Phone,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Coordinates,
+		&i.Number,
+		&i.Delay,
+		&i.CctvID,
+		&i.CctvPreviewRate,
+	)
+	return i, err
+}
+
 const gateOpenInsert = `-- name: GateOpenInsert :one
 INSERT INTO public.gate_open (gate_id,
                               reason_id,
