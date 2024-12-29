@@ -14,7 +14,6 @@ import (
 
 	"github.com/MicahParks/keyfunc"
 	"github.com/astra50/astra50/alice/internal/sql"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/ilyakaznacheev/cleanenv"
@@ -41,10 +40,6 @@ var serveCfg = struct {
 	JWKS_URL                string        `env:"JWKS_URL" env-required:"true"`
 	PostgresURI             string        `env:"POSTGRES_URI" env-required:"true"`
 	GracefulShutdownTimeout time.Duration `env:"GRACEFUL_SHUTDOWN_TIMEOUT" env-default:"5s"`
-	GateHook                struct {
-		URL   string `env:"GATE_HOOK_URL" env-required:"true"`
-		Token string `env:"GATE_HOOK_TOKEN" env-required:"true"`
-	}
 }{}
 
 var serveCmd = &cobra.Command{
@@ -222,8 +217,6 @@ var serveCmd = &cobra.Command{
 						return
 					}
 
-					spew.Dump(req)
-
 					type ActionResult struct {
 						Status       string `json:"status"`
 						ErrorCode    string `json:"error_code,omitempty"`
@@ -240,21 +233,23 @@ var serveCmd = &cobra.Command{
 						State State  `json:"state"`
 					}
 
+					type Device struct {
+						ID           string       `json:"id"`
+						Capabilities []Capability `json:"capabilities,omitempty"`
+						ActionResult ActionResult `json:"action_result,omitempty"`
+					}
+
 					var res struct {
 						RequestID string `json:"request_id"`
 						Payload   struct {
-							Devices []struct {
-								ID           string       `json:"id"`
-								Capabilities []Capability `json:"capabilities,omitempty"`
-								ActionResult ActionResult `json:"action_result,omitempty"`
-							} `json:"devices"`
+							Devices []Device `json:"devices"`
 						} `json:"payload"`
 					}
 
 					res.RequestID = c.GetHeader("X-Request-Id")
 
 					for i, dev := range req.Payload.Devices {
-						res.Payload.Devices[i].ID = dev.ID
+						res.Payload.Devices = append(res.Payload.Devices, Device{ID: dev.ID})
 
 						params := sql.GateOneParams{}
 
@@ -304,52 +299,18 @@ var serveCmd = &cobra.Command{
 									continue
 								}
 
-								{
-									req, err := http.NewRequest("POST", cfg.GateHook.URL+gate.ID.String(), nil)
-									if err != nil {
-										log.Error(ctx, "http.NewRequest", err)
-
-										res.Payload.Devices[i].Capabilities = append(
-											res.Payload.Devices[i].Capabilities,
-											Capability{
-												Type: capability.Type,
-												State: State{
-													Instance: capability.State.Instance,
-													ActionResult: ActionResult{
-														Status:    "ERROR",
-														ErrorCode: "DEVICE_UNREACHABLE",
-													},
-												},
+								res.Payload.Devices[i].Capabilities = append(
+									res.Payload.Devices[i].Capabilities,
+									Capability{
+										Type: capability.Type,
+										State: State{
+											Instance: capability.State.Instance,
+											ActionResult: ActionResult{
+												Status: "DONE",
 											},
-										)
-
-										continue
-									}
-
-									req.Header.Set("X-HA-SECRET", cfg.GateHook.Token)
-
-									client := http.Client{Timeout: 3 * time.Second}
-									_, err = client.Do(req)
-									if err != nil {
-										log.Error(ctx, "client.Do(req) to workflow", err)
-
-										res.Payload.Devices[i].Capabilities = append(
-											res.Payload.Devices[i].Capabilities,
-											Capability{
-												Type: capability.Type,
-												State: State{
-													Instance: capability.State.Instance,
-													ActionResult: ActionResult{
-														Status:    "ERROR",
-														ErrorCode: "DEVICE_UNREACHABLE",
-													},
-												},
-											},
-										)
-
-										continue
-									}
-								}
+										},
+									},
+								)
 							default:
 								log.Error(ctx, "unsupported capability", log.String("capability", capability.Type))
 

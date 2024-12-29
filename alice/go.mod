@@ -5,7 +5,6 @@ go 1.23.4
 require (
 	github.com/MicahParks/keyfunc v1.9.0
 	github.com/dave/jennifer v1.7.1
-	github.com/davecgh/go-spew v1.1.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/ilyakaznacheev/cleanenv v1.5.0
