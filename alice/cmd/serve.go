@@ -128,20 +128,6 @@ var serveCmd = &cobra.Command{
 				devices := user.Group("/devices")
 
 				devices.GET("", func(c *gin.Context) {
-					type Capability struct {
-						Type        string `json:"type"`
-						Retrievable bool   `json:"retrievable"`
-						Parameters  map[string]string
-					}
-					type Device struct {
-						ID           string       `json:"id"`
-						Name         string       `json:"name"`
-						Description  string       `json:"description"`
-						Room         string       `json:"room"`
-						Type         string       `json:"type"`
-						Capabilities []Capability `json:"capabilities"`
-					}
-
 					gates, err := sql.Gates(c)
 					if err != nil {
 						log.Error(c, "sql.Gates", err)
@@ -254,28 +240,6 @@ var serveCmd = &cobra.Command{
 						return
 					}
 
-					type ActionResult struct {
-						Status       string `json:"status"`
-						ErrorCode    string `json:"error_code,omitempty"`
-						ErrorMessage string `json:"error_message,omitempty"`
-					}
-
-					type State struct {
-						Instance     string       `json:"instance"`
-						ActionResult ActionResult `json:"action_result"`
-					}
-
-					type Capability struct {
-						Type  string `json:"type"`
-						State State  `json:"state"`
-					}
-
-					type Device struct {
-						ID           string       `json:"id"`
-						Capabilities []Capability `json:"capabilities,omitempty"`
-						ActionResult ActionResult `json:"action_result,omitempty"`
-					}
-
 					var res struct {
 						RequestID string `json:"request_id"`
 						Payload   struct {
@@ -323,7 +287,7 @@ var serveCmd = &cobra.Command{
 										res.Payload.Devices[i].Capabilities,
 										Capability{
 											Type: capability.Type,
-											State: State{
+											State: &State{
 												Instance: capability.State.Instance,
 												ActionResult: ActionResult{
 													Status:    "ERROR",
@@ -340,7 +304,7 @@ var serveCmd = &cobra.Command{
 									res.Payload.Devices[i].Capabilities,
 									Capability{
 										Type: capability.Type,
-										State: State{
+										State: &State{
 											Instance: capability.State.Instance,
 											ActionResult: ActionResult{
 												Status: "DONE",
@@ -355,7 +319,7 @@ var serveCmd = &cobra.Command{
 									res.Payload.Devices[i].Capabilities,
 									Capability{
 										Type: capability.Type,
-										State: State{
+										State: &State{
 											Instance: capability.State.Instance,
 											ActionResult: ActionResult{
 												Status:    "ERROR",
