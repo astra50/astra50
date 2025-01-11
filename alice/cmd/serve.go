@@ -188,13 +188,48 @@ var serveCmd = &cobra.Command{
 				})
 
 				devices.POST("/query", func(c *gin.Context) {
-					// Empty response as gates is retrievable=false
-					c.JSON(http.StatusOK, gin.H{
-						"request_id": c.GetHeader("X-Request-Id"),
-						"payload": gin.H{
-							"devices": []string{},
-						},
-					})
+					var req struct {
+						Devices []struct {
+							ID   string `json:"id"`
+							Data any    `json:"custom_data"`
+						} `json:"devices"`
+					}
+
+					if err := c.ShouldBindJSON(&req); err != nil {
+						log.Error(ctx, "c.ShouldBindJSON", err)
+
+						return
+					}
+
+					res := Response{}
+					res.RequestID = c.GetHeader("X-Request-Id")
+
+					for i, device := range req.Devices {
+						res.Payload.Devices = append(res.Payload.Devices, Device{ID: device.ID})
+						device := &res.Payload.Devices[i]
+
+						params := sql.GateOneParams{}
+
+						if err := params.ID.Scan(device.ID); err != nil {
+							log.Error(ctx, "params.ID.Scan", err)
+
+							c.AbortWithStatus(http.StatusInternalServerError)
+
+							return
+						}
+
+						_, err := sql.GateOne(ctx, params)
+						if err != nil {
+							log.Error(ctx, "sql.GateOne", err)
+
+							res.Payload.Devices[i].ActionResult.Status = "ERROR"
+							res.Payload.Devices[i].ActionResult.ErrorCode = "DEVICE_UNREACHABLE"
+
+							continue
+						}
+					}
+
+					c.JSON(http.StatusOK, res)
 				})
 
 				devices.POST("/action", func(c *gin.Context) {
