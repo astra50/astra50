@@ -136,6 +136,7 @@ var serveCmd = &cobra.Command{
 					type Device struct {
 						ID           string       `json:"id"`
 						Name         string       `json:"name"`
+						Description  string       `json:"description"`
 						Room         string       `json:"room"`
 						Type         string       `json:"type"`
 						Capabilities []Capability `json:"capabilities"`
@@ -164,8 +165,9 @@ var serveCmd = &cobra.Command{
 									return gate.Name
 								}
 							}(),
-							Room: "СНТ Астра",
-							Type: "devices.types.openable",
+							Description: "Ворота",
+							Room:        "СНТ Астра",
+							Type:        "devices.types.openable",
 							Capabilities: []Capability{
 								{
 									Type:        "devices.capabilities.on_off",
