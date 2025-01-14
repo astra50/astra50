@@ -189,13 +189,12 @@ var serveCmd = &cobra.Command{
 
 					res := Response{}
 					res.RequestID = c.GetHeader("X-Request-Id")
+					res.Payload.Devices = make([]Device, len(req.Devices))
 
 					for i, device := range req.Devices {
-						res.Payload.Devices = append(res.Payload.Devices, Device{ID: device.ID})
-						device := &res.Payload.Devices[i]
+						res.Payload.Devices[i].ID = device.ID
 
 						params := sql.GateOneParams{}
-
 						if err := params.ID.Scan(device.ID); err != nil {
 							log.Error(ctx, "params.ID.Scan", err)
 
@@ -208,8 +207,10 @@ var serveCmd = &cobra.Command{
 						if err != nil {
 							log.Error(ctx, "sql.GateOne", err)
 
-							res.Payload.Devices[i].ActionResult.Status = "ERROR"
-							res.Payload.Devices[i].ActionResult.ErrorCode = "DEVICE_UNREACHABLE"
+							res.Payload.Devices[i].ActionResult = &ActionResult{
+								Status:    "ERROR",
+								ErrorCode: "DEVICE_UNREACHABLE",
+							}
 
 							continue
 						}
@@ -248,9 +249,10 @@ var serveCmd = &cobra.Command{
 					}
 
 					res.RequestID = c.GetHeader("X-Request-Id")
+					res.Payload.Devices = make([]Device, len(req.Payload.Devices))
 
 					for i, dev := range req.Payload.Devices {
-						res.Payload.Devices = append(res.Payload.Devices, Device{ID: dev.ID})
+						res.Payload.Devices[i].ID = dev.ID
 
 						params := sql.GateOneParams{}
 
@@ -266,8 +268,10 @@ var serveCmd = &cobra.Command{
 						if err != nil {
 							log.Error(ctx, "sql.GateOne", err)
 
-							res.Payload.Devices[i].ActionResult.Status = "ERROR"
-							res.Payload.Devices[i].ActionResult.ErrorCode = "DEVICE_UNREACHABLE"
+							res.Payload.Devices[i].ActionResult = &ActionResult{
+								Status:    "ERROR",
+								ErrorCode: "DEVICE_UNREACHABLE",
+							}
 
 							continue
 						}
