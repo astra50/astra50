@@ -27,7 +27,6 @@
     "dayjs": "^1.11.9",
     "graphql": "^16.8.0",
     "jwt-decode": "^3.1.2",
-    "keycloak-js": "^22.0.1",
     "libphonenumber-js": "^1.10.44",
     "npm-check-updates": "^16.13.2",
     "ra-data-hasura": "^0.6.0",
@@ -65,5 +64,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "keycloak-js": "^26.1.0"
   }
 }

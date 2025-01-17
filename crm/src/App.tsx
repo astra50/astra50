@@ -105,7 +105,7 @@ const AdminWithKeycloak = () => {
 }
 
 const App = () => {
-    const keycloak = new Keycloak()
+    const keycloak = new Keycloak('keycloak.json')
 
     keycloak.onAuthRefreshError = () => setTimeout(keycloak.updateToken, 0, [-1])
 

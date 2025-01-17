@@ -152,7 +152,7 @@ const AdminWithKeycloak = () => {
 }
 
 const App = () => {
-    const keycloak = new Keycloak()
+    const keycloak = new Keycloak('/keycloak.json')
 
     keycloak.onAuthRefreshError = () => setTimeout(keycloak.updateToken, 0, [-1])
 
@@ -164,6 +164,7 @@ const App = () => {
                 initOptions={{
                     onLoad: 'check-sso',
                     enableLogging: false,
+                    checkLoginIframe: false,
                 }}
             >
                 <React.Fragment>

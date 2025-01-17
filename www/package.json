@@ -67,6 +67,7 @@
     "@types/node": "^20.5.9",
     "@types/qrcode": "^1.5.2",
     "@types/react": "^18.2.21",
+    "keycloak-js": "^26.1.0",
     "npm-check-updates": "^16.13.2",
     "ts-poet": "^6.5.0"
   },
