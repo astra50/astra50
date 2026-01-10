@@ -1,0 +1,186 @@
+services:
+    crm:
+        pull_policy: never
+        build:
+            target: node-base
+            context: crm/
+        extra_hosts:
+            - crm.astra50.host:0.0.0.0
+        labels:
+            traefik.enable: true
+            traefik.http.routers.astra50-crm.rule: Host(`crm.astra50.host`)
+            traefik.http.routers.astra50-crm.entrypoints: web
+            traefik.http.services.astra50-crm.loadbalancer.server.port: 80
+        command: sh -c "npm run codegen:watch & npm run start"
+        environment:
+            HOST: crm.astra50.host
+            PORT: 80
+        volumes:
+            - ./crm:/app
+            - ./var/node:/home/node
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+        networks:
+            - traefik
+            - default
+
+    sneg:
+        image: astra50/sneg:node-base
+        pull_policy: never
+        build:
+            target: node-base
+            context: sneg/
+        extra_hosts:
+            - sneg.astra50.local:0.0.0.0
+        labels:
+            traefik.enable: true
+            traefik.http.routers.astra50-sneg.rule: Host(`sneg.astra50.host`)
+            traefik.http.services.astra50-sneg.loadbalancer.server.port: 80
+        command: npm run start
+        environment:
+            HOST: sneg.astra50.local
+            PORT: 80
+        volumes:
+            - ./sneg:/app
+            - ./var/node:/home/node
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+        networks:
+            - traefik
+            - default
+
+    www:
+        pull_policy: never
+        build:
+            target: node-base
+            context: www/
+        extra_hosts:
+            - www.astra50.local:0.0.0.0
+        labels:
+            traefik.enable: true
+            traefik.http.routers.astra50-www.rule: Host(`www.astra50.host`)
+            traefik.http.routers.astra50-www.entrypoints: web
+            traefik.http.services.astra50-www.loadbalancer.server.port: 80
+        command: sh -c "npm run codegen:watch & npm run start"
+        environment:
+            HOST: www.astra50.local
+            PORT: 80
+        volumes:
+            - ./www:/app
+            - ./var/node:/home/node
+        working_dir: /app
+        user: ${UID:-1000}:${GID:-1000}
+        networks:
+            - traefik
+            - default
+
+    # alice:
+    #   build:
+    #     dockerfile: alice/Dockerfile
+    #     target: golang
+    #   labels:
+    #     traefik.enable: true
+    #     traefik.http.routers.astra50-alice.rule: Host(`alice.astra50.host`)
+    #     traefik.http.routers.astra50-alice.entrypoints: web
+    #     traefik.http.services.astra50-alice.loadbalancer.server.port: 8080
+    #   command: air serve
+    #   working_dir: /app/alice
+    #   environment:
+    #     GOPATH: ${GOPATH}
+    #     POSTGRES_URI: postgresql://astra50:astra50@postgres:5432/astra50?sslmode=disable
+    #     JWKS_URL: https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs
+    #   volumes:
+    #   - ./:/app
+    #   - ${GOPATH}:${GOPATH}
+    #   - ${HOME}/.netrc:/home/app/.netrc:ro
+    #   - ${HOME}/.cache/go-build:/home/app/.cache/go-build
+    #   user: ${USER_ID}:${GROUP_ID}
+
+    postgres:
+        image: postgres:14.2-alpine
+        volumes:
+            - type: tmpfs
+              target: /var/lib/postgresql/data
+              tmpfs:
+                  size: 4294967296
+            - ./:/app
+        working_dir: /app
+        environment:
+            POSTGRES_DB: astra50
+            POSTGRES_USER: astra50
+            POSTGRES_PASSWORD: astra50
+            PGDATABASE: astra50
+            PGUSER: astra50
+            PGPASSWORD: astra50
+
+    hasura:
+        build:
+            context: ./hasura
+            target: hasura
+        labels:
+            traefik.enable: true
+            traefik.http.routers.astra50-hasura.rule: |
+              (Host(`crm.astra50.host`) || Host(`sneg.astra50.host`) || Host(`www.astra50.host`)) && Path(`/v1/graphql`)
+            traefik.http.routers.astra50-hasura.entrypoints: web
+            traefik.http.services.astra50-hasura.loadbalancer.server.port: 80
+        command:
+            - graphql-engine
+            - serve
+            - --server-port=80
+            - --unauthorized-role=anonymous
+            - --cors-domain=*
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://astra50:astra50@postgres:5432/astra50
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://astra50:astra50@postgres:5432/hasura
+            HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+            HASURA_GRAPHQL_DEV_MODE: "true"
+            HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.astra50.ru/auth/realms/astra50/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+            HASURA_EVENT_SECRET: admin
+            HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS: "false"
+        healthcheck:
+            disable: true
+        working_dir: /data
+        volumes:
+            - ./hasura:/data:ro
+        networks:
+            - traefik
+            - default
+
+    hasura-console:
+        build:
+            context: ./hasura
+            target: hasura
+        extra_hosts:
+            - hasura-console.astra50.host:0.0.0.0
+        entrypoint: hasura-cli
+        command:
+            - console
+            - --address=hasura-console.astra50.host
+            - --console-port=80
+            - --api-host=http://hasura-console.astra50.host
+            - --no-browser
+        environment:
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+        working_dir: /app
+        volumes:
+            - ./hasura:/app
+            - ./var/hasura:/.hasura
+        user: ${UID:-1000}:${GID:-1000}
+        healthcheck:
+            test: curl --fail http://127.0.0.1/healthz
+
+    gq:
+        build:
+            context: ./hasura
+            target: gq
+        environment:
+            GRAPHQURL_ENDPOINT: http://hasura/v1/graphql
+
+networks:
+    default:
+        name: astra50
+    traefik:
+        name: traefik
+        external: true
