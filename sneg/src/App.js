@@ -63,7 +63,7 @@ const getAreaColor = (paid, perPayer) => {
 };
 
 const mapState = {
-    state: {center: [55.486586, 37.609443], zoom: 17.6},
+    state: {center: [55.486586, 37.609443], zoom: 16.6},
     width: "100%",
     height: "100vh",
     modules: ["meta", "borders", "ObjectManager"],
