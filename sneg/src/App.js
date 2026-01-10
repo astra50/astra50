@@ -1,8 +1,6 @@
 import "./App.css";
 import {FullscreenControl, Map, YMaps, ZoomControl} from "react-yandex-maps";
-import {useEffect, useRef, useState} from "react";
-
-const sneg22 = "eaaf17e5-82e5-4b78-983f-41ecb1086e59" // TODO Вместо костыля можно сделать переключатель
+import {useEffect, useMemo, useRef, useState} from "react";
 
 async function fetchGraphQL(operationsDoc, operationName, variables) {
     const result = await fetch(
@@ -85,85 +83,89 @@ const loadJS = (id, url, location, onLoad) => {
 
 function App() {
     const mapRef = useRef(null);
+    const ymapsRef = useRef(null);
 
-    const getLabels = (ymaps) => {
-        loadJS(
-            "calculateArea",
-            "https://yastatic.net/s3/mapsapi-jslibs/area/0.0.1/util.calculateArea.min.js",
-            document.head,
-        );
-        loadJS(
-            "polylabel",
-            "https://yastatic.net/s3/mapsapi-jslibs/polylabeler/1.0.2/polylabel.min.js",
-            document.head,
-            () => getLands(ymaps),
-        );
-    };
-
-    const [target, setTarget] = useState()
+    const [targets, setTargets] = useState([])
+    const [selectedTargetId, setSelectedTargetId] = useState(null)
     const [allLands, setAllLands] = useState()
 
-    useEffect(async () => {
-        const {errors, data} = await fetchTargets();
+    useEffect(() => {
+        const loadData = async () => {
+            const {errors, data} = await fetchTargets();
 
-        if (errors) {
-            console.error(errors);
+            if (errors) {
+                console.error(errors);
 
-            return
-        }
+                return
+            }
 
-        for (const target of data.targets) {
-            if (target.id === sneg22) {
-                setTarget(target)
-
-                break
+            setTargets(data.targets)
+            setAllLands(data.lands)
+            // По умолчанию выбираем первый target
+            if (data.targets.length > 0) {
+                setSelectedTargetId(data.targets[0].id)
             }
         }
-        setAllLands(data.lands)
+
+        loadData()
     }, [])
 
-    if (!allLands || !target) {
-        return null
-    }
-
-    let polygons = {}
-    for (const land of allLands) {
-        polygons[land.id] = land.polygon?.replace('((', '').replace('))', '').split('),(').map(i => i.split(',').map(c => parseFloat(c)))
-    }
-
-    let totalPayments = 0
-    let lands = {}
-    for (const payment of target.payments) {
-        totalPayments += payment.amount
-        const land = payment.land;
-
-        if (!land) {
-            console.error(`Payment with id ${payment.id} has no land_id`)
-
-            continue
+    const {lands, totalPayments, target} = useMemo(() => {
+        if (!allLands || targets.length === 0 || !selectedTargetId) {
+            return {lands: {}, totalPayments: 0, target: null}
         }
 
-        if (typeof lands[land.id] === 'undefined') {
-            lands[land.id] = {
-                id: land.id,
-                paid: payment.amount,
-                polygon: polygons[land.id],
+        const target = targets.find(t => t.id === selectedTargetId)
+        
+        let polygons = {}
+        for (const land of allLands) {
+            polygons[land.id] = land.polygon?.replace('((', '').replace('))', '').split('),(').map(i => i.split(',').map(c => parseFloat(c)))
+        }
+
+        let totalPayments = 0
+        let lands = {}
+        for (const payment of target.payments) {
+            totalPayments += payment.amount
+            const land = payment.land;
+
+            if (!land) {
+                // Платежи без land (корректировки, возвраты) не привязываются к участкам
+                continue
             }
-        } else {
-            lands[land.id].paid += payment.amount
-        }
-    }
-    for (const id of target.lands) {
-        if (typeof lands[id] === 'undefined') {
-            lands[id] = {
-                id: id,
-                paid: 0,
-                polygon: polygons[id],
+
+            if (typeof lands[land.id] === 'undefined') {
+                lands[land.id] = {
+                    id: land.id,
+                    paid: payment.amount,
+                    polygon: polygons[land.id],
+                }
+            } else {
+                lands[land.id].paid += payment.amount
             }
         }
-    }
+        for (const id of target.lands) {
+            if (typeof lands[id] === 'undefined') {
+                lands[id] = {
+                    id: id,
+                    paid: 0,
+                    polygon: polygons[id],
+                }
+            }
+        }
 
-    const getLands = async (ymap) => {
+        return {lands, totalPayments, target}
+    }, [allLands, targets, selectedTargetId])
+
+    const updateMap = async () => {
+        if (!ymapsRef.current || !mapRef.current || !target) {
+            return;
+        }
+
+        const ymap = ymapsRef.current;
+        
+        // Очищаем все объекты с карты
+        mapRef.current.geoObjects.removeAll();
+
         await ymap.ready(["polylabel.create"]);
         const objectManager = new ymap.ObjectManager({clusterize: false});
         const areaObjects = [];
@@ -172,8 +174,7 @@ function App() {
             const land = lands[id]
 
             if (land.polygon === undefined) {
-                console.error(`Polygon not found for "${land.id}" land.`)
-
+                // Участок без координат не может быть отображен на карте
                 continue;
             }
 
@@ -200,15 +201,51 @@ function App() {
                 },
             });
         }
+        
         objectManager.add(areaObjects);
         mapRef.current.geoObjects.add(objectManager);
         new ymap.polylabel.create(mapRef.current, objectManager);
+    };
+
+    useEffect(() => {
+        updateMap();
+    }, [lands, target]);
+
+    if (!target) {
+        return null
+    }
+
+    const getLabels = (ymaps) => {
+        ymapsRef.current = ymaps;
+        
+        loadJS(
+            "calculateArea",
+            "https://yastatic.net/s3/mapsapi-jslibs/area/0.0.1/util.calculateArea.min.js",
+            document.head,
+        );
+        loadJS(
+            "polylabel",
+            "https://yastatic.net/s3/mapsapi-jslibs/polylabeler/1.0.2/polylabel.min.js",
+            document.head,
+            () => updateMap()
+        );
     };
 
     return (
         <div className="App">
             <header className="App-header">
                 <p className="App-title">Снег всего {totalPayments} рублей</p>
+                <select 
+                    value={selectedTargetId} 
+                    onChange={(e) => setSelectedTargetId(e.target.value)}
+                    className="target-selector"
+                >
+                    {targets.map(target => (
+                        <option key={target.id} value={target.id}>
+                            {target.name}
+                        </option>
+                    ))}
+                </select>
             </header>
             <main className="App-main">
                 <YMaps
