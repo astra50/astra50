@@ -125,7 +125,9 @@ function App() {
         let totalPayments = 0
         let lands = {}
         for (const payment of target.payments) {
-            totalPayments += payment.amount
+            if (payment.amount > 0) {
+                totalPayments += payment.amount
+            }
             const land = payment.land;
 
             if (!land) {
@@ -234,7 +236,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <p className="App-title">Снег всего {totalPayments} рублей</p>
+                <p className="App-title"> Собрано: {totalPayments} рублей</p>
                 <select 
                     value={selectedTargetId} 
                     onChange={(e) => setSelectedTargetId(e.target.value)}
