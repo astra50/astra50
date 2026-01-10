@@ -143,7 +143,7 @@ gq-build:
 	docker compose build gq
 
 ### Backup
-BACKUP_SERVER=s4.automagistre.ru
+BACKUP_SERVER=s1.astra50.ru
 BACKUP_FILE=var/backup.sql.gz
 HASURA_BACKUP_FILE=var/hasura_backup.sql.gz
 backup-download:
