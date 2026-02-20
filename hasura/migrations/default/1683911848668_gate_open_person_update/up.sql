@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION public.gate_open_set_person_on_telegram_id() RETURNS 
     VOLATILE AS
 $$
 BEGIN
-    IF new.telegram_id THEN
+    IF new.telegram_id IS NOT NULL THEN
         UPDATE public.gate_open SET person_id = new.id WHERE public.gate_open.source = new.telegram_id;
     END IF;
 
