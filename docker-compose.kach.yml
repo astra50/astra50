@@ -105,6 +105,8 @@ services:
                   size: 4294967296
             - ./:/app
         working_dir: /app
+        ports:
+            - 5432:5432
         environment:
             POSTGRES_DB: astra50
             POSTGRES_USER: astra50

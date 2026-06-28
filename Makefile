@@ -46,6 +46,15 @@ up-traefik:
 	docker compose up -d --force-recreate traefik
 
 ### Postgres
+psql: ## psql shell (DB=astra50)
+	docker compose exec postgres psql -U astra50 -d $(or $(DB),astra50)
+
+db-query: ## run SQL (SQL="SELECT 1", DB=astra50)
+	docker compose exec -T postgres psql -U astra50 -d $(or $(DB),astra50) -c "$(SQL)"
+
+db-schema: ## list public tables
+	docker compose exec -T postgres psql -U astra50 -d astra50 -c "\dt public.*"
+
 up-postgres:
 	docker compose up -d --force-recreate postgres
 	docker compose exec postgres sh -c "until nc -z 127.0.0.1 5432; do sleep 0.1; done"
