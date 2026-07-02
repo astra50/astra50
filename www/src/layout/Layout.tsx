@@ -64,7 +64,6 @@ export default (props: LayoutProps) => {
                     label="Финансы"
                     value="/finance"
                     icon={<CurrencyRuble/>}
-                    sx={{display: 'none'}}
                 />
                 <BottomNavigationAction
                     label="Ворота"
