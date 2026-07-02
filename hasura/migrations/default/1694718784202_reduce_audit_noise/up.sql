@@ -29,7 +29,7 @@ BEGIN
        SET last_paid_amount = payment.amount,
            last_paid_at = payment.paid_at
      WHERE id = $1
-       AND last_paid_amount <> payment.amount
-       AND last_paid_at <> payment.paid_at;
+       AND (last_paid_amount IS NULL OR last_paid_amount <> payment.amount)
+       AND (last_paid_at IS NULL OR last_paid_at <> payment.paid_at);
 END;
 $$ LANGUAGE plpgsql;
