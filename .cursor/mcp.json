@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "astra50-postgres": {
+      "command": "npx",
+      "args": ["-y", "@yawlabs/postgres-mcp@latest"],
+      "env": {
+        "DATABASE_URL": "postgresql://astra50:astra50@127.0.0.1:5432/astra50",
+        "POSTGRES_STATEMENT_TIMEOUT_MS": "30000"
+      }
+    }
+  }
+}

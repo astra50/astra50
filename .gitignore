@@ -28,3 +28,4 @@ yarn-error.log*
 graphql.*.json
 types.ts
 /**/__gql-generated
+scripts
