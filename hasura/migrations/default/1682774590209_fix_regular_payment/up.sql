@@ -12,7 +12,7 @@ BEGIN
            land.id,
            rate.id,
            rate.discount,
-           NOW(),
+           on_date,
            TRUE,
            TRUE
       FROM member_discount discount
@@ -29,7 +29,7 @@ BEGIN
            land.id,
            rate.id,
            rate.amount,
-           NOW(),
+           on_date,
            TRUE
       FROM account
                JOIN account_land al
